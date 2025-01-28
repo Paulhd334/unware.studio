@@ -67,27 +67,28 @@
 
 
 
-//* Styles améliorés */
+
 .section__description2 {
   font-weight: 500;
   color: var(--text-dark);
   line-height: 1.75rem;
   text-align: center;
-  margin: 0 auto; /* Centre horizontalement l'élément */
-  width: 40rem; /* Ajuste la largeur pour répartir le texte sur 3 lignes environ */
-  max-width: 90%; /* Garde un comportement responsive pour des écrans plus petits */
-  word-wrap: break-word; /* Gère les mots trop longs */
-  padding: 1rem; /* Ajoute un peu d'espace autour du texte */
-  background: rgba(0, 0, 0, 0.05); /* Un fond léger pour ajouter du contraste */
-  border-radius: 10px; /* Bords arrondis pour une apparence plus douce */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile pour donner de la profondeur */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition douce */
+  margin: 0 auto; 
+  width: 40rem; 
+  max-width: 90%; 
+  word-wrap: break-word;
+  padding: 1rem; 
+  background: rgba(0, 0, 0, 0.05); 
+  border-radius: 10px; 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
 }
 
 .section__description2:hover {
   transform: translateY(-5px); /* Légère élévation au survol */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Ombre plus marquée au survol */
 }
+
 
 /* Pour les petits écrans (smartphones) */
 @media (max-width: 768px) {
@@ -99,8 +100,6 @@
     padding-left: 20px; /* Ajoute un peu d'espace à gauche sur les petits écrans */
     padding-right: 20px; /* Ajoute un peu d'espace à droite sur les petits écrans */
   }
-}
-
 
   /* Réorganise l'ordre pour afficher le texte avant l'image */
   .header__image {
@@ -234,12 +233,17 @@ nav {
 
 
 
+
+
+
+
 .nav__menu__btn {
   font-size: 1.5rem;
   color: var(--white);
   cursor: pointer;
 }
 
+/* Style général de la navigation */
 .nav__links {
   position: absolute;
   bottom: 0;
@@ -252,24 +256,19 @@ nav {
   gap: 2rem;
   padding: 2rem;
   background-color: var(--text-dark);
-  transition: transform 0.5s;
+  transition: transform 0.5s ease-in-out;
   z-index: -1;
 }
 
+/* Lorsque la classe 'open' est ajoutée à .nav__links, la barre de navigation se déplace */
 .nav__links.open {
-  transform: translateY(100%);
+  transform: translateY(0);
 }
 
-.nav__links a {
-  font-weight: 500;
-  color: var(--white);
-  white-space: nowrap;
+/* Animation pour la fermeture de la navigation */
+.nav__links.closing {
+  transform: translateY(-100%);
 }
-
-.nav__links a:hover {
-  color: var(--text-light);
-}
-
 
 /* Style des liens dans la navigation */
 .nav__links a {
@@ -663,7 +662,6 @@ body.dark-mode .footer__bar {
     transform: none !important;
   }
 
-  
   .nav__links a {
     color: var(--text-dark);
   }
@@ -892,95 +890,6 @@ body.dark-mode h1, body.dark-mode h2, body.dark-mode p {
 
 
 
-
-
-
-/* Navigation */
-#nav-links {
-  position: absolute;
-  top: 100%; /* Menu en dessous de la nav */
-  left: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  padding: 2rem;
-  background-color: var(--text-dark);
-  transform: translateY(-100%); /* Menu caché par défaut */
-  transition: transform 0.5s ease-in-out; /* Animation fluide */
-  z-index: -1; /* En arrière-plan */
-  opacity: 0; /* Rendre invisible */
-}
-
-/* Lorsque le menu est ouvert */
-#nav-links.open {
-  transform: translateY(0); /* Affiche le menu */
-  z-index: 10; /* Passe au premier plan */
-  opacity: 1; /* Rendre visible */
-}
-
-/* Style des liens */
-#nav-links a {
-  color: var(--white);
-  text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-#nav-links a:hover {
-  color: var(--text-light);
-}
-
-/* Bouton du menu */
-#menu-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  cursor: pointer;
-  color: var(--white);
-  transition: transform 0.3s ease;
-}
-
-#menu-btn:hover {
-  transform: scale(1.1);
-}
-
-/* Icônes du menu */
-.ri-close-line,
-.ri-menu-3-line {
-  font-size: 2rem;
-  color: var(--white);
-}
-
-/* Révélation des éléments (ScrollReveal) */
-.section__header,
-.section__description,
-.feature__card,
-.banner__btn {
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 1s ease, transform 1s ease;
-}
-
-.scroll-active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
-
-
-
-
-
-
-
 /* Style général pour les liens de navigation */
 .nav__links {
   list-style: none;
@@ -991,11 +900,20 @@ body.dark-mode h1, body.dark-mode h2, body.dark-mode p {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-
+/* Style lorsque le menu est ouvert */
 .nav__links.open {
-  transform: translateY(100%);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
   background-color: var(--text-dark);
+  transform: translateY(100%);
   transition: transform 0.5s ease, background-color 0.3s ease;
+  z-index: -1;
 }
 
 /* Liens de navigation */
