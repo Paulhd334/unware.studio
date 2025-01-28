@@ -74,7 +74,8 @@
   line-height: 1.75rem;
   text-align: center;
   margin: 0 auto; /* Centre horizontalement l'élément */
-  width: fit-content; /* Ajuste la largeur au contenu */
+  max-width: 800px; /* Limite la largeur sur les grands écrans */
+  width: 90%; /* Assure une bonne adaptabilité */
 }
 
 /* Pour les petits écrans (smartphones) */
@@ -87,6 +88,8 @@
     padding-left: 20px; /* Ajoute un peu d'espace à gauche sur les petits écrans */
     padding-right: 20px; /* Ajoute un peu d'espace à droite sur les petits écrans */
   }
+}
+
 
   /* Réorganise l'ordre pour afficher le texte avant l'image */
   .header__image {
