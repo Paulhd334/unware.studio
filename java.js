@@ -2,32 +2,93 @@ const menuBtn = document.getElementById("menu-btn");
 const navLinks = document.getElementById("nav-links");
 const menuBtnIcon = menuBtn.querySelector("i");
 
-// Masquer le menu par défaut en haut de la page
-navLinks.classList.remove("open");
-navLinks.classList.add("closing");
+menuBtn.addEventListener("click", (e) => {
+  navLinks.classList.toggle("open");
 
-// Fonction pour ouvrir/fermer le menu
-menuBtn.addEventListener("click", () => {
-  // Si le menu est ouvert, on le ferme avec une animation fluide
-  if (navLinks.classList.contains("open")) {
-    navLinks.classList.add("closing"); // Ajouter l'animation de fermeture
-    setTimeout(() => {
-      navLinks.classList.remove("open", "closing"); // Enlever les classes après l'animation
-      menuBtnIcon.setAttribute("class", "ri-menu-3-line"); // Remettre l'icône du menu
-    }, 500); // Délai correspondant à la durée de l'animation de fermeture
-  } else {
-    // Si le menu est fermé, on l'ouvre avec une animation fluide
-    navLinks.classList.add("open"); // Ajouter la classe pour ouvrir le menu
-    menuBtnIcon.setAttribute("class", "ri-close-line"); // Changer l'icône en fermeture
-  }
+  const isOpen = navLinks.classList.contains("open");
+  menuBtnIcon.setAttribute(
+    "class",
+    isOpen ? "ri-close-line" : "ri-menu-3-line"
+  );
 });
 
-// Fermer le menu lorsque l'on clique à l'intérieur du menu
-navLinks.addEventListener("click", () => {
-  // Ajouter une animation de fermeture
-  navLinks.classList.add("closing");
-  setTimeout(() => {
-    navLinks.classList.remove("open", "closing");
-    menuBtnIcon.setAttribute("class", "ri-menu-3-line");
-  }, 500); // Délai pour correspondre à la durée de l'animation
+navLinks.addEventListener("click", (e) => {
+  navLinks.classList.remove("open");
+  menuBtnIcon.setAttribute("class", "ri-menu-3-line");
+});
+
+const scrollRevealOption = {
+  distance: "50px",
+  origin: "bottom",
+  duration: 1000,
+};
+
+ScrollReveal().reveal(".header__image img", {
+  ...scrollRevealOption,
+  origin: "right",
+});
+ScrollReveal().reveal(".header__content h1", {
+  ...scrollRevealOption,
+  delay: 500,
+});
+ScrollReveal().reveal(".header__content .section__description", {
+  ...scrollRevealOption,
+  delay: 1000,
+});
+
+ScrollReveal().reveal(".about__image img", {
+  ...scrollRevealOption,
+  origin: "left",
+});
+ScrollReveal().reveal(".about__content .section__subheader", {
+  ...scrollRevealOption,
+  delay: 500,
+});
+ScrollReveal().reveal(".about__content .section__header", {
+  ...scrollRevealOption,
+  delay: 1000,
+});
+ScrollReveal().reveal(".about__content .section__description", {
+  ...scrollRevealOption,
+  delay: 1500,
+  interval: 500,
+});
+ScrollReveal().reveal(".about__btn", {
+  ...scrollRevealOption,
+  delay: 2500,
+});
+
+const fleet1 = document.querySelector(".fleet__wrapper-1 .fleet__images");
+const fleet2 = document.querySelector(".fleet__wrapper-2 .fleet__images");
+
+const fleet1Content = Array.from(fleet1.children);
+const fleet2Content = Array.from(fleet2.children);
+
+fleet1Content.forEach((item) => {
+  const duplicateNode = item.cloneNode(true);
+  duplicateNode.setAttribute("aria-hidden", true);
+  fleet1.appendChild(duplicateNode);
+});
+
+fleet2Content.forEach((item) => {
+  const duplicateNode = item.cloneNode(true);
+  duplicateNode.setAttribute("aria-hidden", true);
+  fleet2.appendChild(duplicateNode);
+});
+
+ScrollReveal().reveal(".feature__card", {
+  ...scrollRevealOption,
+  interval: 500,
+});
+
+ScrollReveal().reveal(".banner__container .section__header", {
+  ...scrollRevealOption,
+});
+ScrollReveal().reveal(".banner__container .section__description", {
+  ...scrollRevealOption,
+  delay: 500,
+});
+ScrollReveal().reveal(".banner__btn", {
+  ...scrollRevealOption,
+  delay: 1000,
 });
