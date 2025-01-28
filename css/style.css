@@ -232,10 +232,9 @@ nav {
 
 
 
-/* Style général de la navigation */
 .nav__links {
   position: absolute;
-  bottom: 0;
+  top: 100%; /* Assure que le menu part du bas de la nav */
   left: 0;
   width: 100%;
   display: flex;
@@ -245,8 +244,9 @@ nav {
   gap: 2rem;
   padding: 2rem;
   background-color: var(--text-dark);
-  transition: transform 0.5s ease-in-out;
-  z-index: -1;
+  transform: translateY(-100%); /* Menu caché par défaut */
+  transition: transform 0.5s ease-in-out; /* Transition fluide */
+  z-index: -1; /* Place en arrière-plan */
 }
 
 
@@ -254,7 +254,8 @@ nav {
 
 /* Animation pour la fermeture de la navigation */
 .nav__links.closing {
-  transform: translateY(-100%);
+  transform: translateY(-100%); /* Fait remonter le menu */
+  z-index: -1; /* Replace en arrière-plan */
 }
 
 
