@@ -251,9 +251,7 @@ nav {
 
 
 
-.nav__links.open {
-  transform: translateY(100%);
-}
+
 /* Animation pour la fermeture de la navigation */
 .nav__links.closing {
   transform: translateY(-100%);
