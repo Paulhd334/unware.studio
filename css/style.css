@@ -340,8 +340,19 @@ header {
   width: 80%; /* Réduit la largeur de l'image pour qu'elle prenne toute la largeur disponible */
   max-width: 150px; /* Limite la largeur maximale de l'image */
   height: auto; /* Conserve les proportions de l'image */
-  border-radius: 10px; /* Optionnel : arrondir légèrement les coins de l'image */
+  border-radius: 10px; /* Arrondir légèrement les coins de l'image */
+  display: block; /* Permet à l'image d'être un élément de bloc pour faciliter le centrage */
+  margin: 0 auto; /* Centre l'image horizontalement */
 }
+
+/* Pour mobile, ajuster l'image */
+@media (max-width: 768px) {
+  .about__image img {
+    width: 70%; /* Réduit la largeur de l'image sur mobile */
+    max-width: 120px; /* Ajuste la taille maximale de l'image sur mobile */
+  }
+}
+
 
 
 
