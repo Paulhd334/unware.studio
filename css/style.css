@@ -249,15 +249,17 @@ nav {
   z-index: -1;
 }
 
-/* Lorsque la classe 'open' est ajoutée à .nav__links, la barre de navigation se déplace */
-.nav__links.open {
-  transform: translateY(0);
-}
 
+
+.nav__links.open {
+  transform: translateY(100%);
+}
 /* Animation pour la fermeture de la navigation */
 .nav__links.closing {
   transform: translateY(-100%);
 }
+
+
 
 /* Style des liens dans la navigation */
 .nav__links a {
