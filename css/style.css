@@ -65,9 +65,6 @@
   }
 }
 
-
-
-
 .section__description2 {
   font-weight: 500;
   color: var(--text-dark);
@@ -229,14 +226,6 @@ nav {
 
 
 
-
-
-
-
-
-
-
-
 .nav__menu__btn {
   font-size: 1.5rem;
   color: var(--white);
@@ -337,10 +326,25 @@ header {
   overflow: hidden;
 }
 
-.about__image img {
-  max-width: 500px;
-  margin-inline: auto;
+
+.story__image img {
+  width: 100%; /* Agrandir l'image pour qu'elle prenne toute la largeur disponible */
+  max-width: 600px; /* Limiter la largeur maximale pour garder un aspect contrôlé */
+  height: auto; /* Conserver les proportions de l'image */
+  border-radius: 20px; /* Arrondir les coins de l'image */
+  object-fit: cover; /* Couvrir l'espace sans déformer l'image */
 }
+
+
+.about__image img {
+  width: 80%; /* Réduit la largeur de l'image pour qu'elle prenne toute la largeur disponible */
+  max-width: 150px; /* Limite la largeur maximale de l'image */
+  height: auto; /* Conserve les proportions de l'image */
+  border-radius: 10px; /* Optionnel : arrondir légèrement les coins de l'image */
+}
+
+
+
 
 .about__content .section__description {
   margin-block: 1rem;
@@ -792,9 +796,6 @@ body.dark-mode .footer__bar {
 
 
 
-
-
-
 /* Style général pour le bouton de changement de mode */
 #theme-toggle {
   background-color: transparent;
@@ -884,6 +885,16 @@ body.dark-mode h1, body.dark-mode h2, body.dark-mode p {
     font-size: 32px; /* Augmenter la taille des icônes sur PC */
   }
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
