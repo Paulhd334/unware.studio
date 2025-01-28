@@ -67,15 +67,26 @@
 
 
 
-/* Styles de base */
+//* Styles améliorés */
 .section__description2 {
   font-weight: 500;
   color: var(--text-dark);
   line-height: 1.75rem;
   text-align: center;
   margin: 0 auto; /* Centre horizontalement l'élément */
-  max-width: 800px; /* Limite la largeur sur les grands écrans */
-  width: 90%; /* Assure une bonne adaptabilité */
+  width: 40rem; /* Ajuste la largeur pour répartir le texte sur 3 lignes environ */
+  max-width: 90%; /* Garde un comportement responsive pour des écrans plus petits */
+  word-wrap: break-word; /* Gère les mots trop longs */
+  padding: 1rem; /* Ajoute un peu d'espace autour du texte */
+  background: rgba(0, 0, 0, 0.05); /* Un fond léger pour ajouter du contraste */
+  border-radius: 10px; /* Bords arrondis pour une apparence plus douce */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile pour donner de la profondeur */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition douce */
+}
+
+.section__description2:hover {
+  transform: translateY(-5px); /* Légère élévation au survol */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Ombre plus marquée au survol */
 }
 
 /* Pour les petits écrans (smartphones) */
