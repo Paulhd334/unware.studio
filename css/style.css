@@ -230,6 +230,8 @@ nav {
   cursor: pointer;
 }
 
+
+
 /* Style général de la navigation */
 .nav__links {
   position: absolute;
@@ -649,6 +651,7 @@ body.dark-mode .footer__bar {
     transform: none !important;
   }
 
+  
   .nav__links a {
     color: var(--text-dark);
   }
@@ -887,20 +890,11 @@ body.dark-mode h1, body.dark-mode h2, body.dark-mode p {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Style lorsque le menu est ouvert */
+
 .nav__links.open {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 2rem;
-  background-color: var(--text-dark);
   transform: translateY(100%);
+  background-color: var(--text-dark);
   transition: transform 0.5s ease, background-color 0.3s ease;
-  z-index: -1;
 }
 
 /* Liens de navigation */
