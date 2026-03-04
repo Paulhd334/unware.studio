@@ -3,650 +3,434 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Images | NEXA</title>
-    <meta name="description" content="Découvrez la galerie d’images officielle de NEXA, le jeu développé par UNWARE STUDIO sous Unreal Engine 5. Explorez les visuels, environnements et personnages.">
+    <meta name="description" content="Découvrez la galerie d'images officielle de NEXA, le jeu développé par UNWARE STUDIO sous Unreal Engine 5.">
     <meta name="robots" content="index, follow">
-
-    <!-- Canonical -->
     <link rel="canonical" href="https://nexa-neon.vercel.app/nexa/galerie.html">
-
-    <!-- Open Graph (Discord, Facebook...) -->
-    <meta property="og:title" content="Galerie d’Images | NEXA">
-    <meta property="og:description" content="Explorez les images officielles de NEXA : environnements, personnages et scènes du jeu.">
+    <meta property="og:title" content="Galerie d'Images | NEXA">
+    <meta property="og:description" content="Explorez les images officielles de NEXA.">
     <meta property="og:image" content="https://nexa-neon.vercel.app/images/unware-studio-logo.png">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://nexa-neon.vercel.app/nexa/galerie.html">
     <meta property="og:site_name" content="NEXA">
-
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Galerie d’Images | NEXA">
-    <meta name="twitter:description" content="Découvrez la galerie d’images officielle du jeu NEXA.">
+    <meta name="twitter:title" content="Galerie d'Images | NEXA">
+    <meta name="twitter:description" content="Découvrez la galerie d'images officielle du jeu NEXA.">
     <meta name="twitter:image" content="https://nexa-neon.vercel.app/images/unware-studio-logo.png">
-
-    <!-- Polices et icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-
-    <!-- CSS principal -->
     <link rel="stylesheet" href="../css/styles.css">
-
-    <!-- Favicon -->
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-
-    <!-- Analytics -->
     <script src="../js/analytics.js"></script>
 
-
     <style>
-
-            .btn {
-        padding: 12px 24px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        line-height: 1;
-    }
-
-    .btn-login {
-        color: var(--text);
-        background: transparent;
-        border: 1px solid var(--border);
-        height: 42px;
-    }
-
-    .btn-login:hover {
-        background: rgba(255, 255, 255, 0.05);
-        transform: translateY(-2px);
-    }
-
-
-
-    /* Style pour le menu burger */
-    .mobile-menu {
-        display: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: var(--accent);
-        z-index: 1001;
-        transition: var(--transition);
-        padding: 8px;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.05);
-        height: 42px;
-        width: 42px;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        outline: none;
-    }
-
-    .mobile-menu:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: scale(1.05);
-    }
-
-    /* Styles spécifiques pour corriger le menu mobile */
-    
-    /* S'assurer que le body ne scroll pas quand le menu est ouvert */
-    body.no-scroll {
-        overflow: hidden;
-    }
-    
-    /* Menu mobile - corrections */
-    .mobile-nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 320px;
-        height: 100vh;
-        background: var(--primary);
-        z-index: 1000; /* Augmenté pour être sûr */
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border-left: 1px solid var(--border);
-        display: flex;
-        flex-direction: column;
-        padding: 80px 25px 25px;
-        overflow-y: auto;
-        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
-        /* S'assurer qu'il n'y a pas de débordement */
-        box-sizing: border-box;
-    }
-
-    .mobile-nav.active {
-        right: 0;
-        /* Forcer le repaint */
-        transform: translateZ(0);
-    }
-
-    /* Overlay - corrections */
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 999; /* Un niveau en dessous du menu */
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.4s ease;
-        backdrop-filter: blur(5px);
-        /* S'assurer qu'il couvre bien tout l'écran */
-        pointer-events: none;
-    }
-
-    .overlay.active {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: all;
-    }
-
-    /* Icône de fermeture - positionnement fixe */
-    .mobile-close {
-        position: absolute;
-        top: 25px;
-        right: 25px;
-        font-size: 22px;
-        cursor: pointer;
-        color: var(--text);
-        transition: var(--transition);
-        padding: 8px;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.05);
-        z-index: 1001; /* Au-dessus du menu */
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        outline: none;
-    }
-
-    .mobile-close:hover {
-        color: var(--accent);
-        background: rgba(255, 255, 255, 0.1);
-        transform: rotate(90deg);
-    }
-
-    /* Liens de navigation mobile */
-    .mobile-nav-links {
-        list-style: none;
-        order: 1;
-        margin-bottom: 20px;
-        flex: 1;
-        overflow-y: auto;
-    }
-
-    .mobile-nav-links li {
-        margin-bottom: 8px;
-    }
-
-    .mobile-nav-links a {
-        color: var(--text);
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: 500;
-        display: block;
-        padding: 14px 16px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .mobile-nav-links a:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 4px;
-        background: var(--accent);
-        transform: scaleY(0);
-        transition: transform 0.3s ease;
-    }
-
-    .mobile-nav-links a:hover {
-        color: var(--accent);
-        background: rgba(255, 255, 255, 0.05);
-        padding-left: 20px;
-    }
-
-    .mobile-nav-links a:hover:before {
-        transform: scaleY(1);
-    }
-
-    /* Actions mobile */
-    .mobile-nav-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        order: 2;
-        margin-bottom: 150px;
-        padding-top: 20px;
-        border-top: 1px solid var(--border);
-        position: relative;
-        top: 0;
-    }
-
-    .mobile-nav-actions .btn {
-        text-align: center;
-        width: 100%;
-        padding: 14px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        height: auto;
-    }
-
-    .mobile-nav-actions .btn-login {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--border);
-    }
-
-    .mobile-nav-actions .btn-login:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-2px);
-    }
-
-    .mobile-nav-actions .btn-primary {
-        background: var(--accent);
-        color: var(--primary);
-    }
-
-    .mobile-nav-actions .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Animation pour l'icône du menu */
-    .mobile-menu.active i {
-        transform: rotate(90deg);
-    }
-
-    /* Animation simplifiée pour les éléments du menu */
-    .mobile-nav-links li {
-        opacity: 0;
-        transform: translateX(20px);
-        transition: all 0.3s ease;
-    }
-
-    .mobile-nav.active .mobile-nav-links li {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    /* Délais d'animation simplifiés */
-    .mobile-nav.active .mobile-nav-links li:nth-child(1) { transition-delay: 0.1s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(2) { transition-delay: 0.15s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(3) { transition-delay: 0.2s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(4) { transition-delay: 0.25s; }
-    
-    .mobile-nav-actions {
-        opacity: 0;
-        transform: translateX(20px);
-        transition: all 0.3s ease 0.3s;
-    }
-    
-    .mobile-nav.active .mobile-nav-actions {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    /* Empêcher le flash blanc sur iOS */
-    .mobile-nav {
-        -webkit-tap-highlight-color: transparent;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        user-select: none;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-        .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary {
-            display: none;
-        }
-        
-        .mobile-menu {
-            display: flex;
-        }
-        
-        /* Cacher le logo UNWARE STUDIO sur mobile */
-        .studio-logo {
-            display: none;
-        }
-        
-        /* Ajustements header mobile */
-        header {
-            padding: 12px 0;
-        }
-        
-        .nav-container {
-            padding: 0 15px;
-        }
-        
-        .logo {
-            gap: 8px;
-        }
-        
-        .logo-icon {
-            font-size: 20px;
-        }
-        
-        /* Ajustement de la hauteur des éléments du header sur mobile */
-        .nav-actions {
-            height: auto;
-        }
-    }
-
-    /* Pour les très petits écrans */
-    @media (max-height: 600px) {
-        .mobile-nav {
-            padding: 70px 20px 20px;
-        }
-        
-        .mobile-close {
-            top: 20px;
-            right: 20px;
-        }
-        
-        .mobile-nav-actions {
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .mobile-nav-actions .btn {
-            padding: 12px 15px;
-        }
-        
-        .mobile-nav-links li {
-            margin-bottom: 6px;
-        }
-        
-        .mobile-nav-links a {
-            padding: 12px 16px;
-            font-size: 16px;
-        }
-    }
-
-
-
-        
-        
-        
-
-
-        /* Soon Section */
-        .soon-section {
-            min-height: 100vh;
-            display: flex;
+        /* ===== REPRIS DE TON CSS ORIGINAL ===== */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            font-size: 14px;
+            line-height: 1;
+        }
+        .btn-login {
+            color: var(--text);
+            background: transparent;
+            border: 1px solid var(--border);
+            height: 42px;
+        }
+        .btn-login:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-2px);
+        }
+
+        /* Menu burger */
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--accent);
+            z-index: 1001;
+            transition: var(--transition);
+            padding: 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.05);
+            height: 42px;
+            width: 42px;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            outline: none;
+        }
+        .mobile-menu:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+        body.no-scroll { overflow: hidden; }
+
+        .mobile-nav {
+            position: fixed; top: 0; right: -100%;
+            width: 320px; height: 100vh;
+            background: var(--primary);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            border-left: 1px solid var(--border);
+            display: flex; flex-direction: column;
+            padding: 80px 25px 25px;
+            overflow-y: auto;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+        }
+        .mobile-nav.active { right: 0; transform: translateZ(0); }
+        .overlay {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 999; opacity: 0; visibility: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+            pointer-events: none;
+        }
+        .overlay.active { opacity: 1; visibility: visible; pointer-events: all; }
+        .mobile-close {
+            position: absolute; top: 25px; right: 25px;
+            font-size: 22px; cursor: pointer; color: var(--text);
+            transition: var(--transition); padding: 8px; border-radius: 4px;
+            background: rgba(255,255,255,0.05); z-index: 1001;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            border: none; outline: none;
+        }
+        .mobile-close:hover { color: var(--accent); background: rgba(255,255,255,0.1); transform: rotate(90deg); }
+        .mobile-nav-links { list-style: none; order: 1; margin-bottom: 20px; flex: 1; overflow-y: auto; }
+        .mobile-nav-links li { margin-bottom: 8px; opacity: 0; transform: translateX(20px); transition: all 0.3s ease; }
+        .mobile-nav.active .mobile-nav-links li { opacity: 1; transform: translateX(0); }
+        .mobile-nav.active .mobile-nav-links li:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-nav.active .mobile-nav-links li:nth-child(2) { transition-delay: 0.15s; }
+        .mobile-nav.active .mobile-nav-links li:nth-child(3) { transition-delay: 0.2s; }
+        .mobile-nav.active .mobile-nav-links li:nth-child(4) { transition-delay: 0.25s; }
+        .mobile-nav-links a {
+            color: var(--text); text-decoration: none;
+            font-size: 18px; font-weight: 500;
+            display: block; padding: 14px 16px;
+            border-radius: 8px; transition: all 0.3s ease;
+        }
+        .mobile-nav-links a:hover { color: var(--accent); background: rgba(255,255,255,0.05); padding-left: 20px; }
+        .mobile-nav-actions {
+            display: flex; flex-direction: column; gap: 12px;
+            order: 2; margin-bottom: 150px; padding-top: 20px;
+            border-top: 1px solid var(--border);
+            opacity: 0; transform: translateX(20px);
+            transition: all 0.3s ease 0.3s;
+        }
+        .mobile-nav.active .mobile-nav-actions { opacity: 1; transform: translateX(0); }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
+            .mobile-menu { display: flex; }
+            .studio-logo { display: none; }
+            header { padding: 12px 0; }
+            .nav-container { padding: 0 15px; }
+            .logo { gap: 8px; }
+            .logo-icon { font-size: 20px; }
+            .nav-actions { height: auto; }
+        }
+
+        /* ===== HERO GALERIE ===== */
+        .gallery-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: flex-end;
             position: relative;
             overflow: hidden;
             padding-top: 80px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            text-align: center;
         }
 
-        .soon-section::before {
-            content: '';
+        .gallery-hero-bg {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
-            pointer-events: none;
+            inset: 0;
+            background-image: url('nexa_image_website_2.jpg');
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.06);
+            transition: transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .gallery-hero-bg.loaded { transform: scale(1); }
+
+        .gallery-hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to top,
+                var(--primary) 0%,
+                rgba(0,0,0,0.55) 45%,
+                rgba(0,0,0,0.15) 100%
+            );
         }
 
-        .soon-content {
-            max-width: 600px;
-            padding: 40px;
+        .gallery-hero-content {
             position: relative;
             z-index: 2;
+            padding: 60px 5%;
+            width: 100%;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        .soon-icon {
-            font-size: 80px;
-            color: var(--accent);
-            margin-bottom: 30px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .soon-title {
+        .gallery-hero-label {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 72px;
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 20px;
+            font-size: 11px;
+            letter-spacing: 6px;
             color: var(--accent);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease 0.2s forwards;
+        }
+
+        .gallery-hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(56px, 9vw, 110px);
+            line-height: 0.9;
             letter-spacing: 3px;
+            color: var(--text);
+            margin-bottom: 14px;
+            opacity: 0;
+            animation: fadeUp 0.7s ease 0.35s forwards;
         }
 
-        .soon-subtitle {
-            font-size: 20px;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            line-height: 1.6;
+        .gallery-hero-sub {
+            font-size: 14px;
+            color: rgba(255,255,255,0.45);
             font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeUp 0.7s ease 0.5s forwards;
         }
 
-        .soon-text {
-            font-size: 16px;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            line-height: 1.7;
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        .soon-actions {
+        /* ===== GRILLE GALERIE ===== */
+        .gallery-section {
+            padding: 50px 5% 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: 60px;
+            gap: 10px;
+        }
+
+        .gallery-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 6px;
+            cursor: pointer;
+            background: var(--secondary);
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
+        }
+        .gallery-card.visible { opacity: 1; transform: translateY(0); }
+
+        /* Layout asymétrique */
+        .gallery-card:nth-child(1) { grid-column: span 7; grid-row: span 6; transition-delay: 0.05s; }
+        .gallery-card:nth-child(2) { grid-column: span 5; grid-row: span 4; transition-delay: 0.12s; }
+        .gallery-card:nth-child(3) { grid-column: span 5; grid-row: span 5; transition-delay: 0.18s; }
+        .gallery-card:nth-child(4) { grid-column: span 7; grid-row: span 5; transition-delay: 0.24s; }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .gallery-card:hover img { transform: scale(1.07); }
+
+        /* Overlay */
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.1) 55%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
             display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 22px 24px;
+        }
+        .gallery-card:hover .card-overlay { opacity: 1; }
+
+        .card-tag {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 2px;
+            color: #fff;
+            line-height: 1;
         }
 
-        /* Footer */
+        /* Icône zoom */
+        .card-zoom {
+            position: absolute;
+            top: 14px; right: 14px;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(6px);
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 12px;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .gallery-card:hover .card-zoom { opacity: 1; transform: scale(1); }
+
+        .gallery-card::after {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            transition: border-color 0.4s ease;
+            pointer-events: none;
+        }
+        .gallery-card:hover::after { border-color: rgba(255,255,255,0.12); }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.93);
+            z-index: 9000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.35s ease;
+            backdrop-filter: blur(14px);
+        }
+        .lightbox.active { opacity: 1; pointer-events: all; }
+
+        .lightbox-img-wrap {
+            position: relative;
+            max-width: 92vw;
+            max-height: 88vh;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.9);
+        }
+        .lightbox.active .lightbox-img-wrap { transform: scale(1); }
+
+        .lightbox-img-wrap img {
+            display: block;
+            max-width: 92vw;
+            max-height: 88vh;
+            object-fit: contain;
+        }
+
+        .lightbox-close-btn {
+            position: absolute;
+            top: 14px; right: 14px;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff; font-size: 16px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            z-index: 2;
+        }
+        .lightbox-close-btn:hover { background: rgba(255,255,255,0.15); transform: rotate(90deg); }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 20px 24px;
+            background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+            z-index: 1;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-auto-rows: 220px;
+            }
+            .gallery-card:nth-child(1),
+            .gallery-card:nth-child(2),
+            .gallery-card:nth-child(3),
+            .gallery-card:nth-child(4) {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+            .gallery-card:nth-child(1) { grid-column: span 2; }
+        }
+        @media (max-width: 540px) {
+            .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 240px; }
+            .gallery-card:nth-child(1) { grid-column: span 1; }
+        }
+
+        /* ===== FOOTER (repris de ton original) ===== */
         footer {
             background: var(--secondary);
             padding: 80px 0 40px;
             border-top: 1px solid var(--border);
         }
-
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 40px;
             margin-bottom: 60px;
         }
-
-        .footer-brand {
-            max-width: 300px;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
-
-        .footer-logo-text {
-            font-family: 'Bebas Neue', sans-serif;
-            font-weight: 700;
-            font-size: 24px;
-            color: var(--accent);
-            letter-spacing: 1.5px;
-        }
-
-        .footer-desc {
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 12px;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: var(--card-bg);
-            border-radius: 4px;
-            color: var(--text);
-            transition: var(--transition);
-            border: 1px solid var(--border);
-            text-decoration: none;
-        }
-
-        .social-link:hover {
-            background: var(--accent);
-            color: var(--primary);
-        }
-
-        .footer-column h3 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: var(--transition);
-            font-weight: 400;
-            font-size: 14px;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-
-        .copyright {
-            text-align: center;
-            padding-top: 40px;
-            border-top: 1px solid var(--border);
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 400;
-        }
-
-        .studio-credit {
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .engine-credit {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 12px;
-            font-size: 14px;
-        }
-
-        /* RESPONSIVE - Menu burger UNIQUEMENT sur mobile */
-        @media (max-width: 768px) {
-            .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary {
-                display: none;
-            }
-            
-            .mobile-menu {
-                display: flex;
-            }
-            
-            .studio-logo {
-                display: none;
-            }
-            
-            header {
-                padding: 12px 0;
-            }
-            
-            .nav-container {
-                padding: 0 15px;
-            }
-            
-            .logo {
-                gap: 8px;
-            }
-            
-            .logo-icon {
-                font-size: 20px;
-            }
-            
-            .nav-actions {
-                height: auto;
-            }
-            
-            .soon-title {
-                font-size: 48px;
-            }
-            
-            .soon-icon {
-                font-size: 60px;
-            }
-            
-            .soon-actions {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 250px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .soon-title {
-                font-size: 36px;
-            }
-            
-            .soon-subtitle {
-                font-size: 18px;
-            }
-            
-            .soon-content {
-                padding: 20px;
-            }
-        }
+        .footer-brand { max-width: 300px; }
+        .footer-logo { display: flex; align-items: center; margin-bottom: 20px; gap: 10px; }
+        .footer-logo-text { font-family: 'Bebas Neue', sans-serif; font-weight: 700; font-size: 24px; color: var(--accent); letter-spacing: 1.5px; }
+        .footer-desc { color: var(--text-secondary); margin-bottom: 24px; font-weight: 400; line-height: 1.6; }
+        .social-links { display: flex; gap: 12px; }
+        .social-link { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--card-bg); border-radius: 4px; color: var(--text); transition: var(--transition); border: 1px solid var(--border); text-decoration: none; }
+        .social-link:hover { background: var(--accent); color: var(--primary); }
+        .footer-column h3 { font-size: 18px; margin-bottom: 20px; color: var(--accent); font-weight: 600; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: var(--transition); font-weight: 400; font-size: 14px; }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { text-align: center; padding-top: 40px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 14px; font-weight: 400; }
+        .studio-credit { color: var(--accent); font-weight: 600; }
     </style>
-
 </head>
+
 <body>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-img-wrap" id="lightboxWrap">
+            <img src="" alt="" id="lightboxImg">
+            <div class="lightbox-caption">
+                <div class="card-tag" id="lightboxTag"></div>
+                <div class="card-title" id="lightboxTitle"></div>
+            </div>
+            <div class="lightbox-close-btn" id="lightboxClose"><i class="fas fa-times"></i></div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header>
         <div class="container nav-container">
@@ -656,64 +440,98 @@
                     <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
                 </div>
             </div>
-            
-<!-- NAVIGATION DESKTOP - Visible sur ordinateur -->
-<ul class="nav-links">
-    <li><a href="../index.html#accueil">Accueil</a></li>
-    <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-    <li><a href="../nexa/galerie.html">Galeries</a></li>
-    <li><a href="../nexa/nexa.html">NEXA</a></li>
-</ul>
-  
+            <ul class="nav-links">
+                <li><a href="../index.html#accueil">Accueil</a></li>
+                <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
+                <li><a href="../nexa/galerie.html">Galeries</a></li>
+                <li><a href="../nexa/nexa.html">NEXA</a></li>
+            </ul>
             <div class="nav-actions">
-
-                <!-- MENU BURGER - Visible UNIQUEMENT sur mobile -->
-                <div class="mobile-menu" id="mobileMenu">
-                    <i class="fas fa-bars"></i>
-                </div>
+                <div class="mobile-menu" id="mobileMenu"><i class="fas fa-bars"></i></div>
             </div>
         </div>
     </header>
 
-    <!-- MENU MOBILE - Caché sur desktop -->
+    <!-- Menu mobile -->
     <div class="overlay" id="overlay"></div>
     <nav class="mobile-nav" id="mobileNav">
-        <div class="mobile-close" id="mobileClose">
-            <i class="fas fa-times"></i>
-        </div>
-        
+        <div class="mobile-close" id="mobileClose"><i class="fas fa-times"></i></div>
         <ul class="mobile-nav-links">
             <li><a href="../index.html#accueil" class="mobile-nav-link">Accueil</a></li>
             <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
             <li><a href="../nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
             <li><a href="../nexa/nexa.html" class="mobile-nav-link">NEXA</a></li>
         </ul>
-        <div class="mobile-nav-actions">
-
-        </div>
+        <div class="mobile-nav-actions"></div>
     </nav>
 
-    <!-- Soon Section -->
-    <section class="soon-section">
-        <div class="container">
-            <div class="soon-content">
-                <div class="soon-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <h1 class="soon-title">BIENTÔT</h1>
-                <p class="soon-subtitle">Les images de NEXA arrivent prochainement</p>
-                <p class="soon-text">
-                    Nous travaillons actuellement sur la présentation détaillée de l'univers de NEXA. 
-                    Revenez bientôt pour découvrir les images de NEXA ...
-                </p>
-                <div class="soon-actions">
-                    <a href="../index.html" class="btn btn-primary">Retour à l'accueil</a>
-                    <a href="../nexa/nexa.html" class="btn btn-login">Découvrir NEXA</a>
-                </div>
-            </div>
+    <!-- Hero -->
+    <section class="gallery-hero">
+        <div class="gallery-hero-bg" id="heroBg"></div>
+        <div class="gallery-hero-overlay"></div>
+        <div class="gallery-hero-content">
+       <br><br><br>
+            <h1 class="gallery-hero-title">IMAGES<br>DU JEU</h1>
+            <p class="gallery-hero-sub">Captures in-engine · Unreal Engine 5</p>
         </div>
     </section>
 
+    <!-- Grille galerie -->
+    <section class="gallery-section">
+        <div class="gallery-grid">
+
+            <div class="gallery-card"
+                 data-src="../images/nexa_image_website_2.jpg"
+                 data-tag="Environnement"
+                 data-title="Couloir 13">
+                <img src="../images/nexa_image_website_2.jpg" alt="Couloir rouge 13 — NEXA" loading="lazy">
+                <div class="card-overlay">
+                    <div class="card-tag">Environnement</div>
+                    <div class="card-title">Couloir 13</div>
+                </div>
+                <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
+            </div>
+
+            <div class="gallery-card"
+                 data-src="../images/nexa_image_website_3.jpg"
+                 data-tag="Atmosphère"
+                 data-title="Vue couloir">
+                <img src="../images/nexa_image_website_3.jpg" alt="Hublot rouge — NEXA" loading="lazy">
+                <div class="card-overlay">
+                    <div class="card-tag">Atmosphère</div>
+                    <div class="card-title">Vue couloir</div>
+                </div>
+                <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
+            </div>
+
+            <div class="gallery-card"
+                 data-src="../images/nexa_image_website_1.jpg"
+                 data-tag="Level Design"
+                 data-title="La Trappe">
+                <img src="../images/nexa_image_website_1.jpg" alt="Trappe lumineuse — NEXA" loading="lazy">
+                <div class="card-overlay">
+                    <div class="card-tag">Level Design</div>
+                    <div class="card-title">La Trappe</div>
+                </div>
+                <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
+            </div>
+
+            <div class="gallery-card"
+                 data-src="../images/game_dev_image_game_design.jpg"
+                 data-tag="Développement"
+                 data-title="Level NEXA-1 UE5">
+                <img src="../images/game_dev_image_game_design.jpg" alt="Éditeur Unreal Engine 5 — NEXA" loading="lazy">
+                <div class="card-overlay">
+                    <div class="card-tag">Développement</div>
+                    <div class="card-title">Level NEXA-1 </div>
+                </div>
+                <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -727,16 +545,15 @@
                         <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
-<div class="footer-column">
-    <h3>Navigation</h3>
-    <ul class="footer-links">
-        <li><a href="../index.html">Accueil</a></li>
-        <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-        <li><a href="../nexa/galerie.html">Galerie</a></li>
-        <li><a href="../nexa/nexa.html">NEXA</a></li>
-    </ul>
-</div>
-
+                <div class="footer-column">
+                    <h3>Navigation</h3>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Accueil</a></li>
+                        <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
+                        <li><a href="../nexa/galerie.html">Galerie</a></li>
+                        <li><a href="../nexa/nexa.html">NEXA</a></li>
+                    </ul>
+                </div>
                 <div class="footer-column">
                     <h3>Support</h3>
                     <ul class="footer-links">
@@ -749,8 +566,8 @@
                 <div class="footer-column">
                     <h3>Légal</h3>
                     <ul class="footer-links">
-                         <li><a href="../legals/conditions-utilisation.html">Conditions d'utilisation</a></li>
-                          <li><a href="../legals/politique-confidentialite.html">Politique de confidentialité</a></li>
+                        <li><a href="../legals/conditions-utilisation.html">Conditions d'utilisation</a></li>
+                        <li><a href="../legals/politique-confidentialite.html">Politique de confidentialité</a></li>
                         <li><a href="../legals/mentions-legales.html">Mentions légales</a></li>
                         <li><a href="../legals/politique-cookies.html">Politique de cookies</a></li>
                     </ul>
@@ -758,74 +575,68 @@
             </div>
             <div class="copyright">
                 <p>&copy; 2025 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
+            </div>
         </div>
     </footer>
 
+    <script>
+        // ===== MENU BURGER =====
+        const mobileMenu  = document.getElementById('mobileMenu');
+        const mobileNav   = document.getElementById('mobileNav');
+        const overlay     = document.getElementById('overlay');
+        const mobileClose = document.getElementById('mobileClose');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        const body = document.body;
 
+        function openMobileMenu()  { mobileNav.classList.add('active'); overlay.classList.add('active'); mobileMenu.classList.add('active'); body.classList.add('no-scroll'); void mobileNav.offsetWidth; }
+        function closeMobileMenu() { mobileNav.classList.remove('active'); overlay.classList.remove('active'); mobileMenu.classList.remove('active'); body.classList.remove('no-scroll'); }
 
+        mobileMenu.addEventListener('click', () => mobileNav.classList.contains('active') ? closeMobileMenu() : openMobileMenu());
+        overlay.addEventListener('click', closeMobileMenu);
+        mobileClose.addEventListener('click', closeMobileMenu);
+        mobileNavLinks.forEach(l => l.addEventListener('click', closeMobileMenu));
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMobileMenu(); closeLightbox(); } });
 
-<script>
-    // Menu Burger Functionality - Version corrigée
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileNav = document.getElementById('mobileNav');
-    const overlay = document.getElementById('overlay');
-    const mobileClose = document.getElementById('mobileClose');
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-    const body = document.body;
+        // ===== HERO ZOOM IN =====
+        window.addEventListener('load', () => {
+            document.getElementById('heroBg').classList.add('loaded');
+        });
 
-    function openMobileMenu() {
-        mobileNav.classList.add('active');
-        overlay.classList.add('active');
-        mobileMenu.classList.add('active');
-        body.classList.add('no-scroll');
-        
-        // Forcer le repaint pour éviter les bugs d'animation
-        void mobileNav.offsetWidth;
-    }
+        // ===== SCROLL REVEAL =====
+        const revealObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.gallery-card').forEach(c => revealObs.observe(c));
 
-    function closeMobileMenu() {
-        mobileNav.classList.remove('active');
-        overlay.classList.remove('active');
-        mobileMenu.classList.remove('active');
-        body.classList.remove('no-scroll');
-    }
+        // ===== LIGHTBOX =====
+        const lightbox      = document.getElementById('lightbox');
+        const lightboxImg   = document.getElementById('lightboxImg');
+        const lightboxTag   = document.getElementById('lightboxTag');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxClose = document.getElementById('lightboxClose');
 
-    function toggleMobileMenu() {
-        if (mobileNav.classList.contains('active')) {
-            closeMobileMenu();
-        } else {
-            openMobileMenu();
+        function openLightbox(src, tag, title) {
+            lightboxImg.src = src;
+            lightboxImg.alt = title;
+            lightboxTag.textContent = tag;
+            lightboxTitle.textContent = title;
+            lightbox.classList.add('active');
+            body.classList.add('no-scroll');
         }
-    }
-
-    // Événements
-    mobileMenu.addEventListener('click', toggleMobileMenu);
-    overlay.addEventListener('click', closeMobileMenu);
-    mobileClose.addEventListener('click', closeMobileMenu);
-
-    // Fermer le menu quand on clique sur un lien
-    mobileNavLinks.forEach(link => {
-        link.addEventListener('click', closeMobileMenu);
-    });
-
-    // Fermer le menu avec la touche Échap
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-            closeMobileMenu();
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            body.classList.remove('no-scroll');
         }
-    });
 
-    // Remove hash from URL on page load
-    window.addEventListener('load', function() {
-        if (window.location.hash) {
-            history.replaceState(null, null, window.location.pathname + window.location.search);
-        }
-    });
-  </script>
-  </body>
+        document.querySelectorAll('.gallery-card').forEach(card => {
+            card.addEventListener('click', () => openLightbox(card.dataset.src, card.dataset.tag, card.dataset.title));
+        });
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+
+        window.addEventListener('load', () => {
+            if (window.location.hash) history.replaceState(null, null, window.location.pathname + window.location.search);
+        });
+    </script>
+</body>
 </html>
-
-
-
-
-
