@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXA — SYSTÈME</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --white: #f0f0ee;
+    --grey: #8a8a88;
+    --dark: #111110;
+    --mid: #1e1e1c;
+    --border: #2e2e2c;
+  }
+
+  body {
+    background: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .ui {
+    position: relative;
+    z-index: 1;
+    width: 460px;
+    animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .sys-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 12px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .sys-id {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--grey);
+  }
+
+  .sys-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--grey);
+    letter-spacing: 2px;
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--white);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.2; transform: scale(0.8); }
+  }
+
+  .main-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .main-sub {
+    font-size: 11px;
+    color: var(--grey);
+    letter-spacing: 2px;
+    margin-bottom: 28px;
+  }
+
+  .card {
+    background: var(--mid);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 12px; height: 12px;
+    background: var(--dark);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+
+  .card-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--grey);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .fuses-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .fuse {
+    flex: 1;
+    height: 48px;
+    border: 1px solid var(--border);
+    background: var(--dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: relative;
+  }
+
+  .fuse-inner {
+    width: 5px;
+    height: 22px;
+  }
+
+  .fuse.ok .fuse-inner {
+    background: var(--white);
+    opacity: 0.6;
+  }
+
+  .fuse.missing {
+    border-style: dashed;
+  }
+
+  .fuse.missing .fuse-inner {
+    border: 1px dashed #444442;
+    background: transparent;
+    animation: dashBlink 1.2s ease-in-out infinite;
+  }
+
+  @keyframes dashBlink {
+    0%, 100% { border-color: #3a3a38; }
+    50%       { border-color: #888886; }
+  }
+
+  .fuse-label {
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: var(--grey);
+  }
+
+  .fuse.missing .fuse-label {
+    color: var(--white);
+    opacity: 0.7;
+  }
+
+  .power-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .power-label {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--grey);
+  }
+
+  .power-val {
+    font-size: 9px;
+    color: var(--white);
+    opacity: 0.45;
+  }
+
+  .power-bar {
+    height: 2px;
+    background: var(--border);
+    overflow: hidden;
+  }
+
+  .power-fill {
+    height: 100%;
+    width: 66%;
+    background: var(--white);
+    opacity: 0.45;
+    position: relative;
+  }
+
+  .power-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.8));
+    animation: shimmer 2.5s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0%, 100% { opacity: 0; }
+    50%       { opacity: 1; }
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0 12px;
+  }
+
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+
+  .divider-text {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #3a3a38;
+  }
+
+  .door-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .door-icon {
+    width: 38px;
+    height: 50px;
+    border: 1px solid var(--border);
+    background: var(--dark);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .door-icon::before {
+    content: '';
+    position: absolute;
+    top: 8px; bottom: 8px;
+    left: 50%;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .lock-badge {
+    position: absolute;
+    right: -13px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    background: var(--dark);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lock-badge svg {
+    width: 11px;
+    height: 11px;
+    stroke: var(--white);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.7;
+  }
+
+  .door-info { flex: 1; }
+
+  .door-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 5px;
+  }
+
+  .door-desc {
+    font-size: 10px;
+    color: var(--grey);
+    letter-spacing: 0.5px;
+    line-height: 1.7;
+  }
+
+  .door-state {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--white);
+    opacity: 0.3;
+    margin-top: 7px;
+  }
+
+  .bottom-msg {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 13px 16px;
+    border: 1px solid var(--border);
+    background: rgba(240,240,238,0.015);
+  }
+
+  .msg-bracket {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #333331;
+    line-height: 1;
+    margin-top: 1px;
+  }
+
+  .msg-text {
+    font-size: 10px;
+    color: var(--grey);
+    letter-spacing: 0.5px;
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .msg-text span { color: var(--white); }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer span {
+    font-size: 9px;
+    color: #333331;
+    letter-spacing: 2px;
+  }
+
+  /* Coins décoratifs */
+  .c { position: absolute; width: 7px; height: 7px; opacity: 0.25; }
+  .c.tl { top: -1px; left: -1px; border-top: 1px solid var(--white); border-left: 1px solid var(--white); }
+  .c.br { bottom: -1px; right: -1px; border-bottom: 1px solid var(--white); border-right: 1px solid var(--white); }
+</style>
+</head>
+<body>
+
+<div class="ui">
+
+  <div class="sys-bar">
+    <span class="sys-id">NEXA · SECTION-01 · NŒUD-7</span>
+    <div class="sys-status">
+      <div class="pulse-dot"></div>
+      EN LIGNE
+    </div>
+  </div>
+
+  <div class="main-title">ACCÈS REFUSÉ</div>
+  <div class="main-sub">ALIMENTATION INSUFFISANTE</div>
+
+  <!-- Fusibles -->
+  <div class="card">
+    <div class="c tl"></div>
+    <div class="c br"></div>
+    <div class="card-label">État des fusibles — Circuit B</div>
+    <div class="fuses-row">
+      <div class="fuse ok">
+        <div class="fuse-inner"></div>
+        <span class="fuse-label">F-01</span>
+      </div>
+      <div class="fuse ok">
+        <div class="fuse-inner"></div>
+        <span class="fuse-label">F-02</span>
+      </div>
+      <div class="fuse missing">
+        <div class="fuse-inner"></div>
+        <span class="fuse-label">F-03</span>
+      </div>
+      <div class="fuse ok">
+        <div class="fuse-inner"></div>
+        <span class="fuse-label">F-04</span>
+      </div>
+      <div class="fuse ok">
+        <div class="fuse-inner"></div>
+        <span class="fuse-label">F-05</span>
+      </div>
+    </div>
+
+    <div class="power-header">
+      <span class="power-label">ALIMENTATION CIRCUIT</span>
+      <span class="power-val">66% · INSUFFISANT</span>
+    </div>
+    <div class="power-bar">
+      <div class="power-fill"></div>
+    </div>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-text">ACCÈS CONDITIONNEL</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Porte -->
+  <div class="card">
+    <div class="c tl"></div>
+    <div class="card-label">Porte verrouillée</div>
+    <div class="door-row">
+      <div class="door-icon">
+        <div class="lock-badge">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="11" width="18" height="11" rx="1"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+      </div>
+      <div class="door-info">
+        <div class="door-name">SALLE DE CONTRÔLE · EST</div>
+        <div class="door-desc">Requiert alimentation complète<br>du Circuit B pour déverrouillage.</div>
+        <div class="door-state">VERROUILLÉE</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message -->
+  <div class="bottom-msg">
+    <span class="msg-bracket">[</span>
+    <div class="msg-text">
+      Insérez le fusible <span>F-03</span> dans le boîtier électrique
+      pour restaurer l'alimentation et déverrouiller la porte.
+    </div>
+    <span class="msg-bracket">]</span>
+  </div>
+
+  <div class="footer">
+    <span>SYS · v2.4.1</span>
+    <span>NEXA CORP — ACCÈS RESTREINT</span>
+  </div>
+
+</div>
+
+</body>
+</html>

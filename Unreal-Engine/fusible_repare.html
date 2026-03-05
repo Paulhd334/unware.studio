@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXA — ACCÈS AUTORISÉ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --white: #f0f0ee;
+    --grey: #9a9a98;
+    --dark: #0c0c0b;
+    --border: rgba(255,255,255,0.1);
+    --glass: rgba(255,255,255,0.04);
+    --glass-strong: rgba(255,255,255,0.08);
+  }
+
+  body {
+    background: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Mono', monospace;
+    overflow: hidden;
+  }
+
+  /* Glow background ambiance */
+  .bg-glow {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .bg-glow::before {
+    content: '';
+    position: absolute;
+    top: 30%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.04) 0%, transparent 70%);
+    animation: glowPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+    50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.1); }
+  }
+
+  /* Scan line fin */
+  .scanline {
+    position: fixed;
+    top: -100%;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+    animation: scanMove 6s linear infinite;
+    pointer-events: none;
+    z-index: 99;
+  }
+
+  @keyframes scanMove {
+    from { top: -2px; }
+    to   { top: 100vh; }
+  }
+
+  /* UI wrapper */
+  .ui {
+    position: relative;
+    z-index: 1;
+    width: 460px;
+  }
+
+  /* === ANIMATION SÉQUENCE === */
+
+  /* Phase 1 : flash d'entrée */
+  .flash-overlay {
+    position: fixed;
+    inset: 0;
+    background: white;
+    z-index: 200;
+    animation: flashIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+    pointer-events: none;
+  }
+
+  @keyframes flashIn {
+    0%   { opacity: 0.7; }
+    30%  { opacity: 0.3; }
+    100% { opacity: 0; visibility: hidden; }
+  }
+
+  /* Phase 2 : éléments qui apparaissent */
+  .sys-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 12px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .sys-id { font-size: 10px; letter-spacing: 3px; color: var(--grey); }
+
+  .sys-status {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 10px; letter-spacing: 2px; color: var(--grey);
+  }
+
+  .pulse-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--white);
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.2; }
+  }
+
+  .main-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 30px; font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.5px; line-height: 1;
+    margin-bottom: 4px;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.55s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+
+  .main-sub {
+    font-size: 11px; color: var(--grey); letter-spacing: 2px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.65s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+
+  /* === GLASS CARD === */
+  .card {
+    position: relative;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    padding: 22px;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.75s cubic-bezier(0.16,1,0.3,1) forwards;
+    overflow: hidden;
+  }
+
+  /* Reflet verre en haut */
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  }
+
+  /* Coin coupé */
+  .card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 14px; height: 14px;
+    background: var(--dark);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+
+  .card.delay2 { animation-delay: 0.85s; }
+  .card.delay3 { animation-delay: 0.95s; }
+
+  /* Shine animé sur la card */
+  .card-shine {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(255,255,255,0.03) 40%,
+      rgba(255,255,255,0.07) 50%,
+      rgba(255,255,255,0.03) 60%,
+      transparent 100%
+    );
+    animation: shineMove 5s ease-in-out infinite;
+  }
+
+  @keyframes shineMove {
+    0%, 100% { transform: translateX(-100%) translateY(-100%); }
+    50%       { transform: translateX(100%) translateY(100%); }
+  }
+
+  .card-label {
+    font-size: 9px; letter-spacing: 3px; color: var(--grey);
+    text-transform: uppercase; margin-bottom: 16px;
+    position: relative; z-index: 1;
+  }
+
+  /* === FUSIBLES RÉPARÉS === */
+  .fuses-row {
+    display: flex; gap: 8px; margin-bottom: 20px;
+    position: relative; z-index: 1;
+  }
+
+  .fuse {
+    flex: 1; height: 50px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.03);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 6px;
+    position: relative;
+  }
+
+  .fuse-inner {
+    width: 5px; height: 22px;
+    background: var(--white);
+    opacity: 0.55;
+  }
+
+  /* Le F-03 nouvellement inséré */
+  .fuse.new {
+    border-color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.07);
+    animation: fuseInsert 0.6s 1.2s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+
+  @keyframes fuseInsert {
+    from { transform: scaleY(0); opacity: 0; }
+    to   { transform: scaleY(1); opacity: 1; }
+  }
+
+  .fuse.new .fuse-inner {
+    opacity: 1;
+    box-shadow: 0 0 8px rgba(255,255,255,0.5);
+    animation: fuseGlow 2s 1.8s ease-in-out infinite;
+  }
+
+  @keyframes fuseGlow {
+    0%, 100% { box-shadow: 0 0 4px rgba(255,255,255,0.3); }
+    50%       { box-shadow: 0 0 12px rgba(255,255,255,0.8); }
+  }
+
+  .fuse-label { font-size: 8px; letter-spacing: 1px; color: var(--grey); }
+  .fuse.new .fuse-label { color: var(--white); opacity: 0.8; }
+
+  /* Barre d'alimentation 100% */
+  .power-header {
+    display: flex; justify-content: space-between; margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+
+  .power-label { font-size: 9px; letter-spacing: 2px; color: var(--grey); }
+
+  .power-val {
+    font-size: 9px; color: var(--white); opacity: 0.7;
+    animation: countUp 1s 1.3s ease-out both;
+  }
+
+  @keyframes countUp {
+    from { opacity: 0; }
+    to   { opacity: 0.7; }
+  }
+
+  .power-bar {
+    height: 2px; background: rgba(255,255,255,0.08);
+    overflow: hidden; position: relative; z-index: 1;
+  }
+
+  .power-fill {
+    height: 100%;
+    background: var(--white);
+    opacity: 0.6;
+    width: 0%;
+    animation: fillUp 1.2s 1.1s cubic-bezier(0.16,1,0.3,1) forwards;
+    position: relative;
+  }
+
+  @keyframes fillUp {
+    from { width: 66%; }
+    to   { width: 100%; }
+  }
+
+  .power-fill::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.9));
+    animation: shimmer 2s ease-in-out infinite 2s;
+  }
+
+  @keyframes shimmer {
+    0%, 100% { opacity: 0; }
+    50%       { opacity: 1; }
+  }
+
+  /* Divider */
+  .divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 8px 0 12px;
+    opacity: 0;
+    animation: fadeUp 0.4s 0.9s ease forwards;
+  }
+
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+  .divider-text { font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.2); }
+
+  /* === PORTE DÉVERROUILLÉE === */
+  .door-row {
+    display: flex; align-items: center; gap: 18px;
+    position: relative; z-index: 1;
+  }
+
+  .door-icon {
+    width: 38px; height: 50px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.03);
+    position: relative; flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  /* Porte qui s'ouvre */
+  .door-icon::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    transform-origin: left center;
+    animation: doorOpen 0.8s 1.5s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+
+  @keyframes doorOpen {
+    from { transform: perspective(200px) rotateY(0deg); }
+    to   { transform: perspective(200px) rotateY(-70deg); opacity: 0.1; }
+  }
+
+  .door-icon::after {
+    content: '';
+    position: absolute;
+    top: 8px; bottom: 8px; left: 50%;
+    width: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* Cadenas ouvert */
+  .lock-badge {
+    position: absolute;
+    right: -13px; top: 50%;
+    transform: translateY(-50%);
+    width: 22px; height: 22px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    animation: lockOpen 0.4s 1.6s ease both;
+  }
+
+  @keyframes lockOpen {
+    0%   { border-color: rgba(255,255,255,0.15); }
+    100% { border-color: rgba(255,255,255,0.35); box-shadow: 0 0 10px rgba(255,255,255,0.15); }
+  }
+
+  .lock-badge svg {
+    width: 11px; height: 11px;
+    stroke: var(--white); fill: none;
+    stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+    opacity: 0.8;
+  }
+
+  .door-info { flex: 1; }
+
+  .door-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 700; color: var(--white);
+    margin-bottom: 5px;
+  }
+
+  .door-desc {
+    font-size: 10px; color: var(--grey);
+    letter-spacing: 0.5px; line-height: 1.7;
+  }
+
+  .door-state {
+    font-size: 9px; letter-spacing: 3px;
+    color: var(--white); opacity: 0.6;
+    margin-top: 7px;
+    animation: stateReveal 0.4s 1.8s ease both;
+  }
+
+  @keyframes stateReveal {
+    from { opacity: 0; letter-spacing: 6px; }
+    to   { opacity: 0.6; letter-spacing: 3px; }
+  }
+
+  /* Message bas */
+  .bottom-msg {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 13px 16px;
+    border: 1px solid var(--border);
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    animation: fadeUp 0.5s 1.1s cubic-bezier(0.16,1,0.3,1) forwards;
+    position: relative; overflow: hidden;
+  }
+
+  .bottom-msg::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  }
+
+  .msg-bracket {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 800;
+    color: rgba(255,255,255,0.15); line-height: 1; margin-top: 1px;
+  }
+
+  .msg-text {
+    font-size: 10px; color: var(--grey);
+    letter-spacing: 0.5px; line-height: 1.7; flex: 1;
+  }
+
+  .msg-text span { color: var(--white); }
+
+  /* Footer */
+  .footer {
+    display: flex; justify-content: space-between;
+    margin-top: 18px; padding-top: 12px;
+    border-top: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeUp 0.4s 1.2s ease forwards;
+  }
+
+  .footer span { font-size: 9px; color: rgba(255,255,255,0.15); letter-spacing: 2px; }
+
+  /* Coins décoratifs */
+  .c { position: absolute; width: 7px; height: 7px; }
+  .c.tl { top: -1px; left: -1px; border-top: 1px solid rgba(255,255,255,0.3); border-left: 1px solid rgba(255,255,255,0.3); }
+  .c.br { bottom: -1px; right: -1px; border-bottom: 1px solid rgba(255,255,255,0.3); border-right: 1px solid rgba(255,255,255,0.3); }
+
+</style>
+</head>
+<body>
+
+<div class="flash-overlay"></div>
+<div class="bg-glow"></div>
+<div class="scanline"></div>
+
+<div class="ui">
+
+  <div class="sys-bar">
+    <span class="sys-id">NEXA · SECTION-01 · NŒUD-7</span>
+    <div class="sys-status">
+      <div class="pulse-dot"></div>
+      EN LIGNE
+    </div>
+  </div>
+
+  <div class="main-title">ACCÈS AUTORISÉ</div>
+  <div class="main-sub">ALIMENTATION RESTAURÉE</div>
+
+  <!-- Fusibles -->
+  <div class="card">
+    <div class="card-shine"></div>
+    <div class="c tl"></div>
+    <div class="c br"></div>
+    <div class="card-label">État des fusibles — Circuit B</div>
+    <div class="fuses-row">
+      <div class="fuse"><div class="fuse-inner"></div><span class="fuse-label">F-01</span></div>
+      <div class="fuse"><div class="fuse-inner"></div><span class="fuse-label">F-02</span></div>
+      <div class="fuse new"><div class="fuse-inner"></div><span class="fuse-label">F-03</span></div>
+      <div class="fuse"><div class="fuse-inner"></div><span class="fuse-label">F-04</span></div>
+      <div class="fuse"><div class="fuse-inner"></div><span class="fuse-label">F-05</span></div>
+    </div>
+
+    <div class="power-header">
+      <span class="power-label">ALIMENTATION CIRCUIT</span>
+      <span class="power-val">100% · OPÉRATIONNEL</span>
+    </div>
+    <div class="power-bar">
+      <div class="power-fill"></div>
+    </div>
+  </div>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-text">ACCÈS AUTORISÉ</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- Porte -->
+  <div class="card delay2">
+    <div class="card-shine"></div>
+    <div class="c tl"></div>
+    <div class="card-label">Porte déverrouillée</div>
+    <div class="door-row">
+      <div class="door-icon">
+        <div class="lock-badge">
+          <!-- Cadenas ouvert -->
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="11" width="18" height="11" rx="1"/>
+            <path d="M7 11V7a5 5 0 0 1 9.9-1"/>
+          </svg>
+        </div>
+      </div>
+      <div class="door-info">
+        <div class="door-name">SALLE DE CONTRÔLE · EST</div>
+        <div class="door-desc">Alimentation complète détectée.<br>Accès autorisé. Déverrouillage en cours.</div>
+        <div class="door-state">DÉVERROUILLÉE</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message -->
+  <div class="bottom-msg">
+    <span class="msg-bracket">[</span>
+    <div class="msg-text">
+      Fusible <span>F-03</span> inséré avec succès.
+      Circuit B opérationnel à <span>100%</span>.<br>
+      La porte est maintenant accessible.
+    </div>
+    <span class="msg-bracket">]</span>
+  </div>
+
+  <div class="footer">
+    <span>SYS · v2.4.1</span>
+    <span>NEXA CORP — ACCÈS AUTORISÉ</span>
+  </div>
+
+</div>
+
+</body>
+</html>
