@@ -3,262 +3,245 @@ const CLARITY_PROJECT_ID = 'vrmfcq4hei'; // Votre ID Clarity
 let isClarityLoaded = false;
 let clarityLoadAttempted = false;
 
-// =============== API SÉCURISÉE POUR CLARITY ===============
-async function sendToClarityAPI(eventName, params = {}) {
-    // NE RIEN ENVOYER si cookies refusés
-    if (areCookiesRejected() || cookiesRejected) {
-        console.log('⛔ Cookies refusés - Pas d\'envoi Clarity');
-        return false;
+// =============== VÉRIFICATION COOKIES (mêmes fonctions que analytics.js) ===============
+// On réutilise les mêmes fonctions de gestion des cookies
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
     }
-    
-    // Vérifier le consentement
-    if (!shouldLoadGA()) {
-        console.log('⛔ Pas de consentement pour Clarity');
-        return false;
-    }
-    
-    try {
-        const payload = {
-            client_id: getClientId(),
-            project_id: CLARITY_PROJECT_ID,
-            timestamp: Date.now(),
-            page_title: getPageTitle(),
-            page_path: getPagePath(),
-            device_type: deviceType,
-            event: eventName,
-            params: params
-        };
-        
-        // Envoyer à votre API Vercel (même principe que GA)
-        const response = await fetch('/api/clarity-event', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-            keepalive: true,
-            mode: 'cors',
-            credentials: 'omit'
-        });
-        
-        if (response.ok) {
-            console.log(`📡 [Clarity API] Événement envoyé: ${eventName}`);
-            return true;
-        }
-        return false;
-        
-    } catch (error) {
-        console.warn('⚠️ [Clarity API] Erreur:', error);
-        return false;
-    }
+    return null;
 }
 
-// =============== INITIALISATION MICROSOFT CLARITY (version légère) ===============
+function areCookiesRejected() {
+    const consent = getCookie('cookieConsent');
+    return consent === 'rejected';
+}
+
+function shouldLoadClarity() {
+    const consent = getCookie('cookieConsent');
+    if (consent === 'rejected') return false;
+    
+    const analytics = getCookie('analyticsCookies');
+    return consent && (consent === 'all' || (consent === 'custom' && analytics === 'true'));
+}
+
+// =============== INITIALISATION MICROSOFT CLARITY ===============
 function initializeClarity() {
+    // NE RIEN FAIRE si cookies refusés
     if (areCookiesRejected()) {
         console.log('⛔ Cookies refusés - Clarity non initialisé');
         return;
     }
     
     if (isClarityLoaded) {
+        console.log('✅ Clarity déjà chargé');
         return;
     }
     
     if (clarityLoadAttempted) {
+        console.log('⏳ Clarity déjà en cours de chargement...');
         return;
     }
     
-    if (!shouldLoadGA()) {
+    if (!shouldLoadClarity()) {
         console.log('⛔ Pas de consentement - Clarity désactivé');
         return;
     }
     
-    console.log('🚀 Initialisation Microsoft Clarity (mode API uniquement)...');
+    console.log('🚀 Initialisation Microsoft Clarity (ID: ' + CLARITY_PROJECT_ID + ')...');
     clarityLoadAttempted = true;
     
-    // Au lieu d'essayer de charger le script (souvent bloqué),
-    // on va simplement marquer comme chargé et utiliser notre API
-    isClarityLoaded = true;
-    
-    // Envoyer un événement de page_view via l'API
-    sendToClarityAPI('page_view', {
-        engagement_time_msec: '100',
-        session_id: 'session_' + Date.now()
-    });
-    
-    // Simuler les fonctionnalités Clarity via notre API
-    setupClarityTracking();
+    try {
+        // Script Clarity
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+            y=l.getElementsByTagName(r)[0];
+            
+            // Callback de chargement réussi
+            t.onload = function() {
+                console.log('✅✅✅ Microsoft Clarity CHARGÉ AVEC SUCCÈS !');
+                isClarityLoaded = true;
+                
+                // Vérifier que clarity est bien disponible
+                if (typeof window.clarity !== 'undefined' && window.clarity) {
+                    console.log('📊 Clarity prêt à tracker pour', window.location.pathname);
+                    
+                    try {
+                        // Récupérer le device type depuis la variable globale si disponible
+                        const deviceType = window.deviceType || 'desktop';
+                        
+                        // Configuration initiale
+                        window.clarity("set", "pageTitle", document.title);
+                        window.clarity("set", "deviceType", deviceType);
+                        
+                        // Envoyer un événement de page_view
+                        window.clarity("event", "page_view", {
+                            path: window.location.pathname,
+                            title: document.title
+                        });
+                        
+                        console.log('📡 Clarity: page_view envoyé');
+                    } catch (configError) {
+                        console.warn('⚠️ Erreur config Clarity:', configError);
+                    }
+                } else {
+                    console.warn('⚠️ Clarity chargé mais objet non disponible');
+                }
+            };
+            
+            // Callback d'erreur
+            t.onerror = function(error) {
+                console.error('❌ Erreur chargement Clarity (probablement bloqué par adblock)');
+                console.log('   ℹ️ Le tracking via script direct est bloqué, mais continuez à utiliser GA');
+                isClarityLoaded = false;
+            };
+            
+            // Ajouter au DOM
+            y.parentNode.insertBefore(t, y);
+            console.log('📦 Script Clarity ajouté au DOM');
+            
+        })(window, document, "clarity", "script", CLARITY_PROJECT_ID);
+        
+    } catch (error) {
+        console.error('❌ Erreur critique Clarity:', error);
+        clarityLoadAttempted = false;
+    }
 }
 
-// =============== TRACKING CLARITY VIA API ===============
-function setupClarityTracking() {
-    console.log('🎯 Activation tracking Clarity (via API)...');
+// =============== FONCTIONS DE TRACKING CLARITY ===============
+function trackClarityEvent(eventName, properties = {}) {
+    if (areCookiesRejected() || !isClarityLoaded || typeof window.clarity === 'undefined') return;
+    
+    try {
+        window.clarity("event", eventName, properties);
+        console.log(`📡 [Clarity] Événement: ${eventName}`);
+    } catch (error) {
+        // Silencieux - pas besoin d'alerter
+    }
+}
+
+// =============== ATTACHER LES ÉVÉNEMENTS CLARITY ===============
+function attachClarityEvents() {
+    if (areCookiesRejected() || !isClarityLoaded) return;
+    
+    console.log('🎯 Activation tracking Clarity...');
     
     // Tracking des clics
     document.addEventListener('click', function(e) {
         if (areCookiesRejected() || !isClarityLoaded) return;
         
         setTimeout(() => {
-            trackClarityClick(e.target);
+            const interactiveEl = e.target.closest('a, button, .btn, [role="button"]');
+            if (!interactiveEl) return;
+            
+            const text = interactiveEl.textContent?.trim()?.substring(0, 100) || 
+                         interactiveEl.getAttribute('aria-label') || 
+                         'unknown';
+            
+            trackClarityEvent('click', {
+                element_text: text,
+                element_type: interactiveEl.tagName.toLowerCase(),
+                element_id: interactiveEl.id || null,
+                page_path: window.location.pathname
+            });
         }, 50);
     }, { passive: true });
-    
-    // Tracking des formulaires
-    document.addEventListener('submit', function(e) {
-        if (areCookiesRejected() || !isClarityLoaded) return;
-        trackClarityForm(e.target);
-    });
-    
-    // Tracking scroll
-    setupClarityScrollTracking();
 }
 
-function trackClarityClick(element) {
-    const interactiveEl = element.closest('a, button, .btn, [role="button"]');
-    if (!interactiveEl) return;
-    
-    const text = interactiveEl.textContent?.trim()?.substring(0, 100) || 
-                 interactiveEl.getAttribute('aria-label') || 
-                 interactiveEl.getAttribute('title') ||
-                 'unknown';
-    
-    sendToClarityAPI('click', {
-        element_text: text,
-        element_type: interactiveEl.tagName.toLowerCase(),
-        element_id: interactiveEl.id || null,
-        element_class: interactiveEl.className || null,
-        element_href: interactiveEl.href || null,
-        page_title: getPageTitle()
-    });
-}
-
-function trackClarityForm(form) {
-    sendToClarityAPI('form_submit', {
-        form_id: form.id || 'unknown',
-        form_name: form.name || null,
-        form_action: form.action || null,
-        form_method: form.method || null,
-        page_title: getPageTitle()
-    });
-}
-
-function setupClarityScrollTracking() {
-    let scrollTracked = {
-        25: false,
-        50: false,
-        75: false,
-        90: false
-    };
-    
-    window.addEventListener('scroll', () => {
-        if (areCookiesRejected() || !isClarityLoaded) return;
-        
-        requestAnimationFrame(() => {
-            const scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
-            
-            if (scrollPercent >= 25 && !scrollTracked[25]) {
-                scrollTracked[25] = true;
-                sendToClarityAPI('scroll_depth', { depth: 25, page_title: getPageTitle() });
-            } else if (scrollPercent >= 50 && !scrollTracked[50]) {
-                scrollTracked[50] = true;
-                sendToClarityAPI('scroll_depth', { depth: 50, page_title: getPageTitle() });
-            } else if (scrollPercent >= 75 && !scrollTracked[75]) {
-                scrollTracked[75] = true;
-                sendToClarityAPI('scroll_depth', { depth: 75, page_title: getPageTitle() });
-            } else if (scrollPercent >= 90 && !scrollTracked[90]) {
-                scrollTracked[90] = true;
-                sendToClarityAPI('scroll_depth', { depth: 90, page_title: getPageTitle() });
-            }
-        });
-    }, { passive: true });
-}
-
-// =============== MODIFICATION DE initAnalytics ===============
-function initAnalytics() {
-    console.log('🌐 Initialisation analytics...');
-    
-    // Détecter device
-    deviceType = detectDeviceType();
-    console.log('📱 Device:', deviceType);
+// =============== INITIALISATION ===============
+function initClarity() {
+    console.log('🌐 Initialisation Clarity...');
     
     // Vérifier immédiatement si cookies refusés
     if (areCookiesRejected()) {
-        console.log('⛔ Cookies refusés - Analytics désactivé');
-        isGALoaded = false;
-        isClarityLoaded = false;
+        console.log('⛔ Cookies refusés - Clarity désactivé');
         return;
     }
     
-    // Attacher événements cookies
-    attachCookieEvents();
-    
     // Vérifier consentement
-    if (shouldLoadGA()) {
-        console.log('✅ Consentement OK, chargement trackers...');
+    if (shouldLoadClarity()) {
+        console.log('✅ Consentement OK, chargement Clarity...');
         setTimeout(() => {
-            initializeGoogleAnalytics(); // Version API
-            initializeClarity(); // Version API (contourne bloqueurs)
+            initializeClarity();
+            // Attacher les événements après chargement
+            setTimeout(attachClarityEvents, 1000);
         }, 300);
     } else {
-        console.log('🔄 En attente consentement...');
-        if (!areCookiesRejected()) {
-            setTimeout(showCookieBanner, 1500);
-        }
+        console.log('🔄 En attente consentement pour Clarity...');
     }
 }
 
-// =============== DEBUG MIS À JOUR ===============
-window.debugGA = {
+// =============== EXPOSER LES FONCTIONS POUR LA BANNIÈRE ===============
+// Surcharger les fonctions de la bannière pour inclure Clarity
+const originalAcceptCookies = window.acceptCookies;
+window.acceptCookies = function() {
+    if (originalAcceptCookies) originalAcceptCookies();
+    setTimeout(() => initClarity(), 200);
+};
+
+const originalSavePreferences = window.saveCookiePreferences;
+window.saveCookiePreferences = function() {
+    if (originalSavePreferences) originalSavePreferences();
+    setTimeout(() => {
+        if (shouldLoadClarity()) initClarity();
+    }, 200);
+};
+
+// =============== DÉMARRAGE ===============
+document.addEventListener('DOMContentLoaded', initClarity);
+
+// =============== DEBUG ===============
+window.debugClarity = {
     check: function() {
-        console.log('🔍 État Analytics:');
+        console.log('🔍 État Clarity:');
         console.log('- Cookies refusés:', areCookiesRejected());
-        console.log('- GA Loaded (API):', isGALoaded);
-        console.log('- Clarity Loaded (API):', isClarityLoaded);
-        console.log('- Page:', getPageTitle());
-        console.log('- Device:', deviceType);
-        console.log('- Client ID:', getClientId());
-        console.log('- Consent:', getCookie('cookieConsent'));
-        console.log('- Analytics cookies:', getCookie('analyticsCookies'));
-        console.log('- Clarity Project:', CLARITY_PROJECT_ID);
+        console.log('- Clarity Loaded:', isClarityLoaded);
+        console.log('- Tentative:', clarityLoadAttempted);
+        console.log('- Clarity disponible:', typeof window.clarity !== 'undefined');
+        console.log('- Consentement:', shouldLoadClarity() ? '✅' : '❌');
+        console.log('- Project ID:', CLARITY_PROJECT_ID);
         
-        // Vérifier si le script est bloqué
+        // Vérifier si le script est dans le DOM
         const scripts = document.getElementsByTagName('script');
-        let clarityBlocked = true;
+        let clarityFound = false;
         for (let script of scripts) {
             if (script.src && script.src.includes('clarity.ms')) {
-                clarityBlocked = false;
+                clarityFound = true;
+                console.log('- Script dans DOM:', '✅', script.src);
                 break;
             }
         }
-        console.log('- Script Clarity visible:', clarityBlocked ? '❌ (bloqué)' : '✅');
-        console.log('- Mode:', '🛡️ Contournement bloqueur ACTIF');
+        if (!clarityFound) console.log('- Script dans DOM:', '❌');
     },
     
     test: function() {
-        console.log('🧪 TEST ENVOI ÉVÉNEMENTS');
-        
         if (areCookiesRejected()) {
             console.log('⛔ Cookies refusés');
             return;
         }
         
-        // Test GA API
-        sendToSecureAPI('debug_test', { test: 'ga_api', time: Date.now() });
-        
-        // Test Clarity API
-        sendToClarityAPI('debug_test', { test: 'clarity_api', time: Date.now() });
-        
-        console.log('✅ Tests envoyés (contournement bloqueur actif)');
+        if (typeof window.clarity !== 'undefined') {
+            trackClarityEvent('debug_test', { test: 'manual', time: Date.now() });
+            console.log('✅ Test envoyé à Clarity');
+        } else {
+            console.log('❌ Clarity non disponible');
+        }
     },
     
     force: function() {
-        console.log('🔄 Force reload (mode API)');
+        if (areCookiesRejected()) {
+            console.log('⛔ Cookies refusés');
+            return;
+        }
         isClarityLoaded = false;
         clarityLoadAttempted = false;
-        isGALoaded = false;
-        setTimeout(() => {
-            initializeGoogleAnalytics();
-            initializeClarity();
-        }, 100);
+        initClarity();
     }
 };
+
+console.log('🔍 Clarity Manager prêt - ID:', CLARITY_PROJECT_ID);
+console.log('💡 Commandes: debugClarity.check(), debugClarity.test(), debugClarity.force()');
