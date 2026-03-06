@@ -1,6 +1,7 @@
 // =============== MICROSOFT CLARITY ===============
 const CLARITY_PROJECT_ID = 'vrmfcq4hei'; // Votre ID Clarity
 let isClarityLoaded = false;
+let clarityLoadAttempted = false;
 
 // =============== INITIALISATION MICROSOFT CLARITY ===============
 function initializeClarity() {
@@ -15,249 +16,219 @@ function initializeClarity() {
         return;
     }
     
-    if (!shouldLoadGA()) { // On utilise la même vérification de consentement
+    if (clarityLoadAttempted) {
+        console.log('⏳ Clarity déjà en cours de chargement...');
+        return;
+    }
+    
+    if (!shouldLoadGA()) {
         console.log('⛔ Pas de consentement - Clarity désactivé');
         return;
     }
     
-    console.log('🚀 Initialisation Microsoft Clarity...');
-    
-    // Script Clarity
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        
-        // Callback de chargement
-        t.onload = function() {
-            console.log('✅ Microsoft Clarity chargé');
-            isClarityLoaded = true;
-            
-            // Configuration supplémentaire si nécessaire
-            if (window.clarity) {
-                // Identifier l'utilisateur de manière cohérente avec GA
-                clarity("set", "userId", getClientId());
-                
-                // Ajouter des métadonnées
-                clarity("set", "deviceType", deviceType);
-                clarity("set", "pageTitle", getPageTitle());
-            }
-        };
-        
-        t.onerror = function() {
-            console.error('❌ Erreur chargement Clarity');
-        };
-        
-    })(window, document, "clarity", "script", CLARITY_PROJECT_ID);
-}
-
-// =============== TRACKING CLARITY ===============
-function trackClarityEvent(eventName, properties = {}) {
-    if (areCookiesRejected() || !window.clarity) return;
+    console.log('🚀 Initialisation Microsoft Clarity (ID: ' + CLARITY_PROJECT_ID + ')...');
+    clarityLoadAttempted = true;
     
     try {
-        clarity("event", eventName, properties);
-        console.log(`📡 [Clarity] Événement: ${eventName}`);
+        // Script Clarity avec timeout et meilleure gestion d'erreur
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+            y=l.getElementsByTagName(r)[0];
+            
+            // Callback de chargement réussi
+            t.onload = function() {
+                console.log('✅✅✅ Microsoft Clarity CHARGÉ AVEC SUCCÈS !');
+                isClarityLoaded = true;
+                
+                // Vérifier que clarity est bien disponible
+                if (typeof window.clarity !== 'undefined' && window.clarity) {
+                    console.log('📊 Clarity prêt à tracker');
+                    
+                    try {
+                        // Configuration supplémentaire
+                        window.clarity("set", "userId", getClientId());
+                        window.clarity("set", "deviceType", deviceType);
+                        window.clarity("set", "pageTitle", getPageTitle());
+                        
+                        // Envoyer un événement de test
+                        window.clarity("event", "clarity_loaded", {
+                            version: '1.0',
+                            timestamp: Date.now()
+                        });
+                        
+                        console.log('📡 Clarity configuré avec succès');
+                    } catch (configError) {
+                        console.warn('⚠️ Erreur config Clarity:', configError);
+                    }
+                } else {
+                    console.warn('⚠️ Clarity chargé mais objet non disponible');
+                }
+            };
+            
+            // Callback d'erreur
+            t.onerror = function(error) {
+                console.error('❌❌❌ ÉCHEC chargement Clarity:', error);
+                console.log('🔍 Causes possibles:');
+                console.log('   - Bloqueur de pub/adblock');
+                console.log('   - Problème réseau');
+                console.log('   - Domaine clarity.ms bloqué');
+                isClarityLoaded = false;
+            };
+            
+            // Ajouter un timeout de sécurité
+            t.timeout = 5000; // 5 secondes max
+            
+            // Ajouter au DOM
+            y.parentNode.insertBefore(t, y);
+            console.log('📦 Script Clarity ajouté au DOM');
+            
+        })(window, document, "clarity", "script", CLARITY_PROJECT_ID);
+        
     } catch (error) {
-        console.warn('⚠️ [Clarity] Erreur tracking:', error);
+        console.error('❌ Erreur critique Clarity:', error);
+        clarityLoadAttempted = false;
     }
 }
 
-// =============== MODIFICATION DE LA FONCTION initAnalytics ===============
-function initAnalytics() {
-    console.log('🌐 Initialisation analytics...');
-    
-    // Détecter device
-    deviceType = detectDeviceType();
-    console.log('📱 Device:', deviceType);
-    
-    // Vérifier immédiatement si cookies refusés
-    if (areCookiesRejected()) {
-        console.log('⛔ Cookies refusés - Analytics désactivé');
-        // Désactiver toutes les fonctions de tracking
-        isGALoaded = false;
-        isClarityLoaded = false;
-        return;
-    }
-    
-    // Attacher événements cookies
-    attachCookieEvents();
-    
-    // Vérifier consentement
-    if (shouldLoadGA()) {
-        console.log('✅ Consentement OK, chargement trackers...');
-        setTimeout(() => {
-            initializeGoogleAnalytics();
-            initializeClarity(); // ✅ AJOUT : Initialiser Clarity
-        }, 300);
-    } else {
-        console.log('🔄 En attente consentement...');
-        // Afficher bannière seulement si pas déjà refusé
-        if (!areCookiesRejected()) {
-            setTimeout(showCookieBanner, 1500);
+// =============== VÉRIFICATION MANUELLE CLARITY ===============
+function checkClarityStatus() {
+    return new Promise((resolve) => {
+        console.log('🔍 Vérification statut Clarity...');
+        
+        // Vérifier si l'objet clarity existe
+        const clarityExists = typeof window.clarity !== 'undefined';
+        console.log('   - Objet clarity:', clarityExists ? '✅' : '❌');
+        
+        // Vérifier si le script est dans le DOM
+        const scripts = document.getElementsByTagName('script');
+        let clarityScriptFound = false;
+        for (let script of scripts) {
+            if (script.src && script.src.includes('clarity.ms')) {
+                clarityScriptFound = true;
+                console.log('   - Script dans DOM:', '✅', script.src);
+                break;
+            }
         }
-    }
-}
-
-// =============== MODIFICATION DES FONCTIONS COOKIES ===============
-function acceptCookies() {
-    setCookie('cookieConsent', 'all', 365);
-    setCookie('analyticsCookies', 'true', 365);
-    setCookie('performanceCookies', 'true', 365);
-    hideCookieBanner();
-    setTimeout(() => {
-        initializeGoogleAnalytics();
-        initializeClarity(); // ✅ AJOUT
-    }, 100);
-}
-
-function saveCookiePreferences() {
-    const analyticsChecked = document.getElementById('analyticsCookies')?.checked;
-    const performanceChecked = document.getElementById('performanceCookies')?.checked;
-    
-    setCookie('cookieConsent', 'custom', 365);
-    setCookie('analyticsCookies', analyticsChecked ? 'true' : 'false', 365);
-    setCookie('performanceCookies', performanceChecked ? 'true' : 'false', 365);
-    
-    if (analyticsChecked) {
-        setTimeout(() => {
-            initializeGoogleAnalytics();
-            initializeClarity(); // ✅ AJOUT
-        }, 100);
-    }
-    
-    hideCookieSettings();
-    hideCookieBanner();
-}
-
-// =============== TRACKING CLICKS AMÉLIORÉ AVEC CLARITY ===============
-function trackClickSecure(element) {
-    // Vérifier si cookies refusés
-    if (areCookiesRejected()) return;
-    
-    const interactiveEl = element.closest('a, button, .btn');
-    if (!interactiveEl) return;
-    
-    const text = interactiveEl.textContent?.trim()?.substring(0, 100) || 
-                 interactiveEl.getAttribute('aria-label') || 
-                 'unknown';
-    
-    // Envoyer à GA
-    sendToSecureAPI('click', {
-        event_category: 'engagement',
-        event_label: text,
-        element_type: interactiveEl.tagName.toLowerCase(),
-        engagement_time_msec: '50'
-    });
-    
-    // ✅ AJOUT : Envoyer à Clarity
-    trackClarityEvent('click', {
-        element_text: text,
-        element_type: interactiveEl.tagName.toLowerCase(),
-        element_id: interactiveEl.id || null,
-        element_class: interactiveEl.className || null,
-        page_title: getPageTitle()
+        if (!clarityScriptFound) {
+            console.log('   - Script dans DOM:', '❌');
+        }
+        
+        // Vérifier les bloqueurs
+        fetch('https://www.clarity.ms/tag/' + CLARITY_PROJECT_ID, { 
+            method: 'HEAD',
+            mode: 'no-cors'
+        }).then(() => {
+            console.log('   - Accès au domaine:', '✅');
+        }).catch(() => {
+            console.log('   - Accès au domaine:', '❌ (bloqué)');
+        });
+        
+        resolve({
+            loaded: isClarityLoaded,
+            exists: clarityExists,
+            scriptInDOM: clarityScriptFound,
+            projectId: CLARITY_PROJECT_ID
+        });
     });
 }
 
-function trackFormSubmitSecure(form) {
-    if (areCookiesRejected()) return;
-    
-    // Envoyer à GA
-    sendToSecureAPI('form_submit', {
-        event_category: 'form',
-        event_label: form.id || 'form_submit',
-        form_id: form.id || 'unknown',
-        engagement_time_msec: '100'
-    });
-    
-    // ✅ AJOUT : Envoyer à Clarity
-    trackClarityEvent('form_submit', {
-        form_id: form.id || 'unknown',
-        form_name: form.name || null,
-        form_action: form.action || null,
-        page_title: getPageTitle()
-    });
-}
-
-// =============== TRACKING SCROLL (NOUVEAU) ===============
-let scrollTracked = false;
-function trackScrollDepth() {
-    if (areCookiesRejected() || scrollTracked || !window.clarity) return;
-    
-    const scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
-    
-    if (scrollPercent >= 25 && scrollPercent < 50) {
-        trackClarityEvent('scroll_25', { page_title: getPageTitle() });
-        scrollTracked = true; // Pour éviter les doublons
-    } else if (scrollPercent >= 50 && scrollPercent < 75) {
-        trackClarityEvent('scroll_50', { page_title: getPageTitle() });
-    } else if (scrollPercent >= 75 && scrollPercent < 90) {
-        trackClarityEvent('scroll_75', { page_title: getPageTitle() });
-    } else if (scrollPercent >= 90) {
-        trackClarityEvent('scroll_90', { page_title: getPageTitle() });
-    }
-}
-
-// Ajouter l'écouteur de scroll
-window.addEventListener('scroll', () => {
-    if (!areCookiesRejected() && window.clarity) {
-        requestAnimationFrame(trackScrollDepth);
-    }
-}, { passive: true });
-
-// =============== DEBUG MIS À JOUR ===============
+// =============== DEBUG AMÉLIORÉ ===============
 window.debugGA = {
     check: function() {
         console.log('🔍 État Analytics:');
+        console.log('===================');
         console.log('- Cookies refusés:', areCookiesRejected());
         console.log('- GA Loaded:', isGALoaded);
         console.log('- Clarity Loaded:', isClarityLoaded);
+        console.log('- Tentative Clarity:', clarityLoadAttempted);
         console.log('- Page:', getPageTitle());
         console.log('- Device:', deviceType);
         console.log('- Client ID:', getClientId());
         console.log('- Consent:', getCookie('cookieConsent'));
         console.log('- Analytics cookies:', getCookie('analyticsCookies'));
         console.log('- Clarity Project:', CLARITY_PROJECT_ID);
+        console.log('===================');
+        
+        // Vérification plus approfondie
+        if (typeof window.clarity !== 'undefined') {
+            console.log('✅ Clarity DISPONIBLE globalement');
+        } else {
+            console.log('❌ Clarity NON DISPONIBLE globalement');
+        }
+        
+        // Liste des scripts chargés
+        console.log('📜 Scripts de tracking:');
+        const scripts = document.getElementsByTagName('script');
+        for (let script of scripts) {
+            if (script.src) {
+                if (script.src.includes('clarity')) {
+                    console.log('   ✅ Clarity:', script.src);
+                } else if (script.src.includes('google-analytics') || script.src.includes('googletagmanager')) {
+                    console.log('   ✅ GA:', script.src);
+                }
+            }
+        }
     },
     
     test: function() {
+        console.log('🧪 TEST ENVOI ÉVÉNEMENTS');
+        console.log('=======================');
+        
         // Vérifier si cookies refusés
         if (areCookiesRejected()) {
             console.log('⛔ Cookies refusés - Test impossible');
             return;
         }
         
-        // Test GA
+        // Test GA via API
         sendToSecureAPI('debug_test', {
             test: 'api_secure',
             timestamp: Date.now()
         }).then(success => {
-            console.log(success ? '✅ Événement test GA envoyé' : '❌ Échec GA');
+            console.log(success ? '✅ GA: Événement envoyé (API)' : '❌ GA: Échec envoi API');
         });
         
         // Test Clarity
-        if (window.clarity) {
-            trackClarityEvent('debug_test', { 
-                test: 'clarity_ok',
-                timestamp: Date.now() 
-            });
-            console.log('✅ Événement test Clarity envoyé');
+        if (typeof window.clarity !== 'undefined' && window.clarity) {
+            try {
+                window.clarity("event", "debug_test", { 
+                    test: 'clarity_ok',
+                    timestamp: Date.now(),
+                    source: 'console_test'
+                });
+                console.log('✅ Clarity: Événement envoyé');
+            } catch (e) {
+                console.log('❌ Clarity: Erreur envoi:', e);
+            }
         } else {
-            console.log('❌ Clarity non disponible');
+            console.log('❌ Clarity: Non disponible');
+            // Tentative de rechargement
+            console.log('🔄 Tentative de rechargement Clarity...');
+            clarityLoadAttempted = false;
+            initializeClarity();
         }
     },
     
     force: function() {
+        console.log('🔄 FORCE RELOAD DES TRACKERS');
+        console.log('==========================');
         if (areCookiesRejected()) {
             console.log('⛔ Impossible de forcer - Cookies refusés');
             return;
         }
-        initializeGoogleAnalytics();
-        initializeClarity();
+        isClarityLoaded = false;
+        clarityLoadAttempted = false;
+        isGALoaded = false;
+        
+        setTimeout(() => {
+            initializeGoogleAnalytics();
+            initializeClarity();
+        }, 100);
     },
     
     reset: function() {
+        console.log('🔄 RÉINITIALISATION COMPLÈTE');
         // Supprimer tous les cookies de consentement
         document.cookie.split(";").forEach(function(c) {
             if (c.includes('cookieConsent') || c.includes('analyticsCookies') || c.includes('performanceCookies')) {
@@ -267,9 +238,58 @@ window.debugGA = {
         });
         cookiesRejected = false;
         isClarityLoaded = false;
-        console.log('🔄 Cookies réinitialisés');
+        clarityLoadAttempted = false;
+        isGALoaded = false;
+        console.log('✅ Cookies réinitialisés');
+        console.log('🔄 Rechargement de la page...');
         location.reload();
+    },
+    
+    status: async function() {
+        console.log('📊 STATUT DÉTAILLÉ');
+        const clarityStatus = await checkClarityStatus();
+        console.log('Clarity:', clarityStatus);
+    },
+    
+    fix: function() {
+        console.log('🔧 TENTATIVE DE CORRECTION');
+        console.log('=========================');
+        
+        // 1. Vérifier les cookies
+        console.log('Étape 1: Vérification cookies...');
+        const consent = getCookie('cookieConsent');
+        console.log('   Consentement:', consent || 'aucun');
+        
+        if (!consent) {
+            console.log('   ⚠️ Pas de consentement, simulation acceptation...');
+            setCookie('cookieConsent', 'all', 365);
+            setCookie('analyticsCookies', 'true', 365);
+        }
+        
+        // 2. Forcer le chargement
+        console.log('Étape 2: Forçage chargement...');
+        isClarityLoaded = false;
+        clarityLoadAttempted = false;
+        isGALoaded = false;
+        
+        setTimeout(() => {
+            initializeGoogleAnalytics();
+            initializeClarity();
+        }, 500);
+        
+        // 3. Vérification après 3 secondes
+        setTimeout(() => {
+            console.log('Étape 3: Vérification après chargement...');
+            window.debugGA.check();
+        }, 3000);
     }
 };
 
-console.log('📊 Analytics Manager prêt (GA + Clarity) - Détection refus cookies activée');
+console.log('📊 Analytics Manager prêt (GA + Clarity)');
+console.log('💡 Commandes debug disponibles:');
+console.log('   debugGA.check()    - Voir état');
+console.log('   debugGA.test()     - Tester envoi');
+console.log('   debugGA.status()   - Statut détaillé');
+console.log('   debugGA.force()    - Forcer rechargement');
+console.log('   debugGA.fix()      - Tentative correction');
+console.log('   debugGA.reset()    - Réinitialiser');
