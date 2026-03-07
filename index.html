@@ -1244,7 +1244,6 @@
         if (path.includes('/nexa/')) return 'NEXA';
         if (path.includes('/Support/')) return 'Support';
         if (path.includes('/legals/')) return 'Légal';
-        if (path.includes('create-account') || path.includes('login')) return 'Compte';
         return 'Autre';
     }
 
@@ -1256,7 +1255,7 @@
     function safeGtag(eventName, eventParams) {
         if (typeof gtag !== 'undefined' && window.dataLayer) {
             gtag('event', eventName, eventParams);
-            console.log('📊 Événement envoyé:', eventName, eventParams);
+            console.log(' Événement envoyé:', eventName, eventParams);
             return true;
         } else {
             console.log('⏳ GA pas encore prêt, événement mis en file d\'attente:', eventName);
@@ -1813,6 +1812,7 @@
 
  </body>
 </html>
+
 
 
 
