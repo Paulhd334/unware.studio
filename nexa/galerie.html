@@ -27,7 +27,7 @@
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <!-- PERF : Google Fonts non-bloquant -->
+    <!-- PERF : Google Fonts non-bloquant avec font-display=swap (réduit CLS polices) -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap"></noscript>
 
@@ -35,7 +35,10 @@
     <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
 
-    <!-- PERF : analytics en defer (ne bloque plus le rendu) -->
+    <!-- PERF : LCP image préchargée directement (fetchpriority=high) -->
+    <link rel="preload" href="../images/nexa_image_website_2.jpg" as="image" fetchpriority="high">
+
+    <!-- PERF : analytics en defer -->
     <script src="../js/analytics.js" defer></script>
     <script src="../js/analytics-clarify.js" defer></script>
 
@@ -105,7 +108,7 @@
             width: 100%; height: 100%;
             background: rgba(0,0,0,0.7);
             z-index: 999; opacity: 0; visibility: hidden;
-            transition: all 0.4s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
             backdrop-filter: blur(5px);
             pointer-events: none;
         }
@@ -121,7 +124,7 @@
         }
         .mobile-close:hover { color: var(--accent); background: rgba(255,255,255,0.1); transform: rotate(90deg); }
         .mobile-nav-links { list-style: none; order: 1; margin-bottom: 20px; flex: 1; overflow-y: auto; }
-        .mobile-nav-links li { margin-bottom: 8px; opacity: 0; transform: translateX(20px); transition: all 0.3s ease; }
+        .mobile-nav-links li { margin-bottom: 8px; opacity: 0; transform: translateX(20px); transition: opacity 0.3s ease, transform 0.3s ease; }
         .mobile-nav.active .mobile-nav-links li { opacity: 1; transform: translateX(0); }
         .mobile-nav.active .mobile-nav-links li:nth-child(1) { transition-delay: 0.1s; }
         .mobile-nav.active .mobile-nav-links li:nth-child(2) { transition-delay: 0.15s; }
@@ -131,15 +134,17 @@
             color: var(--text); text-decoration: none;
             font-size: 18px; font-weight: 500;
             display: block; padding: 14px 16px;
-            border-radius: 8px; transition: all 0.3s ease;
+            border-radius: 8px;
+            /* CLS FIX : transition uniquement sur opacity+transform (composités GPU) */
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        .mobile-nav-links a:hover { color: var(--accent); background: rgba(255,255,255,0.05); padding-left: 20px; }
+        .mobile-nav-links a:hover { opacity: 0.7; transform: translateX(4px); }
         .mobile-nav-actions {
             display: flex; flex-direction: column; gap: 12px;
             order: 2; margin-bottom: 150px; padding-top: 20px;
             border-top: 1px solid var(--border);
             opacity: 0; transform: translateX(20px);
-            transition: all 0.3s ease 0.3s;
+            transition: opacity 0.3s ease 0.3s, transform 0.3s ease 0.3s;
         }
         .mobile-nav.active .mobile-nav-actions { opacity: 1; transform: translateX(0); }
 
@@ -154,7 +159,7 @@
             .nav-actions { height: auto; }
         }
 
-        /* ===== HERO GALERIE ===== */
+        /* ===== HERO ===== */
         .gallery-hero {
             min-height: 60vh;
             display: flex;
@@ -163,7 +168,6 @@
             overflow: hidden;
             padding-top: 80px;
         }
-
         .gallery-hero-bg {
             position: absolute;
             inset: 0;
@@ -173,18 +177,11 @@
             transition: transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94);
         }
         .gallery-hero-bg.loaded { transform: scale(1); }
-
         .gallery-hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(
-                to top,
-                var(--primary) 0%,
-                rgba(0,0,0,0.55) 45%,
-                rgba(0,0,0,0.15) 100%
-            );
+            background: linear-gradient(to top, var(--primary) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.15) 100%);
         }
-
         .gallery-hero-content {
             position: relative;
             z-index: 2;
@@ -193,7 +190,6 @@
             max-width: 1400px;
             margin: 0 auto;
         }
-
         .gallery-hero-label {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 11px;
@@ -204,7 +200,6 @@
             opacity: 0;
             animation: fadeUp 0.7s ease 0.2s forwards;
         }
-
         .gallery-hero-title {
             font-family: 'Bebas Neue', sans-serif;
             font-size: clamp(56px, 9vw, 110px);
@@ -215,7 +210,6 @@
             opacity: 0;
             animation: fadeUp 0.7s ease 0.35s forwards;
         }
-
         .gallery-hero-sub {
             font-size: 14px;
             color: rgba(255,255,255,0.45);
@@ -225,26 +219,23 @@
             opacity: 0;
             animation: fadeUp 0.7s ease 0.5s forwards;
         }
-
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(24px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== GRILLE GALERIE ===== */
+        /* ===== GRILLE ===== */
         .gallery-section {
             padding: 50px 5% 100px;
             max-width: 1400px;
             margin: 0 auto;
         }
-
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             grid-auto-rows: 60px;
             gap: 10px;
         }
-
         .gallery-card {
             position: relative;
             overflow: hidden;
@@ -257,40 +248,21 @@
         }
         .gallery-card.visible { opacity: 1; transform: translateY(0); }
 
-        /* Layout asymétrique */
         .gallery-card:nth-child(1) { grid-column: span 7; grid-row: span 6; transition-delay: 0.05s; }
         .gallery-card:nth-child(2) { grid-column: span 5; grid-row: span 4; transition-delay: 0.12s; }
         .gallery-card:nth-child(3) { grid-column: span 5; grid-row: span 5; transition-delay: 0.18s; }
         .gallery-card:nth-child(4) { grid-column: span 7; grid-row: span 5; transition-delay: 0.24s; }
 
-        /* PERF : images invisibles par défaut, fade-in après chargement */
         .gallery-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+            transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
         }
-        .gallery-card img.loaded { opacity: 1; }
         .gallery-card:hover img { transform: scale(1.07); }
 
-        /* Shimmer sur les cartes en attente */
-        .gallery-card:not(.img-loaded)::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
-            background-size: 200% 100%;
-            animation: shimmer 1.8s infinite;
-            z-index: 0;
-            pointer-events: none;
-        }
-        @keyframes shimmer {
-            0%   { background-position: -200% 0; }
-            100% { background-position:  200% 0; }
-        }
-
-        /* Overlay */
+        /* CLS FIX : overlay en opacity uniquement (composité GPU, pas de reflow) */
         .card-overlay {
             position: absolute;
             inset: 0;
@@ -319,8 +291,6 @@
             color: #fff;
             line-height: 1;
         }
-
-        /* Icône zoom */
         .card-zoom {
             position: absolute;
             top: 14px; right: 14px;
@@ -333,7 +303,7 @@
             color: #fff; font-size: 12px;
             opacity: 0;
             transform: scale(0.5);
-            transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+            transition: opacity 0.35s cubic-bezier(0.34,1.56,0.64,1), transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
         }
         .gallery-card:hover .card-zoom { opacity: 1; transform: scale(1); }
 
@@ -358,7 +328,6 @@
             backdrop-filter: blur(14px);
         }
         .lightbox.active { opacity: 1; pointer-events: all; }
-
         .lightbox-img-wrap {
             position: relative;
             max-width: 92vw;
@@ -371,14 +340,12 @@
             box-shadow: 0 40px 100px rgba(0,0,0,0.9);
         }
         .lightbox.active .lightbox-img-wrap { transform: scale(1); }
-
         .lightbox-img-wrap img {
             display: block;
             max-width: 92vw;
             max-height: 88vh;
             object-fit: contain;
         }
-
         .lightbox-close-btn {
             position: absolute;
             top: 14px; right: 14px;
@@ -389,11 +356,10 @@
             color: #fff; font-size: 16px;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: opacity 0.25s ease, transform 0.25s ease;
             z-index: 2;
         }
-        .lightbox-close-btn:hover { background: rgba(255,255,255,0.15); transform: rotate(90deg); }
-
+        .lightbox-close-btn:hover { opacity: 0.8; transform: rotate(90deg); }
         .lightbox-caption {
             position: absolute;
             bottom: 0; left: 0; right: 0;
@@ -404,17 +370,11 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 900px) {
-            .gallery-grid {
-                grid-template-columns: 1fr 1fr;
-                grid-auto-rows: 220px;
-            }
+            .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 220px; }
             .gallery-card:nth-child(1),
             .gallery-card:nth-child(2),
             .gallery-card:nth-child(3),
-            .gallery-card:nth-child(4) {
-                grid-column: span 1;
-                grid-row: span 1;
-            }
+            .gallery-card:nth-child(4) { grid-column: span 1; grid-row: span 1; }
             .gallery-card:nth-child(1) { grid-column: span 2; }
         }
         @media (max-width: 540px) {
@@ -439,13 +399,13 @@
         .footer-logo-text { font-family: 'Bebas Neue', sans-serif; font-weight: 700; font-size: 24px; color: var(--accent); letter-spacing: 1.5px; }
         .footer-desc { color: var(--text-secondary); margin-bottom: 24px; font-weight: 400; line-height: 1.6; }
         .social-links { display: flex; gap: 12px; }
-        .social-link { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--card-bg); border-radius: 4px; color: var(--text); transition: var(--transition); border: 1px solid var(--border); text-decoration: none; }
-        .social-link:hover { background: var(--accent); color: var(--primary); }
+        .social-link { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--card-bg); border-radius: 4px; color: var(--text); transition: opacity 0.3s ease, transform 0.3s ease; border: 1px solid var(--border); text-decoration: none; }
+        .social-link:hover { opacity: 0.75; transform: scale(1.05); }
         .footer-column h3 { font-size: 18px; margin-bottom: 20px; color: var(--accent); font-weight: 600; }
         .footer-links { list-style: none; }
         .footer-links li { margin-bottom: 12px; }
-        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: var(--transition); font-weight: 400; font-size: 14px; }
-        .footer-links a:hover { color: var(--accent); }
+        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: opacity 0.3s ease; font-weight: 400; font-size: 14px; }
+        .footer-links a:hover { opacity: 0.6; }
         .copyright { text-align: center; padding-top: 40px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 14px; font-weight: 400; }
         .studio-credit { color: var(--accent); font-weight: 600; }
     </style>
@@ -465,7 +425,7 @@
         </div>
     </div>
 
-    <!-- Header -->
+    <!-- Header — identique à l'original -->
     <header>
         <div class="container nav-container">
             <div class="logo">
@@ -514,15 +474,16 @@
     <section class="gallery-section">
         <div class="gallery-grid">
 
-            <!-- PERF : data-src = les images ne se téléchargent qu'au scroll, pas au LCP -->
+            <!-- LCP FIX : image 1 chargée directement avec fetchpriority=high (préchargée dans <head>) -->
             <div class="gallery-card"
                  data-src="../images/nexa_image_website_2.jpg"
                  data-tag="Environnement"
                  data-title="Couloir 13">
-                <img data-src="../images/nexa_image_website_2.jpg"
-                     src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                <img src="../images/nexa_image_website_2.jpg"
                      alt="Couloir rouge 13 — NEXA"
-                     width="800" height="533">
+                     width="800" height="533"
+                     fetchpriority="high"
+                     loading="eager">
                 <div class="card-overlay">
                     <div class="card-tag">Environnement</div>
                     <div class="card-title">Couloir 13</div>
@@ -530,14 +491,15 @@
                 <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
             </div>
 
+            <!-- Images suivantes en lazy (hors écran au chargement) -->
             <div class="gallery-card"
                  data-src="../images/nexa_image_website_3.jpg"
                  data-tag="Atmosphère"
                  data-title="Vue couloir">
-                <img data-src="../images/nexa_image_website_3.jpg"
-                     src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                <img src="../images/nexa_image_website_3.jpg"
                      alt="Hublot rouge — NEXA"
-                     width="800" height="533">
+                     width="800" height="533"
+                     loading="lazy">
                 <div class="card-overlay">
                     <div class="card-tag">Atmosphère</div>
                     <div class="card-title">Vue couloir</div>
@@ -549,10 +511,10 @@
                  data-src="../images/nexa_image_website_1.jpg"
                  data-tag="Level Design"
                  data-title="La Trappe">
-                <img data-src="../images/nexa_image_website_1.jpg"
-                     src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                <img src="../images/nexa_image_website_1.jpg"
                      alt="Trappe lumineuse — NEXA"
-                     width="800" height="533">
+                     width="800" height="533"
+                     loading="lazy">
                 <div class="card-overlay">
                     <div class="card-tag">Level Design</div>
                     <div class="card-title">La Trappe</div>
@@ -564,10 +526,10 @@
                  data-src="../images/game_dev_image_game_design.jpg"
                  data-tag="Développement"
                  data-title="Level NEXA-1 UE5">
-                <img data-src="../images/game_dev_image_game_design.jpg"
-                     src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+                <img src="../images/game_dev_image_game_design.jpg"
                      alt="Éditeur Unreal Engine 5 — NEXA"
-                     width="800" height="420">
+                     width="800" height="420"
+                     loading="lazy">
                 <div class="card-overlay">
                     <div class="card-tag">Développement</div>
                     <div class="card-title">Level NEXA-1 </div>
@@ -585,11 +547,12 @@
                 <div class="footer-brand">
                     <div class="footer-logo"><div class="footer-logo-text">NEXA</div></div>
                     <p class="footer-desc">Un jeu développé par UNWARE STUDIO utilisant la puissance d'Unreal Engine 5 pour créer une expérience de jeu révolutionnaire.</p>
+                    <!-- ACCESSIBILITÉ FIX : aria-label sur chaque lien social -->
                     <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link" aria-label="Twitter NEXA"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" class="social-link" aria-label="Discord NEXA"><i class="fab fa-discord" aria-hidden="true"></i></a>
+                        <a href="#" class="social-link" aria-label="YouTube NEXA"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+                        <a href="#" class="social-link" aria-label="Instagram NEXA"><i class="fab fa-instagram" aria-hidden="true"></i></a>
                     </div>
                 </div>
                 <div class="footer-column">
@@ -648,30 +611,6 @@
         window.addEventListener('load', () => {
             document.getElementById('heroBg').classList.add('loaded');
         });
-
-        // ===== CHARGEMENT DIFFÉRÉ DES IMAGES =====
-        // Les images ne se téléchargent que quand la carte approche du viewport (300px avant).
-        // Résultat : le LCP est mesuré sur le H1 (texte instantané) et non sur une image lourde.
-        const imgObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                const card = entry.target;
-                const img  = card.querySelector('img[data-src]');
-                if (!img) return;
-                const src = img.dataset.src;
-                const tmp = new Image();
-                tmp.onload = () => {
-                    img.src = src;
-                    img.classList.add('loaded');
-                    card.classList.add('img-loaded');
-                };
-                tmp.onerror = () => { img.src = src; };
-                tmp.src = src;
-                imgObserver.unobserve(card);
-            });
-        }, { rootMargin: '300px 0px', threshold: 0 });
-
-        document.querySelectorAll('.gallery-card').forEach(c => imgObserver.observe(c));
 
         // ===== SCROLL REVEAL =====
         const revealObs = new IntersectionObserver((entries) => {
