@@ -24,32 +24,25 @@
 
 <!-- Favicon ICO (racine) -->
 <link rel="icon" href="favicon.ico" sizes="any">
-
-<!-- SVG original -->
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-
-<!-- PNG standards (nouveaux chemins) -->
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
-
-<!-- Pour iOS/Safari (nouveaux chemins) -->
 <link rel="apple-touch-icon" href="images/favicons/apple-touch-icon.png">
 <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-touch-icon-152x152.png">
 <link rel="apple-touch-icon" sizes="167x167" href="images/favicons/apple-touch-icon-167x167.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-touch-icon-180x180.png">
 <link rel="apple-touch-icon" sizes="120x120" href="images/favicons/apple-touch-icon-120x120.png">
-
-<!-- Web App Manifest -->
 <link rel="manifest" href="/site.webmanifest">
 
-<!-- ===== PRÉCHARGEMENTS ===== -->
-<!-- Préloads de l'image LCP -->
-<link rel="preload" as="image" href="https://res.cloudinary.com/dud1jhsyk/image/upload/w_800,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp" imagesrcset="https://res.cloudinary.com/dud1jhsyk/image/upload/w_400,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp 400w,https://res.cloudinary.com/dud1jhsyk/image/upload/w_650,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp 650w,https://res.cloudinary.com/dud1jhsyk/image/upload/w_800,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp 800w" imagesizes="(max-width: 768px) 400px, (max-width: 1200px) 650px, 800px" fetchpriority="high">
-
-<!-- Préloads image UNWARE STUDIO -->
+<!-- Préloads LCP -->
+<link rel="preload" as="image"
+  href="https://res.cloudinary.com/dud1jhsyk/image/upload/w_800,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp"
+  imagesrcset="https://res.cloudinary.com/dud1jhsyk/image/upload/w_400,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp 400w,https://res.cloudinary.com/dud1jhsyk/image/upload/w_650,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp 650w,https://res.cloudinary.com/dud1jhsyk/image/upload/w_800,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp 800w"
+  imagesizes="(max-width: 768px) 400px, (max-width: 1200px) 650px, 800px"
+  fetchpriority="high">
 <link rel="preload" as="image" href="./images/unware-studio-logo.png" fetchpriority="high">
 
-<!-- Structured Data pour la page d'accueil -->
+<!-- Structured Data -->
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -64,45 +57,34 @@
     }
 }
 </script>
-    
-
-    
 </head>
-<!-- CSS principal - Inline pour éviter le blocage -->
+
+<body>
+
+<!-- CSS principal inline -->
 <style>
     :root {
-            --primary: #0a0a0a;
-            --secondary: #111111;
-            --accent: #ffffff;
-            --accent-glow: #ffffff;
-            --text: #e0e0e0;
-            --text-secondary: #888888;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
-            --transition: all 0.3s ease;
-            --section-padding: 100px 0;
-        }
+        --primary: #0a0a0a;
+        --secondary: #111111;
+        --accent: #ffffff;
+        --accent-glow: #ffffff;
+        --text: #e0e0e0;
+        --text-secondary: #888888;
+        --card-bg: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.08);
+        --transition: all 0.3s ease;
+        --section-padding: 100px 0;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--primary);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        background-color: var(--primary);
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
 
     .btn {
         padding: 12px 24px;
@@ -123,11 +105,7 @@
         border: 1px solid var(--border);
         height: 42px;
     }
-
-    .btn-login:hover {
-        background: rgba(255, 255, 255, 0.05);
-        transform: translateY(-2px);
-    }
+    .btn-login:hover { background: rgba(255,255,255,0.05); transform: translateY(-2px); }
 
     .btn-primary {
         background: var(--accent);
@@ -135,13 +113,8 @@
         border: none;
         height: 42px;
     }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Hero Section */
     .hero {
         padding: 180px 0 100px;
         min-height: 100vh;
@@ -150,68 +123,16 @@
         position: relative;
         overflow: hidden;
     }
+    .hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .hero-subtitle { font-size: 1.2rem; margin-bottom: 40px; color: var(--text-secondary); max-width: 500px; }
+    .hero-actions { display: flex; gap: 15px; }
+    .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
+    .hero-image { width: 100%; max-width: 800px; height: auto; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); transition: var(--transition); }
 
-    .hero-content {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 60px;
-        align-items: center;
-    }
-
-
-    .hero-subtitle {
-        font-size: 1.2rem;
-        margin-bottom: 40px;
-        color: var(--text-secondary);
-        max-width: 500px;
-    }
-
-    .hero-actions {
-        display: flex;
-        gap: 15px;
-    }
-
-    .hero-visual {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .hero-image {
-        width: 100%;
-        max-width: 800px;
-        height: auto;
-        border-radius: 12px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        transition: var(--transition);
-    }
-
-    /* CTA Section */
-    .cta {
-        padding: 100px 0;
-        background: var(--secondary);
-        text-align: center;
-    }
-
-    .cta-content {
-        max-width: 700px;
-        margin: 0 auto;
-    }
-
-    .cta-title {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-        color: var(--accent);
-    }
-
-    .cta-desc {
-        font-size: 1.1rem;
-        margin-bottom: 30px;
-        color: var(--text-secondary);
-    }
-
-   
+    .cta { padding: 100px 0; background: var(--secondary); text-align: center; }
+    .cta-content { max-width: 700px; margin: 0 auto; }
+    .cta-title { font-size: 2.5rem; margin-bottom: 20px; color: var(--accent); }
+    .cta-desc { font-size: 1.1rem; margin-bottom: 30px; color: var(--text-secondary); }
 
     /* === MENU MOBILE === */
     .mobile-menu {
@@ -223,7 +144,7 @@
         transition: var(--transition);
         padding: 8px;
         border-radius: 4px;
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255,255,255,0.05);
         height: 42px;
         width: 42px;
         align-items: center;
@@ -231,726 +152,244 @@
         border: none;
         outline: none;
     }
+    .mobile-menu:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
 
-    .mobile-menu:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: scale(1.05);
-    }
-
-    body.no-scroll {
-        overflow: hidden;
-    }
+    body.no-scroll { overflow: hidden; }
 
     .mobile-nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 320px;
-        height: 100vh;
-        background: var(--primary);
-        z-index: 1000;
+        position: fixed; top: 0; right: -100%; width: 320px; height: 100vh;
+        background: var(--primary); z-index: 1000;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         border-left: 1px solid var(--border);
-        display: flex;
-        flex-direction: column;
+        display: flex; flex-direction: column;
         padding: 80px 25px 25px;
         overflow-y: auto;
-        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+        box-shadow: -5px 0 30px rgba(0,0,0,0.3);
         box-sizing: border-box;
     }
-
-    .mobile-nav.active {
-        right: 0;
-        transform: translateZ(0);
-    }
+    .mobile-nav.active { right: 0; transform: translateZ(0); }
 
     .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 999;
-        opacity: 0;
-        visibility: hidden;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.7); z-index: 999;
+        opacity: 0; visibility: hidden;
         transition: all 0.4s ease;
         backdrop-filter: blur(5px);
         pointer-events: none;
     }
-
-    .overlay.active {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: all;
-    }
+    .overlay.active { opacity: 1; visibility: visible; pointer-events: all; }
 
     .mobile-close {
-        position: absolute;
-        top: 25px;
-        right: 25px;
-        font-size: 22px;
-        cursor: pointer;
-        color: var(--text);
+        position: absolute; top: 25px; right: 25px;
+        font-size: 22px; cursor: pointer; color: var(--text);
         transition: var(--transition);
-        padding: 8px;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.05);
-        z-index: 1001;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        outline: none;
+        padding: 8px; border-radius: 4px;
+        background: rgba(255,255,255,0.05); z-index: 1001;
+        width: 40px; height: 40px;
+        display: flex; align-items: center; justify-content: center;
+        border: none; outline: none;
     }
+    .mobile-close:hover { color: var(--accent); background: rgba(255,255,255,0.1); transform: rotate(90deg); }
 
-    .mobile-close:hover {
-        color: var(--accent);
-        background: rgba(255, 255, 255, 0.1);
-        transform: rotate(90deg);
-    }
-
-    .mobile-nav-links {
-        list-style: none;
-        order: 1;
-        margin-bottom: 20px;
-        flex: 1;
-        overflow-y: auto;
-    }
-
-    .mobile-nav-links li {
-        margin-bottom: 8px;
-    }
-
+    .mobile-nav-links { list-style: none; order: 1; margin-bottom: 20px; flex: 1; overflow-y: auto; }
+    .mobile-nav-links li { margin-bottom: 8px; }
     .mobile-nav-links a {
-        color: var(--text);
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: 500;
-        display: block;
-        padding: 14px 16px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
+        color: var(--text); text-decoration: none; font-size: 18px; font-weight: 500;
+        display: block; padding: 14px 16px; border-radius: 8px;
+        transition: all 0.3s ease; position: relative; overflow: hidden;
     }
-
     .mobile-nav-links a:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 4px;
-        background: var(--accent);
-        transform: scaleY(0);
-        transition: transform 0.3s ease;
+        content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px;
+        background: var(--accent); transform: scaleY(0); transition: transform 0.3s ease;
     }
-
-    .mobile-nav-links a:hover {
-        color: var(--accent);
-        background: rgba(255, 255, 255, 0.05);
-        padding-left: 20px;
-    }
-
-    .mobile-nav-links a:hover:before {
-        transform: scaleY(1);
-    }
+    .mobile-nav-links a:hover { color: var(--accent); background: rgba(255,255,255,0.05); padding-left: 20px; }
+    .mobile-nav-links a:hover:before { transform: scaleY(1); }
 
     .mobile-nav-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        order: 2;
-        margin-bottom: 150px;
-        padding-top: 20px;
+        display: flex; flex-direction: column; gap: 12px; order: 2;
+        margin-bottom: 150px; padding-top: 20px;
         border-top: 1px solid var(--border);
-        position: relative;
-        top: 0;
+        position: relative; top: 0;
     }
+    .mobile-nav-actions .btn { text-align: center; width: 100%; padding: 14px 20px; border-radius: 8px; font-weight: 600; height: auto; }
 
-    .mobile-nav-actions .btn {
-        text-align: center;
-        width: 100%;
-        padding: 14px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        height: auto;
-    }
-
-    /* === COOKIES - NOIR AVEC SLIDES === */
+    /* === COOKIES === */
     #custom-cookie-banner {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        max-width: 420px;
-        background: #000000;
-        color: #ffffff;
-        padding: 28px;
-        border-radius: 16px;
-        z-index: 10000;
-        display: none;
-        font-family: 'Inter', sans-serif;
+        position: fixed; bottom: 30px; right: 30px; max-width: 420px;
+        background: #000000; color: #ffffff;
+        padding: 28px; border-radius: 16px; z-index: 10000;
+        display: none; font-family: 'Inter', sans-serif;
         border: 1px solid #333333;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        animation: cookieSlideIn 0.5s ease;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
-
-    #custom-cookie-banner.show {
-        display: block;
-    }
+    #custom-cookie-banner.show { display: block; animation: cookieSlideIn 0.5s ease; }
 
     @keyframes cookieSlideIn {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        from { opacity: 0; transform: translateY(30px); }
+        to   { opacity: 1; transform: translateY(0); }
     }
 
-    .cookie-banner-content {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .cookie-text h3 {
-        margin: 0 0 12px 0;
-        font-size: 18px;
-        font-weight: 600;
-        color: #ffffff;
-    }
-
-    .cookie-text p {
-        margin: 0;
-        font-size: 14px;
-        color: #cccccc;
-        line-height: 1.5;
-    }
-
-    .cookie-actions {
-        display: flex;
-        gap: 10px;
-        justify-content: flex-end;
-    }
+    .cookie-banner-content { display: flex; flex-direction: column; gap: 20px; }
+    .cookie-text h3 { margin: 0 0 12px 0; font-size: 18px; font-weight: 600; color: #ffffff; }
+    .cookie-text p { margin: 0; font-size: 14px; color: #cccccc; line-height: 1.5; }
+    .cookie-actions { display: flex; gap: 10px; justify-content: flex-end; }
 
     .cookie-btn {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 8px;
-        background: transparent;
-        color: #ffffff;
-        font-size: 13px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        min-width: 90px;
-        border: 1px solid #444444;
+        padding: 10px 20px; border: 1px solid #444444; border-radius: 8px;
+        background: transparent; color: #ffffff; font-size: 13px; font-weight: 500;
+        cursor: pointer; transition: all 0.3s ease; min-width: 90px;
     }
-
-    .cookie-btn:hover {
-        transform: translateY(-1px);
-    }
-
-    .cookie-btn.reject {
-        background: rgba(255, 255, 255, 0.05);
-    }
-
-    .cookie-btn.reject:hover {
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    .cookie-btn.settings {
-        background: rgba(255, 255, 255, 0.08);
-    }
-
-    .cookie-btn.settings:hover {
-        background: rgba(255, 255, 255, 0.15);
-    }
-
-    .cookie-btn.accept {
-        background: #ffffff;
-        color: #000000;
-        font-weight: 600;
-    }
-
-    .cookie-btn.accept:hover {
-        background: #e0e0e0;
-    }
+    .cookie-btn:hover { transform: translateY(-1px); }
+    .cookie-btn.reject { background: rgba(255,255,255,0.05); }
+    .cookie-btn.reject:hover { background: rgba(255,255,255,0.1); }
+    .cookie-btn.settings { background: rgba(255,255,255,0.08); }
+    .cookie-btn.settings:hover { background: rgba(255,255,255,0.15); }
+    .cookie-btn.accept { background: #ffffff; color: #000000; font-weight: 600; }
+    .cookie-btn.accept:hover { background: #e0e0e0; }
 
     /* Modal cookies */
     .cookie-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        z-index: 10001;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8); z-index: 10001;
+        display: none; align-items: center; justify-content: center; padding: 20px;
     }
-
-    .cookie-modal.show {
-        display: flex;
-    }
+    .cookie-modal.show { display: flex; }
 
     .modal-content {
-        background: #000000;
-        padding: 30px;
-        border-radius: 16px;
-        max-width: 500px;
-        width: 100%;
-        max-height: 80vh;
-        overflow-y: auto;
-        border: 1px solid #333333;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
-        color: #ffffff;
+        background: #000000; padding: 30px; border-radius: 16px;
+        max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto;
+        border: 1px solid #333333; box-shadow: 0 25px 50px rgba(0,0,0,0.6); color: #ffffff;
     }
-
     .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #333333;
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #333333;
     }
-
-    .modal-header h3 {
-        margin: 0;
-        font-size: 18px;
-        font-weight: 600;
-        color: #ffffff;
-    }
+    .modal-header h3 { margin: 0; font-size: 18px; font-weight: 600; color: #ffffff; }
 
     .close-modal {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid #444444;
-        color: #ffffff;
-        font-size: 18px;
-        cursor: pointer;
-        padding: 6px;
-        border-radius: 6px;
-        width: 32px;
-        height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        background: rgba(255,255,255,0.1); border: 1px solid #444444;
+        color: #ffffff; font-size: 18px; cursor: pointer;
+        padding: 6px; border-radius: 6px;
+        width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
         transition: all 0.3s ease;
     }
+    .close-modal:hover { background: rgba(255,255,255,0.2); transform: rotate(90deg); }
 
-    .close-modal:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: rotate(90deg);
-    }
-
-    .cookie-options {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        margin-bottom: 20px;
-    }
-
+    .cookie-options { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
     .cookie-option {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-        border: 1px solid #333333;
-        transition: all 0.3s ease;
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 20px; background: rgba(255,255,255,0.05);
+        border-radius: 12px; border: 1px solid #333333; transition: all 0.3s ease;
     }
+    .cookie-option:hover { background: rgba(255,255,255,0.08); border-color: #444444; }
+    .cookie-option-info { flex: 1; margin-right: 20px; }
+    .cookie-option-title { display: block; color: #ffffff; font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+    .cookie-option-description { font-size: 13px; color: #999999; line-height: 1.4; }
 
-    .cookie-option:hover {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: #444444;
-    }
-
-    .cookie-option-info {
-        flex: 1;
-        margin-right: 20px;
-    }
-
-    .cookie-option-title {
-        display: block;
-        color: #ffffff;
-        font-weight: 600;
-        font-size: 15px;
-        margin-bottom: 6px;
-    }
-
-    .cookie-option-description {
-        font-size: 13px;
-        color: #999999;
-        line-height: 1.4;
-    }
-
-    /* Slides stylés */
-    .cookie-slide-container {
-        position: relative;
-        display: inline-block;
-        width: 54px;
-        height: 28px;
-        flex-shrink: 0;
-    }
-
-    .cookie-slide {
-        opacity: 0;
-        width: 0;
-        height: 0;
-        position: absolute;
-    }
-
+    /* Toggles */
+    .cookie-slide-container { position: relative; display: inline-block; width: 54px; height: 28px; flex-shrink: 0; }
+    .cookie-slide { opacity: 0; width: 0; height: 0; position: absolute; }
     .cookie-slide-label {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 100%;
-        background: #333333;
-        border-radius: 20px;
-        cursor: pointer;
+        position: relative; display: block; width: 100%; height: 100%;
+        background: #333333; border-radius: 20px; cursor: pointer;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         border: 2px solid transparent;
     }
-
     .cookie-slide-label:before {
-        content: '';
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 20px;
-        height: 20px;
-        background: #666666;
-        border-radius: 50%;
+        content: ''; position: absolute; top: 2px; left: 2px;
+        width: 20px; height: 20px; background: #666666; border-radius: 50%;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
     }
-
-    .cookie-slide:checked + .cookie-slide-label {
-        background: #ffffff;
-        border-color: #ffffff;
-    }
-
-    .cookie-slide:checked + .cookie-slide-label:before {
-        transform: translateX(26px);
-        background: #000000;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-    }
-
-    .cookie-slide-label:hover:before {
-        transform: scale(1.1);
-    }
-
-    .cookie-slide:checked + .cookie-slide-label:hover:before {
-        transform: translateX(26px) scale(1.1);
-    }
-
-    .cookie-slide:disabled + .cookie-slide-label {
-        opacity: 0.4;
-        cursor: not-allowed;
-    }
-
-    .cookie-slide:disabled + .cookie-slide-label:hover:before {
-        transform: none;
-    }
+    .cookie-slide:checked + .cookie-slide-label { background: #ffffff; border-color: #ffffff; }
+    .cookie-slide:checked + .cookie-slide-label:before { transform: translateX(26px); background: #000000; }
+    .cookie-slide-label:hover:before { transform: scale(1.1); }
+    .cookie-slide:checked + .cookie-slide-label:hover:before { transform: translateX(26px) scale(1.1); }
+    .cookie-slide:disabled + .cookie-slide-label { opacity: 0.4; cursor: not-allowed; }
+    .cookie-slide:disabled + .cookie-slide-label:hover:before { transform: none; }
 
     .modal-actions {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-        margin-top: 25px;
-        padding-top: 20px;
-        border-top: 1px solid #333333;
+        display: flex; gap: 12px; justify-content: flex-end;
+        margin-top: 25px; padding-top: 20px; border-top: 1px solid #333333;
     }
-
     .modal-btn {
-        padding: 12px 24px;
-        border: none;
-        border-radius: 10px;
-        background: transparent;
-        color: #ffffff;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        min-width: 100px;
-        border: 1px solid #444444;
+        padding: 12px 24px; border: 1px solid #444444; border-radius: 10px;
+        background: transparent; color: #ffffff; font-size: 14px; font-weight: 500;
+        cursor: pointer; transition: all 0.3s ease; min-width: 100px;
     }
-
-    .modal-btn.save {
-        background: #ffffff;
-        color: #000000;
-        font-weight: 600;
-        border-color: #ffffff;
-    }
-
-    .modal-btn.save:hover {
-        background: #e0e0e0;
-        transform: translateY(-1px);
-    }
-
-    .modal-btn.cancel {
-        background: rgba(255, 255, 255, 0.05);
-    }
-
-    .modal-btn.cancel:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-1px);
-    }
+    .modal-btn.save { background: #ffffff; color: #000000; font-weight: 600; border-color: #ffffff; }
+    .modal-btn.save:hover { background: #e0e0e0; transform: translateY(-1px); }
+    .modal-btn.cancel { background: rgba(255,255,255,0.05); }
+    .modal-btn.cancel:hover { background: rgba(255,255,255,0.1); transform: translateY(-1px); }
 
     /* === RESPONSIVE === */
     @media (max-width: 1024px) {
-        .hero-content {
-            grid-template-columns: 1fr;
-            gap: 40px;
-            text-align: center;
-        }
-        
-        .hero-subtitle {
-            margin: 0 auto 40px;
-        }
-        
-        .hero-actions {
-            justify-content: center;
-        }
-        
-        .footer-content {
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
+        .hero-content { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+        .hero-subtitle { margin: 0 auto 40px; }
+        .hero-actions { justify-content: center; }
+        .footer-content { grid-template-columns: 1fr 1fr; gap: 30px; }
     }
 
     @media (max-width: 768px) {
-        /* Navigation */
-        .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary {
-            display: none;
-        }
-        
-        .mobile-menu {
-            display: flex;
-        }
-        
-    .studio-logo {
-        display: none !important;
-        visibility: hidden !important;
-        position: absolute !important;
-        width: 0 !important;
-        height: 0 !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-    }
-        
-        .hero-title {
-            font-size: 3.5rem;
-        }
-        
-        .hero-actions {
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .footer-content {
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-        
-        /* Bannière cookies mobile */
+        .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
+        .mobile-menu { display: flex; }
+        .studio-logo { display: none !important; visibility: hidden !important; position: absolute !important; width: 0 !important; height: 0 !important; opacity: 0 !important; pointer-events: none !important; }
+        .hero-title { font-size: 3.5rem; }
+        .hero-actions { flex-direction: column; align-items: center; }
+        .footer-content { grid-template-columns: 1fr; gap: 30px; }
+
         #custom-cookie-banner {
-            bottom: 0;
-            right: 0;
-            left: 0;
-            max-width: none;
-            border-radius: 16px 16px 0 0;
-            padding: 24px 20px;
-            margin: 0;
+            bottom: 0; right: 0; left: 0; max-width: none;
+            border-radius: 16px 16px 0 0; padding: 24px 20px; margin: 0;
             animation: cookieSlideUp 0.5s ease;
         }
-
         @keyframes cookieSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(100%); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-
-        .cookie-banner-content {
-            gap: 16px;
-        }
-
-        .cookie-text h3 {
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        .cookie-text p {
-            font-size: 13px;
-        }
-
-        .cookie-actions {
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .cookie-btn {
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 14px;
-            min-width: auto;
-        }
-
-        /* Modal cookies mobile */
-        .cookie-modal {
-            padding: 10px;
-            align-items: flex-end;
-        }
-
-        .modal-content {
-            max-width: none;
-            border-radius: 16px 16px 0 0;
-            padding: 24px 20px;
-            max-height: 85vh;
-        }
-
-        .modal-header {
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-        }
-
-        .modal-header h3 {
-            font-size: 16px;
-        }
-
-        .cookie-option {
-            padding: 16px;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
-        .cookie-option-info {
-            margin-right: 0;
-        }
-
-        .cookie-option-title {
-            font-size: 14px;
-        }
-
-        .cookie-option-description {
-            font-size: 12px;
-        }
-
-        .cookie-slide-container {
-            align-self: flex-end;
-        }
-
-        .modal-actions {
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 20px;
-            padding-top: 16px;
-        }
-
-        .modal-btn {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 14px;
-            min-width: auto;
-        }
+        .cookie-banner-content { gap: 16px; }
+        .cookie-text h3 { font-size: 16px; margin-bottom: 8px; }
+        .cookie-text p { font-size: 13px; }
+        .cookie-actions { flex-direction: column; gap: 8px; }
+        .cookie-btn { width: 100%; padding: 12px 16px; font-size: 14px; min-width: auto; }
+        .cookie-modal { padding: 10px; align-items: flex-end; }
+        .modal-content { max-width: none; border-radius: 16px 16px 0 0; padding: 24px 20px; max-height: 85vh; }
+        .cookie-option { padding: 16px; flex-direction: column; align-items: flex-start; gap: 12px; }
+        .cookie-option-info { margin-right: 0; }
+        .cookie-option-title { font-size: 14px; }
+        .cookie-option-description { font-size: 12px; }
+        .cookie-slide-container { align-self: flex-end; }
+        .modal-actions { flex-direction: column; gap: 10px; margin-top: 20px; padding-top: 16px; }
+        .modal-btn { width: 100%; padding: 14px 16px; font-size: 14px; min-width: auto; }
     }
 
     @media (max-width: 480px) {
-        .hero-title {
-            font-size: 2.8rem;
-        }
-        
-        #custom-cookie-banner {
-            padding: 20px 16px;
-        }
-
-        .modal-content {
-            padding: 20px 16px;
-        }
-
-        .cookie-option {
-            padding: 14px;
-        }
+        .hero-title { font-size: 2.8rem; }
+        #custom-cookie-banner { padding: 20px 16px; }
+        .modal-content { padding: 20px 16px; }
+        .cookie-option { padding: 14px; }
     }
 
     @media (max-height: 600px) {
-        .mobile-nav {
-            padding: 70px 20px 20px;
-        }
-        
-        .mobile-close {
-            top: 20px;
-            right: 20px;
-        }
-        
-        .mobile-nav-actions {
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .mobile-nav-actions .btn {
-            padding: 12px 15px;
-        }
-        
-        .mobile-nav-links li {
-            margin-bottom: 6px;
-        }
-        
-        .mobile-nav-links a {
-            padding: 12px 16px;
-            font-size: 16px;
-        }
+        .mobile-nav { padding: 70px 20px 20px; }
+        .mobile-close { top: 20px; right: 20px; }
+        .mobile-nav-actions { gap: 10px; margin-bottom: 20px; }
+        .mobile-nav-actions .btn { padding: 12px 15px; }
+        .mobile-nav-links li { margin-bottom: 6px; }
+        .mobile-nav-links a { padding: 12px 16px; font-size: 16px; }
     }
 
-    /* Animation de fermeture cookies */
-    #custom-cookie-banner.hiding {
-        animation: cookieSlideOut 0.4s ease forwards;
-    }
-
+    #custom-cookie-banner.hiding { animation: cookieSlideOut 0.4s ease forwards; }
     @keyframes cookieSlideOut {
-        to {
-            opacity: 0;
-            transform: translateY(30px);
-        }
+        to { opacity: 0; transform: translateY(30px); }
     }
-
     @media (max-width: 768px) {
-        #custom-cookie-banner.hiding {
-            animation: cookieSlideDown 0.4s ease forwards;
-        }
-
+        #custom-cookie-banner.hiding { animation: cookieSlideDown 0.4s ease forwards; }
         @keyframes cookieSlideDown {
-            to {
-                opacity: 0;
-                transform: translateY(100%);
-            }
+            to { opacity: 0; transform: translateY(100%); }
         }
     }
-
-
 </style>
-
-</head>
-<body>
-
-
 
 <!-- Header -->
 <header>
@@ -968,9 +407,7 @@
             <li><a href="../nexa/nexa.html">NEXA</a></li>
         </ul>
         <div class="nav-actions">
-
             <div class="mobile-menu" id="mobileMenu">
-                <!-- Icône Burger seulement -->
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                 </svg>
@@ -983,23 +420,18 @@
 <div class="overlay" id="overlay"></div>
 <nav class="mobile-nav" id="mobileNav">
     <div class="mobile-close" id="mobileClose">
-        <!-- Icône Croix pour la fermeture -->
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
         </svg>
     </div>
-    
     <ul class="mobile-nav-links">
         <li><a href="../index.html#accueil" class="mobile-nav-link">Accueil</a></li>
         <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
         <li><a href="../nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
         <li><a href="../nexa/nexa.html" class="mobile-nav-link">NEXA</a></li>
     </ul>
-    <div class="mobile-nav-actions">
-
-    </div>
+    <div class="mobile-nav-actions"></div>
 </nav>
-
 
 <!-- Hero Section -->
 <section class="hero" id="accueil">
@@ -1008,15 +440,13 @@
             <span class="hero-badge">Développé sur Unreal Engine 5</span>
             <h1 class="hero-title">NEXA</h1>
             <p class="hero-subtitle">Plongez dans une aventure épique au cœur d'un monde où chaque décision compte.</p>
-            
             <div class="hero-actions">
                 <a href="#" class="btn btn-primary">En 2027</a>
                 <a href="https://discord.gg/PE7MS4Sazk" class="btn btn-login" target="_blank" rel="noopener">Lien du Discord</a>
             </div>
         </div>
-        
         <div class="hero-visual">
-            <img 
+            <img
                 src="https://res.cloudinary.com/dud1jhsyk/image/upload/w_800,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp"
                 srcset="
                     https://res.cloudinary.com/dud1jhsyk/image/upload/w_400,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp 400w,
@@ -1026,18 +456,12 @@
                 sizes="(max-width: 768px) 400px, (max-width: 1200px) 650px, 800px"
                 alt="Image de présentation du jeu NEXA"
                 class="hero-image"
-                width="800"
-                height="450"
-                loading="eager"
-                fetchpriority="high"
-                decoding="async"
+                width="800" height="450"
+                loading="eager" fetchpriority="high" decoding="async"
             >
         </div>
     </div>
 </section>
-
-
-
 
 <!-- CTA Section -->
 <section class="cta" id="telecharger">
@@ -1051,7 +475,6 @@
     </div>
 </section>
 
-
 <!-- Footer -->
 <footer>
     <div class="container">
@@ -1061,39 +484,30 @@
                     <div class="footer-logo-text">NEXA</div>
                 </div>
                 <p class="footer-desc">Un jeu développé par UNWARE STUDIO utilisant la puissance d'Unreal Engine 5 pour créer une expérience de jeu révolutionnaire.</p>
-                <!-- Remplacer TOUTES les icônes Font Awesome par ces SVG -->
-                 <div class="social-links">
-  <!-- Twitter -->
-  <a href="#" class="social-link" aria-label="Twitter">
-    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.016 10.016 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-    </svg>
-  </a>
-
-<!-- Discord SVG corrigé -->
-<a href="#" class="social-link" aria-label="Discord">
-  <svg width="21" height="21" fill="currentColor" viewBox="0 0 24 24">
-    <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
-  </svg>
-</a>
-
-  <!-- YouTube -->
-  <a href="#" class="social-link" aria-label="YouTube">
-    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-    </svg>
-  </a>
-
-  <!-- Instagram -->
-  <a href="#" class="social-link" aria-label="Instagram">
-    <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-    </svg>
-  </a>
-</div>
-
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.016 10.016 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Discord">
+                        <svg width="21" height="21" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="YouTube">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
-            
+
             <div class="footer-column">
                 <h3>Navigation</h3>
                 <ul class="footer-links">
@@ -1113,7 +527,7 @@
                     <li><a href="Support/statut.html">Statut des services</a></li>
                 </ul>
             </div>
-            
+
             <div class="footer-column">
                 <h3>Légal</h3>
                 <ul class="footer-links">
@@ -1124,15 +538,12 @@
                 </ul>
             </div>
         </div>
-        
+
         <div class="copyright">
-            <p>&copy; 2026  <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
+            <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
         </div>
     </div>
 </footer>
-
-
-
 
 <!-- Bannière Cookies -->
 <div id="custom-cookie-banner">
@@ -1156,7 +567,6 @@
             <h3>Gestion des cookies</h3>
             <button class="close-modal" onclick="hideCookieSettings()">&times;</button>
         </div>
-        
         <div class="cookie-options">
             <div class="cookie-option">
                 <div class="cookie-option-info">
@@ -1168,7 +578,6 @@
                     <label class="cookie-slide-label"></label>
                 </div>
             </div>
-            
             <div class="cookie-option">
                 <div class="cookie-option-info">
                     <div class="cookie-option-title">Cookies analytiques</div>
@@ -1179,7 +588,6 @@
                     <label class="cookie-slide-label" for="analyticsCookies"></label>
                 </div>
             </div>
-            
             <div class="cookie-option">
                 <div class="cookie-option-info">
                     <div class="cookie-option-title">Cookies de performance</div>
@@ -1191,622 +599,75 @@
                 </div>
             </div>
         </div>
-        
         <div class="modal-actions">
             <button class="modal-btn cancel" onclick="hideCookieSettings()">Annuler</button>
             <button class="modal-btn save" onclick="saveCookiePreferences()">Enregistrer mes choix</button>
         </div>
     </div>
 </div>
-    
+
+<!-- Redirect /index.html → / -->
 <script>
     if (window.location.pathname === "/index.html") {
         window.location.replace("/");
     }
 </script>
 
-
-    
+<!-- Menu mobile + Smooth scroll (logique UI propre, sans GA) -->
 <script>
-    // Fonction pour donner des noms propres à chaque page
-    function getPageTitle() {
-        const path = window.location.pathname;
-        
-        const pageNames = {
-            '/': 'Accueil - UNWARE STUDIO',
-            '/index.html': 'Accueil - UNWARE STUDIO',
-            '/nexa/fonctionnalites.html': 'Fonctionnalités - NEXA',
-            '/nexa/galerie.html': 'Galerie - NEXA', 
-            '/nexa/nexa.html': 'NEXA - Présentation',
-            '/Support/FAQ.html': 'FAQ - Support NEXA',
-            '/Support/centre-aide.html': 'Centre d\'aide - NEXA',
-            '/Support/contact.html': 'Contact - UNWARE STUDIO',
-            '/Support/statut.html': 'Statut des services - NEXA',
-            '/legals/mentions-legales.html': 'Mentions légales - UNWARE STUDIO',
-            '/legals/conditions-utilisation.html': 'Conditions d\'utilisation - NEXA',
-            '/legals/politique-confidentialite.html': 'Politique de confidentialité - UNWARE STUDIO',
-            '/legals/politique-cookies.html': 'Politique de cookies - UNWARE STUDIO'
-        };
-        
-        return pageNames[path] || document.title;
-    }
-
-    function getPageCategory() {
-        const path = window.location.pathname;
-        if (path === '/' || path === '/index.html') return 'Accueil';
-        if (path.includes('/nexa/')) return 'NEXA';
-        if (path.includes('/Support/')) return 'Support';
-        if (path.includes('/legals/')) return 'Légal';
-        return 'Autre';
-    }
-
-    // VARIABLE GLOBALE POUR LE TRACKING
-    let isGALoaded = false;
-    let pendingEvents = [];
-
-    // FONCTION SÉCURISÉE POUR ENVOYER LES ÉVÉNEMENTS
-    function safeGtag(eventName, eventParams) {
-        if (typeof gtag !== 'undefined' && window.dataLayer) {
-            gtag('event', eventName, eventParams);
-            console.log(' Événement envoyé:', eventName, eventParams);
-            return true;
-        } else {
-            console.log('⏳ GA pas encore prêt, événement mis en file d\'attente:', eventName);
-            pendingEvents.push({ eventName, eventParams });
-            return false;
-        }
-    }
-
-    // ENVOYER LES ÉVÉNEMENTS EN ATTENTE
-    function flushPendingEvents() {
-        if (pendingEvents.length > 0) {
-            console.log('🔄 Envoi des événements en attente...');
-            const eventsToProcess = [...pendingEvents];
-            pendingEvents = [];
-            
-            eventsToProcess.forEach(event => {
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', event.eventName, event.eventParams);
-                }
-            });
-        }
-    }
-
-    // FONCTION PRINCIPALE DE TRACKING
-    function initAdvancedTracking() {
-        console.log('🚀 Initialisation du tracking avancé...');
-        
-        // Tracking des clics
-        document.addEventListener('click', function(e) {
-            const target = e.target;
-            const interactiveEl = target.closest('a, button, .btn, [role="button"], input[type="submit"], .mobile-menu, .mobile-close, .cookie-btn, .modal-btn, .social-link');
-            
-            if (!interactiveEl) return;
-
-            const consent = getCookie('cookieConsent');
-            const analytics = getCookie('analyticsCookies');
-            if (!consent || consent === 'rejected' || !(consent === 'all' || (consent === 'custom' && analytics === 'true'))) return;
-
-            setTimeout(() => trackUserAction(interactiveEl, 'click'), 50);
-        });
-
-        // Tracking sécurisé du scroll
-        initScrollTracking();
-        
-        // Tracking du temps sur page
-        initTimeTracking();
-        
-        // Tracking des erreurs
-        initErrorTracking();
-        
-        isGALoaded = true;
-    }
-
-    // TRACKING DES ACTIONS UTILISATEUR
-    function trackUserAction(element, actionType) {
-        const elementInfo = getElementInfo(element);
-        const pageInfo = getPageInfo();
-        
-        const eventData = {
-            'event_category': elementInfo.category,
-            'event_label': `${elementInfo.text} - ${pageInfo.title}`,
-            'element_type': elementInfo.type,
-            'element_text': elementInfo.text,
-            'element_location': elementInfo.location,
-            'page_title': pageInfo.title,
-            'page_category': pageInfo.category,
-            'page_path': pageInfo.path
-        };
-
-        let eventName = 'user_click';
-        
-        if (elementInfo.type === 'navigation') {
-            eventName = 'navigation_click';
-        } else if (elementInfo.type === 'social') {
-            eventName = 'social_click';
-        } else if (element.classList.contains('cookie-btn')) {
-            eventName = 'cookie_interaction';
-        }
-
-        safeGtag(eventName, eventData);
-    }
-
-    // TRACKING SÉCURISÉ DU SCROLL
-    function initScrollTracking() {
-        let scrollStates = { 25: false, 50: false, 75: false, 90: false };
-        
-        const trackScroll = function() {
-            // Vérifier que GA est chargé avant de tracker
-            if (typeof gtag === 'undefined') return;
-            
-            const consent = getCookie('cookieConsent');
-            const analytics = getCookie('analyticsCookies');
-            if (!consent || consent === 'rejected' || !(consent === 'all' || (consent === 'custom' && analytics === 'true'))) return;
-
-            const scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
-            
-            Object.keys(scrollStates).forEach(threshold => {
-                if (!scrollStates[threshold] && scrollPercent >= parseInt(threshold)) {
-                    safeGtag('scroll_depth', {
-                        'event_category': 'Engagement',
-                        'event_label': `Scroll ${threshold}%`,
-                        'scroll_percentage': threshold,
-                        'page_title': getPageTitle()
-                    });
-                    scrollStates[threshold] = true;
-                }
-            });
-        };
-
-        // Démarrer le tracking seulement après que GA soit chargé
-        const checkGALoaded = setInterval(() => {
-            if (typeof gtag !== 'undefined') {
-                window.addEventListener('scroll', trackScroll, { passive: true });
-                clearInterval(checkGALoaded);
-            }
-        }, 100);
-    }
-
-    // TRACKING DU TEMPS
-    function initTimeTracking() {
-        let startTime = Date.now();
-        let maxTime = 0;
-        
-        window.addEventListener('beforeunload', function() {
-            const consent = getCookie('cookieConsent');
-            const analytics = getCookie('analyticsCookies');
-            if (!consent || consent === 'rejected' || !(consent === 'all' || (consent === 'custom' && analytics === 'true'))) return;
-
-            const timeSpent = Math.round((Date.now() - startTime) / 1000);
-            maxTime = Math.max(maxTime, timeSpent);
-            
-            if (maxTime > 5) {
-                safeGtag('time_spent', {
-                    'event_category': 'Engagement',
-                    'event_label': `Temps sur la page`,
-                    'time_seconds': maxTime,
-                    'page_title': getPageTitle()
-                });
-            }
-        });
-    }
-
-    // TRACKING DES ERREURS
-    function initErrorTracking() {
-        window.addEventListener('error', function(e) {
-            const consent = getCookie('cookieConsent');
-            const analytics = getCookie('analyticsCookies');
-            if (!consent || consent === 'rejected' || !(consent === 'all' || (consent === 'custom' && analytics === 'true'))) return;
-
-            safeGtag('error_occurred', {
-                'event_category': 'Error',
-                'event_label': e.message,
-                'error_message': e.message.substring(0, 100),
-                'error_file': e.filename,
-                'error_line': e.lineno,
-                'page_title': getPageTitle()
-            });
-        });
-    }
-
-    // HELPERS POUR LE TRACKING
-    function getElementInfo(element) {
-        return {
-            text: getElementText(element),
-            type: getElementType(element),
-            category: getElementCategory(element),
-            location: getElementLocation(element)
-        };
-    }
-
-    function getElementText(element) {
-        if (element.textContent && element.textContent.trim()) {
-            return element.textContent.trim().substring(0, 100);
-        }
-        if (element.getAttribute('aria-label')) return element.getAttribute('aria-label');
-        if (element.title) return element.title;
-        if (element.alt) return element.alt;
-        if (element.value) return element.value;
-        if (element.placeholder) return element.placeholder;
-        return element.tagName.toLowerCase();
-    }
-
-    function getElementType(element) {
-        if (element.tagName === 'A') {
-            if (element.href && element.href.includes('discord')) return 'social';
-            if (element.getAttribute('href') && !element.getAttribute('href').startsWith('#')) return 'navigation';
-            return 'link';
-        }
-        if (element.tagName === 'BUTTON') return 'button';
-        if (element.classList.contains('btn')) return 'button';
-        if (element.type === 'submit') return 'submit';
-        if (element.classList.contains('social-link')) return 'social';
-        if (element.classList.contains('mobile-menu') || element.classList.contains('mobile-close')) return 'mobile_nav';
-        if (element.classList.contains('cookie-btn')) return 'cookie';
-        return 'interactive';
-    }
-
-    function getElementCategory(element) {
-        const section = element.closest('section, header, footer, nav, main');
-        if (!section) return 'Unknown';
-        
-        if (section.classList.contains('hero')) return 'Hero Section';
-        if (section.classList.contains('cta')) return 'CTA Section';
-        if (section.id === 'accueil') return 'Accueil Section';
-        if (section.id === 'telecharger') return 'Download Section';
-        if (section.tagName === 'HEADER') return 'Header';
-        if (section.tagName === 'FOOTER') return 'Footer';
-        if (section.tagName === 'NAV') return 'Navigation';
-        return 'Content';
-    }
-
-    function getElementLocation(element) {
-        const rect = element.getBoundingClientRect();
-        return {
-            visible: rect.top < window.innerHeight && rect.bottom > 0,
-            position: `${Math.round(rect.top)}px from top`
-        };
-    }
-
-    function getPageInfo() {
-        return {
-            title: getPageTitle(),
-            category: getPageCategory(),
-            path: window.location.pathname
-        };
-    }
-
-    // FONCTION PRINCIPALE GA
-    function loadGoogleAnalytics() {
-        console.log('🔍 Chargement de Google Analytics...');
-        
-        const consent = getCookie('cookieConsent');
-        const analytics = getCookie('analyticsCookies');
-        
-        // NE PAS charger GA si les cookies sont refusés
-        if (consent === 'rejected') {
-            console.log('❌ Cookies refusés - GA non chargé');
-            return;
-        }
-        
-        if (consent === 'all' || (consent === 'custom' && analytics === 'true')) {
-            console.log('✅ Consentement OK, chargement GA...');
-            
-            if (window.dataLayer && window.gtag) {
-                console.log('🔄 GA déjà chargé');
-                flushPendingEvents();
-                initAdvancedTracking();
-                return;
-            }
-            
-            const script = document.createElement('script');
-            script.async = true;
-            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-NJLCB6G0G8';
-            
-            script.onload = function() {
-                console.log('🎯 Google Analytics chargé avec succès');
-                
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                
-                gtag('consent', 'default', {
-                    'analytics_storage': 'granted',
-                    'ad_storage': 'denied',
-                    'personalization_storage': 'denied',
-                    'functionality_storage': 'granted',
-                    'security_storage': 'granted'
-                });
-                
-                gtag('config', 'G-NJLCB6G0G8', {
-                    'anonymize_ip': true,
-                    'allow_google_signals': false,
-                    'allow_ad_personalization_signals': false,
-                    'page_title': getPageTitle(),
-                    'page_location': window.location.href,
-                    'page_path': window.location.pathname
-                });
-                
-                // Envoyer la page_view
-                gtag('event', 'page_view', getPageInfo());
-                
-                // Vider la file d'attente
-                flushPendingEvents();
-                
-                // Initialiser le tracking
-                initAdvancedTracking();
-            };
-            
-            script.onerror = function() {
-                console.error('❌ Erreur lors du chargement de Google Analytics');
-            };
-            
-            document.head.appendChild(script);
-        } else {
-            console.log('❌ Pas de consentement pour Analytics');
-        }
-    }
-
-    // GESTION DES COOKIES
-    function showCookieBanner() {
-        const banner = document.getElementById('custom-cookie-banner');
-        const consent = getCookie('cookieConsent');
-        
-        // NE PAS afficher la bannière si un choix a déjà été fait
-        if (consent) {
-            return;
-        }
-        
-        if (banner) {
-            banner.classList.remove('hiding');
-            banner.classList.add('show');
-        }
-    }
-
-    function hideCookieBanner() {
-        const banner = document.getElementById('custom-cookie-banner');
-        if (banner) {
-            banner.classList.add('hiding');
-            setTimeout(() => {
-                banner.classList.remove('show');
-                banner.classList.remove('hiding');
-            }, 400);
-        }
-    }
-
-    function showCookieSettings() {
-        const modal = document.getElementById('cookieModal');
-        if (modal) {
-            modal.classList.add('show');
-            const analytics = getCookie('analyticsCookies');
-            const performance = getCookie('performanceCookies');
-            
-            if (document.getElementById('analyticsCookies')) {
-                document.getElementById('analyticsCookies').checked = analytics === 'true';
-            }
-            if (document.getElementById('performanceCookies')) {
-                document.getElementById('performanceCookies').checked = performance === 'true';
-            }
-            
-            hideCookieBanner();
-        }
-    }
-
-    function hideCookieSettings() {
-        const modal = document.getElementById('cookieModal');
-        if (modal) {
-            modal.classList.remove('show');
-        }
-        const consent = getCookie('cookieConsent');
-        if (!consent) {
-            setTimeout(showCookieBanner, 500);
-        }
-    }
-
-    function acceptCookies() {
-        setCookie('cookieConsent', 'all', 365);
-        setCookie('analyticsCookies', 'true', 365);
-        setCookie('performanceCookies', 'true', 365);
-        setTimeout(() => loadGoogleAnalytics(), 100);
-        hideCookieBanner();
-    }
-
-    function rejectCookies() {
-        setCookie('cookieConsent', 'rejected', 365);
-        setCookie('analyticsCookies', 'false', 365);
-        setCookie('performanceCookies', 'false', 365);
-        hideCookieBanner();
-    }
-
-    function saveCookiePreferences() {
-        const analyticsChecked = document.getElementById('analyticsCookies').checked;
-        const performanceChecked = document.getElementById('performanceCookies').checked;
-        
-        setCookie('cookieConsent', 'custom', 365);
-        setCookie('analyticsCookies', analyticsChecked ? 'true' : 'false', 365);
-        setCookie('performanceCookies', performanceChecked ? 'true' : 'false', 365);
-        
-        if (analyticsChecked) {
-            setTimeout(() => loadGoogleAnalytics(), 100);
-        }
-        
-        hideCookieSettings();
-        hideCookieBanner();
-    }
-
-    function setCookie(name, value, days) {
-        const date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        const expires = "expires=" + date.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Lax;Secure";
-    }
-
-    function getCookie(name) {
-        const nameEQ = name + "=";
-        const ca = document.cookie.split(';');
-        for(let i = 0; i < ca.length; i++) {
-            let c = ca[i].trim();
-            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
-
-    // INITIALISATION
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('📄 Page chargée - vérification des cookies');
-        
-        const consent = getCookie('cookieConsent');
-        
-        // Afficher la bannière seulement si AUCUN choix n'a été fait
-        if (!consent) {
-            console.log('🔄 Aucun consentement, affichage bannière');
-            setTimeout(showCookieBanner, 1000);
-        } else {
-            console.log('✅ Consentement déjà donné:', consent);
-            
-            // Mettre à jour les cases à cocher si modal ouvert
-            if (document.getElementById('analyticsCookies')) {
-                const analytics = getCookie('analyticsCookies');
-                document.getElementById('analyticsCookies').checked = analytics === 'true';
-            }
-            if (document.getElementById('performanceCookies')) {
-                const performance = getCookie('performanceCookies');
-                document.getElementById('performanceCookies').checked = performance === 'true';
-            }
-            
-            // Charger GA si consentement donné
-            if (consent !== 'rejected') {
-                setTimeout(() => {
-                    loadGoogleAnalytics();
-                }, 100);
-            }
-        }
-        
-        // Initialiser le menu mobile
         initMobileMenu();
-        
-        // Initialiser le smooth scroll
         initSmoothScroll();
     });
 
-    // MENU BURGER
     function initMobileMenu() {
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileNav = document.getElementById('mobileNav');
-        const overlay = document.getElementById('overlay');
+        const mobileMenu  = document.getElementById('mobileMenu');
+        const mobileNav   = document.getElementById('mobileNav');
+        const overlay     = document.getElementById('overlay');
         const mobileClose = document.getElementById('mobileClose');
         const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
         const body = document.body;
 
         if (!mobileMenu || !mobileNav || !overlay || !mobileClose) return;
 
-        function openMobileMenu() {
-            mobileNav.classList.add('active');
-            overlay.classList.add('active');
-            mobileMenu.classList.add('active');
-            body.classList.add('no-scroll');
-        }
+        function openMenu()  { mobileNav.classList.add('active'); overlay.classList.add('active'); mobileMenu.classList.add('active'); body.classList.add('no-scroll'); }
+        function closeMenu() { mobileNav.classList.remove('active'); overlay.classList.remove('active'); mobileMenu.classList.remove('active'); body.classList.remove('no-scroll'); }
+        function toggleMenu() { mobileNav.classList.contains('active') ? closeMenu() : openMenu(); }
 
-        function closeMobileMenu() {
-            mobileNav.classList.remove('active');
-            overlay.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            body.classList.remove('no-scroll');
-        }
-
-        function toggleMobileMenu() {
-            if (mobileNav.classList.contains('active')) {
-                closeMobileMenu();
-            } else {
-                openMobileMenu();
-            }
-        }
-
-        mobileMenu.addEventListener('click', toggleMobileMenu);
-        overlay.addEventListener('click', closeMobileMenu);
-        mobileClose.addEventListener('click', closeMobileMenu);
-
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-                closeMobileMenu();
-            }
-        });
+        mobileMenu.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', closeMenu);
+        mobileClose.addEventListener('click', closeMenu);
+        mobileNavLinks.forEach(link => link.addEventListener('click', closeMenu));
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobileNav.classList.contains('active')) closeMenu(); });
     }
 
-    // SMOOTH SCROLL
     function initSmoothScroll() {
-        const anchorLinks = document.querySelectorAll('a[href^="#"]');
-        anchorLinks.forEach(link => {
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
                 if (href !== '#') {
                     const target = document.querySelector(href);
-                    if (target) {
-                        e.preventDefault();
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
+                    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
                 }
             });
         });
     }
 </script>
 
+<!-- ✅ Analytics unifié — UN SEUL fichier, toute la logique cookies + GA dedans -->
+<script src="js/analytics.js"></script>
 
-
+<!-- Vercel Speed Insights -->
 <script>
-  // Vercel Speed Insights avec gestion d'erreurs
-  (function() {
-    // Vérifier si les scripts analytiques sont bloqués
-    if (typeof window.va !== 'function') {
-      window.va = function() {
-        (window.vaq = window.vaq || []).push(arguments);
-      };
-    }
-    
-    // Créer le script avec gestion d'erreur
-    const script = document.createElement('script');
-    script.defer = true;
-    script.src = '/_vercel/insights/script.js';
-    
-    script.onload = function() {
-      console.log('✅ Vercel Speed Insights chargé avec succès');
-    };
-    
-    script.onerror = function() {
-      console.warn('⚠️ Vercel Speed Insights bloqué par une extension');
-      // Optionnel: envoyer une notification ou métrique alternative
-    };
-    
-    // Attendre que le DOM soit chargé
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function() {
+    window.va = window.va || function() { (window.vaq = window.vaq || []).push(arguments); };
+    (function() {
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        script.onerror = () => console.warn('⚠️ Vercel Speed Insights bloqué');
         document.head.appendChild(script);
-      });
-    } else {
-      document.head.appendChild(script);
-    }
-  })();
+    })();
 </script>
 
- 
-
-<script>
-  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
-
-
- </body>
+</body>
 </html>
-
-
-
-
-
