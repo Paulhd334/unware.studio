@@ -656,6 +656,14 @@ function hideCookieSettings() {
     if (!consent) setTimeout(showCookieBanner, 500);
 }
 
+// =============== DISPATCH CONSENTEMENT (pour clarity.js et autres scripts) ===============
+// Tous les scripts analytics écoutent 'cookieConsentChanged' — plus besoin de surcharger les fonctions
+function dispatchConsentEvent(consent, analytics) {
+    document.dispatchEvent(new CustomEvent('cookieConsentChanged', {
+        detail: { consent, analytics }
+    }));
+}
+
 // =============== FONCTIONS GLOBALES COOKIES ===============
 function acceptCookies() {
     setCookie('cookieConsent', 'all', 365);
@@ -663,6 +671,7 @@ function acceptCookies() {
     setCookie('performanceCookies', 'true', 365);
     cookiesRejected = false; // FIX: reset du flag en mémoire
     hideCookieBanner();
+    dispatchConsentEvent('all', 'true'); // notifie clarity.js et autres
     setTimeout(() => initializeGoogleAnalytics(), 100);
 }
 
@@ -670,7 +679,8 @@ function rejectCookies() {
     setCookie('cookieConsent', 'rejected', 365);
     setCookie('analyticsCookies', 'false', 365);
     setCookie('performanceCookies', 'false', 365);
-    resetAnalyticsState(); // FIX: reset isGALoaded + isClarityLoaded + cookiesRejected
+    resetAnalyticsState(); // FIX: reset isGALoaded + cookiesRejected
+    dispatchConsentEvent('rejected', 'false'); // notifie clarity.js et autres
     hideCookieBanner();
 }
 
@@ -686,6 +696,7 @@ function saveCookiePreferences() {
         cookiesRejected = false; // FIX: reset du flag si analytics coché
         setTimeout(() => initializeGoogleAnalytics(), 100);
     }
+    dispatchConsentEvent('custom', analyticsChecked ? 'true' : 'false'); // notifie clarity.js
     hideCookieSettings();
     hideCookieBanner();
 }
