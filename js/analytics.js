@@ -106,6 +106,12 @@ function getCookie(name) {
     return null;
 }
 
+function setCookie(name, value, days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    document.cookie = name + "=" + value + ";expires=" + date.toUTCString() + ";path=/;SameSite=Lax;Secure";
+}
+
 function shouldLoadGA() {
     const consent = getCookie('cookieConsent');
     if (consent === 'rejected') { cookiesRejected = true; return false; }
@@ -125,6 +131,33 @@ function resetAnalyticsState() {
     isGALoaded = false;
     isClarityLoaded = false;
     cookiesRejected = true;
+    console.log('🔴 Analytics désactivé — consentement refusé');
+}
+
+// =============== DEBUG CONSOLE : ÉTAT DU CONSENTEMENT ===============
+function logConsentStatus() {
+    const consent = getCookie('cookieConsent');
+    const analytics = getCookie('analyticsCookies');
+    const performance = getCookie('performanceCookies');
+
+    console.groupCollapsed('🍪 Analytics — État du consentement');
+    if (!consent) {
+        console.log('%c⏳ En attente de consentement cookies', 'color: orange; font-weight: bold;');
+        console.log('   → GA non chargé, aucun tracker actif');
+        console.log('   → La bannière cookies va s\'afficher');
+    } else if (consent === 'rejected') {
+        console.log('%c🔴 Cookies refusés', 'color: red; font-weight: bold;');
+        console.log('   → GA bloqué, isGALoaded =', isGALoaded, '(doit être false)');
+    } else if (consent === 'all') {
+        console.log('%c✅ Tous les cookies acceptés', 'color: green; font-weight: bold;');
+        console.log('   → GA actif, isGALoaded =', isGALoaded);
+    } else if (consent === 'custom') {
+        console.log('%c🟡 Consentement personnalisé', 'color: gold; font-weight: bold;');
+        console.log('   → Analytics:', analytics === 'true' ? '✅ activé' : '❌ désactivé');
+        console.log('   → Performance:', performance === 'true' ? '✅ activé' : '❌ désactivé');
+    }
+    console.log('   Page:', getPageTitle(), '|', getPagePath());
+    console.groupEnd();
 }
 
 // =============== DONNÉES ENRICHIES ===============
@@ -134,47 +167,36 @@ function getEnrichedUserData() {
     const params = new URLSearchParams(window.location.search);
 
     return {
-        // Écran & viewport
-        screen_width:       window.screen.width,
-        screen_height:      window.screen.height,
-        viewport_width:     window.innerWidth,
-        viewport_height:    window.innerHeight,
-        pixel_ratio:        window.devicePixelRatio || 1,
-        color_depth:        window.screen.colorDepth,
-        orientation:        screen.orientation?.type || (window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'),
-
-        // Réseau
+        screen_width:        window.screen.width,
+        screen_height:       window.screen.height,
+        viewport_width:      window.innerWidth,
+        viewport_height:     window.innerHeight,
+        pixel_ratio:         window.devicePixelRatio || 1,
+        color_depth:         window.screen.colorDepth,
+        orientation:         screen.orientation?.type || (window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'),
         connection_type:     conn.effectiveType || 'unknown',
         connection_downlink: conn.downlink || null,
         connection_rtt:      conn.rtt || null,
         save_data:           conn.saveData || false,
-
-        // Navigateur
-        language:       navigator.language || 'unknown',
-        languages:      (navigator.languages || []).join(','),
-        platform:       navigator.platform || 'unknown',
-        do_not_track:   navigator.doNotTrack === '1',
-        online:         navigator.onLine,
-
-        // Perf chargement (ms)
-        load_time_dns:     Math.round(perf.domainLookupEnd - perf.domainLookupStart) || 0,
-        load_time_connect: Math.round(perf.connectEnd - perf.connectStart) || 0,
-        load_time_ttfb:    Math.round(perf.responseStart - perf.requestStart) || 0,
-        load_time_dom:     Math.round(perf.domContentLoadedEventEnd - perf.startTime) || 0,
-        load_time_total:   Math.round(perf.loadEventEnd - perf.startTime) || 0,
-
-        // Session
-        session_page_count: incrementSessionPageCount(),
-        is_returning:       !!localStorage.getItem('ga_has_visited'),
-
-        // Traffic source
-        referrer:      document.referrer ? new URL(document.referrer).hostname : 'direct',
-        referrer_full: document.referrer || 'direct',
-        utm_source:    params.get('utm_source') || null,
-        utm_medium:    params.get('utm_medium') || null,
-        utm_campaign:  params.get('utm_campaign') || null,
-        utm_content:   params.get('utm_content') || null,
-        utm_term:      params.get('utm_term') || null,
+        language:            navigator.language || 'unknown',
+        languages:           (navigator.languages || []).join(','),
+        platform:            navigator.platform || 'unknown',
+        do_not_track:        navigator.doNotTrack === '1',
+        online:              navigator.onLine,
+        load_time_dns:       Math.round(perf.domainLookupEnd - perf.domainLookupStart) || 0,
+        load_time_connect:   Math.round(perf.connectEnd - perf.connectStart) || 0,
+        load_time_ttfb:      Math.round(perf.responseStart - perf.requestStart) || 0,
+        load_time_dom:       Math.round(perf.domContentLoadedEventEnd - perf.startTime) || 0,
+        load_time_total:     Math.round(perf.loadEventEnd - perf.startTime) || 0,
+        session_page_count:  incrementSessionPageCount(),
+        is_returning:        !!localStorage.getItem('ga_has_visited'),
+        referrer:            document.referrer ? new URL(document.referrer).hostname : 'direct',
+        referrer_full:       document.referrer || 'direct',
+        utm_source:          params.get('utm_source') || null,
+        utm_medium:          params.get('utm_medium') || null,
+        utm_campaign:        params.get('utm_campaign') || null,
+        utm_content:         params.get('utm_content') || null,
+        utm_term:            params.get('utm_term') || null,
     };
 }
 
@@ -228,8 +250,9 @@ function initializeGoogleAnalytics() {
     if (areCookiesRejected() || !shouldLoadGA()) return;
     if (isGALoaded) return;
 
+    // FIX: log déplacé ici — n'apparaît que si GA est réellement initialisé
     console.log('🚀 Init GA4 MAX DATA...');
-    console.log('📊 Analytics MAX DATA prêt — 14 trackers actifs'); // FIX: log déplacé ici, après vérification réelle
+    console.log('📊 Analytics MAX DATA prêt — 14 trackers actifs');
 
     const enriched = getEnrichedUserData();
     markVisit();
@@ -260,13 +283,13 @@ function initializeGoogleAnalytics() {
     });
 
     gtag('event', 'page_view', {
-        page_title:        getPageTitle(),
-        page_location:     window.location.href,
-        page_path:         getPagePath(),
-        device_type:       deviceType,
-        load_time_total:   enriched.load_time_total,
-        connection_type:   enriched.connection_type,
-        is_returning:      enriched.is_returning
+        page_title:      getPageTitle(),
+        page_location:   window.location.href,
+        page_path:       getPagePath(),
+        device_type:     deviceType,
+        load_time_total: enriched.load_time_total,
+        connection_type: enriched.connection_type,
+        is_returning:    enriched.is_returning
     });
 
     const script = document.createElement('script');
@@ -282,7 +305,6 @@ function initEventTracking() {
     if (areCookiesRejected()) return;
     console.log('🎯 Tracking MAX activé...');
 
-    // Clics & formulaires
     document.addEventListener('click', (e) => {
         if (areCookiesRejected()) return;
         setTimeout(() => { trackClick(e.target); trackClickSecure(e.target); }, 50);
@@ -357,7 +379,7 @@ function trackTimeOnPage() {
     });
 }
 
-// ── VISIBILITÉ PAGE (onglet actif/inactif) ──
+// ── VISIBILITÉ PAGE ──
 function trackPageVisibility() {
     let hiddenAt = null;
     document.addEventListener('visibilitychange', () => {
@@ -445,7 +467,6 @@ function trackJSErrors() {
 
 // ── WEB VITALS (LCP, CLS, FCP, TTFB) ──
 function trackWebVitals() {
-    // LCP
     try {
         new PerformanceObserver((list) => {
             const last = list.getEntries().at(-1);
@@ -455,7 +476,6 @@ function trackWebVitals() {
         }).observe({ type: 'largest-contentful-paint', buffered: true });
     } catch(e) {}
 
-    // CLS
     try {
         let clsValue = 0;
         new PerformanceObserver((list) => {
@@ -468,7 +488,6 @@ function trackWebVitals() {
         });
     } catch(e) {}
 
-    // FCP
     try {
         new PerformanceObserver((list) => {
             const entry = list.getEntries().find(e => e.name === 'first-contentful-paint');
@@ -480,7 +499,6 @@ function trackWebVitals() {
         }).observe({ type: 'paint', buffered: true });
     } catch(e) {}
 
-    // TTFB
     try {
         const nav = performance.getEntriesByType('navigation')[0];
         if (nav) {
@@ -594,48 +612,56 @@ function trackFormSubmitSecure(form) {
 }
 
 // =============== COOKIES UI ===============
-function attachCookieEvents() {
-    document.addEventListener('click', function(e) {
-        const t = e.target;
-        if (t.closest('.cookie-btn.accept')) setTimeout(() => initializeGoogleAnalytics(), 100);
-        if (t.closest('.cookie-btn.reject')) rejectCookies();
-        if (t.closest('.modal-btn.save') && document.getElementById('analyticsCookies')?.checked) setTimeout(() => initializeGoogleAnalytics(), 100);
-    });
-}
-
 function showCookieBanner() {
     const banner = document.getElementById('custom-cookie-banner');
     const consent = getCookie('cookieConsent');
-    if (consent === 'rejected' || consent) return;
-    if (banner) { banner.style.display = 'block'; setTimeout(() => banner.classList.add('show'), 10); }
+    if (consent) return; // Ne pas afficher si un choix a déjà été fait
+    if (banner) {
+        banner.classList.remove('hiding');
+        banner.style.display = 'block';
+        setTimeout(() => banner.classList.add('show'), 10);
+    }
 }
 
 function hideCookieBanner() {
     const banner = document.getElementById('custom-cookie-banner');
-    if (banner) { banner.classList.remove('show'); setTimeout(() => { banner.style.display = 'none'; }, 400); }
-}
-
-// =============== INIT PRINCIPALE ===============
-function initAnalytics() {
-    console.log('🌐 Analytics MAX DATA démarrage...');
-    deviceType = detectDeviceType();
-    if (areCookiesRejected()) { isGALoaded = false; return; }
-    attachCookieEvents();
-    if (shouldLoadGA()) {
-        setTimeout(() => initializeGoogleAnalytics(), 300);
-    } else {
-        if (!areCookiesRejected()) setTimeout(showCookieBanner, 1500);
+    if (banner) {
+        banner.classList.add('hiding');
+        setTimeout(() => {
+            banner.classList.remove('show');
+            banner.classList.remove('hiding');
+            banner.style.display = 'none';
+        }, 400);
     }
 }
 
-document.addEventListener('DOMContentLoaded', initAnalytics);
+function showCookieSettings() {
+    const modal = document.getElementById('cookieModal');
+    if (modal) {
+        modal.classList.add('show');
+        const analytics = getCookie('analyticsCookies');
+        const perf = getCookie('performanceCookies');
+        const aEl = document.getElementById('analyticsCookies');
+        const pEl = document.getElementById('performanceCookies');
+        if (aEl) aEl.checked = analytics === 'true';
+        if (pEl) pEl.checked = perf === 'true';
+        hideCookieBanner();
+    }
+}
+
+function hideCookieSettings() {
+    const modal = document.getElementById('cookieModal');
+    if (modal) modal.classList.remove('show');
+    const consent = getCookie('cookieConsent');
+    if (!consent) setTimeout(showCookieBanner, 500);
+}
 
 // =============== FONCTIONS GLOBALES COOKIES ===============
 function acceptCookies() {
     setCookie('cookieConsent', 'all', 365);
     setCookie('analyticsCookies', 'true', 365);
     setCookie('performanceCookies', 'true', 365);
-    cookiesRejected = false; // FIX: reset explicite du flag en mémoire
+    cookiesRejected = false; // FIX: reset du flag en mémoire
     hideCookieBanner();
     setTimeout(() => initializeGoogleAnalytics(), 100);
 }
@@ -655,27 +681,51 @@ function saveCookiePreferences() {
     setCookie('analyticsCookies', analyticsChecked ? 'true' : 'false', 365);
     setCookie('performanceCookies', performanceChecked ? 'true' : 'false', 365);
     if (!analyticsChecked) {
-        resetAnalyticsState(); // FIX: si analytics décoché, reset pour future ré-init
+        resetAnalyticsState(); // FIX: analytics décoché → reset pour future ré-init
     } else {
-        cookiesRejected = false; // FIX: reset du flag si on accepte
+        cookiesRejected = false; // FIX: reset du flag si analytics coché
         setTimeout(() => initializeGoogleAnalytics(), 100);
     }
     hideCookieSettings();
     hideCookieBanner();
 }
 
-function setCookie(name, value, days) {
-    const date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    document.cookie = name + "=" + value + ";expires=" + date.toUTCString() + ";path=/;SameSite=Lax;Secure";
+// =============== INIT PRINCIPALE ===============
+function initAnalytics() {
+    deviceType = detectDeviceType();
+
+    // Affichage debug état consentement dans la console
+    logConsentStatus();
+
+    const consent = getCookie('cookieConsent');
+
+    if (!consent) {
+        // Aucun choix → on attend, on affiche la bannière
+        console.log('⏳ Analytics en attente de consentement...');
+        setTimeout(showCookieBanner, 1500);
+        return;
+    }
+
+    if (areCookiesRejected()) {
+        isGALoaded = false;
+        return;
+    }
+
+    if (shouldLoadGA()) {
+        setTimeout(() => initializeGoogleAnalytics(), 300);
+    }
 }
 
-// =============== DEBUG ===============
+document.addEventListener('DOMContentLoaded', initAnalytics);
+
+// =============== DEBUG CONSOLE ===============
 window.debugGA = {
     check: function() {
         console.log('🔍 GA MAX DATA:');
         console.log('- Cookies refusés :', areCookiesRejected());
         console.log('- GA Loaded       :', isGALoaded);
+        console.log('- cookieConsent   :', getCookie('cookieConsent'));
+        console.log('- analyticsCookies:', getCookie('analyticsCookies'));
         console.log('- Client ID       :', getClientId());
         console.log('- Session ID      :', getSessionId());
         console.log('- Device          :', deviceType);
@@ -689,6 +739,7 @@ window.debugGA = {
     },
     force:   () => { if (!areCookiesRejected()) initializeGoogleAnalytics(); },
     apiTest: () => areCookiesRejected() ? Promise.resolve(false) : sendToSecureAPI('api_test', { test: 'direct' }),
+    status:  () => logConsentStatus(),
     reset: function() {
         document.cookie.split(";").forEach(c => {
             const name = c.split("=")[0].trim();
@@ -702,5 +753,5 @@ window.debugGA = {
     }
 };
 
-// FIX: log supprimé d'ici — il a été déplacé dans initializeGoogleAnalytics()
-// pour n'apparaître que si GA est réellement initialisé avec consentement valide.
+// FIX: log supprimé d'ici → déplacé dans initializeGoogleAnalytics()
+// pour n'apparaître que si GA est réellement actif avec consentement valide.
