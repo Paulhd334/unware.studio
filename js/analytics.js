@@ -1,6 +1,7 @@
 // =============== GOOGLE ANALYTICS 4 - Version MAX DATA ===============
 const GA_MEASUREMENT_ID = 'G-NJLCB6G0G8';
 let isGALoaded = false;
+let isClarityLoaded = false;
 let deviceType = 'desktop';
 let clientId = null;
 let cookiesRejected = false;
@@ -118,6 +119,14 @@ function areCookiesRejected() {
     return cookiesRejected;
 }
 
+// =============== RESET COMPLET DE L'ÉTAT ANALYTICS ===============
+// FIX: appelé à chaque refus pour permettre une future ré-initialisation
+function resetAnalyticsState() {
+    isGALoaded = false;
+    isClarityLoaded = false;
+    cookiesRejected = true;
+}
+
 // =============== DONNÉES ENRICHIES ===============
 function getEnrichedUserData() {
     const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
@@ -215,8 +224,12 @@ async function sendToSecureAPI(eventName, params = {}) {
 
 // =============== INITIALISATION GA4 ===============
 function initializeGoogleAnalytics() {
-    if (areCookiesRejected() || isGALoaded || !shouldLoadGA()) return;
+    // FIX: on relit toujours l'état réel des cookies avant de bloquer sur isGALoaded
+    if (areCookiesRejected() || !shouldLoadGA()) return;
+    if (isGALoaded) return;
+
     console.log('🚀 Init GA4 MAX DATA...');
+    console.log('📊 Analytics MAX DATA prêt — 14 trackers actifs'); // FIX: log déplacé ici, après vérification réelle
 
     const enriched = getEnrichedUserData();
     markVisit();
@@ -585,7 +598,7 @@ function attachCookieEvents() {
     document.addEventListener('click', function(e) {
         const t = e.target;
         if (t.closest('.cookie-btn.accept')) setTimeout(() => initializeGoogleAnalytics(), 100);
-        if (t.closest('.cookie-btn.reject')) cookiesRejected = true;
+        if (t.closest('.cookie-btn.reject')) rejectCookies();
         if (t.closest('.modal-btn.save') && document.getElementById('analyticsCookies')?.checked) setTimeout(() => initializeGoogleAnalytics(), 100);
     });
 }
@@ -622,6 +635,7 @@ function acceptCookies() {
     setCookie('cookieConsent', 'all', 365);
     setCookie('analyticsCookies', 'true', 365);
     setCookie('performanceCookies', 'true', 365);
+    cookiesRejected = false; // FIX: reset explicite du flag en mémoire
     hideCookieBanner();
     setTimeout(() => initializeGoogleAnalytics(), 100);
 }
@@ -630,7 +644,7 @@ function rejectCookies() {
     setCookie('cookieConsent', 'rejected', 365);
     setCookie('analyticsCookies', 'false', 365);
     setCookie('performanceCookies', 'false', 365);
-    cookiesRejected = true;
+    resetAnalyticsState(); // FIX: reset isGALoaded + isClarityLoaded + cookiesRejected
     hideCookieBanner();
 }
 
@@ -640,7 +654,12 @@ function saveCookiePreferences() {
     setCookie('cookieConsent', 'custom', 365);
     setCookie('analyticsCookies', analyticsChecked ? 'true' : 'false', 365);
     setCookie('performanceCookies', performanceChecked ? 'true' : 'false', 365);
-    if (analyticsChecked) setTimeout(() => initializeGoogleAnalytics(), 100);
+    if (!analyticsChecked) {
+        resetAnalyticsState(); // FIX: si analytics décoché, reset pour future ré-init
+    } else {
+        cookiesRejected = false; // FIX: reset du flag si on accepte
+        setTimeout(() => initializeGoogleAnalytics(), 100);
+    }
     hideCookieSettings();
     hideCookieBanner();
 }
@@ -678,10 +697,10 @@ window.debugGA = {
             }
         });
         cookiesRejected = false;
+        isGALoaded = false;
         location.reload();
     }
 };
 
-if (!areCookiesRejected()) {
-    console.log('📊 Analytics MAX DATA prêt — 14 trackers actifs');
-}
+// FIX: log supprimé d'ici — il a été déplacé dans initializeGoogleAnalytics()
+// pour n'apparaître que si GA est réellement initialisé avec consentement valide.
