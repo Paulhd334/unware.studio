@@ -14,7 +14,6 @@
     <meta property="og:description" content="NEXA arrive en 2027 ! Jeu développé avec Unreal Engine 5. Inscrivez-vous pour être informé du lancement.">
     <meta property="og:image" content="https://unware.studio/images/nexa-screen.webp">
     
-
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="NEXA">
 
@@ -41,27 +40,28 @@
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
 
+ <!-- ✅ ANALYTICS LOADER — UN SEUL BLOC, pages dans /nexa/ /Support/ /legals/ -->
     <script>
-(function(){
-    function getCookie(n){
-        var eq=n+"=",ca=document.cookie.split(';');
-        for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
-        return null;
-    }
-    // Si refusé → on ne charge rien du tout
-    if(getCookie('cookieConsent')==='rejected'){
-        console.log('⛔ Cookies refusés — analytics non chargés');
-        return;
-    }
-    // Sinon → chargement defer (non-bloquant)
-    // ⚠️ chemin selon la profondeur de ta page :
-    //   Pages racine          → './js/analytics.js'
-    //   Pages dans /nexa/ → '../js/analytics.js'
-    function load(src){var s=document.createElement('script');s.src=src;s.defer=true;document.head.appendChild(s);}
-    load('../js/analytics.js');
-    load('../js/analytics-clarify.js');
-})();
-</script>
+    (function() {
+        function getCookie(n) {
+            var eq=n+"=", ca=document.cookie.split(';');
+            for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
+            return null;
+        }
+        function load(src) { var s=document.createElement('script');s.src=src;document.head.appendChild(s); }
+
+        // cookie-banner.js TOUJOURS en premier — gère la bannière + consentement sur toutes les pages
+        load('../js/cookie-banner.js');
+
+        // analytics uniquement si pas refusé
+        if (getCookie('cookieConsent') !== 'rejected') {
+            load('../js/analytics.js');
+            load('../js/analytics-clarify.js');
+        } else {
+            console.log('⛔ Cookies refusés — analytics non chargés');
+        }
+    })();
+    </script>
     
 
     <style>
@@ -1824,6 +1824,7 @@
     </script>
  </body>
 </html>
+
 
 
 
