@@ -23,41 +23,26 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-    <!--
-        ✅ ANALYTICS LOADER — placé dans le <head>, juste après les CSS
-        - Vérifie les cookies AVANT de charger quoi que ce soit
-        - Si rejected → rien du tout n'est chargé
-        - Sinon → charge les deux scripts en async (comportement par défaut
-          des scripts injectés dynamiquement, non-bloquant)
-    -->
+     <!-- ✅ ANALYTICS LOADER — UN SEUL BLOC, pages dans /nexa/ /Support/ /legals/ -->
     <script>
     (function() {
         function getCookie(n) {
-            var eq = n + "=", ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i].trim();
-                if (c.indexOf(eq) === 0) return c.substring(eq.length);
-            }
+            var eq=n+"=", ca=document.cookie.split(';');
+            for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
             return null;
         }
+        function load(src) { var s=document.createElement('script');s.src=src;document.head.appendChild(s); }
 
-        if (getCookie('cookieConsent') === 'rejected') {
+        // cookie-banner.js TOUJOURS en premier — gère la bannière + consentement sur toutes les pages
+        load('../js/cookie-banner.js');
+
+        // analytics uniquement si pas refusé
+        if (getCookie('cookieConsent') !== 'rejected') {
+            load('../js/analytics.js');
+            load('../js/analytics-clarify.js');
+        } else {
             console.log('⛔ Cookies refusés — analytics non chargés');
-            return;
         }
-
-        // Les scripts injectés dynamiquement sont async par défaut
-        // → non-bloquants, pas besoin de defer
-        function load(src) {
-            var s = document.createElement('script');
-            s.src = src;
-            document.head.appendChild(s);
-        }
-
-        // Pages dans /nexa/, /Support/, etc. → chemin '../js/'
-        // Page racine index.html              → chemin './js/'
-        load('../js/analytics.js');
-        load('../js/analytics-clarify.js');
     })();
     </script>
 
