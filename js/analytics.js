@@ -25,8 +25,6 @@ function getPageTitle() {
         '/nexa/fonctionnalites.html': 'Fonctionnalités NEXA',
         '/nexa/galerie.html': 'Galerie NEXA',
         '/nexa/nexa.html': 'NEXA',
-        '/create-account.html': 'Créer compte',
-        '/login.html': 'Connexion',
         '/Support/FAQ.html': 'FAQ Support',
         '/Support/centre-aide.html': 'Centre aide',
         '/Support/contact.html': 'Contact',
@@ -34,6 +32,8 @@ function getPageTitle() {
         '/legals/mentions-legales.html': 'Mentions légales',
         '/legals/conditions-utilisation.html': 'Conditions utilisation',
         '/legals/politique-confidentialite.html': 'Politique confidentialité',
+        '/Support/Articles/article.configuration.html': 'Article de configuration',
+        '/Support/Articles/feuille.route.nexa.html': 'Feuille de Routes',
         '/legals/politique-cookies.html': 'Politique cookies'
     };
     return pageMap[path] || document.title || 'UNWARE STUDIO';
