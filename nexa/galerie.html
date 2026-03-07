@@ -22,9 +22,7 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     
-    <script src="../js/analytics.js"></script>
- 
-    <script src="../js/analytics-clarify.js"></script>
+
 
     <style>
         /* ===== REPRIS DE TON CSS ORIGINAL ===== */
@@ -640,5 +638,31 @@
             if (window.location.hash) history.replaceState(null, null, window.location.pathname + window.location.search);
         });
     </script>
+
+
+<script>
+(function(){
+    function getCookie(n){
+        var eq=n+"=",ca=document.cookie.split(';');
+        for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
+        return null;
+    }
+    // Si refusé → on ne charge rien du tout
+    if(getCookie('cookieConsent')==='rejected'){
+        console.log('⛔ Cookies refusés — analytics non chargés');
+        return;
+    }
+    // Sinon → chargement defer (non-bloquant)
+    // ⚠️ chemin selon la profondeur de ta page :
+    //   Pages racine          → './js/analytics.js'
+    //   Pages dans /nexa/ → '../js/analytics.js'
+    function load(src){var s=document.createElement('script');s.src=src;s.defer=true;document.head.appendChild(s);}
+    load('../js/analytics.js');
+    load('../js/analytics-clarify.js');
+})();
+</script>
+
+
+    
 </body>
 </html>
