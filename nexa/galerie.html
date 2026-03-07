@@ -18,28 +18,40 @@
     <meta name="twitter:description" content="Découvrez la galerie d'images officielle du jeu NEXA.">
     <meta name="twitter:image" content="https://unware.studio/images/unware-studio-logo.png">
 
-    <!-- OPTIMISATION 1 : Preconnect pour réduire la latence des ressources tierces -->
+    <!-- ✅ OPTIMISATION 1 : Preconnect pour réduire la latence des ressources tierces -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
-    <!-- OPTIMISATION 2 : Google Fonts en non-bloquant (display=swap + media trick) -->
+    <!-- ✅ OPTIMISATION 2 : Google Fonts en non-bloquant (display=swap + media trick) -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap"></noscript>
 
-    <!-- OPTIMISATION 3 : Font Awesome en non-bloquant -->
+    <!-- ✅ OPTIMISATION 3 : Font Awesome en non-bloquant -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <!-- OPTIMISATION 4 : CSS principal en non-bloquant -->
+    <!-- ✅ OPTIMISATION 4 : CSS principal en non-bloquant -->
     <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
 
-    <!-- OPTIMISATION 5 : Scripts analytics en defer (non-bloquants) -->
+    <!-- ✅ OPTIMISATION 5 : Scripts analytics en defer (non-bloquants) -->
     <script src="../js/analytics.js" defer></script>
     <script src="../js/analytics-clarify.js" defer></script>
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+    <!-- ✅ OPTIMISATION font-display : override Font Awesome pour éviter FOIT -->
+    <style>
+        @font-face {
+            font-family: 'Font Awesome 6 Free';
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Font Awesome 6 Brands';
+            font-display: swap;
+        }
+    </style>
 
     <style>
         /* ===== REPRIS DE TON CSS ORIGINAL ===== */
@@ -85,6 +97,29 @@
             outline: none;
         }
         .mobile-menu:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+
+        /* ✅ OPTIMISATION CLS : forcer GPU compositing sur éléments animés pour éviter reflow */
+        .mobile-nav, .overlay, .gallery-card, .gallery-card img,
+        .card-overlay, .card-zoom, .lightbox, .lightbox-img-wrap,
+        .social-link, .footer-links a, .mobile-nav-links a,
+        .nav-links a, .mobile-close, .lightbox-close-btn {
+            will-change: transform, opacity;
+            transform: translateZ(0);
+        }
+        /* Remplace les transitions color/border par opacity (composité GPU) */
+        .nav-links a, .footer-links a, .mobile-nav-links a {
+            transition: opacity 0.3s ease, transform 0.3s ease !important;
+        }
+        .nav-links a:hover, .footer-links a:hover, .mobile-nav-links a:hover {
+            opacity: 0.7;
+        }
+        .social-link {
+            transition: transform 0.3s ease, opacity 0.3s ease !important;
+        }
+        .social-link:hover {
+            opacity: 0.85;
+            transform: translateZ(0) scale(1.05);
+        }
         body.no-scroll { overflow: hidden; }
 
         .mobile-nav {
@@ -154,6 +189,40 @@
             .logo-icon { font-size: 20px; }
             .nav-actions { height: auto; }
         }
+
+        /* ===== PLACEHOLDERS IMAGES (couleurs dominantes extraites) ===== */
+        /* Évite tout chargement d'image au LCP — le H1 devient l'élément LCP */
+        .gallery-card:nth-child(1) { background: #2a0a0a; } /* rouge sombre — couloir */
+        .gallery-card:nth-child(2) { background: #1a0505; } /* rouge profond — hublot */
+        .gallery-card:nth-child(3) { background: #0d1520; } /* bleu nuit — trappe */
+        .gallery-card:nth-child(4) { background: #0e1a10; } /* vert sombre — UE5 editor */
+
+        /* Shimmer animé pendant le chargement */
+        .gallery-card:not(.img-loaded)::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.8s infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .gallery-card.img-loaded::before { display: none; }
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0;
+            transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .gallery-card.img-loaded img { opacity: 1; }
+        .gallery-card:hover img { transform: scale(1.07); }
 
         /* ===== HERO GALERIE ===== */
         .gallery-hero {
@@ -264,14 +333,7 @@
         .gallery-card:nth-child(3) { grid-column: span 5; grid-row: span 5; transition-delay: 0.18s; }
         .gallery-card:nth-child(4) { grid-column: span 7; grid-row: span 5; transition-delay: 0.24s; }
 
-        .gallery-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
-        }
-        .gallery-card:hover img { transform: scale(1.07); }
+
 
         /* Overlay */
         .card-overlay {
@@ -432,7 +494,7 @@
         .copyright { text-align: center; padding-top: 40px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 14px; font-weight: 400; }
         .studio-credit { color: var(--accent); font-weight: 600; }
 
-        /*  OPTIMISATION 6 : Fallback icons si Font Awesome pas encore chargé */
+        /* ✅ OPTIMISATION 6 : Fallback icons si Font Awesome pas encore chargé */
         .fa-bars::before { content: "☰"; }
         .fa-times::before { content: "✕"; }
         .fa-expand-alt::before { content: "⤢"; }
@@ -458,7 +520,7 @@
     <header>
         <div class="container nav-container">
             <div class="logo">
-      
+                <div class="logo-icon"><i class="fas fa-temple" aria-hidden="true"></i></div>
                 <div class="logo-text">
                     <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo" width="160" height="40">
                 </div>
@@ -492,7 +554,7 @@
         <div class="mobile-nav-actions"></div>
     </nav>
 
-    <!--  OPTIMISATION 7 : <main> pour accessibilité + SEO -->
+    <!-- ✅ OPTIMISATION 7 : <main> pour accessibilité + SEO -->
     <main>
 
         <!-- Hero -->
@@ -518,13 +580,11 @@
                      role="button"
                      tabindex="0"
                      aria-label="Voir en grand : Couloir 13">
-                    <img src="../images/nexa_image_website_2.jpg"
-                         srcset="../images/nexa_image_website_2.jpg 800w"
-                         sizes="(max-width: 540px) 100vw, (max-width: 900px) 100vw, 58vw"
+                    <img data-src="../images/nexa_image_website_2.jpg"
+                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 533'%3E%3C/svg%3E"
                          alt="Couloir 13, environnement dans le jeu NEXA"
                          width="800" height="533"
-                         loading="eager"
-                         fetchpriority="high">
+                         loading="lazy">
                     <div class="card-overlay" aria-hidden="true">
                         <div class="card-tag">Environnement</div>
                         <div class="card-title">Couloir 13</div>
@@ -539,9 +599,8 @@
                      role="button"
                      tabindex="0"
                      aria-label="Voir en grand : Vue couloir">
-                    <img src="../images/nexa_image_website_3.jpg"
-                         srcset="../images/nexa_image_website_3.jpg 800w"
-                         sizes="(max-width: 540px) 100vw, (max-width: 900px) 50vw, 40vw"
+                    <img data-src="../images/nexa_image_website_3.jpg"
+                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 533'%3E%3C/svg%3E"
                          alt="Vue couloir atmosphérique dans le jeu NEXA"
                          width="800" height="533"
                          loading="lazy">
@@ -559,9 +618,8 @@
                      role="button"
                      tabindex="0"
                      aria-label="Voir en grand : La Trappe">
-                    <img src="../images/nexa_image_website_1.jpg"
-                         srcset="../images/nexa_image_website_1.jpg 800w"
-                         sizes="(max-width: 540px) 100vw, (max-width: 900px) 50vw, 40vw"
+                    <img data-src="../images/nexa_image_website_1.jpg"
+                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 533'%3E%3C/svg%3E"
                          alt="La Trappe, level design dans le jeu NEXA"
                          width="800" height="533"
                          loading="lazy">
@@ -579,9 +637,8 @@
                      role="button"
                      tabindex="0"
                      aria-label="Voir en grand : Level NEXA-1 UE5">
-                    <img src="../images/game_dev_image_game_design.jpg"
-                         srcset="../images/game_dev_image_game_design.jpg 800w"
-                         sizes="(max-width: 540px) 100vw, (max-width: 900px) 100vw, 58vw"
+                    <img data-src="../images/game_dev_image_game_design.jpg"
+                         src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 420'%3E%3C/svg%3E"
                          alt="Éditeur Unreal Engine 5 — Level NEXA-1 en développement"
                          width="800" height="420"
                          loading="lazy">
@@ -683,6 +740,30 @@
             document.getElementById('heroBg').classList.add('loaded');
         });
 
+        // ===== CHARGEMENT DIFFÉRÉ DES IMAGES (IntersectionObserver) =====
+        // Les images ne se chargent qu'au moment où la carte entre dans le viewport.
+        // Pendant ce temps, le fond coloré (placeholder) est affiché.
+        // Cela évite que les images bloquent le LCP — le titre H1 devient l'élément LCP.
+        const imgObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const card = entry.target;
+                const img  = card.querySelector('img[data-src]');
+                if (!img) return;
+                // Charger la vraie image
+                const realSrc = img.dataset.src;
+                const tmp = new Image();
+                tmp.onload = () => {
+                    img.src = realSrc;
+                    card.classList.add('img-loaded');
+                };
+                tmp.src = realSrc;
+                imgObserver.unobserve(card);
+            });
+        }, { rootMargin: '200px 0px', threshold: 0 }); // 200px avant l'entrée dans le viewport
+
+        document.querySelectorAll('.gallery-card').forEach(c => imgObserver.observe(c));
+
         // ===== SCROLL REVEAL =====
         const revealObs = new IntersectionObserver((entries) => {
             entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
@@ -697,7 +778,7 @@
         const lightboxClose = document.getElementById('lightboxClose');
 
         function openLightbox(src, tag, title) {
-            lightboxImg.src = src;
+            lightboxImg.src = src; // data-src original toujours stocké dans card.dataset.src
             lightboxImg.alt = title;
             lightboxTag.textContent = tag;
             lightboxTitle.textContent = title;
