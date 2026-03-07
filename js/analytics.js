@@ -682,4 +682,6 @@ window.debugGA = {
     }
 };
 
-console.log('📊 Analytics MAX DATA prêt — 14 trackers actifs');
+if (!areCookiesRejected()) {
+    console.log('📊 Analytics MAX DATA prêt — 14 trackers actifs');
+}
