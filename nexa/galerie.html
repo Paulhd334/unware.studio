@@ -18,24 +18,24 @@
     <meta name="twitter:description" content="Découvrez la galerie d'images officielle du jeu NEXA.">
     <meta name="twitter:image" content="https://unware.studio/images/unware-studio-logo.png">
 
-    <!-- ✅ OPTIMISATION 1 : Preconnect pour réduire la latence des ressources tierces -->
+    <!-- OPTIMISATION 1 : Preconnect pour réduire la latence des ressources tierces -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
-    <!-- ✅ OPTIMISATION 2 : Google Fonts en non-bloquant (display=swap + media trick) -->
+    <!-- OPTIMISATION 2 : Google Fonts en non-bloquant (display=swap + media trick) -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap"></noscript>
 
-    <!-- ✅ OPTIMISATION 3 : Font Awesome en non-bloquant -->
+    <!-- OPTIMISATION 3 : Font Awesome en non-bloquant -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 
-    <!-- ✅ OPTIMISATION 4 : CSS principal en non-bloquant -->
+    <!-- OPTIMISATION 4 : CSS principal en non-bloquant -->
     <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
 
-    <!-- ✅ OPTIMISATION 5 : Scripts analytics en defer (non-bloquants) -->
+    <!-- OPTIMISATION 5 : Scripts analytics en defer (non-bloquants) -->
     <script src="../js/analytics.js" defer></script>
     <script src="../js/analytics-clarify.js" defer></script>
 
@@ -432,7 +432,7 @@
         .copyright { text-align: center; padding-top: 40px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 14px; font-weight: 400; }
         .studio-credit { color: var(--accent); font-weight: 600; }
 
-        /* ✅ OPTIMISATION 6 : Fallback icons si Font Awesome pas encore chargé */
+        /*  OPTIMISATION 6 : Fallback icons si Font Awesome pas encore chargé */
         .fa-bars::before { content: "☰"; }
         .fa-times::before { content: "✕"; }
         .fa-expand-alt::before { content: "⤢"; }
@@ -458,7 +458,7 @@
     <header>
         <div class="container nav-container">
             <div class="logo">
-                <div class="logo-icon"><i class="fas fa-temple" aria-hidden="true"></i></div>
+      
                 <div class="logo-text">
                     <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo" width="160" height="40">
                 </div>
@@ -492,7 +492,7 @@
         <div class="mobile-nav-actions"></div>
     </nav>
 
-    <!-- ✅ OPTIMISATION 7 : <main> pour accessibilité + SEO -->
+    <!--  OPTIMISATION 7 : <main> pour accessibilité + SEO -->
     <main>
 
         <!-- Hero -->
