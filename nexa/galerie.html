@@ -17,14 +17,29 @@
     <meta name="twitter:title" content="Galerie d'Images | NEXA">
     <meta name="twitter:description" content="Découvrez la galerie d'images officielle du jeu NEXA.">
     <meta name="twitter:image" content="https://unware.studio/images/unware-studio-logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/styles.css">
+
+    <!-- ✅ OPTIMISATION 1 : Preconnect pour réduire la latence des ressources tierces -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+    <!-- ✅ OPTIMISATION 2 : Google Fonts en non-bloquant (display=swap + media trick) -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap"></noscript>
+
+    <!-- ✅ OPTIMISATION 3 : Font Awesome en non-bloquant -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+
+    <!-- ✅ OPTIMISATION 4 : CSS principal en non-bloquant -->
+    <link rel="preload" href="../css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../css/styles.css"></noscript>
+
+    <!-- ✅ OPTIMISATION 5 : Scripts analytics en defer (non-bloquants) -->
+    <script src="../js/analytics.js" defer></script>
+    <script src="../js/analytics-clarify.js" defer></script>
+
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    
-    <script src="../js/analytics.js"></script>
- 
-    <script src="../js/analytics-clarify.js"></script>
 
     <style>
         /* ===== REPRIS DE TON CSS ORIGINAL ===== */
@@ -390,7 +405,7 @@
             .gallery-card:nth-child(1) { grid-column: span 1; }
         }
 
-        /* ===== FOOTER (repris de ton original) ===== */
+        /* ===== FOOTER ===== */
         footer {
             background: var(--secondary);
             padding: 80px 0 40px;
@@ -416,20 +431,26 @@
         .footer-links a:hover { color: var(--accent); }
         .copyright { text-align: center; padding-top: 40px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 14px; font-weight: 400; }
         .studio-credit { color: var(--accent); font-weight: 600; }
+
+        /* ✅ OPTIMISATION 6 : Fallback icons si Font Awesome pas encore chargé */
+        .fa-bars::before { content: "☰"; }
+        .fa-times::before { content: "✕"; }
+        .fa-expand-alt::before { content: "⤢"; }
+        .fa-temple::before { content: "◈"; }
     </style>
 </head>
 
 <body>
 
     <!-- Lightbox -->
-    <div class="lightbox" id="lightbox">
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visionneuse d'image">
         <div class="lightbox-img-wrap" id="lightboxWrap">
             <img src="" alt="" id="lightboxImg">
             <div class="lightbox-caption">
                 <div class="card-tag" id="lightboxTag"></div>
                 <div class="card-title" id="lightboxTitle"></div>
             </div>
-            <div class="lightbox-close-btn" id="lightboxClose"><i class="fas fa-times"></i></div>
+            <button class="lightbox-close-btn" id="lightboxClose" aria-label="Fermer la visionneuse"><i class="fas fa-times" aria-hidden="true"></i></button>
         </div>
     </div>
 
@@ -437,27 +458,31 @@
     <header>
         <div class="container nav-container">
             <div class="logo">
-                <div class="logo-icon"><i class="fas fa-temple"></i></div>
+                <div class="logo-icon"><i class="fas fa-temple" aria-hidden="true"></i></div>
                 <div class="logo-text">
-                    <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
+                    <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo" width="160" height="40">
                 </div>
             </div>
-            <ul class="nav-links">
-                <li><a href="../index.html#accueil">Accueil</a></li>
-                <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-                <li><a href="../nexa/galerie.html">Galeries</a></li>
-                <li><a href="../nexa/nexa.html">NEXA</a></li>
-            </ul>
+            <nav aria-label="Navigation principale">
+                <ul class="nav-links">
+                    <li><a href="../index.html#accueil">Accueil</a></li>
+                    <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
+                    <li><a href="../nexa/galerie.html" aria-current="page">Galeries</a></li>
+                    <li><a href="../nexa/nexa.html">NEXA</a></li>
+                </ul>
+            </nav>
             <div class="nav-actions">
-                <div class="mobile-menu" id="mobileMenu"><i class="fas fa-bars"></i></div>
+                <button class="mobile-menu" id="mobileMenu" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobileNav">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
     </header>
 
     <!-- Menu mobile -->
-    <div class="overlay" id="overlay"></div>
-    <nav class="mobile-nav" id="mobileNav">
-        <div class="mobile-close" id="mobileClose"><i class="fas fa-times"></i></div>
+    <div class="overlay" id="overlay" aria-hidden="true"></div>
+    <nav class="mobile-nav" id="mobileNav" aria-label="Menu mobile">
+        <button class="mobile-close" id="mobileClose" aria-label="Fermer le menu"><i class="fas fa-times" aria-hidden="true"></i></button>
         <ul class="mobile-nav-links">
             <li><a href="../index.html#accueil" class="mobile-nav-link">Accueil</a></li>
             <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
@@ -467,71 +492,110 @@
         <div class="mobile-nav-actions"></div>
     </nav>
 
-    <!-- Hero -->
-    <section class="gallery-hero">
-        <div class="gallery-hero-bg" id="heroBg"></div>
-        <div class="gallery-hero-overlay"></div>
-        <div class="gallery-hero-content">
-       <br><br><br>
-            <h1 class="gallery-hero-title">IMAGES<br>DU JEU</h1>
-            <p class="gallery-hero-sub">Captures in-engine · Unreal Engine 5</p>
-        </div>
-    </section>
+    <!-- ✅ OPTIMISATION 7 : <main> pour accessibilité + SEO -->
+    <main>
 
-    <!-- Grille galerie -->
-    <section class="gallery-section">
-        <div class="gallery-grid">
-
-            <div class="gallery-card"
-                 data-src="../images/nexa_image_website_2.jpg"
-                 data-tag="Environnement"
-                 data-title="Couloir 13">
-                <img src="../images/nexa_image_website_2.jpg" alt="Couloir rouge 13 — NEXA" loading="lazy">
-                <div class="card-overlay">
-                    <div class="card-tag">Environnement</div>
-                    <div class="card-title">Couloir 13</div>
-                </div>
-                <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
+        <!-- Hero -->
+        <section class="gallery-hero" aria-label="En-tête de la galerie">
+            <div class="gallery-hero-bg" id="heroBg"></div>
+            <div class="gallery-hero-overlay"></div>
+            <div class="gallery-hero-content">
+                <br><br><br>
+                <h1 class="gallery-hero-title">IMAGES<br>DU JEU</h1>
+                <p class="gallery-hero-sub">Captures in-engine · Unreal Engine 5</p>
             </div>
+        </section>
 
-            <div class="gallery-card"
-                 data-src="../images/nexa_image_website_3.jpg"
-                 data-tag="Atmosphère"
-                 data-title="Vue couloir">
-                <img src="../images/nexa_image_website_3.jpg" alt="Hublot rouge — NEXA" loading="lazy">
-                <div class="card-overlay">
-                    <div class="card-tag">Atmosphère</div>
-                    <div class="card-title">Vue couloir</div>
+        <!-- Grille galerie -->
+        <section class="gallery-section" aria-label="Galerie d'images">
+            <div class="gallery-grid">
+
+                <!-- ✅ OPTIMISATION 8 : images responsives avec srcset + width/height pour éviter CLS -->
+                <div class="gallery-card"
+                     data-src="../images/nexa_image_website_2.jpg"
+                     data-tag="Environnement"
+                     data-title="Couloir 13"
+                     role="button"
+                     tabindex="0"
+                     aria-label="Voir en grand : Couloir 13">
+                    <img src="../images/nexa_image_website_2.jpg"
+                         srcset="../images/nexa_image_website_2.jpg 800w"
+                         sizes="(max-width: 540px) 100vw, (max-width: 900px) 100vw, 58vw"
+                         alt="Couloir 13, environnement dans le jeu NEXA"
+                         width="800" height="533"
+                         loading="eager"
+                         fetchpriority="high">
+                    <div class="card-overlay" aria-hidden="true">
+                        <div class="card-tag">Environnement</div>
+                        <div class="card-title">Couloir 13</div>
+                    </div>
+                    <div class="card-zoom" aria-hidden="true"><i class="fas fa-expand-alt"></i></div>
                 </div>
-                <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
-            </div>
 
-            <div class="gallery-card"
-                 data-src="../images/nexa_image_website_1.jpg"
-                 data-tag="Level Design"
-                 data-title="La Trappe">
-                <img src="../images/nexa_image_website_1.jpg" alt="Trappe lumineuse — NEXA" loading="lazy">
-                <div class="card-overlay">
-                    <div class="card-tag">Level Design</div>
-                    <div class="card-title">La Trappe</div>
+                <div class="gallery-card"
+                     data-src="../images/nexa_image_website_3.jpg"
+                     data-tag="Atmosphère"
+                     data-title="Vue couloir"
+                     role="button"
+                     tabindex="0"
+                     aria-label="Voir en grand : Vue couloir">
+                    <img src="../images/nexa_image_website_3.jpg"
+                         srcset="../images/nexa_image_website_3.jpg 800w"
+                         sizes="(max-width: 540px) 100vw, (max-width: 900px) 50vw, 40vw"
+                         alt="Vue couloir atmosphérique dans le jeu NEXA"
+                         width="800" height="533"
+                         loading="lazy">
+                    <div class="card-overlay" aria-hidden="true">
+                        <div class="card-tag">Atmosphère</div>
+                        <div class="card-title">Vue couloir</div>
+                    </div>
+                    <div class="card-zoom" aria-hidden="true"><i class="fas fa-expand-alt"></i></div>
                 </div>
-                <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
-            </div>
 
-            <div class="gallery-card"
-                 data-src="../images/game_dev_image_game_design.jpg"
-                 data-tag="Développement"
-                 data-title="Level NEXA-1 UE5">
-                <img src="../images/game_dev_image_game_design.jpg" alt="Éditeur Unreal Engine 5 — NEXA" loading="lazy">
-                <div class="card-overlay">
-                    <div class="card-tag">Développement</div>
-                    <div class="card-title">Level NEXA-1 </div>
+                <div class="gallery-card"
+                     data-src="../images/nexa_image_website_1.jpg"
+                     data-tag="Level Design"
+                     data-title="La Trappe"
+                     role="button"
+                     tabindex="0"
+                     aria-label="Voir en grand : La Trappe">
+                    <img src="../images/nexa_image_website_1.jpg"
+                         srcset="../images/nexa_image_website_1.jpg 800w"
+                         sizes="(max-width: 540px) 100vw, (max-width: 900px) 50vw, 40vw"
+                         alt="La Trappe, level design dans le jeu NEXA"
+                         width="800" height="533"
+                         loading="lazy">
+                    <div class="card-overlay" aria-hidden="true">
+                        <div class="card-tag">Level Design</div>
+                        <div class="card-title">La Trappe</div>
+                    </div>
+                    <div class="card-zoom" aria-hidden="true"><i class="fas fa-expand-alt"></i></div>
                 </div>
-                <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
-            </div>
 
-        </div>
-    </section>
+                <div class="gallery-card"
+                     data-src="../images/game_dev_image_game_design.jpg"
+                     data-tag="Développement"
+                     data-title="Level NEXA-1 UE5"
+                     role="button"
+                     tabindex="0"
+                     aria-label="Voir en grand : Level NEXA-1 UE5">
+                    <img src="../images/game_dev_image_game_design.jpg"
+                         srcset="../images/game_dev_image_game_design.jpg 800w"
+                         sizes="(max-width: 540px) 100vw, (max-width: 900px) 100vw, 58vw"
+                         alt="Éditeur Unreal Engine 5 — Level NEXA-1 en développement"
+                         width="800" height="420"
+                         loading="lazy">
+                    <div class="card-overlay" aria-hidden="true">
+                        <div class="card-tag">Développement</div>
+                        <div class="card-title">Level NEXA-1</div>
+                    </div>
+                    <div class="card-zoom" aria-hidden="true"><i class="fas fa-expand-alt"></i></div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
 
     <!-- Footer -->
     <footer>
@@ -540,15 +604,17 @@
                 <div class="footer-brand">
                     <div class="footer-logo"><div class="footer-logo-text">NEXA</div></div>
                     <p class="footer-desc">Un jeu développé par UNWARE STUDIO utilisant la puissance d'Unreal Engine 5 pour créer une expérience de jeu révolutionnaire.</p>
+                    <!-- ✅ OPTIMISATION 9 : aria-label sur les liens sociaux (fix accessibilité) -->
                     <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link" aria-label="Suivre NEXA sur Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" class="social-link" aria-label="Rejoindre le Discord NEXA"><i class="fab fa-discord" aria-hidden="true"></i></a>
+                        <a href="#" class="social-link" aria-label="Chaîne YouTube NEXA"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+                        <a href="#" class="social-link" aria-label="Instagram NEXA"><i class="fab fa-instagram" aria-hidden="true"></i></a>
                     </div>
                 </div>
                 <div class="footer-column">
-                    <h3>Navigation</h3>
+                    <!-- ✅ OPTIMISATION 10 : h2 au lieu de h3 pour la hiérarchie (fix accessibilité) -->
+                    <h2 style="font-size:18px;margin-bottom:20px;color:var(--accent);font-weight:600;">Navigation</h2>
                     <ul class="footer-links">
                         <li><a href="../index.html">Accueil</a></li>
                         <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
@@ -557,7 +623,7 @@
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h3>Support</h3>
+                    <h2 style="font-size:18px;margin-bottom:20px;color:var(--accent);font-weight:600;">Support</h2>
                     <ul class="footer-links">
                         <li><a href="../Support/centre-aide.html">Centre d'aide</a></li>
                         <li><a href="../Support/FAQ.html">FAQ</a></li>
@@ -566,7 +632,7 @@
                     </ul>
                 </div>
                 <div class="footer-column">
-                    <h3>Légal</h3>
+                    <h2 style="font-size:18px;margin-bottom:20px;color:var(--accent);font-weight:600;">Légal</h2>
                     <ul class="footer-links">
                         <li><a href="../legals/conditions-utilisation.html">Conditions d'utilisation</a></li>
                         <li><a href="../legals/politique-confidentialite.html">Politique de confidentialité</a></li>
@@ -590,8 +656,21 @@
         const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
         const body = document.body;
 
-        function openMobileMenu()  { mobileNav.classList.add('active'); overlay.classList.add('active'); mobileMenu.classList.add('active'); body.classList.add('no-scroll'); void mobileNav.offsetWidth; }
-        function closeMobileMenu() { mobileNav.classList.remove('active'); overlay.classList.remove('active'); mobileMenu.classList.remove('active'); body.classList.remove('no-scroll'); }
+        function openMobileMenu()  {
+            mobileNav.classList.add('active');
+            overlay.classList.add('active');
+            mobileMenu.classList.add('active');
+            mobileMenu.setAttribute('aria-expanded', 'true');
+            body.classList.add('no-scroll');
+            void mobileNav.offsetWidth;
+        }
+        function closeMobileMenu() {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            mobileMenu.setAttribute('aria-expanded', 'false');
+            body.classList.remove('no-scroll');
+        }
 
         mobileMenu.addEventListener('click', () => mobileNav.classList.contains('active') ? closeMobileMenu() : openMobileMenu());
         overlay.addEventListener('click', closeMobileMenu);
@@ -624,6 +703,7 @@
             lightboxTitle.textContent = title;
             lightbox.classList.add('active');
             body.classList.add('no-scroll');
+            lightboxClose.focus();
         }
         function closeLightbox() {
             lightbox.classList.remove('active');
@@ -632,6 +712,13 @@
 
         document.querySelectorAll('.gallery-card').forEach(card => {
             card.addEventListener('click', () => openLightbox(card.dataset.src, card.dataset.tag, card.dataset.title));
+            // ✅ Accessibilité clavier
+            card.addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openLightbox(card.dataset.src, card.dataset.tag, card.dataset.title);
+                }
+            });
         });
         lightboxClose.addEventListener('click', closeLightbox);
         lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
