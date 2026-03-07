@@ -532,4 +532,6 @@ window.debugClarity = {
     }
 };
 
-console.log('🔍 Clarity MAX DATA prêt — ID:', CLARITY_PROJECT_ID);
+if (!areCookiesRejected()) {
+    console.log('🔍 Clarity MAX DATA prêt — ID:', CLARITY_PROJECT_ID);
+}
