@@ -2,7 +2,27 @@
     "name": "UNWARE STUDIO",
     "short_name": "UNWARE",
     "description": "NEXA - Une expérience de jeu immersive développée par UNWARE STUDIO sur Unreal Engine 5",
+    "lang": "fr",
+    "scope": "/",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "theme_color": "#000000",
+    "background_color": "#000000",
+    "categories": ["games", "entertainment"],
     "icons": [
+        {
+            "src": "/images/favicons/favicon-16x16.png",
+            "sizes": "16x16",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/images/favicons/favicon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/png",
+            "purpose": "any"
+        },
         {
             "src": "/images/favicons/favicon-192x192.png",
             "sizes": "192x192",
@@ -16,50 +36,28 @@
             "purpose": "any"
         },
         {
-            "src": "/images/favicons/favicon-32x32.png",
-            "sizes": "32x32",
+            "src": "/images/favicons/apple-touch-icon-120x120.png",
+            "sizes": "120x120",
             "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/images/favicons/favicon-16x16.png",
-            "sizes": "16x16",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "/images/favicons/apple-touch-icon.png",
-            "sizes": "180x180",
-            "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "maskable"
         },
         {
             "src": "/images/favicons/apple-touch-icon-152x152.png",
             "sizes": "152x152",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "maskable"
         },
         {
             "src": "/images/favicons/apple-touch-icon-167x167.png",
             "sizes": "167x167",
             "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "maskable"
         },
         {
             "src": "/images/favicons/apple-touch-icon-180x180.png",
             "sizes": "180x180",
             "type": "image/png",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/images/favicons/apple-touch-icon-120x120.png",
-            "sizes": "120x120",
-            "type": "image/png",
-            "purpose": "any maskable"
+            "purpose": "maskable"
         }
-    ],
-    "theme_color": "#000000",
-    "background_color": "#000000",
-    "display": "standalone",
-    "start_url": "/"
+    ]
 }
