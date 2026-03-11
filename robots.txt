@@ -1,11 +1,12 @@
 User-agent: *
 Allow: /
-
 # Exclure les dossiers inutiles 
 Disallow: /temp/
 Disallow: /backup/
 Disallow: /private/
-
+# Bloquer les pages d'authentification
+Disallow: /login.html
+Disallow: /create-account.html
 # Autoriser toutes les sections importantes
 Allow: /legals/
 Allow: /Support/
@@ -13,7 +14,5 @@ Allow: /nexa/
 Allow: /css/
 Allow: /images/
 Allow: /js/
-
-
 # Sitemap principal
 Sitemap: https://unware.studio/sitemap.xml
