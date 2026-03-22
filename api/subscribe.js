@@ -20,27 +20,19 @@ export default async function handler(req, res) {
             <tr>
                 <td align="center">
                     <table width="600" cellpadding="0" cellspacing="0" style="background:#111111;border-radius:12px;border:1px solid rgba(255,255,255,0.08);">
-
-                        <!-- HEADER -->
                         <tr>
                             <td style="padding:40px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.08);">
                                 <h1 style="margin:0;font-size:42px;color:#ffffff;letter-spacing:6px;font-weight:700;">NEXA</h1>
                                 <p style="margin:8px 0 0;font-size:11px;color:#888888;letter-spacing:3px;text-transform:uppercase;">UNWARE STUDIO</p>
                             </td>
                         </tr>
-
-                        <!-- BADGE -->
                         <tr>
                             <td style="padding:30px 40px 0;text-align:center;">
                                 <span style="display:inline-block;background:rgba(255,255,255,0.05);color:#ffffff;padding:8px 16px;border-radius:4px;font-size:11px;letter-spacing:2px;border:1px solid rgba(255,255,255,0.1);">NOUVELLE INSCRIPTION</span>
                             </td>
                         </tr>
-
-                        <!-- BODY -->
                         <tr>
                             <td style="padding:30px 40px;">
-
-                                <!-- Email box -->
                                 <table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;margin-bottom:16px;">
                                     <tr>
                                         <td style="padding:20px 24px;">
@@ -49,8 +41,6 @@ export default async function handler(req, res) {
                                         </td>
                                     </tr>
                                 </table>
-
-                                <!-- Date box -->
                                 <table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;margin-bottom:30px;">
                                     <tr>
                                         <td style="padding:20px 24px;">
@@ -59,8 +49,6 @@ export default async function handler(req, res) {
                                         </td>
                                     </tr>
                                 </table>
-
-                                <!-- CTA -->
                                 <table width="100%" cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td align="center">
@@ -68,18 +56,14 @@ export default async function handler(req, res) {
                                         </td>
                                     </tr>
                                 </table>
-
                             </td>
                         </tr>
-
-                        <!-- FOOTER -->
                         <tr>
                             <td style="padding:24px 40px;border-top:1px solid rgba(255,255,255,0.08);text-align:center;">
                                 <p style="margin:0;font-size:12px;color:#888888;">© 2026 UNWARE STUDIO — Développé sur Unreal Engine 5.6</p>
                                 <p style="margin:8px 0 0;font-size:12px;color:#555555;">unware.studio</p>
                             </td>
                         </tr>
-
                     </table>
                 </td>
             </tr>
@@ -95,8 +79,8 @@ export default async function handler(req, res) {
                 'Authorization': `Bearer ${process.env.RESEND_API_KEY}`
             },
             body: JSON.stringify({
-              from: 'NEXA <onboarding@resend.dev>',
-                to: [process.env.CONTACT_EMAIL],
+                from: 'NEXA <onboarding@resend.dev>',
+                to: ['vancaemerbekepaul@gmail.com'],
                 subject: `Nouvelle inscription NEXA — ${email}`,
                 html: htmlTemplate
             })
