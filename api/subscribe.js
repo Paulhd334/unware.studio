@@ -79,8 +79,8 @@ export default async function handler(req, res) {
                 'Authorization': `Bearer ${process.env.RESEND_API_KEY}`
             },
             body: JSON.stringify({
-                from: 'NEXA <onboarding@resend.dev>',
-                to: ['vancaemerbekepaul@gmail.com'],
+from: 'NEXA <noreply@unware.studio>',
+to: [process.env.CONTACT_EMAIL],
                 subject: `Nouvelle inscription NEXA — ${email}`,
                 html: htmlTemplate
             })
