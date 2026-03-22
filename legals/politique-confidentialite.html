@@ -34,12 +34,34 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://unware.studio/legals/politique-confidentialite.html">
 
-    <!-- Analytics -->
-    <script src="../js/analytics.js"></script>
-    <script src="../js/analytics-clarify.js"></script>
+
         
     <!-- CSS principal -->
     <link rel="stylesheet" href="../css/styles.css">
+
+
+     <!-- ANALYTICS LOADER — UN SEUL BLOC, pages dans /nexa/ /Support/ /legals/ -->
+    <script>
+    (function() {
+        function getCookie(n) {
+            var eq=n+"=", ca=document.cookie.split(';');
+            for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
+            return null;
+        }
+        function load(src) { var s=document.createElement('script');s.src=src;document.head.appendChild(s); }
+
+        // cookie-banner.js TOUJOURS en premier — gère la bannière + consentement sur toutes les pages
+        load('../js/cookie-banner.js');
+
+        // analytics uniquement si pas refusé
+        if (getCookie('cookieConsent') !== 'rejected') {
+            load('../js/analytics.js');
+            load('../js/analytics-clarify.js');
+        } else {
+            console.log('⛔ Cookies refusés — analytics non chargés');
+        }
+    })();
+    </script>
 
     <style>
     /* Styles CSS existants inchangés */
@@ -736,12 +758,20 @@
                                 <li><i class="fas fa-circle"></i> Interactions multijoueur</li>
                             </ul>
                         </div>
+                        <div class="data-category">
+    <h4>Données de newsletter</h4>
+    <ul>
+        <li><i class="fas fa-circle"></i> Adresse email</li>
+        <li><i class="fas fa-circle"></i> Date d'inscription</li>
+        <li><i class="fas fa-circle"></i> Statut d'abonnement</li>
+    </ul>
+</div>
                     </div>
                     
                 </div>
 
                 <div class="rgpd-card">
-                    <h3><i class="fas fa-bullseye"></i> Finalités du traitement (futures)</h3>
+                    <h3><i class="fas fa-bullseye"></i> Finalités du traitement</h3>
                    
                     <ul class="rgpd-list">
                         <li><i class="fas fa-check"></i> Accès au site web NEXA et au jeu</li>
@@ -831,6 +861,17 @@ Google met en place des garanties conformes au RGPD pour la protection de vos do
                 </div>
 
                 <div class="rgpd-card">
+    <h3><i class="fas fa-server"></i> Sous-traitants</h3>
+    <p>Nous utilisons les services tiers suivants pour traiter vos données :</p>
+    <ul class="rgpd-list">
+        <li><i class="fas fa-envelope"></i> <strong>Resend</strong> — Envoi d'emails et stockage des adresses email des inscrits. Données hébergées en Irlande (UE).</li>
+        <li><i class="fas fa-chart-bar"></i> <strong>Google Analytics</strong> — Analyse du trafic du site. Données susceptibles d'être traitées hors EEE.</li>
+        <li><i class="fas fa-eye"></i> <strong>Microsoft Clarity</strong> — Analyse du comportement des utilisateurs. Données susceptibles d'être traitées hors EEE.</li>
+        <li><i class="fas fa-cloud"></i> <strong>Vercel</strong> — Hébergement du site. Données hébergées aux États-Unis avec garanties RGPD.</li>
+    </ul>
+</div>
+
+                <div class="rgpd-card">
                     <h3><i class="fas fa-gamepad"></i> Jeu NEXA</h3>
                     <p>Le jeu NEXA, actuellement en développement, pourra collecter des données de jeu lorsque les fonctionnalités multijoueur et de compte seront déployées. Ces données incluront :</p>
                     <ul class="rgpd-list">
@@ -849,8 +890,8 @@ Google met en place des garanties conformes au RGPD pour la protection de vos do
                 </div>
 
                 <div class="last-update">
-                    <p><strong>Dernière mise à jour :</strong> 4 mars 2026</p>
-                    <p><em>Cette politique sera mise à jour lors du déploiement des fonctionnalités de compte et du jeu NEXA.</em></p>
+                  <p><strong>Dernière mise à jour :</strong> 22 mars 2026</p>
+                    <p><em>Cette politique sera mise à jour régulièrement à mesure que les fonctionnalités de compte et du jeu NEXA seront déployées.</em></p>
                 </div>
             </div>
         </div>
