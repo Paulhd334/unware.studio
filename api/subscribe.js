@@ -1,8 +1,8 @@
-import { Resend } from 'resend';
+const { Resend } = require('resend');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', 'https://unware.studio');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -16,21 +16,21 @@ export default async function handler(req, res) {
     const date = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
 
     try {
-        // Vérifier si l'email est déjà inscrit
-        const existing = await resend.contacts.get({
-            email: email,
-            audienceId: process.env.RESEND_AUDIENCE_ID
+        // Vérifier si déjà inscrit
+        const { data: existing, error: getError } = await resend.contacts.get({
+            audienceId: process.env.RESEND_AUDIENCE_ID,
+            email: email
         });
 
-        if (existing.data && !existing.error) {
+        if (existing && !getError) {
             return res.status(409).json({ error: 'already_subscribed' });
         }
 
-        // Ajouter le contact dans l'audience
+        // Ajouter dans l'audience
         await resend.contacts.create({
+            audienceId: process.env.RESEND_AUDIENCE_ID,
             email: email,
-            unsubscribed: false,
-            audienceId: process.env.RESEND_AUDIENCE_ID
+            unsubscribed: false
         });
 
         const playerTemplate = `
