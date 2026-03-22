@@ -1717,7 +1717,7 @@
     </footer>
 
 
-
+    
 
 <script>
     const mobileMenu = document.getElementById('mobileMenu');
@@ -1779,33 +1779,34 @@
         submitBtn.textContent = 'Inscription...';
         submitBtn.disabled = true;
         
-try {
-    const response = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: email })
-    });
+        try {
+            const response = await fetch('/api/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email })
+            });
 
-    if (response.status === 409) {
-        showMessage(formMessage, 'Vous êtes déjà inscrit sur la liste !', 'error');
-        return;
-    }
+            if (response.status === 409) {
+                showMessage(formMessage, 'Vous êtes déjà inscrit sur la liste !', 'error');
+                return;
+            }
 
-    if (response.ok) {
-        showMessage(formMessage, 'Merci ! Vous serez informé dès le lancement de NEXA en 2027.', 'success');
-        this.reset();
-    } else {
-        throw new Error('Erreur');
-    }
-} catch (error) {
-    console.error('Erreur:', error);
-    showMessage(formMessage, 'Une erreur est survenue. Veuillez réessayer plus tard.', 'error');
-} finally {
-    submitBtn.textContent = "M'informer";
-    submitBtn.disabled = false;
-}
+            if (response.ok) {
+                showMessage(formMessage, 'Merci ! Vous serez informé dès le lancement de NEXA en 2027.', 'success');
+                this.reset();
+            } else {
+                throw new Error('Erreur');
+            }
+        } catch (error) {
+            console.error('Erreur:', error);
+            showMessage(formMessage, 'Une erreur est survenue. Veuillez réessayer plus tard.', 'error');
+        } finally {
+            submitBtn.textContent = "M'informer";
+            submitBtn.disabled = false;
+        }
+    }); // ← fermeture addEventListener
 
     function showMessage(element, message, type) {
         element.textContent = message;
@@ -1826,7 +1827,8 @@ try {
             history.replaceState(null, null, window.location.pathname + window.location.search);
         }
     });
-</script> 
+</script>
+
  </body>
 </html>
 
