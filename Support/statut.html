@@ -20,50 +20,74 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="État des Services NEXA - Statut en Temps Réel">
     <meta name="twitter:description" content="Surveillance en direct de tous les services NEXA. Vérifiez la disponibilité 24/7.">
-    
-
-    <!-- Canonical -->
-    <link rel="canonical" href="https://unware.studio/Support/statut.html">
-
-    <!-- Structured Data JSON-LD -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "État des Services NEXA",
-        "description": "Surveillance en temps réel de l'état des services NEXA",
-        "url": "https://unware.studio/Support/statut.html",
-        "publisher": {
-            "@type": "Organization",
-            "name": "UNWARE STUDIO",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://unware.studio/images/logo.png"
-            }
-        },
-        "mainEntity": {
-            "@type": "Service",
-            "name": "NEXA Status Monitor",
-            "serviceType": "Monitoring",
-            "provider": {
-                "@type": "Organization",
-                "name": "UNWARE STUDIO"
-            }
-        }
-    }
-    </script>
-
-    <!-- Title optimisé -->
-    <title>État des Services NEXA </title>
 
     <!-- Fonts & Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
+    
 
-    <script src="../js/analytics.js"></script>
- 
-    <script src="../js/analytics-clarify.js"></script>
+    <!-- Canonical -->
+    <link rel="canonical" href="https://unware.studio/Support/statut.html">
+
+    
+    <!-- Title optimisé -->
+    <title>État des Services</title>
+
+    <!-- Structured Data JSON-LD -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "État des Services NEXA",
+  "description": "Surveillance en temps réel de l'état des services NEXA",
+  "url": "https://unware.studio/Support/statut.html",
+  "inLanguage": "fr-FR",
+  "publisher": {
+    "@type": "Organization",
+    "name": "UNWARE STUDIO",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://unware.studio/favicon.ico"
+    }
+  },
+  "mainEntity": {
+    "@type": "Service",
+    "name": "NEXA Status Monitor",
+    "description": "Service de suivi et de monitoring de l'état des services NEXA",
+    "serviceType": "Monitoring",
+    "provider": {
+      "@type": "Organization",
+      "name": "UNWARE STUDIO"
+    }
+  }
+}
+</script>
+
+
+    <script>
+    (function() {
+        function getCookie(n) {
+            var eq=n+"=", ca=document.cookie.split(';');
+            for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
+            return null;
+        }
+        function load(src) { var s=document.createElement('script');s.src=src;document.head.appendChild(s); }
+
+        // cookie-banner.js TOUJOURS en premier — gère la bannière + consentement sur toutes les pages
+        load('../js/cookie-banner.js');
+
+        // analytics uniquement si pas refusé
+        if (getCookie('cookieConsent') !== 'rejected') {
+            load('../js/analytics.js');
+            load('../js/analytics-clarify.js');
+        } else {
+            console.log('⛔ Cookies refusés — analytics non chargés');
+        }
+    })();
+    </script>
+
+
     
 </head>
 
@@ -870,93 +894,7 @@
                     </div>
                 </div>
 
-                <!-- Supabase -->
-                <div class="service-card">
-                    <div class="service-header">
-                        <div class="service-info">
-                            <div class="service-icon">
-                                <i class="fas fa-database" aria-hidden="true"></i>
-                            </div>
-                            <div class="service-details">
-                                <h3>Base de données Supabase</h3>
-                                <p>Backend et authentification</p>
-                            </div>
-                        </div>
-                        <div class="status-indicator status-operational" id="supabase-status">
-                            <div class="status-dot"></div>
-                            <span>Opérationnel</span>
-                        </div>
-                    </div>
-                    <div class="service-stats">
-                        <div class="stat-item">
-                            <div class="stat-value">100%</div>
-                            <div class="stat-label">Disponibilité</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">35ms</div>
-                            <div class="stat-label">Temps de réponse</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Service de Comptes -->
-                <div class="service-card">
-                    <div class="service-header">
-                        <div class="service-info">
-                            <div class="service-icon">
-                                <i class="fas fa-user-shield" aria-hidden="true"></i>
-                            </div>
-                            <div class="service-details">
-                                <h3>Système de Comptes</h3>
-                                <p>Création et gestion des comptes</p>
-                            </div>
-                        </div>
-                      <div class="status-indicator status-operational" id="supabase-status">
-                            <div class="status-dot"></div>
-                            <span>Opérationnel</span>
-                        </div>
-                    </div>
-                    <div class="service-stats">
-                        <div class="stat-item">
-                            <div class="stat-value">100%</div>
-                            <div class="stat-label">Disponibilité</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">10ms</div>
-                            <div class="stat-label">Temps de réponse</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- API de Jeu -->
-                <div class="service-card">
-                    <div class="service-header">
-                        <div class="service-info">
-                            <div class="service-icon">
-                                <i class="fas fa-gamepad" aria-hidden="true"></i>
-                            </div>
-                            <div class="service-details">
-                                <h3>API de Jeu NEXA</h3>
-                                <p>Services backend du jeu</p>
-                            </div>
-                        </div>
-                        <div class="status-indicator status-not-created">
-                            <div class="status-dot"></div>
-                            <span>En Développement</span>
-                        </div>
-                    </div>
-                    <div class="service-stats">
-                        <div class="stat-item">
-                            <div class="stat-value">-</div>
-                            <div class="stat-label">Disponibilité</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">-</div>
-                            <div class="stat-label">Temps de réponse</div>
-                        </div>
-                    </div>
-                </div>
-
+         
                 <!-- CDN Assets -->
                 <div class="service-card">
                     <div class="service-header">
@@ -991,21 +929,7 @@
 
 
 
-    <!-- Real-time Updates -->
-    <section class="updates-section">
-        <div class="container">
-            <h2 class="section-title">Mises à Jour en Temps Réel</h2>
-            <div class="update-feed">
-                <div class="update-header">
-                    <i class="fas fa-broadcast-tower" aria-hidden="true"></i>
-                    <h3>Flux d'activité en direct</h3>
-                </div>
-                <div class="update-list" id="update-list">
-                    <!-- Les mises à jour seront ajoutées dynamiquement -->
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <footer>
         <div class="container">
