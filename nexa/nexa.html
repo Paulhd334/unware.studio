@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXA | UNWARE STUDIO</title>
-    <meta name="description" content="NEXA arrive en 2027 ! Une expérience de jeu révolutionnaire sous Unreal Engine 5.6 développé par UNWARE STUDIO. Inscrivez-vous pour être informé du lancement.">
-    <meta name="keywords" content="NEXA, UNWARE STUDIO, jeu vidéo 2027, Unreal Engine 5, sortie 2027, nouveauté gaming">
+    <meta name="description" content="NEXA arrive en 2027 ! Une expérience de jeu sous Unreal Engine 5.6 développé par UNWARE STUDIO. Inscrivez-vous pour être informé du lancement.">
+    <meta name="keywords" content="NEXA, jeu vidéo 2027, Unreal Engine 5, sortie 2027">
     <meta name="author" content="UNWARE STUDIO">
     <meta name="robots" content="index, follow">
 
@@ -18,7 +18,6 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="NEXA - Disponible en 2027">
     <meta name="twitter:description" content="NEXA arrive en 2027 ! Jeu développé avec Unreal Engine 5.">
-    <meta name="twitter:image" content="https://unware.studio/images/nexa-screen.webp">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -28,6 +27,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
     <link rel="apple-touch-icon" href="../images/favicons/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
+
+        <link rel="stylesheet" href="../css/styles.css">
+
 
     <style>
         :root {
@@ -54,10 +56,10 @@
 
         /* Scroll Indicator Arrow */
         .scroll-indicator {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
+            bottom: auto;
+            left: auto;
+            transform: none;
             z-index: 20;
             cursor: pointer;
             display: flex;
@@ -66,6 +68,8 @@
             gap: 8px;
             transition: opacity 0.3s ease;
             opacity: 0.7;
+            margin: 40px auto 0;
+            width: fit-content;
         }
 
         .scroll-indicator:hover {
@@ -159,6 +163,62 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-icon {
+            font-size: 28px;
+            color: var(--accent);
+        }
+        .logo-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 1.5px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Mobile Menu */
         .mobile-menu {
             display: none;
             font-size: 24px;
@@ -268,83 +328,17 @@
             padding-top: 20px;
             border-top: 1px solid var(--border);
         }
-        .mobile-nav-actions .btn { text-align: center; width: 100%; padding: 14px 20px; border-radius: 8px; font-weight: 600; height: auto; }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-            padding-top: 80px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-        }
-        .hero-container {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-        }
-        .hero-text { max-width: 540px; }
-        .hero-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(80px, 12vw, 140px);
-            line-height: 0.9;
-            color: var(--accent);
-            letter-spacing: -2px;
-            margin-bottom: 32px;
-            opacity: 0;
-            animation: fadeUp 0.8s ease 0.4s forwards;
-        }
-        .hero-subtitle {
-            font-size: 18px;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            line-height: 1.6;
-            font-weight: 400;
-            max-width: 420px;
-            opacity: 0;
-            animation: fadeUp 0.8s ease 0.6s forwards;
-        }
-        .hero-actions {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 60px;
-            opacity: 0;
-            animation: fadeUp 0.8s ease 0.8s forwards;
-        }
-        .hero-visual {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            animation: fadeIn 1.2s ease 0.6s forwards;
-        }
-        .hero-image-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-        .hero-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 8s ease-in-out;
-        }
 
         /* Features Section */
-        .features-section { padding: 100px 0; }
+        .features-section { 
+            padding: 120px 0 50px 0; 
+            margin-top: 60px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
         .section-eyebrow {
             font-family: 'Space Mono', monospace;
             font-size: 11px;
@@ -445,6 +439,11 @@
             padding: 80px 0 40px;
             border-top: 1px solid var(--border);
         }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -500,6 +499,7 @@
         @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+        /* Responsive */
         @media (max-width: 1024px) {
             .hero-container { grid-template-columns: 1fr; gap: 60px; text-align: center; }
             .hero-subtitle { margin-left: auto; margin-right: auto; }
@@ -508,28 +508,61 @@
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .mobile-menu { display: flex; }
-            .hero-container { padding: 0 20px; }
+            .nav-container { padding: 15px 20px; }
             .form-group { flex-direction: column; }
-            .scroll-indicator { bottom: 20px; }
+            .feature-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .feature-num {
+                padding-top: 0;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .scroll-indicator {
+                margin: 20px auto 0;
+            }
+            .features-section {
+                padding: 100px 0 50px 0;
+                margin-top: 0;
+            }
         }
         @media (max-width: 480px) {
-            .hero-title { font-size: 72px; }
-            .scroll-indicator .mouse { width: 22px; height: 36px; }
+            .section-title-large {
+                font-size: 36px;
+            }
+            .feature-content h3 {
+                font-size: 24px;
+            }
+            .notification-form {
+                padding: 25px;
+            }
+            .scroll-indicator .mouse {
+                width: 22px;
+                height: 36px;
+            }
         }
     </style>
 </head>
 <body>
 
+
+
     <header>
-        <div class="container nav-container" style="max-width: 1200px; margin: 0 auto; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;">
+        <div class="container nav-container">
             <div class="logo">
                 <div class="logo-icon"><i class="fas fa-temple"></i></div>
+                <div class="logo-text">
+                    <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
+                </div>
             </div>
-            <ul class="nav-links" style="display: flex; gap: 32px; list-style: none;">
-                <li><a href="../index.html#accueil" style="color: var(--text); text-decoration: none;">Accueil</a></li>
-                <li><a href="../nexa/fonctionnalites.html" style="color: var(--text); text-decoration: none;">Fonctionnalités</a></li>
-                <li><a href="../nexa/galerie.html" style="color: var(--text); text-decoration: none;">Galeries</a></li>
-                <li><a href="../nexa/nexa.html" style="color: var(--text); text-decoration: none;">NEXA</a></li>
+            <ul class="nav-links">
+                <li><a href="../index.html#accueil">Accueil</a></li>
+                <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
+                <li><a href="../nexa/galerie.html">Galeries</a></li>
+                <li><a href="../nexa/nexa.html">NEXA</a></li>
             </ul>
             <div class="nav-actions">
                 <div class="mobile-menu" id="mobileMenu"><i class="fas fa-bars"></i></div>
@@ -550,10 +583,9 @@
     </nav>
 
 
-
     <!-- FEATURES -->
     <section class="features-section">
-        <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
+        <div class="container">
             <div class="section-eyebrow">Le jeu</div>
             <h2 class="section-title-large">Ce qui attend<br>les premiers inscrits</h2>
             <div class="features-list">
@@ -575,25 +607,23 @@
         </div>
     </section>
 
-
-            <!-- FLÈCHE INDICATRICE DE SCROLL -->
-        <div class="scroll-indicator" id="scrollIndicator">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-            <div class="arrow-down">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+    <!-- FLÈCHE INDICATRICE DE SCROLL -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <div class="mouse">
+            <div class="wheel"></div>
         </div>
+        <div class="arrow-down">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
 
-        <br>     <br>
-
+    <br><br>
 
     <!-- NEWSLETTER avec ID pour ancrage -->
     <section class="notification" id="newsletter">
-        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <div class="footer-container">
             <div class="section-header" style="text-align: center; margin-bottom: 60px;">
                 <span class="section-subtitle" style="color: var(--accent); font-size: 14px; text-transform: uppercase; letter-spacing: 2px;">Soyez informé</span>
                 <h2 class="section-title" style="font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--accent);">Ne Manquez Pas le Lancement</h2>
@@ -614,7 +644,7 @@
     </section>
 
     <footer itemscope itemtype="https://schema.org/Organization">
-        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+        <div class="footer-container">
             <div class="footer-content">
                 <div class="footer-brand">
                     <div class="footer-logo"><div class="footer-logo-text">NEXA</div></div>
@@ -635,15 +665,13 @@
     </footer>
 
     <script>
-        // Gestion de la flèche de scroll : disparition au scroll + clic pour descendre
+        // Gestion de la flèche de scroll
         const scrollIndicator = document.getElementById('scrollIndicator');
-        const hero = document.querySelector('.hero');
         
         function handleScrollIndicator() {
             if (!scrollIndicator) return;
             const scrollY = window.scrollY;
-            const heroHeight = hero ? hero.offsetHeight : window.innerHeight;
-            if (scrollY > heroHeight * 0.15) {
+            if (scrollY > 100) {
                 scrollIndicator.classList.add('fade-out');
             } else {
                 scrollIndicator.classList.remove('fade-out');
@@ -655,11 +683,9 @@
         
         if (scrollIndicator) {
             scrollIndicator.addEventListener('click', () => {
-                const nextSection = document.querySelector('.features-section');
+                const nextSection = document.querySelector('.notification');
                 if (nextSection) {
                     nextSection.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
                 }
             });
         }
@@ -671,12 +697,27 @@
         const mobileClose = document.getElementById('mobileClose');
         const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
         const body = document.body;
-        function openMobileMenu() { mobileNav.classList.add('active'); overlay.classList.add('active'); body.classList.add('no-scroll'); }
-        function closeMobileMenu() { mobileNav.classList.remove('active'); overlay.classList.remove('active'); body.classList.remove('no-scroll'); }
+        
+        function openMobileMenu() { 
+            mobileNav.classList.add('active'); 
+            overlay.classList.add('active'); 
+            body.classList.add('no-scroll'); 
+        }
+        
+        function closeMobileMenu() { 
+            mobileNav.classList.remove('active'); 
+            overlay.classList.remove('active'); 
+            body.classList.remove('no-scroll'); 
+        }
+        
         mobileMenu?.addEventListener('click', openMobileMenu);
         overlay?.addEventListener('click', closeMobileMenu);
         mobileClose?.addEventListener('click', closeMobileMenu);
         mobileNavLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
+        
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && mobileNav.classList.contains('active')) closeMobileMenu();
+        });
         
         // Newsletter
         document.getElementById('notificationForm')?.addEventListener('submit', async function(e) {
@@ -695,12 +736,33 @@
             submitBtn.textContent = 'Inscription...';
             submitBtn.disabled = true;
             try {
-                const response = await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
-                if (response.status === 409) { formMessage.textContent = 'Vous êtes déjà inscrit sur la liste !'; formMessage.className = 'form-message error'; formMessage.style.display = 'block'; }
-                else if (response.ok) { formMessage.textContent = 'Merci ! Vous serez informé dès le lancement de NEXA en 2027.'; formMessage.className = 'form-message success'; formMessage.style.display = 'block'; this.reset(); }
+                const response = await fetch('/api/subscribe', { 
+                    method: 'POST', 
+                    headers: { 'Content-Type': 'application/json' }, 
+                    body: JSON.stringify({ email }) 
+                });
+                if (response.status === 409) { 
+                    formMessage.textContent = 'Vous êtes déjà inscrit sur la liste !'; 
+                    formMessage.className = 'form-message error'; 
+                    formMessage.style.display = 'block'; 
+                }
+                else if (response.ok) { 
+                    formMessage.textContent = 'Merci ! Vous serez informé dès le lancement de NEXA en 2027.'; 
+                    formMessage.className = 'form-message success'; 
+                    formMessage.style.display = 'block'; 
+                    this.reset(); 
+                }
                 else throw new Error();
-            } catch (error) { formMessage.textContent = 'Une erreur est survenue. Veuillez réessayer plus tard.'; formMessage.className = 'form-message error'; formMessage.style.display = 'block'; }
-            finally { submitBtn.textContent = "M'informer"; submitBtn.disabled = false; setTimeout(() => formMessage.style.display = 'none', 5000); }
+            } catch (error) { 
+                formMessage.textContent = 'Une erreur est survenue. Veuillez réessayer plus tard.'; 
+                formMessage.className = 'form-message error'; 
+                formMessage.style.display = 'block'; 
+            }
+            finally { 
+                submitBtn.textContent = "M'informer"; 
+                submitBtn.disabled = false; 
+                setTimeout(() => formMessage.style.display = 'none', 5000); 
+            }
         });
     </script>
 </body>
