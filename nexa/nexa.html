@@ -9,105 +9,40 @@
     <meta name="author" content="UNWARE STUDIO">
     <meta name="robots" content="index, follow">
 
-    <!-- Open Graph pour les réseaux sociaux -->
     <meta property="og:title" content="NEXA - Disponible en 2027 | UNWARE STUDIO">
     <meta property="og:description" content="NEXA arrive en 2027 ! Jeu développé avec Unreal Engine 5. Inscrivez-vous pour être informé du lancement.">
     <meta property="og:image" content="https://unware.studio/images/nexa-screen.webp">
-    
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="UNWARE STUDIO">
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="NEXA - Disponible en 2027">
     <meta name="twitter:description" content="NEXA arrive en 2027 ! Jeu développé avec Unreal Engine 5.">
     <meta name="twitter:image" content="https://unware.studio/images/nexa-screen.webp">
 
-    <!-- Polices et icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-
-    <!-- CSS local -->
-    <link rel="stylesheet" href="../css/styles.css">
-    <!-- Canonical SEO -->
-    <link rel="canonical" href="https://unware.studio/nexa/nexa.html">
-
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="../favicon.ico" sizes="any">
-    <!-- SVG original -->
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-
-    <!-- PNG standards  -->
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
-
-    <!-- Favicons complets -->
     <link rel="apple-touch-icon" href="../images/favicons/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
 
-
-    <!-- Structured Data -->
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "NEXA - UNWARE STUDIO",
-    "url": "https://unware.studio/nexa/nexa.html",
-    "publisher": {
-        "@type": "Organization",
-        "name": "UNWARE STUDIO",
-        "url": "https://unware.studio/",
-        "logo": "https://unware.studio/images/unware-studio-logo.png"
-    }
-}
-</script>
-
- <!-- ✅ ANALYTICS LOADER — UN SEUL BLOC, pages dans /nexa/ /Support/ /legals/ -->
-    <script>
-    (function() {
-        function getCookie(n) {
-            var eq=n+"=", ca=document.cookie.split(';');
-            for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
-            return null;
-        }
-        function load(src) { var s=document.createElement('script');s.src=src;document.head.appendChild(s); }
-
-        // cookie-banner.js TOUJOURS en premier — gère la bannière + consentement sur toutes les pages
-        load('../js/cookie-banner.js');
-
-        // analytics uniquement si pas refusé
-        if (getCookie('cookieConsent') !== 'rejected') {
-            load('../js/analytics.js');
-            load('../js/analytics-clarify.js');
-        } else {
-            console.log('⛔ Cookies refusés — analytics non chargés');
-        }
-    })();
-    </script>
-    
-
     <style>
-    :root {
+        :root {
             --primary: #0a0a0a;
             --secondary: #111111;
             --accent: #ffffff;
-            --accent-glow: #ffffff;
             --text: #e0e0e0;
             --text-secondary: #888888;
             --card-bg: rgba(255, 255, 255, 0.03);
             --border: rgba(255, 255, 255, 0.08);
             --transition: all 0.3s ease;
-            --section-padding: 100px 0;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             background-color: var(--primary);
@@ -117,854 +52,224 @@
             overflow-x: hidden;
         }
 
-
-
-
-    .btn {
-        padding: 12px 24px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        line-height: 1;
-    }
-
-    .btn-login {
-        color: var(--text);
-        background: transparent;
-        border: 1px solid var(--border);
-        height: 42px;
-    }
-
-    .btn-login:hover {
-        background: rgba(255, 255, 255, 0.05);
-        transform: translateY(-2px);
-    }
-
-    .btn-primary {
-        background: var(--accent);
-        color: var(--primary);
-        border: none;
-        height: 42px;
-    }
-
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Hero Section */
-    .hero {
-        padding: 180px 0 100px;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .hero-content {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 60px;
-        align-items: center;
-    }
-
-
-    .hero-subtitle {
-        font-size: 1.2rem;
-        margin-bottom: 40px;
-        color: var(--text-secondary);
-        max-width: 500px;
-    }
-
-    .hero-actions {
-        display: flex;
-        gap: 15px;
-    }
-
-    .hero-visual {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .hero-image {
-        width: 100%;
-        max-width: 800px;
-        height: auto;
-        border-radius: 12px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        transition: var(--transition);
-    }
-
-    /* CTA Section */
-    .cta {
-        padding: 100px 0;
-        background: var(--secondary);
-        text-align: center;
-    }
-
-    .cta-content {
-        max-width: 700px;
-        margin: 0 auto;
-    }
-
-    .cta-title {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-        color: var(--accent);
-    }
-
-    .cta-desc {
-        font-size: 1.1rem;
-        margin-bottom: 30px;
-        color: var(--text-secondary);
-    }
-
-   
-
-    /* === MENU MOBILE === */
-    .mobile-menu {
-        display: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: var(--accent);
-        z-index: 1001;
-        transition: var(--transition);
-        padding: 8px;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.05);
-        height: 42px;
-        width: 42px;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        outline: none;
-    }
-
-    .mobile-menu:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: scale(1.05);
-    }
-
-    body.no-scroll {
-        overflow: hidden;
-    }
-
-    .mobile-nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 320px;
-        height: 100vh;
-        background: var(--primary);
-        z-index: 1000;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border-left: 1px solid var(--border);
-        display: flex;
-        flex-direction: column;
-        padding: 80px 25px 25px;
-        overflow-y: auto;
-        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
-        box-sizing: border-box;
-    }
-
-    .mobile-nav.active {
-        right: 0;
-        transform: translateZ(0);
-    }
-
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 999;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.4s ease;
-        backdrop-filter: blur(5px);
-        pointer-events: none;
-    }
-
-    .overlay.active {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: all;
-    }
-
-    .mobile-close {
-        position: absolute;
-        top: 25px;
-        right: 25px;
-        font-size: 22px;
-        cursor: pointer;
-        color: var(--text);
-        transition: var(--transition);
-        padding: 8px;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.05);
-        z-index: 1001;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        outline: none;
-    }
-
-    .mobile-close:hover {
-        color: var(--accent);
-        background: rgba(255, 255, 255, 0.1);
-        transform: rotate(90deg);
-    }
-
-    .mobile-nav-links {
-        list-style: none;
-        order: 1;
-        margin-bottom: 20px;
-        flex: 1;
-        overflow-y: auto;
-    }
-
-    .mobile-nav-links li {
-        margin-bottom: 8px;
-    }
-
-    .mobile-nav-links a {
-        color: var(--text);
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: 500;
-        display: block;
-        padding: 14px 16px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .mobile-nav-links a:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 4px;
-        background: var(--accent);
-        transform: scaleY(0);
-        transition: transform 0.3s ease;
-    }
-
-    .mobile-nav-links a:hover {
-        color: var(--accent);
-        background: rgba(255, 255, 255, 0.05);
-        padding-left: 20px;
-    }
-
-    .mobile-nav-links a:hover:before {
-        transform: scaleY(1);
-    }
-
-    .mobile-nav-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        order: 2;
-        margin-bottom: 150px;
-        padding-top: 20px;
-        border-top: 1px solid var(--border);
-        position: relative;
-        top: 0;
-    }
-
-    .mobile-nav-actions .btn {
-        text-align: center;
-        width: 100%;
-        padding: 14px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        height: auto;
-    }
-
-    /* === COOKIES - NOIR AVEC SLIDES === */
-    #custom-cookie-banner {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        max-width: 420px;
-        background: #000000;
-        color: #ffffff;
-        padding: 28px;
-        border-radius: 16px;
-        z-index: 10000;
-        display: none;
-        font-family: 'Inter', sans-serif;
-        border: 1px solid #333333;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        animation: cookieSlideIn 0.5s ease;
-    }
-
-    #custom-cookie-banner.show {
-        display: block;
-    }
-
-    @keyframes cookieSlideIn {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .cookie-banner-content {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .cookie-text h3 {
-        margin: 0 0 12px 0;
-        font-size: 18px;
-        font-weight: 600;
-        color: #ffffff;
-    }
-
-    .cookie-text p {
-        margin: 0;
-        font-size: 14px;
-        color: #cccccc;
-        line-height: 1.5;
-    }
-
-    .cookie-actions {
-        display: flex;
-        gap: 10px;
-        justify-content: flex-end;
-    }
-
-    .cookie-btn {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 8px;
-        background: transparent;
-        color: #ffffff;
-        font-size: 13px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        min-width: 90px;
-        border: 1px solid #444444;
-    }
-
-    .cookie-btn:hover {
-        transform: translateY(-1px);
-    }
-
-    .cookie-btn.reject {
-        background: rgba(255, 255, 255, 0.05);
-    }
-
-    .cookie-btn.reject:hover {
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    .cookie-btn.settings {
-        background: rgba(255, 255, 255, 0.08);
-    }
-
-    .cookie-btn.settings:hover {
-        background: rgba(255, 255, 255, 0.15);
-    }
-
-    .cookie-btn.accept {
-        background: #ffffff;
-        color: #000000;
-        font-weight: 600;
-    }
-
-    .cookie-btn.accept:hover {
-        background: #e0e0e0;
-    }
-
-    /* Modal cookies */
-    .cookie-modal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        z-index: 10001;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-    }
-
-    .cookie-modal.show {
-        display: flex;
-    }
-
-    .modal-content {
-        background: #000000;
-        padding: 30px;
-        border-radius: 16px;
-        max-width: 500px;
-        width: 100%;
-        max-height: 80vh;
-        overflow-y: auto;
-        border: 1px solid #333333;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
-        color: #ffffff;
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #333333;
-    }
-
-    .modal-header h3 {
-        margin: 0;
-        font-size: 18px;
-        font-weight: 600;
-        color: #ffffff;
-    }
-
-    .close-modal {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid #444444;
-        color: #ffffff;
-        font-size: 18px;
-        cursor: pointer;
-        padding: 6px;
-        border-radius: 6px;
-        width: 32px;
-        height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-    }
-
-    .close-modal:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: rotate(90deg);
-    }
-
-    .cookie-options {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        margin-bottom: 20px;
-    }
-
-    .cookie-option {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-        border: 1px solid #333333;
-        transition: all 0.3s ease;
-    }
-
-    .cookie-option:hover {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: #444444;
-    }
-
-    .cookie-option-info {
-        flex: 1;
-        margin-right: 20px;
-    }
-
-    .cookie-option-title {
-        display: block;
-        color: #ffffff;
-        font-weight: 600;
-        font-size: 15px;
-        margin-bottom: 6px;
-    }
-
-    .cookie-option-description {
-        font-size: 13px;
-        color: #999999;
-        line-height: 1.4;
-    }
-
-    /* Slides stylés */
-    .cookie-slide-container {
-        position: relative;
-        display: inline-block;
-        width: 54px;
-        height: 28px;
-        flex-shrink: 0;
-    }
-
-    .cookie-slide {
-        opacity: 0;
-        width: 0;
-        height: 0;
-        position: absolute;
-    }
-
-    .cookie-slide-label {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 100%;
-        background: #333333;
-        border-radius: 20px;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 2px solid transparent;
-    }
-
-    .cookie-slide-label:before {
-        content: '';
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        width: 20px;
-        height: 20px;
-        background: #666666;
-        border-radius: 50%;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .cookie-slide:checked + .cookie-slide-label {
-        background: #ffffff;
-        border-color: #ffffff;
-    }
-
-    .cookie-slide:checked + .cookie-slide-label:before {
-        transform: translateX(26px);
-        background: #000000;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-    }
-
-    .cookie-slide-label:hover:before {
-        transform: scale(1.1);
-    }
-
-    .cookie-slide:checked + .cookie-slide-label:hover:before {
-        transform: translateX(26px) scale(1.1);
-    }
-
-    .cookie-slide:disabled + .cookie-slide-label {
-        opacity: 0.4;
-        cursor: not-allowed;
-    }
-
-    .cookie-slide:disabled + .cookie-slide-label:hover:before {
-        transform: none;
-    }
-
-    .modal-actions {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-        margin-top: 25px;
-        padding-top: 20px;
-        border-top: 1px solid #333333;
-    }
-
-    .modal-btn {
-        padding: 12px 24px;
-        border: none;
-        border-radius: 10px;
-        background: transparent;
-        color: #ffffff;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        min-width: 100px;
-        border: 1px solid #444444;
-    }
-
-    .modal-btn.save {
-        background: #ffffff;
-        color: #000000;
-        font-weight: 600;
-        border-color: #ffffff;
-    }
-
-    .modal-btn.save:hover {
-        background: #e0e0e0;
-        transform: translateY(-1px);
-    }
-
-    .modal-btn.cancel {
-        background: rgba(255, 255, 255, 0.05);
-    }
-
-    .modal-btn.cancel:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-1px);
-    }
-
-    /* === RESPONSIVE === */
-    @media (max-width: 1024px) {
-        .hero-content {
-            grid-template-columns: 1fr;
-            gap: 40px;
-            text-align: center;
-        }
-        
-        .hero-subtitle {
-            margin: 0 auto 40px;
-        }
-        
-        .hero-actions {
-            justify-content: center;
-        }
-        
-        .footer-content {
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        /* Navigation */
-        .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary {
-            display: none;
-        }
-        
-        .mobile-menu {
+        /* Scroll Indicator Arrow */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            cursor: pointer;
             display: flex;
-        }
-        
-    .studio-logo {
-        display: none !important;
-        visibility: hidden !important;
-        position: absolute !important;
-        width: 0 !important;
-        height: 0 !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-    }
-        
-        .hero-title {
-            font-size: 3.5rem;
-        }
-        
-        .hero-actions {
             flex-direction: column;
             align-items: center;
-        }
-        
-        .footer-content {
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-        
-        /* Bannière cookies mobile */
-        #custom-cookie-banner {
-            bottom: 0;
-            right: 0;
-            left: 0;
-            max-width: none;
-            border-radius: 16px 16px 0 0;
-            padding: 24px 20px;
-            margin: 0;
-            animation: cookieSlideUp 0.5s ease;
-        }
-
-        @keyframes cookieSlideUp {
-            from {
-                opacity: 0;
-                transform: translateY(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .cookie-banner-content {
-            gap: 16px;
-        }
-
-        .cookie-text h3 {
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        .cookie-text p {
-            font-size: 13px;
-        }
-
-        .cookie-actions {
-            flex-direction: column;
             gap: 8px;
+            transition: opacity 0.3s ease;
+            opacity: 0.7;
         }
 
-        .cookie-btn {
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 14px;
-            min-width: auto;
+        .scroll-indicator:hover {
+            opacity: 1;
         }
 
-        /* Modal cookies mobile */
-        .cookie-modal {
-            padding: 10px;
-            align-items: flex-end;
+        .scroll-indicator .mouse {
+            width: 26px;
+            height: 42px;
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            position: relative;
+            background: rgba(255,255,255,0.05);
         }
 
-        .modal-content {
-            max-width: none;
-            border-radius: 16px 16px 0 0;
-            padding: 24px 20px;
-            max-height: 85vh;
+        .scroll-indicator .mouse .wheel {
+            width: 3px;
+            height: 8px;
+            background: var(--accent);
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+            animation: scrollWheel 1.5s infinite ease-in-out;
         }
 
-        .modal-header {
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-        }
-
-        .modal-header h3 {
-            font-size: 16px;
-        }
-
-        .cookie-option {
-            padding: 16px;
+        .scroll-indicator .arrow-down {
+            display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            gap: 12px;
+            align-items: center;
+            gap: 4px;
         }
 
-        .cookie-option-info {
-            margin-right: 0;
+        .scroll-indicator .arrow-down span {
+            display: block;
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid var(--accent);
+            border-bottom: 2px solid var(--accent);
+            transform: rotate(45deg);
+            animation: arrowMove 1.5s infinite;
         }
 
-        .cookie-option-title {
-            font-size: 14px;
+        .scroll-indicator .arrow-down span:nth-child(2) {
+            animation-delay: 0.2s;
         }
 
-        .cookie-option-description {
-            font-size: 12px;
+        .scroll-indicator .arrow-down span:nth-child(3) {
+            animation-delay: 0.4s;
         }
 
-        .cookie-slide-container {
-            align-self: flex-end;
+        @keyframes scrollWheel {
+            0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            80% { opacity: 0; transform: translateX(-50%) translateY(15px); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(0); }
         }
 
-        .modal-actions {
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 20px;
-            padding-top: 16px;
+        @keyframes arrowMove {
+            0% { opacity: 0; transform: rotate(45deg) translate(-5px, -5px); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: rotate(45deg) translate(5px, 5px); }
         }
 
-        .modal-btn {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 14px;
-            min-width: auto;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .hero-title {
-            font-size: 2.8rem;
-        }
-        
-        #custom-cookie-banner {
-            padding: 20px 16px;
-        }
-
-        .modal-content {
-            padding: 20px 16px;
-        }
-
-        .cookie-option {
-            padding: 14px;
-        }
-    }
-
-    @media (max-height: 600px) {
-        .mobile-nav {
-            padding: 70px 20px 20px;
-        }
-        
-        .mobile-close {
-            top: 20px;
-            right: 20px;
-        }
-        
-        .mobile-nav-actions {
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .mobile-nav-actions .btn {
-            padding: 12px 15px;
-        }
-        
-        .mobile-nav-links li {
-            margin-bottom: 6px;
-        }
-        
-        .mobile-nav-links a {
-            padding: 12px 16px;
-            font-size: 16px;
-        }
-    }
-
-    /* Animation de fermeture cookies */
-    #custom-cookie-banner.hiding {
-        animation: cookieSlideOut 0.4s ease forwards;
-    }
-
-    @keyframes cookieSlideOut {
-        to {
+        .scroll-indicator.fade-out {
             opacity: 0;
-            transform: translateY(30px);
-        }
-    }
-
-    @media (max-width: 768px) {
-        #custom-cookie-banner.hiding {
-            animation: cookieSlideDown 0.4s ease forwards;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
 
-        @keyframes cookieSlideDown {
-            to {
-                opacity: 0;
-                transform: translateY(100%);
-            }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            line-height: 1;
         }
-    }
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            height: 42px;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
 
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--accent);
+            z-index: 1001;
+            transition: var(--transition);
+            padding: 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.05);
+            height: 42px;
+            width: 42px;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            outline: none;
+        }
+        .mobile-menu:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+        body.no-scroll { overflow: hidden; }
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 320px;
+            height: 100vh;
+            background: var(--primary);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 80px 25px 25px;
+            overflow-y: auto;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+        }
+        .mobile-nav.active { right: 0; }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+            pointer-events: none;
+        }
+        .overlay.active { opacity: 1; visibility: visible; pointer-events: all; }
+        .mobile-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            cursor: pointer;
+            color: var(--text);
+            transition: var(--transition);
+            padding: 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.05);
+            z-index: 1001;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            outline: none;
+            font-size: 22px;
+        }
+        .mobile-close:hover { color: var(--accent); background: rgba(255,255,255,0.1); transform: rotate(90deg); }
+        .mobile-nav-links { list-style: none; order: 1; margin-bottom: 20px; flex: 1; overflow-y: auto; }
+        .mobile-nav-links li { margin-bottom: 8px; }
+        .mobile-nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            display: block;
+            padding: 14px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .mobile-nav-links a:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--accent);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        .mobile-nav-links a:hover { color: var(--accent); background: rgba(255,255,255,0.05); padding-left: 20px; }
+        .mobile-nav-links a:hover:before { transform: scaleY(1); }
+        .mobile-nav-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            order: 2;
+            margin-bottom: 150px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+        .mobile-nav-actions .btn { text-align: center; width: 100%; padding: 14px 20px; border-radius: 8px; font-weight: 600; height: auto; }
 
-    </style>
-
-    <style>
-       
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -975,84 +280,54 @@
             padding-top: 80px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
         }
-
-        .hero-content {
+        .hero-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            gap: 80px;
             align-items: center;
         }
-
-        .hero-text {
-            max-width: 540px;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--accent);
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 12px;
-            margin-bottom: 24px;
-            border: 1px solid var(--border);
-            letter-spacing: 1px;
-        }
-
+        .hero-text { max-width: 540px; }
         .hero-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 64px;
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 24px;
+            font-size: clamp(80px, 12vw, 140px);
+            line-height: 0.9;
             color: var(--accent);
-            letter-spacing: 2px;
+            letter-spacing: -2px;
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.4s forwards;
         }
-
         .hero-subtitle {
             font-size: 18px;
             color: var(--text-secondary);
             margin-bottom: 40px;
             line-height: 1.6;
             font-weight: 400;
+            max-width: 420px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
         }
-
         .hero-actions {
             display: flex;
             gap: 16px;
             margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.8s forwards;
         }
-
-        .hero-stats {
-            display: flex;
-            gap: 40px;
-        }
-
-        .stat {
-            text-align: left;
-        }
-
-        .stat-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--accent);
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-            letter-spacing: 1px;
-        }
-
         .hero-visual {
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
+            opacity: 0;
+            animation: fadeIn 1.2s ease 0.6s forwards;
         }
-
         .hero-image-container {
             position: relative;
             width: 100%;
@@ -1061,7 +336,6 @@
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
-
         .hero-image {
             width: 100%;
             height: auto;
@@ -1069,110 +343,75 @@
             transition: transform 8s ease-in-out;
         }
 
-        .hero-image-container:hover .hero-image {
-            transform: scale(1.05);
-        }
-
-        /* Sections */
-        section {
-            padding: var(--section-padding);
-            position: relative;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-subtitle {
-            color: var(--accent);
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 16px;
-            display: block;
-            font-weight: 600;
-        }
-
-        .section-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 48px;
-            margin-bottom: 24px;
-            color: var(--accent);
-            letter-spacing: 1.5px;
-        }
-
-        .section-desc {
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 1.7;
-        }
-
         /* Features Section */
-        .features {
-            background: var(--secondary);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: var(--transition);
-            border: 1px solid var(--border);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
+        .features-section { padding: 100px 0; }
+        .section-eyebrow {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 4px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin: 0 auto 24px;
-            font-size: 24px;
+            gap: 12px;
+        }
+        .section-eyebrow::before {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 1px;
+            background: var(--text-secondary);
+        }
+        .section-title-large {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(42px, 6vw, 72px);
             color: var(--accent);
+            letter-spacing: 1px;
+            margin-bottom: 60px;
+            line-height: 1;
+        }
+        .features-list { display: flex; flex-direction: column; gap: 0; }
+        .feature-row {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 32px;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border);
+            align-items: start;
             transition: var(--transition);
         }
-
-        .feature-card:hover .feature-icon {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .feature-title {
-            font-size: 20px;
-            margin-bottom: 16px;
-            font-weight: 600;
-            color: var(--accent);
-        }
-
-        .feature-desc {
+        .feature-row:first-child { border-top: 1px solid var(--border); }
+        .feature-row:hover { padding-left: 8px; }
+        .feature-num {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
             color: var(--text-secondary);
-            font-weight: 400;
-            line-height: 1.6;
+            letter-spacing: 2px;
+            padding-top: 4px;
+        }
+        .feature-content h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            color: var(--accent);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .feature-content p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 600px;
         }
 
         /* Notification Section */
         .notification {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 100px 0;
+            background: var(--secondary);
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-
         .notification-form {
             max-width: 600px;
             margin: 0 auto;
@@ -1182,24 +421,9 @@
             border: 1px solid var(--border);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
-
-        .notification-form h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: var(--accent);
-        }
-
-        .notification-form > p {
-            color: var(--text-secondary);
-            margin-bottom: 25px;
-        }
-
-        .form-group {
-            display: flex;
-            gap: 10px;
-            margin: 0 auto 15px;
-        }
-
+        .notification-form h3 { font-size: 24px; margin-bottom: 10px; color: var(--accent); }
+        .notification-form > p { color: var(--text-secondary); margin-bottom: 25px; }
+        .form-group { display: flex; gap: 10px; margin: 0 auto 15px; }
         .form-group input {
             flex: 1;
             padding: 12px 16px;
@@ -1209,39 +433,11 @@
             color: var(--text);
             font-family: 'Inter', sans-serif;
         }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .form-note {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 10px;
-        }
-
-        .form-message {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 4px;
-            text-align: center;
-            display: none;
-        }
-
-        .form-message.success {
-            background: rgba(0, 255, 0, 0.1);
-            color: #4CAF50;
-            border: 1px solid rgba(0, 255, 0, 0.2);
-            display: block;
-        }
-
-        .form-message.error {
-            background: rgba(255, 0, 0, 0.1);
-            color: #f44336;
-            border: 1px solid rgba(255, 0, 0, 0.2);
-            display: block;
-        }
+        .form-group input:focus { outline: none; border-color: var(--accent); }
+        .form-note { font-size: 12px; color: var(--text-secondary); margin-top: 10px; }
+        .form-message { margin-top: 15px; padding: 10px; border-radius: 4px; text-align: center; display: none; }
+        .form-message.success { background: rgba(0, 255, 0, 0.1); color: #4CAF50; border: 1px solid rgba(0, 255, 0, 0.2); display: block; }
+        .form-message.error { background: rgba(255, 0, 0, 0.1); color: #f44336; border: 1px solid rgba(255, 0, 0, 0.2); display: block; }
 
         /* Footer */
         footer {
@@ -1249,25 +445,14 @@
             padding: 80px 0 40px;
             border-top: 1px solid var(--border);
         }
-
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 40px;
             margin-bottom: 60px;
         }
-
-        .footer-brand {
-            max-width: 300px;
-        }
-
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
-
+        .footer-brand { max-width: 300px; }
+        .footer-logo { display: flex; align-items: center; margin-bottom: 20px; gap: 10px; }
         .footer-logo-text {
             font-family: 'Bebas Neue', sans-serif;
             font-weight: 700;
@@ -1275,19 +460,8 @@
             color: var(--accent);
             letter-spacing: 1.5px;
         }
-
-        .footer-desc {
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 12px;
-        }
-
+        .footer-desc { color: var(--text-secondary); margin-bottom: 24px; font-weight: 400; line-height: 1.6; }
+        .social-links { display: flex; gap: 12px; }
         .social-link {
             display: flex;
             align-items: center;
@@ -1301,27 +475,10 @@
             border: 1px solid var(--border);
             text-decoration: none;
         }
-
-        .social-link:hover {
-            background: var(--accent);
-            color: var(--primary);
-        }
-
-        .footer-column h3 {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: var(--accent);
-            font-weight: 600;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
+        .social-link:hover { background: var(--accent); color: var(--primary); }
+        .footer-column h3 { font-size: 18px; margin-bottom: 20px; color: var(--accent); font-weight: 600; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
         .footer-links a {
             color: var(--text-secondary);
             text-decoration: none;
@@ -1329,11 +486,7 @@
             font-weight: 400;
             font-size: 14px;
         }
-
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-
+        .footer-links a:hover { color: var(--accent); }
         .copyright {
             text-align: center;
             padding-top: 40px;
@@ -1342,275 +495,112 @@
             font-size: 14px;
             font-weight: 400;
         }
+        .studio-credit { color: var(--accent); font-weight: 600; }
 
-        .studio-credit {
-            color: var(--accent);
-            font-weight: 600;
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 1024px) {
+            .hero-container { grid-template-columns: 1fr; gap: 60px; text-align: center; }
+            .hero-subtitle { margin-left: auto; margin-right: auto; }
+            .hero-actions { justify-content: center; }
         }
-
-        .engine-credit {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 12px;
-            font-size: 14px;
-        }
-
-        /* Responsive */
-        @media (max-width: 1100px) {
-            .hero-title {
-                font-size: 54px;
-            }
-            
-            .section-title {
-                font-size: 42px;
-            }
-        }
-
-        @media (max-width: 900px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-                gap: 50px;
-            }
-            
-            .hero-stats {
-                justify-content: center;
-            }
-            
-            .hero-actions {
-                justify-content: center;
-            }
-        }
-
         @media (max-width: 768px) {
-            .nav-links, .nav-actions .btn-login {
-                display: none;
-            }
-            
-
-            .hero-title {
-                font-size: 42px;
-            }
-            
-            .section-title {
-                font-size: 36px;
-            }
-            
-            .hero-actions {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 250px;
-            }
-
-            .section-header {
-                margin-bottom: 40px;
-            }
-
-            .form-group {
-                flex-direction: column;
-            }
+            .nav-links { display: none; }
+            .mobile-menu { display: flex; }
+            .hero-container { padding: 0 20px; }
+            .form-group { flex-direction: column; }
+            .scroll-indicator { bottom: 20px; }
         }
-
-        @media (max-width: 576px) {
-            .hero-title {
-                font-size: 36px;
-            }
-            
-            .section-title {
-                font-size: 32px;
-            }
-            
-            .hero-stats {
-                flex-direction: column;
-                gap: 24px;
-            }
-            
-            .feature-card {
-                padding: 30px 20px;
-            }
-            
-            .section-padding {
-                padding: 80px 0;
-            }
+        @media (max-width: 480px) {
+            .hero-title { font-size: 72px; }
+            .scroll-indicator .mouse { width: 22px; height: 36px; }
         }
-
-       
     </style>
-
-
-<style>
-/* Section Avantages - Version tout blanc */
-.benefits-section-1 {
-    padding: 5rem 0;
-    background-color: #000000; /* Fond noir pour faire ressortir le blanc */
-    color: #ffffff;
-    position: relative;
-}
-
-.benefits-section-1 .container {
-    position: relative;
-    z-index: 2;
-}
-
-/* En-tête de section */
-.benefits-section-1 .section-header {
-    text-align: center;
-    margin-bottom: 4rem;
-}
-
-.benefits-section-1 .section-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #ffffff;
-}
-
-.benefits-section-1 .section-desc {
-    font-size: 1.1rem;
-    color: #cccccc;
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-/* Grid des avantages */
-.benefits-section-1 .benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-/* Carte d'avantage */
-.benefits-section-1 .benefit-item {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 2.5rem 2rem;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
-}
-
-.benefits-section-1 .benefit-item:hover {
-    transform: translateY(-5px);
-    border-color: #ffffff;
-}
-
-/* Numéro blanc */
-.benefits-section-1 .benefit-number {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #ffffff;
-    margin-bottom: 1rem;
-    position: relative;
-    padding-bottom: 10px;
-}
-
-.benefits-section-1 .benefit-number::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 40px;
-    height: 2px;
-    background: #ffffff;
-}
-
-/* Titre et texte */
-.benefits-section-1 .benefit-item h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: #ffffff;
-}
-
-.benefits-section-1 .benefit-item p {
-    color: #dddddd;
-    line-height: 1.5;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .benefits-section-1 {
-        padding: 3rem 0;
-    }
-    
-    .benefits-section-1 .benefits-grid {
-        grid-template-columns: 1fr;
-    }
-}
-</style>
-
-
-
 </head>
 <body>
-    <!-- Header (inchangé) -->
+
     <header>
-        <div class="container nav-container">
+        <div class="container nav-container" style="max-width: 1200px; margin: 0 auto; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center;">
             <div class="logo">
                 <div class="logo-icon"><i class="fas fa-temple"></i></div>
-                <div class="logo-text">
-                    <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
-                </div>
             </div>
-            
-            <!-- NAVIGATION DESKTOP - Visible sur ordinateur -->
-            <ul class="nav-links">
-                <li><a href="../index.html#accueil">Accueil</a></li>
-                <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-                <li><a href="../nexa/galerie.html">Galeries</a></li>
-                <li><a href="../nexa/nexa.html">NEXA</a></li>
+            <ul class="nav-links" style="display: flex; gap: 32px; list-style: none;">
+                <li><a href="../index.html#accueil" style="color: var(--text); text-decoration: none;">Accueil</a></li>
+                <li><a href="../nexa/fonctionnalites.html" style="color: var(--text); text-decoration: none;">Fonctionnalités</a></li>
+                <li><a href="../nexa/galerie.html" style="color: var(--text); text-decoration: none;">Galeries</a></li>
+                <li><a href="../nexa/nexa.html" style="color: var(--text); text-decoration: none;">NEXA</a></li>
             </ul>
-            
             <div class="nav-actions">
-
-                <!-- MENU BURGER - Visible UNIQUEMENT sur mobile -->
-                <div class="mobile-menu" id="mobileMenu">
-                    <i class="fas fa-bars"></i>
-                </div>
+                <div class="mobile-menu" id="mobileMenu"><i class="fas fa-bars"></i></div>
             </div>
         </div>
     </header>
 
-    <!-- MENU MOBILE - Caché sur desktop (inchangé) -->
     <div class="overlay" id="overlay"></div>
     <nav class="mobile-nav" id="mobileNav">
-        <div class="mobile-close" id="mobileClose">
-            <i class="fas fa-times"></i>
-        </div>
-        
+        <div class="mobile-close" id="mobileClose"><i class="fas fa-times"></i></div>
         <ul class="mobile-nav-links">
             <li><a href="../index.html#accueil" class="mobile-nav-link">Accueil</a></li>
             <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
             <li><a href="../nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
             <li><a href="../nexa/nexa.html" class="mobile-nav-link">NEXA</a></li>
         </ul>
-        <div class="mobile-nav-actions">
-
-        </div>
+        <div class="mobile-nav-actions"></div>
     </nav>
 
-    <br><br><br>
 
 
-       <!-- Notification Section -->
-    <section class="notification">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-subtitle">Soyez informé</span>
-                <h2 class="section-title">Ne Manquez Pas le Lancement</h2>
-                <p class="section-desc">Soyez parmi les premiers informés de la sortie de NEXA et bénéficiez d'avantages exclusifs</p>
+    <!-- FEATURES -->
+    <section class="features-section">
+        <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
+            <div class="section-eyebrow">Le jeu</div>
+            <h2 class="section-title-large">Ce qui attend<br>les premiers inscrits</h2>
+            <div class="features-list">
+                <div class="feature-row">
+                    <div class="feature-num">01</div>
+                    <div class="feature-content">
+                        <h3>Accès Anticipé à la Bêta</h3>
+                        <p>Les premiers inscrits auront un accès exclusif à la bêta avant le lancement officiel. Découvrez NEXA avant tout le monde et participez à son évolution.</p>
+                    </div>
+                </div>
+                <div class="feature-row">
+                    <div class="feature-num">03</div>
+                    <div class="feature-content">
+                        <h3>Influencez le Développement</h3>
+                        <p>Votre feedback comptera réellement. En tant qu'inscrit, vous aurez la possibilité de participer aux sondages et de donner votre avis sur le jeu.</p>
+                    </div>
+                </div>
             </div>
-            
+        </div>
+    </section>
+
+
+            <!-- FLÈCHE INDICATRICE DE SCROLL -->
+        <div class="scroll-indicator" id="scrollIndicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <div class="arrow-down">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <br>     <br>
+
+
+    <!-- NEWSLETTER avec ID pour ancrage -->
+    <section class="notification" id="newsletter">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div class="section-header" style="text-align: center; margin-bottom: 60px;">
+                <span class="section-subtitle" style="color: var(--accent); font-size: 14px; text-transform: uppercase; letter-spacing: 2px;">Soyez informé</span>
+                <h2 class="section-title" style="font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--accent);">Ne Manquez Pas le Lancement</h2>
+            </div>
             <div class="notification-form">
                 <h3>Restez informé</h3>
                 <p>Soyez le premier à être averti du lancement</p>
-                
                 <form id="notificationForm">
                     <div class="form-group">
                         <input type="email" name="email" placeholder="Votre adresse email" required>
@@ -1623,215 +613,95 @@
         </div>
     </section>
 
-    
-    <!-- Nouvelle Section: Les Avantages de l'Inscription -->
-    <section class="benefits-section-1">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-title">Avantages exclusifs en jeu</span>
-       
-                <p class="section-desc">Les premiers inscrits bénéficient d'avantages uniques pour le lancement</p>
-            </div>
-            
-            <div class="benefits-grid">
-                <div class="benefit-item">
-                    <div class="benefit-number">01</div>
-                    <h3>Accès Anticipé</h3>
-                    <p>Soyez parmi les premiers à découvrir NEXA avec un accès exclusif à la bêta.</p>
-                </div>
-                
-                <div class="benefit-item">
-                    <div class="benefit-number">02</div>
-                    <h3>Contenu Exclusif</h3>
-                    <p>Recevez des éléments cosmétiques et des récompenses uniques réservés aux premiers supporters.</p>
-                </div>
-                
-
-                
-                <div class="benefit-item">
-                    <div class="benefit-number">04</div>
-                    <h3>Influencez le Développement</h3>
-                    <p>Votre feedback sera pris en compte pour façonner les dernières améliorations avant le lancement.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
- 
-
-
-    <!-- Footer (inchangé) -->
     <footer itemscope itemtype="https://schema.org/Organization">
-        <div class="container">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <div class="footer-logo">
-                        <div class="footer-logo-text">NEXA</div>
-                    </div>
+                    <div class="footer-logo"><div class="footer-logo-text">NEXA</div></div>
                     <p class="footer-desc">Un jeu développé par UNWARE STUDIO utilisant la puissance d'Unreal Engine 5 pour créer une expérience de jeu révolutionnaire.</p>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                        <a href="https://discord.gg/PE7MS4Sazk" class="social-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
-                <div class="footer-column">
-                    <h3>Navigation</h3>
-                    <ul class="footer-links">
-                        <li><a href="../index.html#accueil">Accueil</a></li>
-                        <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-                        <li><a href="../nexa/galerie.html">Galeries</a></li>
-                        <li><a href="../nexa/nexa.html">NEXA</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Support</h3>
-                    <ul class="footer-links">
-                        <li><a href="../Support/centre-aide.html">Centre d'aide</a></li>
-                        <li><a href="../Support/FAQ.html">FAQ</a></li>
-                        <li><a href="../Support/contact.html">Contact</a></li>
-                        <li><a href="../Support/statut.html">Statut des services</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Légal</h3>
-                    <ul class="footer-links">
-                        <li><a href="../legals/conditions-utilisation.html">Conditions d'utilisation</a></li>
-                        <li><a href="../legals/politique-confidentialite.html">Politique de confidentialité</a></li>
-                        <li><a href="../legals/mentions-legales.html">Mentions légales</a></li>
-                        <li><a href="../legals/politique-cookies.html">Politique de cookies</a></li>
-                    </ul>
-                </div>
+                <div class="footer-column"><h3>Navigation</h3><ul class="footer-links"><li><a href="../index.html#accueil">Accueil</a></li><li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li><li><a href="../nexa/galerie.html">Galeries</a></li><li><a href="../nexa/nexa.html">NEXA</a></li></ul></div>
+                <div class="footer-column"><h3>Support</h3><ul class="footer-links"><li><a href="../Support/centre-aide.html">Centre d'aide</a></li><li><a href="../Support/FAQ.html">FAQ</a></li><li><a href="../Support/contact.html">Contact</a></li><li><a href="../Support/statut.html">Statut des services</a></li></ul></div>
+                <div class="footer-column"><h3>Légal</h3><ul class="footer-links"><li><a href="../legals/conditions-utilisation.html">Conditions d'utilisation</a></li><li><a href="../legals/politique-confidentialite.html">Politique de confidentialité</a></li><li><a href="../legals/mentions-legales.html">Mentions légales</a></li><li><a href="../legals/politique-cookies.html">Politique de cookies</a></li></ul></div>
             </div>
-            <div class="copyright">
-                <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
-                <div class="engine-credit">
-                    <i class="fab fa-unreal-engine"></i>
-                    <span>Propulsé par Unreal Engine 5</span>
-                </div>
-            </div>
+            <div class="copyright"><p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p></div>
         </div>
     </footer>
 
-
-    
-
-<script>
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileNav = document.getElementById('mobileNav');
-    const overlay = document.getElementById('overlay');
-    const mobileClose = document.getElementById('mobileClose');
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-    const body = document.body;
-
-    function openMobileMenu() {
-        mobileNav.classList.add('active');
-        overlay.classList.add('active');
-        mobileMenu.classList.add('active');
-        body.classList.add('no-scroll');
-        void mobileNav.offsetWidth;
-    }
-
-    function closeMobileMenu() {
-        mobileNav.classList.remove('active');
-        overlay.classList.remove('active');
-        mobileMenu.classList.remove('active');
-        body.classList.remove('no-scroll');
-    }
-
-    function toggleMobileMenu() {
-        if (mobileNav.classList.contains('active')) {
-            closeMobileMenu();
-        } else {
-            openMobileMenu();
-        }
-    }
-
-    mobileMenu.addEventListener('click', toggleMobileMenu);
-    overlay.addEventListener('click', closeMobileMenu);
-    mobileClose.addEventListener('click', closeMobileMenu);
-
-    mobileNavLinks.forEach(link => {
-        link.addEventListener('click', closeMobileMenu);
-    });
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-            closeMobileMenu();
-        }
-    });
-
-    document.getElementById('notificationForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
+    <script>
+        // Gestion de la flèche de scroll : disparition au scroll + clic pour descendre
+        const scrollIndicator = document.getElementById('scrollIndicator');
+        const hero = document.querySelector('.hero');
         
-        const email = this.email.value;
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const formMessage = document.getElementById('formMessage');
-        
-        if (!validateEmail(email)) {
-            showMessage(formMessage, 'Veuillez entrer une adresse email valide.', 'error');
-            return;
-        }
-        
-        submitBtn.textContent = 'Inscription...';
-        submitBtn.disabled = true;
-        
-        try {
-            const response = await fetch('/api/subscribe', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email: email })
-            });
-
-            if (response.status === 409) {
-                showMessage(formMessage, 'Vous êtes déjà inscrit sur la liste !', 'error');
-                return;
-            }
-
-            if (response.ok) {
-                showMessage(formMessage, 'Merci ! Vous serez informé dès le lancement de NEXA en 2027.', 'success');
-                this.reset();
+        function handleScrollIndicator() {
+            if (!scrollIndicator) return;
+            const scrollY = window.scrollY;
+            const heroHeight = hero ? hero.offsetHeight : window.innerHeight;
+            if (scrollY > heroHeight * 0.15) {
+                scrollIndicator.classList.add('fade-out');
             } else {
-                throw new Error('Erreur');
+                scrollIndicator.classList.remove('fade-out');
             }
-        } catch (error) {
-            console.error('Erreur:', error);
-            showMessage(formMessage, 'Une erreur est survenue. Veuillez réessayer plus tard.', 'error');
-        } finally {
-            submitBtn.textContent = "M'informer";
-            submitBtn.disabled = false;
         }
-    }); // ← fermeture addEventListener
-
-    function showMessage(element, message, type) {
-        element.textContent = message;
-        element.className = 'form-message ' + type;
-        element.style.display = 'block';
-        setTimeout(() => {
-            element.style.display = 'none';
-        }, 5000);
-    }
-
-    function validateEmail(email) {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(email);
-    }
-
-    window.addEventListener('load', function() {
-        if (window.location.hash) {
-            history.replaceState(null, null, window.location.pathname + window.location.search);
+        
+        window.addEventListener('scroll', handleScrollIndicator);
+        handleScrollIndicator();
+        
+        if (scrollIndicator) {
+            scrollIndicator.addEventListener('click', () => {
+                const nextSection = document.querySelector('.features-section');
+                if (nextSection) {
+                    nextSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+                }
+            });
         }
-    });
-</script>
-
- </body>
+        
+        // Menu mobile
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('overlay');
+        const mobileClose = document.getElementById('mobileClose');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        const body = document.body;
+        function openMobileMenu() { mobileNav.classList.add('active'); overlay.classList.add('active'); body.classList.add('no-scroll'); }
+        function closeMobileMenu() { mobileNav.classList.remove('active'); overlay.classList.remove('active'); body.classList.remove('no-scroll'); }
+        mobileMenu?.addEventListener('click', openMobileMenu);
+        overlay?.addEventListener('click', closeMobileMenu);
+        mobileClose?.addEventListener('click', closeMobileMenu);
+        mobileNavLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
+        
+        // Newsletter
+        document.getElementById('notificationForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = this.email.value;
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const formMessage = document.getElementById('formMessage');
+            const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            if (!validateEmail(email)) { 
+                formMessage.textContent = 'Veuillez entrer une adresse email valide.'; 
+                formMessage.className = 'form-message error'; 
+                formMessage.style.display = 'block'; 
+                setTimeout(() => formMessage.style.display = 'none', 5000); 
+                return; 
+            }
+            submitBtn.textContent = 'Inscription...';
+            submitBtn.disabled = true;
+            try {
+                const response = await fetch('/api/subscribe', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+                if (response.status === 409) { formMessage.textContent = 'Vous êtes déjà inscrit sur la liste !'; formMessage.className = 'form-message error'; formMessage.style.display = 'block'; }
+                else if (response.ok) { formMessage.textContent = 'Merci ! Vous serez informé dès le lancement de NEXA en 2027.'; formMessage.className = 'form-message success'; formMessage.style.display = 'block'; this.reset(); }
+                else throw new Error();
+            } catch (error) { formMessage.textContent = 'Une erreur est survenue. Veuillez réessayer plus tard.'; formMessage.className = 'form-message error'; formMessage.style.display = 'block'; }
+            finally { submitBtn.textContent = "M'informer"; submitBtn.disabled = false; setTimeout(() => formMessage.style.display = 'none', 5000); }
+        });
+    </script>
+</body>
 </html>
-
-
-
-
