@@ -774,3 +774,74 @@
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
+
+
+
+.logo-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 200px; /* empêche le logo d'écraser la navbar */
+}
+
+
+
+
+
+
+
+
+
+.studio-logo {
+    width: 100px; /* change juste ça */
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.0003));
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Remplacer les anciennes règles du logo par celles-ci */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.logo-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;  /* ← TAILLE FIXE */
+    height: 100px;  /* ← TAILLE FIXE */
+    overflow: hidden;  /* Cache le débordement si besoin */
+}
+
+.studio-logo {
+    width: 100%;  /* ← S'adapte à la taille fixe du parent */
+    max-width: 100px;  /* ← Limite la largeur max */
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.0003));
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Pour agrandir le logo, on modifie ici */
+.studio-logo {
+    max-width: 150px;  /* ← Change UNIQUEMENT cette valeur */
+}
