@@ -674,7 +674,7 @@
             <li><a href="../index.html#accueil" class="mobile-nav-link">Accueil</a></li>
             <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
             <li><a href="../nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
-            <li><a href="../nexa/nexa.html" class="mobile-nav-link">NEXA</a></li>
+            <li><a href="../nexa/nexa.html" class="mobile-nav-link">The void protocol</a></li>
         </ul>
         <div class="mobile-nav-actions">
 
@@ -697,11 +697,93 @@
                     <p>Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser notre site.</p>
               </div>
 
-                <div class="legal-card">
-                <h3><i class="fas fa-envelope"></i> Newsletter</h3>
-                <p>En vous inscrivant à la newsletter , vous acceptez de recevoir des emails d'information sur le développement et le lancement du jeu. Vous pouvez vous désinscrire à tout moment en répondant à l'email reçu avec le mot "désinscrire".</p>
-                <p>Vos données sont traitées conformément à notre <a href="politique-confidentialite.html" style="color:var(--accent);">politique de confidentialité</a>.</p>
-               </div>
+<div class="legal-card">
+    <h3><i class="fas fa-envelope"></i> Newsletter</h3>
+    <p>En vous inscrivant à la newsletter, vous acceptez de recevoir des emails d'information sur le développement et le lancement du jeu. Vous pouvez vous désinscrire à tout moment :</p>
+    
+    <!-- Formulaire de désinscription -->
+    <div style="margin: 20px 0; padding: 20px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+        <p style="margin: 0 0 12px 0; font-size: 13px; color: #888;">
+            <i class="fas fa-user-times"></i> <strong>Se désinscrire immédiatement :</strong>
+        </p>
+        <form id="unsubscribeForm" style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <input type="email" 
+                   id="unsubscribeEmail" 
+                   placeholder="Votre adresse email" 
+                   required 
+                   style="flex: 1; min-width: 200px; padding: 10px 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 4px; color: white; font-size: 14px;">
+            <button type="submit" 
+                    style="padding: 10px 20px; background: #2a2a2a; border: 1px solid #444; border-radius: 4px; color: white; cursor: pointer; font-size: 14px;">
+                <i class="fas fa-times-circle"></i> Se désinscrire
+            </button>
+        </form>
+        <div id="unsubscribeMessage" style="margin-top: 12px; font-size: 12px;"></div>
+    </div>
+    
+    <p><small>Ou répondez à n'importe quel email reçu avec le mot <strong>"désinscrire"</strong>.</small></p>
+    <p>Vos données sont traitées conformément à notre <a href="politique-confidentialite.html" style="color:var(--accent);">politique de confidentialité</a>.</p>
+</div>
+
+<script>
+(function() {
+    const form = document.getElementById('unsubscribeForm');
+    const emailInput = document.getElementById('unsubscribeEmail');
+    const messageDiv = document.getElementById('unsubscribeMessage');
+    
+    if (!form) return;
+    
+    function showMessage(text, isError) {
+        messageDiv.innerHTML = text;
+        messageDiv.style.color = isError ? '#f87171' : '#4ade80';
+        messageDiv.style.background = isError ? 'rgba(248,113,113,0.1)' : 'rgba(74,222,128,0.1)';
+        messageDiv.style.padding = '8px';
+        messageDiv.style.borderRadius = '4px';
+        setTimeout(() => {
+            messageDiv.innerHTML = '';
+            messageDiv.style.padding = '0';
+        }, 5000);
+    }
+    
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = emailInput.value.trim();
+        if (!email || !email.includes('@')) {
+            showMessage('Veuillez entrer une adresse email valide.', true);
+            return;
+        }
+        
+        const btn = form.querySelector('button');
+        const originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> En cours...';
+        
+        try {
+            const response = await fetch('https://unware.studio/api/unsubscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok && data.success) {
+                showMessage(data.message || '✅ Désinscription réussie. Vous ne recevrez plus nos emails.', false);
+                emailInput.value = '';
+            } else if (data.error === 'already_unsubscribed') {
+                showMessage('ℹ️ Cette adresse est déjà désinscrite.', false);
+            } else {
+                showMessage('❌ ' + (data.error || 'Une erreur est survenue. Réessayez plus tard.'), true);
+            }
+        } catch (error) {
+            showMessage('❌ Erreur de connexion au serveur. Veuillez réessayer.', true);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
+    });
+})();
+</script>
 
                 <div class="legal-card">
                     <h3><i class="fas fa-user-check"></i> Conditions d'Accès</h3>
@@ -860,7 +942,7 @@
                         <li><a href="../index.html#accueil">Accueil</a></li>
                         <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
                         <li><a href="../nexa/galerie.html">Galeries</a></li>
-                        <li><a href="../nexa/nexa.html">NEXA</a></li>
+                        <li><a href="../nexa/nexa.html">The void protocol</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
@@ -941,7 +1023,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Conditions d\'utilisation NEXA - Projet personnel');
+            console.log('Conditions d\'utilisation  - Projet personnel');
         });
     </script>
    </body>
