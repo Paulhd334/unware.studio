@@ -1,1114 +1,181 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Centre d'Aide NEXA - Support et assistance">
-    <title>Centre d'Aide | NEXA</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-    <!-- CSS principal -->
-    <link rel="stylesheet" href="../css/styles.css">
+<meta charset="UTF-8">
+<title>Maintenance - Unware Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!--Analytics -->
-    <script src="../js/analytics.js"></script>
- 
-    <script src="../js/analytics-clarify.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <style>
-    .btn {
-        padding: 12px 24px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        line-height: 1;
-    }
+<style>
+/* 🔥 GARDE TES VARIABLES */
+:root {
+    --primary: #0a0a0a;
+    --secondary: #111111;
+    --accent: #ffffff;
+    --text: #e0e0e0;
+    --text-secondary: #888;
+    --border: rgba(255,255,255,0.08);
+}
 
-    .btn-login {
-        color: var(--text);
-        background: transparent;
-        border: 1px solid var(--border);
-        height: 42px;
-    }
+/* RESET */
+* { margin:0; padding:0; box-sizing:border-box; }
 
-    .btn-login:hover {
-        background: rgba(255, 255, 255, 0.05);
-        transform: translateY(-2px);
-    }
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: var(--text);
+}
 
-    .btn-primary {
-        background: var(--accent);
-        color: var(--primary);
-        border: none;
-        height: 42px;
-    }
+/* HEADER SIMPLE */
+header {
+    position: fixed;
+    top:0;
+    width:100%;
+    padding:20px 40px;
+    background: rgba(10,10,10,0.9);
+    border-bottom:1px solid var(--border);
+    backdrop-filter: blur(15px);
+}
 
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
+.logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size:24px;
+    letter-spacing:2px;
+    color: var(--accent);
+}
 
-    /* Style pour le menu burger */
-    .mobile-menu {
-        display: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: var(--accent);
-        z-index: 1001;
-        transition: var(--transition);
-        padding: 8px;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.05);
-        height: 42px;
-        width: 42px;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        outline: none;
-    }
+/* MAIN */
+main {
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:100px 20px 40px;
+}
 
-    .mobile-menu:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: scale(1.05);
-    }
+/* CARD */
+.maintenance-card {
+    max-width:700px;
+    width:100%;
+    padding:60px 40px;
+    text-align:center;
+    background: rgba(255,255,255,0.03);
+    border:1px solid var(--border);
+    border-radius:10px;
+    position:relative;
+    overflow:hidden;
+}
 
-    /* Styles spécifiques pour corriger le menu mobile */
-    
-    /* S'assurer que le body ne scroll pas quand le menu est ouvert */
-    body.no-scroll {
-        overflow: hidden;
-    }
-    
-    /* Menu mobile - corrections */
-    .mobile-nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 320px;
-        height: 100vh;
-        background: var(--primary);
-        z-index: 1000;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border-left: 1px solid var(--border);
-        display: flex;
-        flex-direction: column;
-        padding: 80px 25px 25px;
-        overflow-y: auto;
-        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
-        box-sizing: border-box;
-    }
+/* Glow effet */
+.maintenance-card::before {
+    content:"";
+    position:absolute;
+    top:-50%;
+    left:-50%;
+    width:200%;
+    height:200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.06), transparent 60%);
+    animation: rotate 10s linear infinite;
+}
 
-    .mobile-nav.active {
-        right: 0;
-        transform: translateZ(0);
-    }
+@keyframes rotate {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+}
 
-    /* Overlay - corrections */
-    .overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        z-index: 999;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.4s ease;
-        backdrop-filter: blur(5px);
-        pointer-events: none;
-    }
+.maintenance-content {
+    position:relative;
+    z-index:2;
+}
 
-    .overlay.active {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: all;
-    }
+/* TITRE */
+h1 {
+    font-family:'Bebas Neue', sans-serif;
+    font-size:64px;
+    letter-spacing:3px;
+    margin-bottom:20px;
+    color: var(--accent);
+}
 
-    /* Icône de fermeture - positionnement fixe */
-    .mobile-close {
-        position: absolute;
-        top: 25px;
-        right: 25px;
-        font-size: 22px;
-        cursor: pointer;
-        color: var(--text);
-        transition: var(--transition);
-        padding: 8px;
-        border-radius: 4px;
-        background: rgba(255, 255, 255, 0.05);
-        z-index: 1001;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        outline: none;
-    }
-
-    .mobile-close:hover {
-        color: var(--accent);
-        background: rgba(255, 255, 255, 0.1);
-        transform: rotate(90deg);
-    }
-
-    /* Liens de navigation mobile */
-    .mobile-nav-links {
-        list-style: none;
-        order: 1;
-        margin-bottom: 20px;
-        flex: 1;
-        overflow-y: auto;
-    }
-
-    .mobile-nav-links li {
-        margin-bottom: 8px;
-    }
-
-    .mobile-nav-links a {
-        color: var(--text);
-        text-decoration: none;
-        font-size: 18px;
-        font-weight: 500;
-        display: block;
-        padding: 14px 16px;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .mobile-nav-links a:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 4px;
-        background: var(--accent);
-        transform: scaleY(0);
-        transition: transform 0.3s ease;
-    }
-
-    .mobile-nav-links a:hover {
-        color: var(--accent);
-        background: rgba(255, 255, 255, 0.05);
-        padding-left: 20px;
-    }
-
-    .mobile-nav-links a:hover:before {
-        transform: scaleY(1);
-    }
-
-    /* Actions mobile */
-    .mobile-nav-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        order: 2;
-        margin-bottom: 150px;
-        padding-top: 20px;
-        border-top: 1px solid var(--border);
-        position: relative;
-        top: 0;
-    }
-
-    .mobile-nav-actions .btn {
-        text-align: center;
-        width: 100%;
-        padding: 14px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        height: auto;
-    }
-
-    .mobile-nav-actions .btn-login {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--border);
-    }
-
-    .mobile-nav-actions .btn-login:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-2px);
-    }
-
-    .mobile-nav-actions .btn-primary {
-        background: var(--accent);
-        color: var(--primary);
-    }
-
-    .mobile-nav-actions .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Animation pour l'icône du menu */
-    .mobile-menu.active i {
-        transform: rotate(90deg);
-    }
-
-    /* Animation simplifiée pour les éléments du menu */
-    .mobile-nav-links li {
-        opacity: 0;
-        transform: translateX(20px);
-        transition: all 0.3s ease;
-    }
-
-    .mobile-nav.active .mobile-nav-links li {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    /* Délais d'animation simplifiés */
-    .mobile-nav.active .mobile-nav-links li:nth-child(1) { transition-delay: 0.1s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(2) { transition-delay: 0.15s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(3) { transition-delay: 0.2s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(4) { transition-delay: 0.25s; }
-    
-    .mobile-nav-actions {
-        opacity: 0;
-        transform: translateX(20px);
-        transition: all 0.3s ease 0.3s;
-    }
-    
-    .mobile-nav.active .mobile-nav-actions {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    /* Empêcher le flash blanc sur iOS */
-    .mobile-nav {
-        -webkit-tap-highlight-color: transparent;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        user-select: none;
-    }
-
-        /* Help Center Hero Section */
-        .help-hero {
-            padding: 140px 0 80px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            text-align: center;
-        }
-
-        .help-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--accent);
-            padding: 6px 14px;
-            border-radius: 4px;
-            font-size: 11px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-            letter-spacing: 1px;
-        }
-
-        .help-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 48px;
-            font-weight: 700;
-            line-height: 1;
-            margin-bottom: 20px;
-            color: var(--accent);
-            letter-spacing: 2px;
-        }
-
-        .help-subtitle {
-            font-size: 18px;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            line-height: 1.6;
-            font-weight: 400;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Search Section */
-        .search-section {
-            padding: 60px 0;
-            background: var(--secondary);
-        }
-
-        .search-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .search-box {
-            position: relative;
-            margin-bottom: 30px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 15px 50px 15px 20px;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            font-size: 16px;
-            transition: var(--transition);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-        }
-
-        .search-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        .search-tag {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            color: var(--text-secondary);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .search-tag:hover {
-            background: var(--accent);
-            color: var(--primary);
-        }
-
-        /* Categories Section */
-        .categories-section {
-            padding: 80px 0;
-        }
-
-        .section-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 36px;
-            margin-bottom: 40px;
-            color: var(--accent);
-            text-align: center;
-            letter-spacing: 1.5px;
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .category-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 40px 30px;
-            text-align: center;
-            border: 1px solid var(--border);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-        }
-
-        .category-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-            color: var(--accent);
-        }
-
-        .category-title {
-            font-size: 20px;
-            margin-bottom: 15px;
-            color: var(--accent);
-        }
-
-        .category-desc {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-
-        .category-count {
-            color: var(--text-secondary);
-            font-size: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 4px 12px;
-            border-radius: 12px;
-            display: inline-block;
-        }
-
-        /* Popular Articles */
-        .articles-section {
-            padding: 80px 0;
-            background: var(--secondary);
-        }
-
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-        }
-
-        .article-card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 25px;
-            border: 1px solid var(--border);
-            transition: var(--transition);
-            cursor: pointer;
-        }
-
-        .article-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent);
-        }
-
-        .article-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .article-icon {
-            font-size: 20px;
-            color: var(--accent);
-        }
-
-        .article-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--accent);
-        }
-
-.article-desc {
+/* TEXTE */
+p {
     color: var(--text-secondary);
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 15px;
-    text-decoration: none !important; /* Force l'absence de soulignement */
+    font-size:18px;
+    margin-bottom:40px;
 }
 
-
-.article-card {
-    text-decoration: none; /* Hérité par tous les enfants */
+/* LOADER */
+.loader {
+    width:60px;
+    height:60px;
+    border:2px solid var(--border);
+    border-top:2px solid var(--accent);
+    border-radius:50%;
+    animation: spin 1s linear infinite;
+    margin:0 auto 40px;
 }
 
-
-
-
-.article-card a {
-    text-decoration: none;
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
-.article-card a:hover {
-    text-decoration: none;
+/* BOUTON */
+.btn {
+    display:inline-block;
+    padding:14px 28px;
+    border:1px solid var(--border);
+    color: var(--accent);
+    text-decoration:none;
+    transition:0.3s;
 }
 
+.btn:hover {
+    background: var(--accent);
+    color: var(--primary);
+}
 
-        .article-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
+/* FOOTER */
+footer {
+    text-align:center;
+    padding:30px;
+    border-top:1px solid var(--border);
+    color: var(--text-secondary);
+}
 
-        .article-category {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        /* Contact Section */
-        .contact-section {
-            padding: 80px 0;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .contact-card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-
-        .contact-icon {
-            font-size: 32px;
-            margin-bottom: 20px;
-            color: var(--accent);
-        }
-
-        .contact-title {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: var(--accent);
-        }
-
-        .contact-info {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .contact-link {
-            color: var(--accent);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .contact-link:hover {
-            color: var(--text);
-        }
-
-
-
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary {
-                display: none;
-            }
-            
-            .mobile-menu {
-                display: flex;
-            }
-            
-            /* Cacher le logo UNWARE STUDIO sur mobile */
-            .studio-logo {
-                display: none;
-            }
-            
-            /* Ajustements header mobile */
-            header {
-                padding: 12px 0;
-            }
-            
-            .nav-container {
-                padding: 0 15px;
-            }
-            
-            .logo {
-                gap: 8px;
-            }
-            
-            .logo-icon {
-                font-size: 20px;
-            }
-            
-            /* Ajustement de la hauteur des éléments du header sur mobile */
-            .nav-actions {
-                height: auto;
-            }
-            
-            .help-title {
-                font-size: 36px;
-            }
-            
-            .section-title {
-                font-size: 28px;
-            }
-            
-            .categories-grid,
-            .articles-grid,
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .category-card {
-                padding: 30px 20px;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .help-title {
-                font-size: 32px;
-            }
-            
-            header {
-                padding: 12px 0;
-            }
-            
-            .search-input {
-                padding: 12px 45px 12px 15px;
-            }
-        }
-
-        /* Pour les très petits écrans */
-        @media (max-height: 600px) {
-            .mobile-nav {
-                padding: 70px 20px 20px;
-            }
-            
-            .mobile-close {
-                top: 20px;
-                right: 20px;
-            }
-            
-            .mobile-nav-actions {
-                gap: 10px;
-                margin-bottom: 20px;
-            }
-            
-            .mobile-nav-actions .btn {
-                padding: 12px 15px;
-            }
-            
-            .mobile-nav-links li {
-                margin-bottom: 6px;
-            }
-            
-            .mobile-nav-links a {
-                padding: 12px 16px;
-                font-size: 16px;
-            }
-        }
-    </style>
+/* RESPONSIVE */
+@media (max-width:768px){
+    h1 { font-size:42px; }
+    .maintenance-card { padding:40px 20px; }
+}
+</style>
 </head>
+
 <body>
-    <br>
 
-<!-- Header -->
-<header>
-    <div class="container nav-container">
-        <div class="logo">
-            <div class="logo-icon"><i class="fas fa-temple"></i></div>
-            <div class="logo-text">
-                <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
-            </div>
-        </div>
-        <ul class="nav-links">
-            <li><a href="../index.html">Accueil</a></li>
-            <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-            <li><a href="../nexa/galerie.html">Galeries</a></li>
-            <li><a href="../nexa/nexa.html">NEXA</a></li>
-        </ul>
-        <div class="nav-actions">
 
-            <div class="mobile-menu" id="mobileMenu">
-                <i class="fas fa-bars"></i>
-            </div>
+<main>
+    <div class="maintenance-card">
+        <div class="maintenance-content">
+
+            <h1>MAINTENANCE</h1>
+
+            <div class="loader"></div>
+
+            <p>
+                Cette page est en cours d'amélioration.<br>
+                Nous revenons très bientôt.
+            </p>
+
+            <a href="/" class="btn">Retour à l'accueil</a>
+
         </div>
     </div>
-</header>
+</main>
 
 
-<!-- Menu Mobile -->
-<div class="overlay" id="overlay"></div>
-<nav class="mobile-nav" id="mobileNav">
-    <!-- Icône de fermeture sans en-tête -->
-    <div class="mobile-close" id="mobileClose">
-        <i class="fas fa-times"></i>
-    </div>
-    
-    <ul class="mobile-nav-links">
-        <li><a href="../index.html" class="mobile-nav-link">Accueil</a></li>
-        <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
-        <li><a href="../nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
-        <li><a href="../nexa/nexa.html" class="mobile-nav-link">NEXA</a></li>
-    </ul>
-    <div class="mobile-nav-actions">
 
-    </div>
-</nav>
-
-
-    <!-- Help Center Hero Section -->
-    <section class="help-hero">
-        <div class="container">
-            <span class="help-badge">SUPPORT</span>
-            <h1 class="help-title">Centre d'Aide NEXA</h1>
-            <p class="help-subtitle">Trouvez rapidement des réponses à vos questions et obtenez l'assistance dont vous avez besoin.</p>
-        </div>
-    </section>
-
-    <!-- Search Section -->
-    <section class="search-section">
-        <div class="container">
-            <div class="search-container">
-                <div class="search-box">
-                    <input type="text" class="search-input" placeholder="Rechercher dans le centre d'aide...">
-                    <div class="search-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                </div>
-                <div class="search-tags">
-                    <span class="search-tag">Installation</span>
-                    <span class="search-tag">Problèmes techniques</span>
-                    <span class="search-tag">Compte</span>
-                    <span class="search-tag">Développement</span>
-                    <span class="search-tag">FAQ</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Categories Section -->
-    <section class="categories-section">
-        <div class="container">
-            <h2 class="section-title">Catégories d'Aide</h2>
-            <div class="categories-grid">
-                <div class="category-card" onclick="showCategory('getting-started')">
-                    <div class="category-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h3 class="category-title">Premiers Pas</h3>
-                    <p class="category-desc">Guide de prise en main et informations de base pour commencer avec NEXA</p>
-                    <span class="category-count">8 articles</span>
-                </div>
-
-                <div class="category-card" onclick="showCategory('technical')">
-                    <div class="category-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <h3 class="category-title">Support Technique</h3>
-                    <p class="category-desc">Résolution des problèmes techniques et assistance système</p>
-                    <span class="category-count">12 articles</span>
-                </div>
-
-                <div class="category-card" onclick="showCategory('account')">
-                    <div class="category-icon">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <h3 class="category-title">Compte & Profil</h3>
-                    <p class="category-desc">Gestion de compte, paramètres et préférences utilisateur</p>
-                    <span class="category-count">6 articles</span>
-                </div>
-
-                <div class="category-card" onclick="showCategory('development')">
-                    <div class="category-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3 class="category-title">Développement</h3>
-                    <p class="category-desc">Informations sur l'état du projet et les mises à jour</p>
-                    <span class="category-count">15 articles</span>
-                </div>
-
-                <div class="category-card" onclick="showCategory('community')">
-                    <div class="category-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3 class="category-title">Communauté</h3>
-                    <p class="category-desc">Rejoindre la communauté et participer au développement</p>
-                    <span class="category-count">5 articles</span>
-                </div>
-
-                <div class="category-card" onclick="showCategory('billing')">
-                    <div class="category-icon">
-                        <i class="fas fa-credit-card"></i>
-                    </div>
-                    <h3 class="category-title">Support Commercial</h3>
-                    <p class="category-desc">Questions relatives aux partenariats et collaborations</p>
-                    <span class="category-count">3 articles</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-<!-- Popular Articles -->
-<section class="articles-section">
-    <div class="container">
-        <h2 class="section-title">Articles Populaires</h2>
-        <div class="articles-grid">
-
-            <a href="Articles/article.configuration.html" class="article-card">
-                <div class="article-header">
-                    <div class="article-icon">
-                        <i class="fas fa-desktop"></i>
-                    </div>
-                    <h3 class="article-title">Configuration système requise</h3>
-                </div>
-                <p class="article-desc">Découvrez les spécifications recommandées pour faire tourner NEXA dans les meilleures conditions.</p>
-                <div class="article-meta">
-                    <span class="article-category">Technique</span>
-                    <span>5 min de lecture</span>
-                </div>
-            </a>
-
-                <div class="article-card" onclick="openArticle('installation-guide')">
-                    <div class="article-header">
-                        <div class="article-icon">
-                            <i class="fas fa-download"></i>
-                        </div>
-                        <h3 class="article-title">Guide d'installation</h3>
-                    </div>
-                    <p class="article-desc">Instructions détaillées pour installer NEXA sur votre système.</p>
-                    <div class="article-meta">
-                        <span class="article-category">Premiers Pas</span>
-                        <span>3 min de lecture</span>
-                    </div>
-                </div>
-
-<a href="Articles/feuille.route.nexa.html" class="article-card development-roadmap">
-    <div class="article-header">
-        <div class="article-icon">
-            <i class="fas fa-map"></i>
-        </div>
-        <h3 class="article-title">Feuille de route du développement</h3>
-    </div>
-    <p class="article-desc">Découvrez les prochaines étapes du développement de NEXA.</p>
-    <div class="article-meta">
-        <span class="article-category">Développement</span>
-        <span>8 min de lecture</span>
-    </div>
-</a>
-
-                <div class="article-card" onclick="openArticle('troubleshooting')">
-                    <div class="article-header">
-                        <div class="article-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
-                        <h3 class="article-title">Résolution des problèmes courants</h3>
-                    </div>
-                    <p class="article-desc">Solutions aux problèmes techniques les plus fréquemment rencontrés.</p>
-                    <div class="article-meta">
-                        <span class="article-category">Support</span>
-                        <span>10 min de lecture</span>
-                    </div>
-                </div>
-
-                <div class="article-card" onclick="openArticle('beta-testing')">
-                    <div class="article-header">
-                        <div class="article-icon">
-                            <i class="fas fa-vial"></i>
-                        </div>
-                        <h3 class="article-title">Participer aux tests bêta</h3>
-                    </div>
-                    <p class="article-desc">Comment rejoindre le programme de test et contribuer au développement.</p>
-                    <div class="article-meta">
-                        <span class="article-category">Communauté</span>
-                        <span>4 min de lecture</span>
-                    </div>
-                </div>
-
-                <div class="article-card" onclick="openArticle('account-creation')">
-                    <div class="article-header">
-                        <div class="article-icon">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
-                        <h3 class="article-title">Création et gestion de compte</h3>
-                    </div>
-                    <p class="article-desc">Guide complet pour créer et gérer votre compte NEXA.</p>
-                    <div class="article-meta">
-                        <span class="article-category">Compte</span>
-                        <span>6 min de lecture</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact-section">
-        <div class="container">
-            <h2 class="section-title">Besoin d'Aide Supplémentaire ?</h2>
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <h3 class="contact-title">Contact par Email</h3>
-                    <p class="contact-info">
-                        <a href="mailto:contact.unwarestudio@gmail.com" class="contact-link">contact.unwarestudio@gmail.com</a>
-                    </p>
-                    <p class="contact-info">Réponse sous 24-48h</p>
-                </div>
-
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fab fa-discord"></i>
-                    </div>
-                    <h3 class="contact-title">Communauté Discord</h3>
-                    <p class="contact-info">Rejoignez notre serveur pour échanger avec la communauté et obtenir de l'aide en temps réel</p>
-                </div>
-
-                <div class="contact-card">
-                    <div class="contact-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <h3 class="contact-title">Documentation</h3>
-                    <p class="contact-info">Accédez à la documentation technique complète pour développeurs et utilisateurs avancés</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-  <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <div class="footer-logo-text">NEXA</div>
-                    </div>
-                    <p class="footer-desc">Un jeu développé par UNWARE STUDIO utilisant la puissance d'Unreal Engine 5 pour créer une expérience de jeu révolutionnaire.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                
-<div class="footer-column">
-    <h3>Navigation</h3>
-    <ul class="footer-links">
-            <li><a href="../index.html">Accueil</a></li>
-            <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li> 
-            <li><a href="../nexa/galerie.html">Galeries</a></li>
-            <li><a href="../nexa/nexa.html">NEXA</a></li>
-        </ul>
-</div>
-
-                <div class="footer-column">
-                    <h3>Support</h3>
-                    <ul class="footer-links">
-                        <li><a href="../Support/centre-aide.html">Centre d'aide</a></li>
-                        <li><a href="../Support/FAQ.html">FAQ</a></li>
-                        <li><a href="../Support/contact.html">Contact</a></li>
-                        <li><a href="../Support/statut.html">Statut des services</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Légal</h3>
-                    <ul class="footer-links">
-                        <li><a href="../legals/conditions-utilisation.html">Conditions d'utilisation</a></li>
-                        <li><a href="../legals/politique-confidentialite.html">Politique de confidentialité</a></li>
-                        <li><a href="../legals/mentions-legales.html">Mentions légales</a></li>
-                        <li><a href="../legals/politique-cookies.html">Politique de cookies</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="copyright">
-                <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Menu Burger Functionality - Version corrigée
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileNav = document.getElementById('mobileNav');
-        const overlay = document.getElementById('overlay');
-        const mobileClose = document.getElementById('mobileClose');
-        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-        const body = document.body;
-
-        function openMobileMenu() {
-            mobileNav.classList.add('active');
-            overlay.classList.add('active');
-            mobileMenu.classList.add('active');
-            body.classList.add('no-scroll');
-            
-            // Forcer le repaint pour éviter les bugs d'animation
-            void mobileNav.offsetWidth;
-        }
-
-        function closeMobileMenu() {
-            mobileNav.classList.remove('active');
-            overlay.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            body.classList.remove('no-scroll');
-        }
-
-        function toggleMobileMenu() {
-            if (mobileNav.classList.contains('active')) {
-                closeMobileMenu();
-            } else {
-                openMobileMenu();
-            }
-        }
-
-        // Événements
-        mobileMenu.addEventListener('click', toggleMobileMenu);
-        overlay.addEventListener('click', closeMobileMenu);
-        mobileClose.addEventListener('click', closeMobileMenu);
-
-        // Fermer le menu quand on clique sur un lien
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
-        });
-
-        // Fermer le menu avec la touche Échap
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-                closeMobileMenu();
-            }
-        });
-
-        // Remove hash from URL on page load
-        window.addEventListener('load', function() {
-            if (window.location.hash) {
-                history.replaceState(null, null, window.location.pathname + window.location.search);
-            }
-        });
-
-        // Fonctions pour le centre d'aide
-        function showCategory(categoryId) {
-            alert(`Ouverture de la catégorie: ${categoryId}\n\nEn production, cette action afficherait les articles de cette catégorie.`);
-        }
-
-        function openArticle(articleId) {
-            alert(`Ouverture de l'article: ${articleId}\n\nEn production, cette action afficherait le contenu complet de l'article.`);
-        }
-
-        // Recherche en temps réel
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.querySelector('.search-input');
-            const searchTags = document.querySelectorAll('.search-tag');
-            
-            // Recherche par tags
-            searchTags.forEach(tag => {
-                tag.addEventListener('click', function() {
-                    searchInput.value = this.textContent;
-                    performSearch(this.textContent);
-                });
-            });
-            
-            // Recherche par saisie
-            searchInput.addEventListener('input', function() {
-                if (this.value.length > 2) {
-                    performSearch(this.value);
-                }
-            });
-            
-            function performSearch(query) {
-                console.log(`Recherche: ${query}`);
-                // En production, cette fonction filtrerait les résultats
-            }
-            
-            console.log('Centre d\'Aide NEXA chargé');
-        });
-    </script>
-  </body>
+</body>
 </html>
-
+```
