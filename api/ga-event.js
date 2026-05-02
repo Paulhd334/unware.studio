@@ -1,4 +1,4 @@
-// /api/ga-event.js — Secure GA4 proxy (temps réel + sécurisé)
+// /api/ga-event.js — Secure GA4 proxy (clean prod version)
 
 const rateLimitMap = new Map();
 
@@ -31,7 +31,10 @@ function isRateLimited(ip) {
 // Validation payload
 // ─────────────────────────────
 function isValidPayload(body) {
-    if (!body || typeof body !== 'object') return false;
+
+    if (!body || typeof body !== 'object') {
+        return false;
+    }
 
     if (
         !body.client_id ||
@@ -41,13 +44,16 @@ function isValidPayload(body) {
         return false;
     }
 
-    if (!Array.isArray(body.events)) return false;
-
-    if (body.events.length === 0 || body.events.length > 25) {
+    if (
+        !Array.isArray(body.events) ||
+        body.events.length === 0 ||
+        body.events.length > 25
+    ) {
         return false;
     }
 
     for (const event of body.events) {
+
         if (!event || typeof event !== 'object') {
             return false;
         }
@@ -60,7 +66,9 @@ function isValidPayload(body) {
         }
 
         // Format officiel GA4
-        if (!/^[a-zA-Z][a-zA-Z0-9_]{0,39}$/.test(event.name)) {
+        if (
+            !/^[a-zA-Z][a-zA-Z0-9_]{0,39}$/.test(event.name)
+        ) {
             return false;
         }
 
@@ -80,6 +88,7 @@ function isValidPayload(body) {
 // CORS sécurisé
 // ─────────────────────────────
 function setCorsHeaders(req, res) {
+
     const allowedOrigin =
         process.env.ALLOWED_ORIGIN ||
         'https://unware.studio';
@@ -128,7 +137,7 @@ export default async function handler(req, res) {
         });
     }
 
-    // IP
+    // IP client
     const ip =
         req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
         req.headers['x-real-ip'] ||
@@ -142,9 +151,10 @@ export default async function handler(req, res) {
         });
     }
 
-    // Validation body
+    // Body
     const body = req.body;
 
+    // Validation
     if (!isValidPayload(body)) {
         return res.status(400).json({
             error: 'Invalid payload'
@@ -159,10 +169,6 @@ export default async function handler(req, res) {
         process.env.API_SECRET;
 
     if (!MEASUREMENT_ID || !API_SECRET) {
-        console.error(
-            '[ga-event] Missing environment variables'
-        );
-
         return res.status(500).json({
             error: 'Server configuration error'
         });
@@ -174,7 +180,7 @@ export default async function handler(req, res) {
         const gaUrl =
             `https://www.google-analytics.com/mp/collect?measurement_id=${MEASUREMENT_ID}&api_secret=${API_SECRET}`;
 
-        // Envoi GA4 temps réel
+        // Envoi GA4
         const response = await fetch(gaUrl, {
             method: 'POST',
 
@@ -185,16 +191,8 @@ export default async function handler(req, res) {
             body: JSON.stringify(body)
         });
 
-        // Erreur Google
+        // Erreur GA4
         if (!response.ok) {
-
-            const text = await response.text();
-
-            console.error(
-                '[ga-event] GA4 Error:',
-                response.status,
-                text
-            );
 
             return res.status(502).json({
                 error: 'GA4 request failed'
@@ -206,12 +204,7 @@ export default async function handler(req, res) {
             status: 'ok'
         });
 
-    } catch (error) {
-
-        console.error(
-            '[ga-event] Internal Error:',
-            error
-        );
+    } catch {
 
         return res.status(500).json({
             error: 'Internal Server Error'
