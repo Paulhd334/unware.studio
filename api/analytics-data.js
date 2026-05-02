@@ -14,7 +14,6 @@ export default async function handler(req, res) {
     if (req.method === 'OPTIONS') return res.status(204).end();
     if (req.method !== 'GET')     return res.status(405).end();
 
-    // ── Auth simple par secret ──
     const secret = req.headers['authorization']?.replace('Bearer ', '');
     if (!secret || secret !== process.env.DASHBOARD_SECRET) {
         return res.status(401).json({ error: 'Unauthorized' });
@@ -24,9 +23,8 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'No POSTGRES_URL' });
     }
 
-    const sql = neon(process.env.POSTGRES_URL);
-    const { range = '7' } = req.query; // jours
-    const days = Math.min(parseInt(range) || 7, 90);
+    const sql  = neon(process.env.POSTGRES_URL);
+    const days = Math.min(parseInt(req.query.range) || 7, 90);
 
     try {
         const [
@@ -114,10 +112,10 @@ export default async function handler(req, res) {
             sql`
                 SELECT
                     event_name,
-                    AVG((params->>'value_ms')::float)   AS avg_ms,
-                    MIN((params->>'value_ms')::float)   AS min_ms,
-                    MAX((params->>'value_ms')::float)   AS max_ms,
-                    COUNT(*)                            AS samples
+                    AVG((params->>'value_ms')::float) AS avg_ms,
+                    MIN((params->>'value_ms')::float) AS min_ms,
+                    MAX((params->>'value_ms')::float) AS max_ms,
+                    COUNT(*)                          AS samples
                 FROM events
                 WHERE event_name IN ('vital_lcp','vital_fcp','vital_ttfb','vital_inp')
                   AND created_at >= NOW() - INTERVAL '1 day' * ${days}
@@ -125,7 +123,7 @@ export default async function handler(req, res) {
                 GROUP BY event_name
             `,
 
-            // 8. 20 derniers events — avec ip, country, city, os, browser, connection_type
+            // 8. 30 derniers events avec colonnes enrichies
             sql`
                 SELECT
                     created_at,
@@ -134,11 +132,12 @@ export default async function handler(req, res) {
                     device_type,
                     client_id,
                     ip_address,
-                    COALESCE(params->>'country', geo_country)       AS country,
-                    COALESCE(params->>'city',    geo_city)          AS city,
-                    COALESCE(params->>'os',      os_name)           AS os,
-                    COALESCE(params->>'browser', browser_name)      AS browser,
-                    COALESCE(params->>'connection_type', conn_type) AS connection_type
+                    geo_country      AS country,
+                    geo_country_code AS country_code,
+                    geo_city         AS city,
+                    os_name          AS os,
+                    browser_name     AS browser,
+                    conn_type        AS connection_type
                 FROM events
                 WHERE created_at >= NOW() - INTERVAL '1 day' * ${days}
                 ORDER BY created_at DESC
@@ -157,7 +156,7 @@ export default async function handler(req, res) {
                 ORDER BY day ASC
             `,
 
-            // 10. Pages avec rage clicks
+            // 10. Rage clicks par page + élément
             sql`
                 SELECT page_path, params->>'element' AS element, COUNT(*) AS count
                 FROM events
@@ -168,27 +167,29 @@ export default async function handler(req, res) {
                 LIMIT 10
             `,
 
-            // 11. Répartition pays (geo)
+            // 11. Répartition pays
             sql`
                 SELECT
-                    COALESCE(params->>'country', geo_country, 'Inconnu') AS country,
-                    COALESCE(params->>'country_code', geo_country_code)  AS country_code,
+                    geo_country      AS country,
+                    geo_country_code AS country_code,
                     COUNT(DISTINCT client_id) AS visitors
                 FROM events
                 WHERE created_at >= NOW() - INTERVAL '1 day' * ${days}
-                GROUP BY country, country_code
+                  AND geo_country IS NOT NULL
+                GROUP BY geo_country, geo_country_code
                 ORDER BY visitors DESC
                 LIMIT 15
             `,
 
-            // 12. Répartition type de connexion (wifi / cellular / ethernet)
+            // 12. Répartition type de connexion
             sql`
                 SELECT
-                    COALESCE(params->>'connection_type', conn_type, 'unknown') AS connection_type,
+                    conn_type AS connection_type,
                     COUNT(DISTINCT client_id) AS visitors
                 FROM events
                 WHERE created_at >= NOW() - INTERVAL '1 day' * ${days}
-                GROUP BY connection_type
+                  AND conn_type IS NOT NULL
+                GROUP BY conn_type
                 ORDER BY visitors DESC
             `,
 
@@ -197,21 +198,21 @@ export default async function handler(req, res) {
                 SELECT
                     client_id,
                     ip_address,
-                    COALESCE(params->>'country', geo_country)       AS country,
-                    COALESCE(params->>'country_code', geo_country_code) AS country_code,
-                    COALESCE(params->>'city',    geo_city)          AS city,
-                    COALESCE(params->>'os',      os_name)           AS os,
-                    COALESCE(params->>'browser', browser_name)      AS browser,
-                    COALESCE(params->>'connection_type', conn_type) AS connection_type,
+                    geo_country      AS country,
+                    geo_country_code AS country_code,
+                    geo_city         AS city,
+                    os_name          AS os,
+                    browser_name     AS browser,
+                    conn_type        AS connection_type,
                     device_type,
                     page_path,
-                    MAX(created_at) AS last_seen
+                    MAX(created_at)  AS last_seen
                 FROM events
                 WHERE created_at >= NOW() - INTERVAL '5 minutes'
                 GROUP BY
                     client_id, ip_address,
-                    country, country_code, city,
-                    os, browser, connection_type,
+                    geo_country, geo_country_code, geo_city,
+                    os_name, browser_name, conn_type,
                     device_type, page_path
                 ORDER BY last_seen DESC
                 LIMIT 20
@@ -219,20 +220,20 @@ export default async function handler(req, res) {
         ]);
 
         return res.status(200).json({
-            range_days:         days,
-            overview:           overview[0],
-            top_pages:          topPages,
-            events:             eventBreakdown,
-            scroll:             scrollStats,
-            time_on_page:       timeStats,
-            devices:            deviceBreakdown,
-            vitals:             vitalStats,
-            recent:             recentEvents,
-            daily:              dailyVisits,
-            rage_clicks:        rageclicks,
-            countries:          countryBreakdown,
-            connections:        connectionBreakdown,
-            live_visitors:      liveVisitors
+            range_days:     days,
+            overview:       overview[0],
+            top_pages:      topPages,
+            events:         eventBreakdown,
+            scroll:         scrollStats,
+            time_on_page:   timeStats,
+            devices:        deviceBreakdown,
+            vitals:         vitalStats,
+            recent:         recentEvents,
+            daily:          dailyVisits,
+            rage_clicks:    rageclicks,
+            countries:      countryBreakdown,
+            connections:    connectionBreakdown,
+            live_visitors:  liveVisitors
         });
 
     } catch (err) {
