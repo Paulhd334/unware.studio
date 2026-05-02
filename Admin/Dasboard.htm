@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNWARE — Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg:        #080808;
+    --bg2:       #0f0f0f;
+    --bg3:       #161616;
+    --border:    #222222;
+    --accent:    #e8ff47;
+    --accent2:   #47ffd4;
+    --accent3:   #ff4747;
+    --text:      #f0f0f0;
+    --muted:     #555;
+    --muted2:    #333;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ── LOGIN ── */
+#login-screen {
+    position: fixed; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg);
+    z-index: 100;
+}
+.login-box {
+    width: 360px;
+    border: 1px solid var(--border);
+    padding: 48px 40px;
+    background: var(--bg2);
+    position: relative;
+}
+.login-box::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 40px; right: 40px; height: 2px;
+    background: var(--accent);
+}
+.login-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+.login-sub {
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+}
+.login-box input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    padding: 12px 16px;
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+}
+.login-box input:focus { border-color: var(--accent); }
+.login-box button {
+    width: 100%;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 13px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.login-box button:hover { opacity: 0.85; }
+.login-error { color: var(--accent3); font-size: 11px; margin-top: 8px; min-height: 16px; }
+
+/* ── DASHBOARD ── */
+#dashboard { display: none; }
+
+header {
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky; top: 0;
+    background: var(--bg);
+    z-index: 10;
+}
+.header-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+}
+.header-logo span { color: var(--muted); font-weight: 400; font-size: 12px; margin-left: 12px; }
+.header-right { display: flex; align-items: center; gap: 16px; }
+.range-select {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 6px 10px;
+    cursor: pointer;
+    outline: none;
+}
+.refresh-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+}
+.refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+main { padding: 32px; max-width: 1400px; margin: 0 auto; }
+
+/* ── OVERVIEW CARDS ── */
+.overview-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 32px;
+}
+.overview-card {
+    background: var(--bg2);
+    padding: 24px 20px;
+    position: relative;
+    overflow: hidden;
+}
+.overview-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.overview-card:hover::after { opacity: 1; }
+.ov-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+}
+.ov-value {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    color: var(--text);
+    line-height: 1;
+}
+.ov-value.accent  { color: var(--accent); }
+.ov-value.accent2 { color: var(--accent2); }
+.ov-value.danger  { color: var(--accent3); }
+
+/* ── SECTION TITLE ── */
+.section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+/* ── GRID LAYOUT ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.grid-full { margin-bottom: 16px; }
+
+/* ── PANELS ── */
+.panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 24px;
+}
+
+/* ── CHART BARS ── */
+.bar-chart { display: flex; flex-direction: column; gap: 10px; }
+.bar-row { display: flex; align-items: center; gap: 12px; }
+.bar-label { width: 120px; color: var(--muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+.bar-label.page-label { width: 180px; }
+.bar-track { flex: 1; height: 4px; background: var(--bg3); position: relative; }
+.bar-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+.bar-fill.blue  { background: var(--accent2); }
+.bar-fill.red   { background: var(--accent3); }
+.bar-fill.mixed { background: linear-gradient(90deg, var(--accent2), var(--accent)); }
+.bar-count { width: 48px; text-align: right; color: var(--text); font-size: 11px; flex-shrink: 0; }
+
+/* ── SCROLL FUNNEL ── */
+.funnel { display: flex; align-items: flex-end; gap: 8px; height: 120px; }
+.funnel-bar {
+    flex: 1;
+    background: var(--accent);
+    opacity: 0.2;
+    position: relative;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: default;
+    min-height: 4px;
+}
+.funnel-bar.active { opacity: 1; }
+.funnel-bar:hover { opacity: 0.8; }
+.funnel-label {
+    text-align: center;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 8px;
+}
+.funnel-value {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--accent);
+    white-space: nowrap;
+}
+.funnel-wrap { width: 100%; }
+.funnel-bars { display: flex; align-items: flex-end; gap: 8px; height: 120px; }
+.funnel-labels { display: flex; gap: 8px; margin-top: 4px; }
+.funnel-labels span { flex: 1; text-align: center; font-size: 10px; color: var(--muted); }
+
+/* ── LINE CHART ── */
+.line-chart-wrap { position: relative; height: 140px; }
+.line-chart-wrap svg { width: 100%; height: 100%; overflow: visible; }
+
+/* ── VITALS ── */
+.vitals-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.vital-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 16px;
+    text-align: center;
+}
+.vital-name { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.vital-val { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 22px; margin-bottom: 4px; }
+.vital-val.good    { color: var(--accent); }
+.vital-val.ok      { color: #ffaa47; }
+.vital-val.bad     { color: var(--accent3); }
+.vital-unit { font-size: 10px; color: var(--muted); }
+
+/* ── DEVICES ── */
+.device-list { display: flex; flex-direction: column; gap: 12px; }
+.device-row { display: flex; align-items: center; justify-content: space-between; }
+.device-name { color: var(--muted); font-size: 11px; text-transform: capitalize; }
+.device-count { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 14px; color: var(--text); }
+.device-pct { color: var(--accent); font-size: 11px; }
+
+/* ── RECENT EVENTS ── */
+.events-table { width: 100%; border-collapse: collapse; }
+.events-table th {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+}
+.events-table td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--muted2);
+    font-size: 11px;
+    color: var(--muted);
+}
+.events-table tr:last-child td { border-bottom: none; }
+.events-table td.event-name {
+    color: var(--accent);
+    font-weight: 500;
+}
+.events-table td.event-page { color: var(--text); }
+
+/* ── RAGE CLICKS ── */
+.rage-list { display: flex; flex-direction: column; gap: 8px; }
+.rage-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--bg3);
+    border-left: 2px solid var(--accent3);
+}
+.rage-page { color: var(--text); font-size: 11px; }
+.rage-el   { color: var(--muted); font-size: 10px; margin-top: 2px; }
+.rage-count {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    color: var(--accent3);
+    font-size: 16px;
+}
+
+/* ── LOADER ── */
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+}
+.loading::before {
+    content: '';
+    width: 16px; height: 16px;
+    border: 1px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-right: 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── EMPTY ── */
+.empty { color: var(--muted); font-size: 11px; padding: 24px 0; text-align: center; }
+
+@media (max-width: 1100px) {
+    .overview-grid { grid-template-columns: repeat(4, 1fr); }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .vitals-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 700px) {
+    main { padding: 16px; }
+    .overview-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .vitals-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ LOGIN ══════════════ -->
+<div id="login-screen">
+    <div class="login-box">
+        <div class="login-logo">UNWARE</div>
+        <div class="login-sub">Analytics Dashboard</div>
+        <input type="password" id="secret-input" placeholder="Secret d'accès" autocomplete="off">
+        <button onclick="doLogin()">Accéder →</button>
+        <div class="login-error" id="login-error"></div>
+    </div>
+</div>
+
+<!-- ══════════════ DASHBOARD ══════════════ -->
+<div id="dashboard">
+    <header>
+        <div class="header-logo">UNWARE <span>/ analytics</span></div>
+        <div class="header-right">
+            <div class="status-dot" id="status-dot"></div>
+            <select class="range-select" id="range-select" onchange="loadData()">
+                <option value="1">24h</option>
+                <option value="7" selected>7 jours</option>
+                <option value="14">14 jours</option>
+                <option value="30">30 jours</option>
+                <option value="90">90 jours</option>
+            </select>
+            <button class="refresh-btn" onclick="loadData()">↺ Refresh</button>
+        </div>
+    </header>
+
+    <main>
+        <div id="content"><div class="loading">Chargement des données</div></div>
+    </main>
+</div>
+
+<script>
+// ══ CONFIG ══
+const API_URL = '/api/analytics-data';
+let SECRET = '';
+
+// ══ LOGIN ══
+function doLogin() {
+    const val = document.getElementById('secret-input').value.trim();
+    if (!val) return;
+    SECRET = val;
+    loadData();
+}
+document.getElementById('secret-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+});
+
+// ══ LOAD DATA ══
+async function loadData() {
+    const range = document.getElementById('range-select')?.value || '7';
+    document.getElementById('content').innerHTML = '<div class="loading">Chargement des données</div>';
+
+    try {
+        const res = await fetch(`${API_URL}?range=${range}`, {
+            headers: { 'Authorization': `Bearer ${SECRET}` }
+        });
+
+        if (res.status === 401) {
+            document.getElementById('login-error').textContent = 'Secret incorrect.';
+            return;
+        }
+
+        const data = await res.json();
+
+        // Afficher le dashboard
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('status-dot').style.background = 'var(--accent)';
+
+        renderDashboard(data);
+
+    } catch(err) {
+        document.getElementById('content').innerHTML = `<div class="empty">Erreur de connexion : ${err.message}</div>`;
+    }
+}
+
+// ══ RENDER ══
+function renderDashboard(data) {
+    const o = data.overview || {};
+    const html = `
+        <!-- OVERVIEW -->
+        <div class="overview-grid">
+            <div class="overview-card">
+                <div class="ov-label">Visiteurs uniques</div>
+                <div class="ov-value accent">${fmt(o.unique_visitors)}</div>
+            </div>
+            <div class="overview-card">
+                <div class="ov-label">Sessions</div>
+                <div class="ov-value">${fmt(o.total_sessions)}</div>
+            </div>
+            <div class="overview-card">
+                <div class="ov-label">Pages vues</div>
+                <div class="ov-value">${fmt(o.pageviews)}</div>
+            </div>
+            <div class="overview-card">
+                <div class="ov-label">Total events</div>
+                <div class="ov-value">${fmt(o.total_events)}</div>
+            </div>
+            <div class="overview-card">
+                <div class="ov-label">Pages / session</div>
+                <div class="ov-value accent2">${ratio(o.pageviews, o.total_sessions)}</div>
+            </div>
+            <div class="overview-card">
+                <div class="ov-label">Rage clicks</div>
+                <div class="ov-value ${o.rage_clicks > 0 ? 'danger' : ''}">${fmt(o.rage_clicks)}</div>
+            </div>
+            <div class="overview-card">
+                <div class="ov-label">Erreurs JS</div>
+                <div class="ov-value ${o.js_errors > 0 ? 'danger' : ''}">${fmt(o.js_errors)}</div>
+            </div>
+        </div>
+
+        <!-- ROW 1 : Visites + Scroll funnel -->
+        <div class="grid-2">
+            <div class="panel">
+                <div class="section-title">Visites par jour</div>
+                ${renderLineChart(data.daily)}
+            </div>
+            <div class="panel">
+                <div class="section-title">Scroll funnel</div>
+                ${renderScrollFunnel(data.scroll)}
+            </div>
+        </div>
+
+        <!-- ROW 2 : Pages + Events -->
+        <div class="grid-2">
+            <div class="panel">
+                <div class="section-title">Pages les plus visitées</div>
+                ${renderBarChart(data.top_pages, 'page_title', 'views', 'page-label')}
+            </div>
+            <div class="panel">
+                <div class="section-title">Répartition des events</div>
+                ${renderBarChart(data.events, 'event_name', 'count')}
+            </div>
+        </div>
+
+        <!-- ROW 3 : Web Vitals + Devices + Time on page -->
+        <div class="grid-3">
+            <div class="panel" style="grid-column: span 2">
+                <div class="section-title">Web Vitals</div>
+                ${renderVitals(data.vitals)}
+            </div>
+            <div class="panel">
+                <div class="section-title">Devices</div>
+                ${renderDevices(data.devices)}
+            </div>
+        </div>
+
+        <!-- ROW 4 : Time on page + Rage clicks -->
+        <div class="grid-2">
+            <div class="panel">
+                <div class="section-title">Temps sur la page</div>
+                ${renderBarChart(data.time_on_page, 'event_name', 'count', null, 'blue')}
+            </div>
+            <div class="panel">
+                <div class="section-title">Rage clicks</div>
+                ${renderRageClicks(data.rage_clicks)}
+            </div>
+        </div>
+
+        <!-- ROW 5 : Recent events -->
+        <div class="grid-full">
+            <div class="panel">
+                <div class="section-title">Events récents</div>
+                ${renderRecentEvents(data.recent)}
+            </div>
+        </div>
+    `;
+    document.getElementById('content').innerHTML = html;
+    renderLineChartSVG(data.daily);
+}
+
+// ── Bar chart ──
+function renderBarChart(rows, labelKey, countKey, labelClass = null, color = '') {
+    if (!rows || rows.length === 0) return '<div class="empty">Aucune donnée</div>';
+    const max = Math.max(...rows.map(r => +r[countKey]));
+    return `<div class="bar-chart">${rows.map(r => `
+        <div class="bar-row">
+            <div class="bar-label ${labelClass||''}">${r[labelKey] || '—'}</div>
+            <div class="bar-track">
+                <div class="bar-fill ${color}" style="width:${max > 0 ? Math.round((+r[countKey]/max)*100) : 0}%"></div>
+            </div>
+            <div class="bar-count">${fmt(r[countKey])}</div>
+        </div>`).join('')}</div>`;
+}
+
+// ── Scroll funnel ──
+function renderScrollFunnel(rows) {
+    if (!rows || rows.length === 0) return '<div class="empty">Aucune donnée scroll</div>';
+    const map = {};
+    rows.forEach(r => { map[r.event_name] = +r.count; });
+    const steps = ['scroll_25','scroll_50','scroll_75','scroll_90','scroll_100'];
+    const labels = ['25%','50%','75%','90%','100%'];
+    const max = Math.max(...steps.map(s => map[s] || 0), 1);
+    const bars = steps.map((s, i) => {
+        const v = map[s] || 0;
+        const h = max > 0 ? Math.round((v / max) * 100) : 0;
+        return `<div style="flex:1;display:flex;flex-direction:column;align-items:center;">
+            <div style="width:100%;display:flex;align-items:flex-end;height:120px;">
+                <div style="width:100%;height:${h}%;background:var(--accent);opacity:${v>0?1:0.15};min-height:4px;transition:height 0.6s cubic-bezier(0.16,1,0.3,1);position:relative;">
+                    ${v > 0 ? `<div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--accent);white-space:nowrap;">${fmt(v)}</div>` : ''}
+                </div>
+            </div>
+            <div style="font-size:10px;color:var(--muted);margin-top:8px;">${labels[i]}</div>
+        </div>`;
+    }).join('');
+    return `<div style="display:flex;gap:8px;align-items:flex-end;">${bars}</div>`;
+}
+
+// ── Line chart SVG ──
+function renderLineChart(daily) {
+    return `<div class="line-chart-wrap"><svg id="line-svg"></svg></div>`;
+}
+function renderLineChartSVG(daily) {
+    const svg = document.getElementById('line-svg');
+    if (!svg || !daily || daily.length === 0) {
+        if (svg) svg.innerHTML = `<text x="50%" y="50%" fill="#555" text-anchor="middle" font-size="11">Aucune donnée</text>`;
+        return;
+    }
+    const W = svg.clientWidth || 400, H = 140;
+    const pad = { t: 20, r: 16, b: 32, l: 40 };
+    const cW = W - pad.l - pad.r, cH = H - pad.t - pad.b;
+    const maxV = Math.max(...daily.map(d => +d.pageviews), 1);
+    const maxU = Math.max(...daily.map(d => +d.visitors), 1);
+
+    const xScale = i => pad.l + (i / (daily.length - 1 || 1)) * cW;
+    const yScale = (v, max) => pad.t + cH - (v / max) * cH;
+
+    const pv_pts = daily.map((d, i) => `${xScale(i)},${yScale(+d.pageviews, maxV)}`).join(' ');
+    const uv_pts = daily.map((d, i) => `${xScale(i)},${yScale(+d.visitors, maxU)}`).join(' ');
+
+    const pv_area = `${pad.l},${pad.t + cH} ` + pv_pts + ` ${xScale(daily.length-1)},${pad.t + cH}`;
+    const uv_area = `${pad.l},${pad.t + cH} ` + uv_pts + ` ${xScale(daily.length-1)},${pad.t + cH}`;
+
+    svg.innerHTML = `
+        <defs>
+            <linearGradient id="gPV" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#e8ff47" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#e8ff47" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="gUV" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#47ffd4" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#47ffd4" stop-opacity="0"/>
+            </linearGradient>
+        </defs>
+        <polygon points="${pv_area}" fill="url(#gPV)"/>
+        <polygon points="${uv_area}" fill="url(#gUV)"/>
+        <polyline points="${pv_pts}" fill="none" stroke="#e8ff47" stroke-width="1.5"/>
+        <polyline points="${uv_pts}" fill="none" stroke="#47ffd4" stroke-width="1.5" stroke-dasharray="4,3"/>
+        ${daily.map((d, i) => `
+            <circle cx="${xScale(i)}" cy="${yScale(+d.pageviews, maxV)}" r="2.5" fill="#e8ff47"/>
+            <text x="${xScale(i)}" y="${H - 8}" text-anchor="middle" fill="#555" font-size="9" font-family="DM Mono, monospace">
+                ${new Date(d.day).toLocaleDateString('fr', {day:'2-digit',month:'2-digit'})}
+            </text>
+        `).join('')}
+        <text x="8" y="${pad.t}" fill="#555" font-size="9" font-family="DM Mono, monospace">${maxV}</text>
+        <text x="8" y="${pad.t + cH}" fill="#555" font-size="9" font-family="DM Mono, monospace">0</text>
+        <!-- légende -->
+        <rect x="${pad.l}" y="${H - 6}" width="12" height="2" fill="#e8ff47"/>
+        <text x="${pad.l + 16}" y="${H - 2}" fill="#888" font-size="9" font-family="DM Mono, monospace">vues</text>
+        <rect x="${pad.l + 60}" y="${H - 6}" width="12" height="2" fill="#47ffd4"/>
+        <text x="${pad.l + 76}" y="${H - 2}" fill="#888" font-size="9" font-family="DM Mono, monospace">visiteurs</text>
+    `;
+}
+
+// ── Vitals ──
+function renderVitals(vitals) {
+    if (!vitals || vitals.length === 0) return '<div class="empty">Aucune donnée vitals</div>';
+    const map = {};
+    vitals.forEach(v => { map[v.event_name] = v; });
+    const metrics = [
+        { key: 'vital_lcp',  label: 'LCP',  unit: 'ms', good: 2500, ok: 4000 },
+        { key: 'vital_fcp',  label: 'FCP',  unit: 'ms', good: 1800, ok: 3000 },
+        { key: 'vital_ttfb', label: 'TTFB', unit: 'ms', good: 800,  ok: 1800 },
+        { key: 'vital_inp',  label: 'INP',  unit: 'ms', good: 200,  ok: 500  },
+    ];
+    return `<div class="vitals-grid">${metrics.map(m => {
+        const v = map[m.key];
+        const avg = v ? Math.round(v.avg_ms) : null;
+        const cls = avg === null ? '' : avg <= m.good ? 'good' : avg <= m.ok ? 'ok' : 'bad';
+        return `<div class="vital-card">
+            <div class="vital-name">${m.label}</div>
+            <div class="vital-val ${cls}">${avg !== null ? avg : '—'}</div>
+            <div class="vital-unit">${avg !== null ? m.unit + ' · ' + (v.samples) + ' samples' : 'pas de données'}</div>
+        </div>`;
+    }).join('')}</div>`;
+}
+
+// ── Devices ──
+function renderDevices(devices) {
+    if (!devices || devices.length === 0) return '<div class="empty">Aucune donnée</div>';
+    const total = devices.reduce((s, d) => s + +d.visitors, 0);
+    return `<div class="device-list">${devices.map(d => {
+        const pct = total > 0 ? Math.round(+d.visitors / total * 100) : 0;
+        return `<div class="device-row">
+            <div>
+                <div class="device-name">${d.device_type || 'inconnu'}</div>
+                <div style="height:3px;width:${pct}%;background:var(--accent);margin-top:4px;max-width:100%;transition:width 0.6s;"></div>
+            </div>
+            <div style="text-align:right;">
+                <div class="device-count">${fmt(d.visitors)}</div>
+                <div class="device-pct">${pct}%</div>
+            </div>
+        </div>`;
+    }).join('')}</div>`;
+}
+
+// ── Recent events ──
+function renderRecentEvents(events) {
+    if (!events || events.length === 0) return '<div class="empty">Aucun event récent</div>';
+    return `<table class="events-table">
+        <thead><tr>
+            <th>Heure</th><th>Event</th><th>Page</th><th>Device</th><th>Client</th>
+        </tr></thead>
+        <tbody>${events.map(e => `<tr>
+            <td>${new Date(e.created_at).toLocaleTimeString('fr', {hour:'2-digit',minute:'2-digit',second:'2-digit'})}</td>
+            <td class="event-name">${e.event_name}</td>
+            <td class="event-page">${e.page_path || '—'}</td>
+            <td>${e.device_type || '—'}</td>
+            <td>${(e.client_id || '').substring(0, 16)}…</td>
+        </tr>`).join('')}</tbody>
+    </table>`;
+}
+
+// ── Rage clicks ──
+function renderRageClicks(rages) {
+    if (!rages || rages.length === 0) return '<div class="empty" style="color:var(--accent)">✓ Aucun rage click</div>';
+    return `<div class="rage-list">${rages.map(r => `
+        <div class="rage-item">
+            <div>
+                <div class="rage-page">${r.page_path || '—'}</div>
+                <div class="rage-el">${r.element || '—'}</div>
+            </div>
+            <div class="rage-count">${r.count}×</div>
+        </div>`).join('')}</div>`;
+}
+
+// ── Utils ──
+function fmt(n) { return n == null ? '0' : Number(n).toLocaleString('fr'); }
+function ratio(a, b) { return b > 0 ? (a/b).toFixed(1) : '0'; }
+</script>
+</body>
+</html>
