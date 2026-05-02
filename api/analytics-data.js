@@ -39,7 +39,10 @@ export default async function handler(req, res) {
             vitalStats,
             recentEvents,
             dailyVisits,
-            rageclicks
+            rageclicks,
+            countryBreakdown,
+            connectionBreakdown,
+            liveVisitors
         ] = await Promise.all([
 
             // 1. Vue d'ensemble
@@ -77,7 +80,7 @@ export default async function handler(req, res) {
                 LIMIT 20
             `,
 
-            // 4. Scroll depth — % moyen d'abandon
+            // 4. Scroll depth
             sql`
                 SELECT event_name, COUNT(*) AS count
                 FROM events
@@ -122,13 +125,24 @@ export default async function handler(req, res) {
                 GROUP BY event_name
             `,
 
-            // 8. 20 derniers events
+            // 8. 20 derniers events — avec ip, country, city, os, browser, connection_type
             sql`
-                SELECT created_at, event_name, page_path, device_type, client_id
+                SELECT
+                    created_at,
+                    event_name,
+                    page_path,
+                    device_type,
+                    client_id,
+                    ip_address,
+                    COALESCE(params->>'country', geo_country)       AS country,
+                    COALESCE(params->>'city',    geo_city)          AS city,
+                    COALESCE(params->>'os',      os_name)           AS os,
+                    COALESCE(params->>'browser', browser_name)      AS browser,
+                    COALESCE(params->>'connection_type', conn_type) AS connection_type
                 FROM events
                 WHERE created_at >= NOW() - INTERVAL '1 day' * ${days}
                 ORDER BY created_at DESC
-                LIMIT 20
+                LIMIT 30
             `,
 
             // 9. Visites par jour
@@ -152,21 +166,73 @@ export default async function handler(req, res) {
                 GROUP BY page_path, element
                 ORDER BY count DESC
                 LIMIT 10
+            `,
+
+            // 11. Répartition pays (geo)
+            sql`
+                SELECT
+                    COALESCE(params->>'country', geo_country, 'Inconnu') AS country,
+                    COALESCE(params->>'country_code', geo_country_code)  AS country_code,
+                    COUNT(DISTINCT client_id) AS visitors
+                FROM events
+                WHERE created_at >= NOW() - INTERVAL '1 day' * ${days}
+                GROUP BY country, country_code
+                ORDER BY visitors DESC
+                LIMIT 15
+            `,
+
+            // 12. Répartition type de connexion (wifi / cellular / ethernet)
+            sql`
+                SELECT
+                    COALESCE(params->>'connection_type', conn_type, 'unknown') AS connection_type,
+                    COUNT(DISTINCT client_id) AS visitors
+                FROM events
+                WHERE created_at >= NOW() - INTERVAL '1 day' * ${days}
+                GROUP BY connection_type
+                ORDER BY visitors DESC
+            `,
+
+            // 13. Visiteurs actifs — dernières 5 minutes
+            sql`
+                SELECT
+                    client_id,
+                    ip_address,
+                    COALESCE(params->>'country', geo_country)       AS country,
+                    COALESCE(params->>'country_code', geo_country_code) AS country_code,
+                    COALESCE(params->>'city',    geo_city)          AS city,
+                    COALESCE(params->>'os',      os_name)           AS os,
+                    COALESCE(params->>'browser', browser_name)      AS browser,
+                    COALESCE(params->>'connection_type', conn_type) AS connection_type,
+                    device_type,
+                    page_path,
+                    MAX(created_at) AS last_seen
+                FROM events
+                WHERE created_at >= NOW() - INTERVAL '5 minutes'
+                GROUP BY
+                    client_id, ip_address,
+                    country, country_code, city,
+                    os, browser, connection_type,
+                    device_type, page_path
+                ORDER BY last_seen DESC
+                LIMIT 20
             `
         ]);
 
         return res.status(200).json({
-            range_days:      days,
-            overview:        overview[0],
-            top_pages:       topPages,
-            events:          eventBreakdown,
-            scroll:          scrollStats,
-            time_on_page:    timeStats,
-            devices:         deviceBreakdown,
-            vitals:          vitalStats,
-            recent:          recentEvents,
-            daily:           dailyVisits,
-            rage_clicks:     rageclicks
+            range_days:         days,
+            overview:           overview[0],
+            top_pages:          topPages,
+            events:             eventBreakdown,
+            scroll:             scrollStats,
+            time_on_page:       timeStats,
+            devices:            deviceBreakdown,
+            vitals:             vitalStats,
+            recent:             recentEvents,
+            daily:              dailyVisits,
+            rage_clicks:        rageclicks,
+            countries:          countryBreakdown,
+            connections:        connectionBreakdown,
+            live_visitors:      liveVisitors
         });
 
     } catch (err) {
