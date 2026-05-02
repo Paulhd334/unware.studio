@@ -126,7 +126,6 @@ function areCookiesRejected() {
 }
 
 // =============== RESET COMPLET DE L'ÉTAT ANALYTICS ===============
-// FIX: appelé à chaque refus pour permettre une future ré-initialisation
 function resetAnalyticsState() {
     isGALoaded = false;
     isClarityLoaded = false;
@@ -246,11 +245,9 @@ async function sendToSecureAPI(eventName, params = {}) {
 
 // =============== INITIALISATION GA4 ===============
 function initializeGoogleAnalytics() {
-    // FIX: on relit toujours l'état réel des cookies avant de bloquer sur isGALoaded
     if (areCookiesRejected() || !shouldLoadGA()) return;
     if (isGALoaded) return;
 
-    // FIX: log déplacé ici — n'apparaît que si GA est réellement initialisé
     console.log('🚀 Init GA4 MAX DATA...');
     console.log('📊 Analytics MAX DATA prêt — 14 trackers actifs');
 
@@ -330,6 +327,7 @@ function initEventTracking() {
 }
 
 // ── SCROLL DEPTH ──
+// GA4 verra : scroll_25, scroll_50, scroll_75, scroll_90, scroll_100
 function trackScrollDepth() {
     const milestones = [25, 50, 75, 90, 100];
     const reached = new Set();
@@ -341,9 +339,11 @@ function trackScrollDepth() {
         milestones.forEach(m => {
             if (pct >= m && !reached.has(m)) {
                 reached.add(m);
-                const d = { scroll_depth: m, page_title: getPageTitle() };
-                if (window.gtag) gtag('event', 'scroll_depth', d);
-                sendToSecureAPI('scroll_depth', d);
+                // Nom unique par palier → lisible directement dans GA4
+                const eventName = `scroll_${m}`;
+                const d = { scroll_depth_pct: m, page_title: getPageTitle() };
+                if (window.gtag) gtag('event', eventName, d);
+                sendToSecureAPI(eventName, d);
                 console.log(`📜 Scroll ${m}%`);
             }
         });
@@ -351,6 +351,7 @@ function trackScrollDepth() {
 }
 
 // ── TEMPS SUR LA PAGE ──
+// GA4 verra : time_15s, time_30s, time_60s, time_120s, time_300s
 function trackTimeOnPage() {
     const milestones = [15, 30, 60, 120, 300];
     const reached = new Set();
@@ -362,9 +363,11 @@ function trackTimeOnPage() {
         milestones.forEach(m => {
             if (elapsed >= m && !reached.has(m)) {
                 reached.add(m);
-                const d = { time_on_page_seconds: m, page_title: getPageTitle() };
-                if (window.gtag) gtag('event', 'time_on_page', d);
-                sendToSecureAPI('time_on_page', d);
+                // Nom unique par palier → lisible directement dans GA4
+                const eventName = `time_${m}s`;
+                const d = { seconds_on_page: m, page_title: getPageTitle() };
+                if (window.gtag) gtag('event', eventName, d);
+                sendToSecureAPI(eventName, d);
                 console.log(`⏱️ ${m}s sur la page`);
             }
         });
@@ -373,28 +376,29 @@ function trackTimeOnPage() {
     window.addEventListener('beforeunload', () => {
         if (areCookiesRejected()) return;
         const total = Math.round((Date.now() - startTime) / 1000);
-        const d = { time_on_page_seconds: total, exit_page: getPagePath(), page_title: getPageTitle() };
+        const d = { seconds_on_page: total, exit_page: getPagePath(), page_title: getPageTitle() };
         sendToSecureAPI('page_exit', d);
         if (window.gtag) gtag('event', 'page_exit', d);
     });
 }
 
 // ── VISIBILITÉ PAGE ──
+// GA4 verra : tab_hidden, tab_returned  (au lieu de tab_visibility × N)
 function trackPageVisibility() {
     let hiddenAt = null;
     document.addEventListener('visibilitychange', () => {
         if (areCookiesRejected()) return;
         if (document.hidden) {
             hiddenAt = Date.now();
-            const d = { action: 'tab_hidden', page_title: getPageTitle() };
-            if (window.gtag) gtag('event', 'tab_visibility', d);
-            sendToSecureAPI('tab_visibility', d);
+            const d = { page_title: getPageTitle() };
+            if (window.gtag) gtag('event', 'tab_hidden', d);
+            sendToSecureAPI('tab_hidden', d);
         } else if (hiddenAt) {
             const away = Math.round((Date.now() - hiddenAt) / 1000);
             hiddenAt = null;
-            const d = { action: 'tab_visible', away_seconds: away, page_title: getPageTitle() };
-            if (window.gtag) gtag('event', 'tab_visibility', d);
-            sendToSecureAPI('tab_visibility', d);
+            const d = { away_seconds: away, page_title: getPageTitle() };
+            if (window.gtag) gtag('event', 'tab_returned', d);
+            sendToSecureAPI('tab_returned', d);
         }
     });
 }
@@ -459,20 +463,21 @@ function trackJSErrors() {
     });
     window.addEventListener('unhandledrejection', (e) => {
         if (areCookiesRejected()) return;
-        const d = { error_message: (e.reason?.message || String(e.reason))?.substring(0, 100), error_type: 'unhandled_promise', page_title: getPageTitle() };
+        const d = { error_message: (e.reason?.message || String(e.reason))?.substring(0, 100), error_type: 'promise_rejected', page_title: getPageTitle() };
         if (window.gtag) gtag('event', 'js_error', d);
         sendToSecureAPI('js_error', d);
     });
 }
 
-// ── WEB VITALS (LCP, CLS, FCP, TTFB) ──
+// ── WEB VITALS ──
+// GA4 verra : vital_lcp, vital_cls, vital_fcp, vital_ttfb  (au lieu de web_vital × 14)
 function trackWebVitals() {
     try {
         new PerformanceObserver((list) => {
             const last = list.getEntries().at(-1);
-            const d = { metric_name: 'LCP', metric_value: Math.round(last.startTime), page_title: getPageTitle() };
-            if (window.gtag) gtag('event', 'web_vital', d);
-            sendToSecureAPI('web_vital', d);
+            const d = { value_ms: Math.round(last.startTime), page_title: getPageTitle() };
+            if (window.gtag) gtag('event', 'vital_lcp', d);
+            sendToSecureAPI('vital_lcp', d);
         }).observe({ type: 'largest-contentful-paint', buffered: true });
     } catch(e) {}
 
@@ -482,9 +487,9 @@ function trackWebVitals() {
             list.getEntries().forEach(entry => { if (!entry.hadRecentInput) clsValue += entry.value; });
         }).observe({ type: 'layout-shift', buffered: true });
         window.addEventListener('beforeunload', () => {
-            const d = { metric_name: 'CLS', metric_value: Math.round(clsValue * 1000) / 1000, page_title: getPageTitle() };
-            if (window.gtag) gtag('event', 'web_vital', d);
-            sendToSecureAPI('web_vital', d);
+            const d = { value: Math.round(clsValue * 1000) / 1000, page_title: getPageTitle() };
+            if (window.gtag) gtag('event', 'vital_cls', d);
+            sendToSecureAPI('vital_cls', d);
         });
     } catch(e) {}
 
@@ -492,9 +497,9 @@ function trackWebVitals() {
         new PerformanceObserver((list) => {
             const entry = list.getEntries().find(e => e.name === 'first-contentful-paint');
             if (entry) {
-                const d = { metric_name: 'FCP', metric_value: Math.round(entry.startTime), page_title: getPageTitle() };
-                if (window.gtag) gtag('event', 'web_vital', d);
-                sendToSecureAPI('web_vital', d);
+                const d = { value_ms: Math.round(entry.startTime), page_title: getPageTitle() };
+                if (window.gtag) gtag('event', 'vital_fcp', d);
+                sendToSecureAPI('vital_fcp', d);
             }
         }).observe({ type: 'paint', buffered: true });
     } catch(e) {}
@@ -504,15 +509,28 @@ function trackWebVitals() {
         if (nav) {
             const ttfb = Math.round(nav.responseStart - nav.requestStart);
             setTimeout(() => {
-                const d = { metric_name: 'TTFB', metric_value: ttfb, page_title: getPageTitle() };
-                if (window.gtag) gtag('event', 'web_vital', d);
-                sendToSecureAPI('web_vital', d);
+                const d = { value_ms: ttfb, page_title: getPageTitle() };
+                if (window.gtag) gtag('event', 'vital_ttfb', d);
+                sendToSecureAPI('vital_ttfb', d);
             }, 2000);
         }
     } catch(e) {}
+
+    // ── INP (Interaction to Next Paint) — 4e Web Vital officielle ──
+    // GA4 verra : vital_inp
+    try {
+        new PerformanceObserver((list) => {
+            list.getEntries().forEach(entry => {
+                const d = { value_ms: Math.round(entry.duration), interaction: entry.name, page_title: getPageTitle() };
+                if (window.gtag) gtag('event', 'vital_inp', d);
+                sendToSecureAPI('vital_inp', d);
+            });
+        }).observe({ type: 'event', durationThreshold: 40, buffered: true });
+    } catch(e) {}
 }
 
-// ── INACTIVITÉ (3 min sans interaction) ──
+// ── INACTIVITÉ ──
+// GA4 verra : user_inactive, user_returned  (au lieu de user_activity × N)
 function trackInactivity() {
     let inactiveTimer;
     let inactiveReported = false;
@@ -521,17 +539,17 @@ function trackInactivity() {
     function resetTimer() {
         if (inactiveReported) {
             inactiveReported = false;
-            const d = { action: 'returned_active', page_title: getPageTitle() };
-            if (window.gtag) gtag('event', 'user_activity', d);
-            sendToSecureAPI('user_activity', d);
+            const d = { page_title: getPageTitle() };
+            if (window.gtag) gtag('event', 'user_returned', d);
+            sendToSecureAPI('user_returned', d);
         }
         clearTimeout(inactiveTimer);
         inactiveTimer = setTimeout(() => {
             if (areCookiesRejected()) return;
             inactiveReported = true;
-            const d = { action: 'inactive_3min', page_title: getPageTitle() };
-            if (window.gtag) gtag('event', 'user_activity', d);
-            sendToSecureAPI('user_activity', d);
+            const d = { page_title: getPageTitle() };
+            if (window.gtag) gtag('event', 'user_inactive', d);
+            sendToSecureAPI('user_inactive', d);
             console.log('💤 Inactif');
         }, THRESHOLD);
     }
@@ -549,7 +567,7 @@ function trackFirstEngagement() {
         if (done || areCookiesRejected()) return;
         done = true;
         const t = Math.round((Date.now() - performance.timeOrigin) / 1000);
-        const d = { time_to_first_engagement_seconds: t, interaction_type: e.type, page_title: getPageTitle() };
+        const d = { seconds_to_engage: t, interaction_type: e.type, page_title: getPageTitle() };
         if (window.gtag) gtag('event', 'first_engagement', d);
         sendToSecureAPI('first_engagement', d);
         console.log(`👆 Premier engagement: ${t}s (${e.type})`);
@@ -560,25 +578,31 @@ function trackFirstEngagement() {
     });
 }
 
-// ── HOVER SUR ÉLÉMENTS CLÉS (une seule fois par élément) ──
+// ── HOVER SUR ÉLÉMENTS CLÉS ──
+// GA4 verra : hover_link, hover_button, hover_btn, hover_gallery_card, hover_nav
 function trackHover() {
-    const selectors = ['a[href]', 'button', '.btn', '.gallery-card', '.nav-links a'];
+    const selectorMap = {
+        'a[href]':        'hover_link',
+        'button':         'hover_button',
+        '.btn':           'hover_btn',
+        '.gallery-card':  'hover_gallery_card',
+        '.nav-links a':   'hover_nav'
+    };
     const hovered = new Set();
-    selectors.forEach(sel => {
+    Object.entries(selectorMap).forEach(([sel, eventName]) => {
         document.querySelectorAll(sel).forEach(el => {
             el.addEventListener('mouseenter', () => {
                 if (areCookiesRejected()) return;
-                const key = sel + '_' + (el.textContent?.trim()?.substring(0, 30) || el.id || Math.random());
+                const key = eventName + '_' + (el.textContent?.trim()?.substring(0, 30) || el.id || Math.random());
                 if (hovered.has(key)) return;
                 hovered.add(key);
                 const d = {
-                    element_type: sel,
                     element_text: el.textContent?.trim()?.substring(0, 50) || el.getAttribute('aria-label') || '',
                     element_href: el.href || '',
-                    page_title: getPageTitle()
+                    page_title:   getPageTitle()
                 };
-                if (window.gtag) gtag('event', 'element_hover', d);
-                sendToSecureAPI('element_hover', d);
+                if (window.gtag) gtag('event', eventName, d);
+                sendToSecureAPI(eventName, d);
             }, { passive: true });
         });
     });
@@ -615,7 +639,7 @@ function trackFormSubmitSecure(form) {
 function showCookieBanner() {
     const banner = document.getElementById('custom-cookie-banner');
     const consent = getCookie('cookieConsent');
-    if (consent) return; // Ne pas afficher si un choix a déjà été fait
+    if (consent) return;
     if (banner) {
         banner.classList.remove('hiding');
         banner.style.display = 'block';
@@ -656,8 +680,7 @@ function hideCookieSettings() {
     if (!consent) setTimeout(showCookieBanner, 500);
 }
 
-// =============== DISPATCH CONSENTEMENT (pour clarity.js et autres scripts) ===============
-// Tous les scripts analytics écoutent 'cookieConsentChanged' — plus besoin de surcharger les fonctions
+// =============== DISPATCH CONSENTEMENT ===============
 function dispatchConsentEvent(consent, analytics) {
     document.dispatchEvent(new CustomEvent('cookieConsentChanged', {
         detail: { consent, analytics }
@@ -669,9 +692,9 @@ function acceptCookies() {
     setCookie('cookieConsent', 'all', 365);
     setCookie('analyticsCookies', 'true', 365);
     setCookie('performanceCookies', 'true', 365);
-    cookiesRejected = false; // FIX: reset du flag en mémoire
+    cookiesRejected = false;
     hideCookieBanner();
-    dispatchConsentEvent('all', 'true'); // notifie clarity.js et autres
+    dispatchConsentEvent('all', 'true');
     setTimeout(() => initializeGoogleAnalytics(), 100);
 }
 
@@ -679,8 +702,8 @@ function rejectCookies() {
     setCookie('cookieConsent', 'rejected', 365);
     setCookie('analyticsCookies', 'false', 365);
     setCookie('performanceCookies', 'false', 365);
-    resetAnalyticsState(); // FIX: reset isGALoaded + cookiesRejected
-    dispatchConsentEvent('rejected', 'false'); // notifie clarity.js et autres
+    resetAnalyticsState();
+    dispatchConsentEvent('rejected', 'false');
     hideCookieBanner();
 }
 
@@ -691,12 +714,12 @@ function saveCookiePreferences() {
     setCookie('analyticsCookies', analyticsChecked ? 'true' : 'false', 365);
     setCookie('performanceCookies', performanceChecked ? 'true' : 'false', 365);
     if (!analyticsChecked) {
-        resetAnalyticsState(); // FIX: analytics décoché → reset pour future ré-init
+        resetAnalyticsState();
     } else {
-        cookiesRejected = false; // FIX: reset du flag si analytics coché
+        cookiesRejected = false;
         setTimeout(() => initializeGoogleAnalytics(), 100);
     }
-    dispatchConsentEvent('custom', analyticsChecked ? 'true' : 'false'); // notifie clarity.js
+    dispatchConsentEvent('custom', analyticsChecked ? 'true' : 'false');
     hideCookieSettings();
     hideCookieBanner();
 }
@@ -704,14 +727,11 @@ function saveCookiePreferences() {
 // =============== INIT PRINCIPALE ===============
 function initAnalytics() {
     deviceType = detectDeviceType();
-
-    // Affichage debug état consentement dans la console
     logConsentStatus();
 
     const consent = getCookie('cookieConsent');
 
     if (!consent) {
-        // Aucun choix → on attend, on affiche la bannière
         console.log('⏳ Analytics en attente de consentement...');
         setTimeout(showCookieBanner, 1500);
         return;
@@ -763,6 +783,3 @@ window.debugGA = {
         location.reload();
     }
 };
-
-// FIX: log supprimé d'ici → déplacé dans initializeGoogleAnalytics()
-// pour n'apparaître que si GA est réellement actif avec consentement valide.
