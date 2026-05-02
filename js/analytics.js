@@ -165,7 +165,8 @@ function getEnrichedUserData() {
     const perf = performance.getEntriesByType('navigation')[0] || {};
     const params = new URLSearchParams(window.location.search);
 
-    return {
+    // ✅ Filtre automatique des valeurs null/undefined
+    const raw = {
         screen_width:        window.screen.width,
         screen_height:       window.screen.height,
         viewport_width:      window.innerWidth,
@@ -174,8 +175,8 @@ function getEnrichedUserData() {
         color_depth:         window.screen.colorDepth,
         orientation:         screen.orientation?.type || (window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'),
         connection_type:     conn.effectiveType || 'unknown',
-        connection_downlink: conn.downlink || null,
-        connection_rtt:      conn.rtt || null,
+        connection_downlink: conn.downlink,
+        connection_rtt:      conn.rtt,
         save_data:           conn.saveData || false,
         language:            navigator.language || 'unknown',
         languages:           (navigator.languages || []).join(','),
@@ -191,16 +192,29 @@ function getEnrichedUserData() {
         is_returning:        !!localStorage.getItem('ga_has_visited'),
         referrer:            document.referrer ? new URL(document.referrer).hostname : 'direct',
         referrer_full:       document.referrer || 'direct',
-        utm_source:          params.get('utm_source') || null,
-        utm_medium:          params.get('utm_medium') || null,
-        utm_campaign:        params.get('utm_campaign') || null,
-        utm_content:         params.get('utm_content') || null,
-        utm_term:            params.get('utm_term') || null,
+        utm_source:          params.get('utm_source'),
+        utm_medium:          params.get('utm_medium'),
+        utm_campaign:        params.get('utm_campaign'),
+        utm_content:         params.get('utm_content'),
+        utm_term:            params.get('utm_term'),
     };
+
+    // ✅ Supprime toutes les clés null/undefined avant retour
+    return Object.fromEntries(
+        Object.entries(raw).filter(([_, v]) => v !== null && v !== undefined)
+    );
 }
 
 function markVisit() {
     localStorage.setItem('ga_has_visited', '1');
+}
+
+// =============== NETTOYAGE DES PARAMS ===============
+// ✅ Supprime les null/undefined des params avant envoi API
+function cleanParams(params) {
+    return Object.fromEntries(
+        Object.entries(params).filter(([_, v]) => v !== null && v !== undefined)
+    );
 }
 
 // =============== API SÉCURISÉE VERCEL ===============
@@ -211,20 +225,23 @@ async function sendToSecureAPI(eventName, params = {}) {
     try {
         const payload = {
             client_id: getClientId(),
-            user_id: getCookie('user_id') || null,
             timestamp_micros: Math.floor(Date.now() * 1000),
             events: [{
                 name: eventName,
-                params: {
+                params: cleanParams({
                     page_title:    getPageTitle(),
                     page_location: window.location.href,
                     page_path:     getPagePath(),
                     device_type:   deviceType,
                     session_id:    getSessionId(),
                     ...params
-                }
+                })
             }]
         };
+
+        // ✅ user_id seulement s'il existe vraiment
+        const userId = getCookie('user_id');
+        if (userId) payload.user_id = userId;
 
         const response = await fetch('/api/ga-event', {
             method: 'POST',
@@ -279,7 +296,7 @@ function initializeGoogleAnalytics() {
         }
     });
 
-    gtag('event', 'page_view', {
+    gtag('event', 'page_view', cleanParams({
         page_title:      getPageTitle(),
         page_location:   window.location.href,
         page_path:       getPagePath(),
@@ -287,7 +304,7 @@ function initializeGoogleAnalytics() {
         load_time_total: enriched.load_time_total,
         connection_type: enriched.connection_type,
         is_returning:    enriched.is_returning
-    });
+    }));
 
     const script = document.createElement('script');
     script.async = true;
@@ -327,7 +344,6 @@ function initEventTracking() {
 }
 
 // ── SCROLL DEPTH ──
-// GA4 verra : scroll_25, scroll_50, scroll_75, scroll_90, scroll_100
 function trackScrollDepth() {
     const milestones = [25, 50, 75, 90, 100];
     const reached = new Set();
@@ -339,7 +355,6 @@ function trackScrollDepth() {
         milestones.forEach(m => {
             if (pct >= m && !reached.has(m)) {
                 reached.add(m);
-                // Nom unique par palier → lisible directement dans GA4
                 const eventName = `scroll_${m}`;
                 const d = { scroll_depth_pct: m, page_title: getPageTitle() };
                 if (window.gtag) gtag('event', eventName, d);
@@ -351,7 +366,6 @@ function trackScrollDepth() {
 }
 
 // ── TEMPS SUR LA PAGE ──
-// GA4 verra : time_15s, time_30s, time_60s, time_120s, time_300s
 function trackTimeOnPage() {
     const milestones = [15, 30, 60, 120, 300];
     const reached = new Set();
@@ -363,7 +377,6 @@ function trackTimeOnPage() {
         milestones.forEach(m => {
             if (elapsed >= m && !reached.has(m)) {
                 reached.add(m);
-                // Nom unique par palier → lisible directement dans GA4
                 const eventName = `time_${m}s`;
                 const d = { seconds_on_page: m, page_title: getPageTitle() };
                 if (window.gtag) gtag('event', eventName, d);
@@ -383,7 +396,6 @@ function trackTimeOnPage() {
 }
 
 // ── VISIBILITÉ PAGE ──
-// GA4 verra : tab_hidden, tab_returned  (au lieu de tab_visibility × N)
 function trackPageVisibility() {
     let hiddenAt = null;
     document.addEventListener('visibilitychange', () => {
@@ -470,7 +482,6 @@ function trackJSErrors() {
 }
 
 // ── WEB VITALS ──
-// GA4 verra : vital_lcp, vital_cls, vital_fcp, vital_ttfb  (au lieu de web_vital × 14)
 function trackWebVitals() {
     try {
         new PerformanceObserver((list) => {
@@ -516,8 +527,6 @@ function trackWebVitals() {
         }
     } catch(e) {}
 
-    // ── INP (Interaction to Next Paint) — 4e Web Vital officielle ──
-    // GA4 verra : vital_inp
     try {
         new PerformanceObserver((list) => {
             list.getEntries().forEach(entry => {
@@ -530,7 +539,6 @@ function trackWebVitals() {
 }
 
 // ── INACTIVITÉ ──
-// GA4 verra : user_inactive, user_returned  (au lieu de user_activity × N)
 function trackInactivity() {
     let inactiveTimer;
     let inactiveReported = false;
@@ -579,7 +587,6 @@ function trackFirstEngagement() {
 }
 
 // ── HOVER SUR ÉLÉMENTS CLÉS ──
-// GA4 verra : hover_link, hover_button, hover_btn, hover_gallery_card, hover_nav
 function trackHover() {
     const selectorMap = {
         'a[href]':        'hover_link',
@@ -596,11 +603,11 @@ function trackHover() {
                 const key = eventName + '_' + (el.textContent?.trim()?.substring(0, 30) || el.id || Math.random());
                 if (hovered.has(key)) return;
                 hovered.add(key);
-                const d = {
+                const d = cleanParams({
                     element_text: el.textContent?.trim()?.substring(0, 50) || el.getAttribute('aria-label') || '',
                     element_href: el.href || '',
                     page_title:   getPageTitle()
-                };
+                });
                 if (window.gtag) gtag('event', eventName, d);
                 sendToSecureAPI(eventName, d);
             }, { passive: true });
