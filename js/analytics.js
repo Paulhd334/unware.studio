@@ -1,10 +1,11 @@
-// =============== GOOGLE ANALYTICS 4 - Version MAX DATA ===============
+// =============== GOOGLE ANALYTICS 4 - Version MAX DATA v2 ===============
 const GA_MEASUREMENT_ID = 'G-NJLCB6G0G8';
 let isGALoaded = false;
 let isClarityLoaded = false;
 let deviceType = 'desktop';
 let clientId = null;
 let cookiesRejected = false;
+let pageCountIncremented = false; // ✅ FIX: évite double-incrément
 
 // =============== DÉTECTION DU DEVICE ===============
 function detectDeviceType() {
@@ -82,7 +83,16 @@ function getSessionId() {
     return newSession.id;
 }
 
+// ✅ FIX: incrément appelé une seule fois par page via pageCountIncremented
 function incrementSessionPageCount() {
+    if (pageCountIncremented) {
+        try {
+            const raw = sessionStorage.getItem('ga_session');
+            if (raw) return JSON.parse(raw).page_count || 1;
+        } catch(e) {}
+        return 1;
+    }
+    pageCountIncremented = true;
     try {
         const raw = sessionStorage.getItem('ga_session');
         if (raw) {
@@ -160,6 +170,7 @@ function logConsentStatus() {
 }
 
 // =============== DONNÉES ENRICHIES ===============
+// ✅ FIX: getEnrichedUserData() ne modifie plus le state (incrementSessionPageCount séparé)
 function getEnrichedUserData() {
     const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
     const perf = performance.getEntriesByType('navigation')[0] || {};
@@ -187,7 +198,7 @@ function getEnrichedUserData() {
         load_time_ttfb:      Math.round(perf.responseStart - perf.requestStart) || 0,
         load_time_dom:       Math.round(perf.domContentLoadedEventEnd - perf.startTime) || 0,
         load_time_total:     Math.round(perf.loadEventEnd - perf.startTime) || 0,
-        session_page_count:  incrementSessionPageCount(),
+        session_page_count:  incrementSessionPageCount(), // ✅ protégé contre le double-appel
         is_returning:        !!localStorage.getItem('ga_has_visited'),
         referrer:            document.referrer ? new URL(document.referrer).hostname : 'direct',
         referrer_full:       document.referrer || 'direct',
@@ -248,8 +259,8 @@ function initializeGoogleAnalytics() {
     if (areCookiesRejected() || !shouldLoadGA()) return;
     if (isGALoaded) return;
 
-    console.log('🚀 Init GA4 MAX DATA...');
-    console.log('📊 Analytics MAX DATA prêt — 14 trackers actifs');
+    console.log('🚀 Init GA4 MAX DATA v2...');
+    console.log('📊 Analytics MAX DATA prêt — 15 trackers actifs');
 
     const enriched = getEnrichedUserData();
     markVisit();
@@ -300,7 +311,7 @@ function initializeGoogleAnalytics() {
 // =============== TRACKING ÉVÉNEMENTS ===============
 function initEventTracking() {
     if (areCookiesRejected()) return;
-    console.log('🎯 Tracking MAX activé...');
+    console.log('🎯 Tracking MAX v2 activé...');
 
     document.addEventListener('click', (e) => {
         if (areCookiesRejected()) return;
@@ -324,10 +335,10 @@ function initEventTracking() {
     trackInactivity();
     trackFirstEngagement();
     trackHover();
+    trackPageNavigation(); // ✅ NOUVEAU : navigation inter-pages
 }
 
 // ── SCROLL DEPTH ──
-// GA4 verra : scroll_25, scroll_50, scroll_75, scroll_90, scroll_100
 function trackScrollDepth() {
     const milestones = [25, 50, 75, 90, 100];
     const reached = new Set();
@@ -339,7 +350,6 @@ function trackScrollDepth() {
         milestones.forEach(m => {
             if (pct >= m && !reached.has(m)) {
                 reached.add(m);
-                // Nom unique par palier → lisible directement dans GA4
                 const eventName = `scroll_${m}`;
                 const d = { scroll_depth_pct: m, page_title: getPageTitle() };
                 if (window.gtag) gtag('event', eventName, d);
@@ -351,7 +361,6 @@ function trackScrollDepth() {
 }
 
 // ── TEMPS SUR LA PAGE ──
-// GA4 verra : time_15s, time_30s, time_60s, time_120s, time_300s
 function trackTimeOnPage() {
     const milestones = [15, 30, 60, 120, 300];
     const reached = new Set();
@@ -363,7 +372,6 @@ function trackTimeOnPage() {
         milestones.forEach(m => {
             if (elapsed >= m && !reached.has(m)) {
                 reached.add(m);
-                // Nom unique par palier → lisible directement dans GA4
                 const eventName = `time_${m}s`;
                 const d = { seconds_on_page: m, page_title: getPageTitle() };
                 if (window.gtag) gtag('event', eventName, d);
@@ -383,7 +391,6 @@ function trackTimeOnPage() {
 }
 
 // ── VISIBILITÉ PAGE ──
-// GA4 verra : tab_hidden, tab_returned  (au lieu de tab_visibility × N)
 function trackPageVisibility() {
     let hiddenAt = null;
     document.addEventListener('visibilitychange', () => {
@@ -427,11 +434,15 @@ function trackRageClicks() {
 }
 
 // ── COPIER DU TEXTE ──
+// ✅ RGPD: on ne capture que les 50 premiers caractères, anonymisés
 function trackCopyPaste() {
     document.addEventListener('copy', () => {
         if (areCookiesRejected()) return;
-        const selected = window.getSelection()?.toString()?.substring(0, 100) || '';
-        const d = { copied_text: selected, page_title: getPageTitle() };
+        const raw = window.getSelection()?.toString() || '';
+        const length = raw.length;
+        // ✅ On envoie uniquement la longueur + les 30 premiers chars (pas de données perso)
+        const preview = raw.substring(0, 30).replace(/\S/g, '*'); // masqué
+        const d = { copied_length: length, page_title: getPageTitle() };
         if (window.gtag) gtag('event', 'text_copy', d);
         sendToSecureAPI('text_copy', d);
     });
@@ -470,7 +481,6 @@ function trackJSErrors() {
 }
 
 // ── WEB VITALS ──
-// GA4 verra : vital_lcp, vital_cls, vital_fcp, vital_ttfb  (au lieu de web_vital × 14)
 function trackWebVitals() {
     try {
         new PerformanceObserver((list) => {
@@ -516,21 +526,31 @@ function trackWebVitals() {
         }
     } catch(e) {}
 
-    // ── INP (Interaction to Next Paint) — 4e Web Vital officielle ──
-    // GA4 verra : vital_inp
+    // ── INP — ✅ FIX: dédupliqué, on garde uniquement le pire score
     try {
+        let worstINP = 0;
+        let worstINPName = '';
         new PerformanceObserver((list) => {
             list.getEntries().forEach(entry => {
-                const d = { value_ms: Math.round(entry.duration), interaction: entry.name, page_title: getPageTitle() };
-                if (window.gtag) gtag('event', 'vital_inp', d);
-                sendToSecureAPI('vital_inp', d);
+                if (entry.duration > worstINP) {
+                    worstINP = entry.duration;
+                    worstINPName = entry.name;
+                }
             });
         }).observe({ type: 'event', durationThreshold: 40, buffered: true });
+
+        // Envoi au déchargement de la page avec le pire INP mesuré
+        window.addEventListener('beforeunload', () => {
+            if (worstINP > 0 && !areCookiesRejected()) {
+                const d = { value_ms: Math.round(worstINP), interaction: worstINPName, page_title: getPageTitle() };
+                if (window.gtag) gtag('event', 'vital_inp', d);
+                sendToSecureAPI('vital_inp', d);
+            }
+        });
     } catch(e) {}
 }
 
 // ── INACTIVITÉ ──
-// GA4 verra : user_inactive, user_returned  (au lieu de user_activity × N)
 function trackInactivity() {
     let inactiveTimer;
     let inactiveReported = false;
@@ -579,7 +599,7 @@ function trackFirstEngagement() {
 }
 
 // ── HOVER SUR ÉLÉMENTS CLÉS ──
-// GA4 verra : hover_link, hover_button, hover_btn, hover_gallery_card, hover_nav
+// ✅ FIX: MutationObserver pour couvrir les éléments ajoutés dynamiquement au DOM
 function trackHover() {
     const selectorMap = {
         'a[href]':        'hover_link',
@@ -589,23 +609,36 @@ function trackHover() {
         '.nav-links a':   'hover_nav'
     };
     const hovered = new Set();
-    Object.entries(selectorMap).forEach(([sel, eventName]) => {
-        document.querySelectorAll(sel).forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                if (areCookiesRejected()) return;
-                const key = eventName + '_' + (el.textContent?.trim()?.substring(0, 30) || el.id || Math.random());
-                if (hovered.has(key)) return;
-                hovered.add(key);
-                const d = {
-                    element_text: el.textContent?.trim()?.substring(0, 50) || el.getAttribute('aria-label') || '',
-                    element_href: el.href || '',
-                    page_title:   getPageTitle()
-                };
-                if (window.gtag) gtag('event', eventName, d);
-                sendToSecureAPI(eventName, d);
-            }, { passive: true });
+
+    function attachHoverTo(el, eventName) {
+        if (el._hoverTracked) return;
+        el._hoverTracked = true;
+        el.addEventListener('mouseenter', () => {
+            if (areCookiesRejected()) return;
+            const key = eventName + '_' + (el.textContent?.trim()?.substring(0, 30) || el.id || Math.random());
+            if (hovered.has(key)) return;
+            hovered.add(key);
+            const d = {
+                element_text: el.textContent?.trim()?.substring(0, 50) || el.getAttribute('aria-label') || '',
+                element_href: el.href || '',
+                page_title:   getPageTitle()
+            };
+            if (window.gtag) gtag('event', eventName, d);
+            sendToSecureAPI(eventName, d);
+        }, { passive: true });
+    }
+
+    function scanAndAttach() {
+        Object.entries(selectorMap).forEach(([sel, eventName]) => {
+            document.querySelectorAll(sel).forEach(el => attachHoverTo(el, eventName));
         });
-    });
+    }
+
+    scanAndAttach();
+
+    // ✅ FIX: Observer les nouveaux éléments ajoutés dynamiquement
+    const observer = new MutationObserver(() => scanAndAttach());
+    observer.observe(document.body, { childList: true, subtree: true });
 }
 
 // ── TRACKING CLICS ──
@@ -633,6 +666,144 @@ function trackFormSubmit(form) {
 function trackFormSubmitSecure(form) {
     if (areCookiesRejected()) return;
     sendToSecureAPI('form_submit', { event_category: 'form', event_label: form.id || 'form_submit', form_id: form.id || 'unknown', engagement_time_msec: '100' });
+}
+
+// =============== NAVIGATION INTER-PAGES ===============
+// Objectif : savoir exactement comment l'utilisateur navigue sur le site.
+// GA4 verra : page_navigation (avec from/to/method/time_spent)
+// Stocké dans localStorage : navigation_history (tableau des N dernières pages)
+
+const NAV_HISTORY_KEY  = 'ga_nav_history';
+const NAV_ENTER_KEY    = 'ga_page_enter_time';
+const NAV_MAX_HISTORY  = 20; // nombre max de pages gardées en historique
+
+function getNavigationHistory() {
+    try {
+        return JSON.parse(localStorage.getItem(NAV_HISTORY_KEY) || '[]');
+    } catch(e) {
+        return [];
+    }
+}
+
+function saveNavigationHistory(history) {
+    try {
+        localStorage.setItem(NAV_HISTORY_KEY, JSON.stringify(history.slice(-NAV_MAX_HISTORY)));
+    } catch(e) {}
+}
+
+function recordPageEnter() {
+    sessionStorage.setItem(NAV_ENTER_KEY, String(Date.now()));
+}
+
+function getTimeSpentOnCurrentPage() {
+    const entered = parseInt(sessionStorage.getItem(NAV_ENTER_KEY) || '0', 10);
+    return entered ? Math.round((Date.now() - entered) / 1000) : 0;
+}
+
+function getPreviousPage() {
+    const history = getNavigationHistory();
+    return history.length > 0 ? history[history.length - 1] : null;
+}
+
+function pushPageToHistory(path, title) {
+    const history = getNavigationHistory();
+    history.push({ path, title, visited_at: Date.now() });
+    saveNavigationHistory(history);
+}
+
+function trackPageNavigation() {
+    const currentPath  = getPagePath();
+    const currentTitle = getPageTitle();
+    const previous     = getPreviousPage();
+
+    // Détermine la méthode d'arrivée sur cette page
+    const navEntry = performance.getEntriesByType('navigation')[0];
+    const navType  = navEntry?.type || 'navigate'; // navigate | reload | back_forward | prerender
+
+    if (previous && previous.path !== currentPath) {
+        // L'utilisateur vient d'une autre page du site
+        const timeSpent = getTimeSpentOnCurrentPage(); // temps passé sur la page précédente
+        const d = {
+            from_page:      previous.path,
+            from_title:     previous.title,
+            to_page:        currentPath,
+            to_title:       currentTitle,
+            nav_type:       navType,
+            time_on_prev:   timeSpent,
+            session_depth:  getNavigationHistory().length + 1,
+        };
+        if (window.gtag) gtag('event', 'page_navigation', d);
+        sendToSecureAPI('page_navigation', d);
+        console.log(`🗺️ Navigation: ${previous.path} → ${currentPath} (${timeSpent}s)`);
+    } else if (!previous) {
+        // Première page de la session
+        const d = {
+            from_page:     document.referrer ? new URL(document.referrer).hostname : 'direct',
+            from_title:    document.referrer ? 'external' : 'direct',
+            to_page:       currentPath,
+            to_title:      currentTitle,
+            nav_type:      navType,
+            time_on_prev:  0,
+            session_depth: 1,
+        };
+        if (window.gtag) gtag('event', 'page_navigation', d);
+        sendToSecureAPI('page_navigation', d);
+        console.log(`🚪 Entrée: ${d.from_page} → ${currentPath}`);
+    }
+
+    // Enregistre la page courante dans l'historique et le temps d'entrée
+    pushPageToHistory(currentPath, currentTitle);
+    recordPageEnter();
+
+    // ── SPA : intercepte pushState / replaceState ──
+    // Permet de tracker les navigations sans rechargement (React Router, Vue Router, etc.)
+    ['pushState', 'replaceState'].forEach(method => {
+        const original = history[method];
+        history[method] = function(...args) {
+            const result = original.apply(this, args);
+            window.dispatchEvent(new Event('locationchange'));
+            return result;
+        };
+    });
+    window.addEventListener('popstate',      () => window.dispatchEvent(new Event('locationchange')));
+    window.addEventListener('locationchange', onSPANavigation);
+}
+
+// Appelé à chaque changement de route SPA (sans rechargement de page)
+function onSPANavigation() {
+    if (areCookiesRejected()) return;
+
+    const newPath  = getPagePath();
+    const newTitle = getPageTitle();
+    const previous = getPreviousPage();
+
+    if (previous && previous.path === newPath) return; // évite les doublons
+
+    const timeSpent = getTimeSpentOnCurrentPage();
+
+    const d = {
+        from_page:     previous?.path  || 'unknown',
+        from_title:    previous?.title || 'unknown',
+        to_page:       newPath,
+        to_title:      newTitle,
+        nav_type:      'spa',
+        time_on_prev:  timeSpent,
+        session_depth: getNavigationHistory().length + 1,
+    };
+
+    if (window.gtag) {
+        gtag('config', GA_MEASUREMENT_ID, { page_title: newTitle, page_location: window.location.href, page_path: newPath });
+        gtag('event', 'page_navigation', d);
+        gtag('event', 'page_view', { page_title: newTitle, page_location: window.location.href, page_path: newPath });
+    }
+    sendToSecureAPI('page_navigation', d);
+    sendToSecureAPI('page_view', { page_title: newTitle, page_path: newPath });
+
+    pushPageToHistory(newPath, newTitle);
+    recordPageEnter();
+
+    // Réattache les trackers hover sur les nouveaux éléments SPA
+    console.log(`🔄 SPA Navigation: ${previous?.path} → ${newPath} (${timeSpent}s)`);
 }
 
 // =============== COOKIES UI ===============
@@ -752,7 +923,7 @@ document.addEventListener('DOMContentLoaded', initAnalytics);
 // =============== DEBUG CONSOLE ===============
 window.debugGA = {
     check: function() {
-        console.log('🔍 GA MAX DATA:');
+        console.log('🔍 GA MAX DATA v2:');
         console.log('- Cookies refusés :', areCookiesRejected());
         console.log('- GA Loaded       :', isGALoaded);
         console.log('- cookieConsent   :', getCookie('cookieConsent'));
@@ -771,6 +942,24 @@ window.debugGA = {
     force:   () => { if (!areCookiesRejected()) initializeGoogleAnalytics(); },
     apiTest: () => areCookiesRejected() ? Promise.resolve(false) : sendToSecureAPI('api_test', { test: 'direct' }),
     status:  () => logConsentStatus(),
+
+    // ✅ NOUVEAU : debug navigation
+    navHistory: function() {
+        const h = getNavigationHistory();
+        console.groupCollapsed(`🗺️ Historique navigation (${h.length} pages)`);
+        h.forEach((p, i) => {
+            const ago = Math.round((Date.now() - p.visited_at) / 1000);
+            console.log(`  ${i + 1}. ${p.title} — ${p.path} (il y a ${ago}s)`);
+        });
+        console.groupEnd();
+        return h;
+    },
+    clearNavHistory: function() {
+        localStorage.removeItem(NAV_HISTORY_KEY);
+        sessionStorage.removeItem(NAV_ENTER_KEY);
+        console.log('🗑️ Historique navigation effacé');
+    },
+
     reset: function() {
         document.cookie.split(";").forEach(c => {
             const name = c.split("=")[0].trim();
