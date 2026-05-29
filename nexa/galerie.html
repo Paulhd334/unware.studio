@@ -213,6 +213,8 @@
         .gallery-card:nth-child(2) { grid-column: span 5; grid-row: span 4; transition-delay: 0.12s; }
         .gallery-card:nth-child(3) { grid-column: span 5; grid-row: span 5; transition-delay: 0.18s; }
         .gallery-card:nth-child(4) { grid-column: span 7; grid-row: span 5; transition-delay: 0.24s; }
+        .gallery-card:nth-child(5) { grid-column: span 7; grid-row: span 6; transition-delay: 0.30s; }
+        .gallery-card:nth-child(6) { grid-column: span 5; grid-row: span 8; transition-delay: 0.36s; }
         .gallery-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94); }
         .gallery-card:hover img { transform: scale(1.07); }
         .card-overlay {
@@ -282,7 +284,9 @@
             .gallery-card:nth-child(1),
             .gallery-card:nth-child(2),
             .gallery-card:nth-child(3),
-            .gallery-card:nth-child(4) { grid-column: span 1; grid-row: span 1; }
+            .gallery-card:nth-child(4),
+            .gallery-card:nth-child(5),
+            .gallery-card:nth-child(6) { grid-column: span 1; grid-row: span 1; }
             .gallery-card:nth-child(1) { grid-column: span 2; }
         }
         @media (max-width: 540px) {
@@ -401,6 +405,24 @@
                     <div class="card-overlay">
                         <div class="card-tag">Développement</div>
                         <div class="card-title">Level The void protocol-1</div>
+                    </div>
+                    <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
+                </div>
+
+                <div class="gallery-card" data-src="../images/nexa_image_website_4.jpg" data-tag="Créature" data-title="Le Monstre">
+                    <img src="../images/nexa_image_website_4.jpg" alt="Monstre — The void protocol" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="card-tag">Créature</div>
+                        <div class="card-title">Le Monstre</div>
+                    </div>
+                    <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
+                </div>
+
+                <div class="gallery-card" data-src="../images/nexa_image_website_5.jpg" data-tag="Environnement" data-title="Couloir 15">
+                    <img src="../images/nexa_image_website_5.jpg" alt="Monstre II — The void protocol" loading="lazy">
+                    <div class="card-overlay">
+                        <div class="card-tag">Environnement</div>
+                        <div class="card-title">Couloir 15</div>
                     </div>
                     <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
                 </div>
