@@ -176,22 +176,19 @@
 // ============================================
 // BRIDGE UE5 — FIX STABLE (NO ERR_UNKNOWN_URL_SCHEME)
 // ============================================
-
 function sendToUE5(cameraName) {
 
-    // SAFE URL (UE5 Web Browser compatible)
-    const ue5Url = "http://ue5/" + encodeURIComponent(cameraName);
-
-    try {
-        window.location.href = ue5Url;
-    } catch (e) {
-        console.error("UE5 Bridge error:", e);
+    //BRIDGE UE5
+    if (window.ue && window.ue.interface && window.ue.interface.sendCamera) {
+        window.ue.interface.sendCamera(cameraName);
+    }
+    else {
+        console.log("UE5 non connecté:", cameraName);
     }
 
-    addLog("📤 Envoyé: " + ue5Url);
+    addLog("📤 UE5: " + cameraName);
     addTermLine("🎬 → UE5: " + cameraName, "#88ff88");
 }
-
 function addLog(text) {
     const h = document.getElementById('actionHistory');
     if (!h) return;
