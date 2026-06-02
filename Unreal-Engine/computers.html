@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORDINATEUR INTERACTIF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+            user-select: none;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: 
+                linear-gradient(rgba(20, 20, 20, 0.8), rgba(0, 0, 0, 0.9));
+        }
+
+        .computer-panel {
+            width: 95%;
+            max-width: 900px;
+            background-color: #0a0a0a;
+            border: 2px solid #222;
+            border-radius: 3px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 
+                0 0 30px rgba(255, 255, 255, 0.03),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .panel-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
+            position: relative;
+        }
+
+        .panel-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 30%;
+            width: 40%;
+            height: 1px;
+            background-color: #444;
+        }
+
+        .panel-title {
+            font-size: 1.6rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            color: #fff;
+            font-weight: normal;
+        }
+
+        .panel-subtitle {
+            font-size: 0.85rem;
+            color: #888;
+            letter-spacing: 1.5px;
+        }
+
+        .computer-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 12px 20px;
+            background-color: #111;
+            border: 1px solid #252525;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-led {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .led-green {
+            background-color: #0a0;
+            box-shadow: 0 0 8px #0a0;
+        }
+
+        .led-red {
+            background-color: #500;
+        }
+
+        .status-text {
+            font-size: 0.95rem;
+            color: #aaa;
+        }
+
+        .computer-display {
+            text-align: center;
+            margin: 25px 0;
+            padding: 20px;
+            background-color: #0d0d0d;
+            border: 1px solid #252525;
+            font-family: 'Segoe UI', sans-serif;
+            position: relative;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-image: radial-gradient(circle at 30% 40%, rgba(0, 30, 0, 0.1) 0%, transparent 50%);
+        }
+
+        .display-title {
+            font-size: 0.8rem;
+            color: #555;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .display-screen {
+            font-size: 0.9rem;
+            color: #0a0;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            line-height: 1.6;
+            text-align: left;
+            background-color: #050505;
+            padding: 15px;
+            border: 1px solid #1a3a1a;
+            min-height: 100px;
+        }
+
+        .display-line {
+            margin: 5px 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .display-prompt {
+            color: #0a0;
+        }
+
+        .display-cursor {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .control-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .control-button {
+            background-color: #111;
+            border: 1px solid #252525;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-button:hover:not(.active):not(:disabled) {
+            border-color: #444;
+            background-color: #1a1a1a;
+        }
+
+        .control-button.active {
+            border-color: #0a0;
+            background-color: rgba(10, 30, 10, 0.2);
+        }
+
+        .control-button.inactive {
+            animation: redPulse 1.5s infinite;
+        }
+
+        .control-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .button-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            color: #666;
+        }
+
+        .control-button.active .button-icon {
+            color: #0a0;
+        }
+
+        .control-button.inactive .button-icon {
+            color: #a00;
+        }
+
+        .button-label {
+            font-size: 0.8rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .control-button.active .button-label {
+            color: #0a0;
+        }
+
+        .control-button.inactive .button-label {
+            color: #a00;
+        }
+
+        .button-state {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 1px;
+            letter-spacing: 0.5px;
+            margin-top: 5px;
+        }
+
+        .state-active {
+            background-color: rgba(0, 30, 0, 0.4);
+            color: #0a0;
+            border: 1px solid rgba(0, 40, 0, 0.5);
+        }
+
+        .state-inactive {
+            background-color: rgba(30, 0, 0, 0.4);
+            color: #a00;
+            border: 1px solid rgba(40, 0, 0, 0.5);
+        }
+
+        .progress-container {
+            margin-top: 12px;
+            width: 100%;
+        }
+
+        .progress-bar {
+            height: 2px;
+            background-color: #222;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #0a0;
+            width: 0%;
+            transition: width 2s linear;
+        }
+
+        .reactivation-area {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+
+        .reactivation-button {
+            background-color: #111;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .reactivation-button:hover:not(:disabled) {
+            border-color: #555;
+            background-color: #1a1a1a;
+        }
+
+        .reactivation-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .light-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(20, 60, 20, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes redPulse {
+            0%, 100% { 
+                border-color: #400;
+                box-shadow: 0 0 5px rgba(255, 0, 0, 0.1);
+            }
+            50% { 
+                border-color: #a00;
+                box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+            }
+        }
+
+        .control-button.active {
+            animation: pulse 2s infinite;
+        }
+
+        .boot-sequence {
+            animation: bootFlicker 0.3s ease-out;
+        }
+
+        @keyframes bootFlicker {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            20% { opacity: 0.3; }
+            30% { opacity: 1; }
+            100% { opacity: 1; }
+        }
+
+        .progress-container {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="light-effect"></div>
+
+    <div class="computer-panel">
+        <div class="panel-header">
+            <div class="panel-title">SYSTÈME INTERACTIF</div>
+            <div class="panel-subtitle">ORDINATEUR CENTRAL</div>
+        </div>
+
+        <div class="computer-status">
+            <div class="status-indicator">
+                <div class="status-led led-green" id="sysLed"></div>
+                <div class="status-text" id="sysStatus">SYSTÈME: INITIALISATION</div>
+            </div>
+            <div class="current-floor" id="bootPercent">BOOT: 0%</div>
+        </div>
+
+        <div class="computer-display">
+            <div class="display-title">[ TERMINAL - CONSOLE PRINCIPALE ]</div>
+            <div class="display-screen" id="terminalScreen">
+                <div class="display-line">SYSTÈME EN ATTENTE...</div>
+                <div class="display-line">INITIALISATION REQUISE</div>
+            </div>
+        </div>
+
+        <div class="control-buttons">
+            <div class="control-button active" id="buttonPower">
+                <div class="button-icon">
+                    <i class="fas fa-power-off"></i>
+                </div>
+                <div class="button-label">Alimentation</div>
+                <div class="button-state state-active">ACTIF</div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-button inactive" id="buttonCpu">
+                <div class="button-icon">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <div class="button-label">Processeur</div>
+                <div class="button-state state-inactive">INACTIF</div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="cpuProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-button inactive" id="buttonRam">
+                <div class="button-icon">
+                    <i class="fas fa-memory"></i>
+                </div>
+                <div class="button-label">Mémoire</div>
+                <div class="button-state state-inactive">INACTIF</div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="ramProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-button inactive" id="buttonOs">
+                <div class="button-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="button-label">OS Kernel</div>
+                <div class="button-state state-inactive">INACTIF</div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="osProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="reactivation-area">
+            <button class="reactivation-button" id="bootBtn">
+                DÉMARRER LE SYSTÈME
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const systems = {
+            power: true,
+            cpu: false,
+            ram: false,
+            os: false
+        };
+
+        const terminalScreen = document.getElementById('terminalScreen');
+        const sysLed = document.getElementById('sysLed');
+        const sysStatus = document.getElementById('sysStatus');
+        const bootPercent = document.getElementById('bootPercent');
+        const bootBtn = document.getElementById('bootBtn');
+        
+        const buttonCpu = document.getElementById('buttonCpu');
+        const buttonRam = document.getElementById('buttonRam');
+        const buttonOs = document.getElementById('buttonOs');
+        
+        const cpuProgress = document.getElementById('cpuProgress');
+        const ramProgress = document.getElementById('ramProgress');
+        const osProgress = document.getElementById('osProgress');
+
+        let isBooting = false;
+        let bootSequence = [];
+
+        function addTerminalLine(text, isError = false) {
+            const line = document.createElement('div');
+            line.className = 'display-line';
+            line.style.color = isError ? '#a00' : '#0a0';
+            line.innerHTML = text;
+            terminalScreen.appendChild(line);
+            terminalScreen.scrollTop = terminalScreen.scrollHeight;
+            
+            // Garder un historique limité
+            while (terminalScreen.children.length > 20) {
+                terminalScreen.removeChild(terminalScreen.firstChild);
+            }
+        }
+
+        function clearTerminal() {
+            terminalScreen.innerHTML = '';
+        }
+
+        function updateBootPercent() {
+            let activeCount = Object.values(systems).filter(v => v === true).length;
+            let percent = Math.floor((activeCount / 4) * 100);
+            bootPercent.textContent = `BOOT: ${percent}%`;
+            
+            if (percent === 100) {
+                sysStatus.textContent = 'SYSTÈME: OPÉRATIONNEL';
+                sysLed.className = 'status-led led-green';
+                bootBtn.disabled = true;
+                bootBtn.textContent = 'SYSTÈME ACTIF';
+                addTerminalLine('> SYSTÈME COMPLÈTEMENT OPÉRATIONNEL', false);
+                addTerminalLine('> PRÊT À EXÉCUTER LES COMMANDES', false);
+                addTerminalLine('> ' + '█'.repeat(40), false);
+            }
+        }
+
+        function activateSystem(system, button, progressFill, progressText) {
+            if (systems[system] || isBooting) return;
+            isBooting = true;
+            
+            button.classList.remove('inactive');
+            button.disabled = true;
+            
+            const buttonState = button.querySelector('.button-state');
+            
+            // Animation de progression
+            progressFill.style.transition = 'width 2s linear';
+            progressFill.style.width = '100%';
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                if (progress <= 100) {
+                    if (progressText) {
+                        // Mise à jour du texte du terminal
+                    }
+                }
+            }, 100);
+            
+            setTimeout(() => {
+                button.classList.add('active');
+                buttonState.textContent = 'ACTIF';
+                buttonState.className = 'button-state state-active';
+                systems[system] = true;
+                button.disabled = false;
+                isBooting = false;
+                
+                updateBootPercent();
+                
+                // Message dans le terminal
+                addTerminalLine(`> ${system.toUpperCase()} activé avec succès`, false);
+                
+                // Vérifier si tout est actif
+                const allActive = Object.values(systems).every(s => s === true);
+                if (allActive) {
+                    addTerminalLine('', false);
+                    addTerminalLine('╔════════════════════════════════════╗', false);
+                    addTerminalLine('║     SYSTÈME COMPLET - PRÊT          ║', false);
+                    addTerminalLine('╚════════════════════════════════════╝', false);
+                }
+            }, 2000);
+        }
+
+        function startFullBoot() {
+            if (systems.cpu && systems.ram && systems.os) {
+                addTerminalLine('> Système déjà opérationnel', false);
+                return;
+            }
+            
+            clearTerminal();
+            addTerminalLine('INITIALISATION DE LA SÉQUENCE DE DÉMARRAGE...', false);
+            addTerminalLine('========================================', false);
+            
+            if (!systems.cpu) {
+                setTimeout(() => activateSystem('cpu', buttonCpu, cpuProgress, 'CPU'), 500);
+                setTimeout(() => {
+                    if (!systems.ram) activateSystem('ram', buttonRam, ramProgress, 'RAM');
+                }, 2500);
+                setTimeout(() => {
+                    if (!systems.os) activateSystem('os', buttonOs, osProgress, 'OS');
+                }, 4500);
+            } else if (!systems.ram) {
+                activateSystem('ram', buttonRam, ramProgress, 'RAM');
+                setTimeout(() => {
+                    if (!systems.os) activateSystem('os', buttonOs, osProgress, 'OS');
+                }, 2500);
+            } else if (!systems.os) {
+                activateSystem('os', buttonOs, osProgress, 'OS');
+            }
+        }
+
+        // Activation manuelle des boutons
+        buttonCpu.addEventListener('click', () => {
+            if (!systems.cpu && !isBooting) {
+                activateSystem('cpu', buttonCpu, cpuProgress, 'CPU');
+            }
+        });
+        
+        buttonRam.addEventListener('click', () => {
+            if (!systems.ram && !isBooting) {
+                activateSystem('ram', buttonRam, ramProgress, 'RAM');
+            }
+        });
+        
+        buttonOs.addEventListener('click', () => {
+            if (!systems.os && !isBooting) {
+                activateSystem('os', buttonOs, osProgress, 'OS');
+            }
+        });
+        
+        // Bouton de démarrage principal
+        bootBtn.addEventListener('click', startFullBoot);
+        
+        // Animation initiale
+        setTimeout(() => {
+            addTerminalLine('> ALIMENTATION DÉTECTÉE', false);
+            addTerminalLine('> EN ATTENTE D\'ACTIVATION DES COMPOSANTS', false);
+            addTerminalLine('> UTILISEZ "DÉMARRER LE SYSTÈME" OU ACTIVEZ MANUELLEMENT', false);
+        }, 500);
+        
+        updateBootPercent();
+    </script>
+</body>
+</html>
