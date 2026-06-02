@@ -169,99 +169,168 @@
     </div>
 </div>
 
+
+
+
 <script>
 // ============================================
-// BRIDGE UE5 — VERSION SIMPLIFIÉE
-// Le clic envoie: window.location.href = "ue5://NOM_CAMERA"
-// Le Blueprint intercepte via OnUrlChanged et Print String directement
+// BRIDGE UE5 — FIX STABLE (NO ERR_UNKNOWN_URL_SCHEME)
 // ============================================
 
 function sendToUE5(cameraName) {
-    // URL simple → Blueprint lit directement la valeur après "ue5://"
-    window.location.href = "ue5://" + cameraName;
-    addLog("📤 Envoyé: ue5://" + cameraName);
-    addTermLine("🎬 → UE5: ue5://" + cameraName, "#88ff88");
+
+    // SAFE URL (UE5 Web Browser compatible)
+    const ue5Url = "http://ue5/" + encodeURIComponent(cameraName);
+
+    try {
+        window.location.href = ue5Url;
+    } catch (e) {
+        console.error("UE5 Bridge error:", e);
+    }
+
+    addLog("📤 Envoyé: " + ue5Url);
+    addTermLine("🎬 → UE5: " + cameraName, "#88ff88");
 }
 
 function addLog(text) {
     const h = document.getElementById('actionHistory');
+    if (!h) return;
+
     const item = document.createElement('div');
     item.className = 'action-item';
     item.style.color = '#44aaff';
     item.innerHTML = '[' + new Date().toLocaleTimeString() + '] ' + text;
+
     h.insertBefore(item, h.firstChild);
     if (h.children.length > 10) h.removeChild(h.lastChild);
 }
 
 function addTermLine(text, color) {
     const t = document.getElementById('terminalOutput');
+    if (!t) return;
+
     const l = document.createElement('div');
     l.className = 'terminal-line';
     l.style.color = color || '#33ff77';
     l.innerText = text;
+
     t.appendChild(l);
     t.scrollTop = t.scrollHeight;
 }
 
-// Clics caméras
+// ============================================
+// CAMERAS CLICK
+// ============================================
+
 document.querySelectorAll('.camera').forEach(cam => {
-    cam.addEventListener('click', function() {
+    cam.addEventListener('click', function () {
+
         const name = this.getAttribute('data-cam-name');
         const feed = this.querySelector('.camera-feed');
 
-        // Flash vert
-        feed.style.background = '#2aff88';
-        feed.style.color = '#000';
-        setTimeout(() => {
-            feed.style.background = '#0a0a0a';
-            feed.style.color = '#00cc66';
-        }, 200);
+        if (!name) return;
 
-        // Envoi UE5
+        // Flash effect
+        if (feed) {
+            feed.style.background = '#2aff88';
+            feed.style.color = '#000';
+
+            setTimeout(() => {
+                feed.style.background = '#0a0a0a';
+                feed.style.color = '#00cc66';
+            }, 200);
+        }
+
         sendToUE5(name);
     });
 });
 
-// Détection UE5
-const isUE5 = navigator.userAgent.includes('UnrealEngine') || navigator.userAgent.includes('UE5');
-document.getElementById('ue5Led').classList.toggle('connected', isUE5);
-document.getElementById('ue5Status').innerText = isUE5 ? 'UE5: CONNECTÉ ✅' : 'UE5: MODE TEST';
+// ============================================
+// UE5 DETECTION
+// ============================================
 
-// Horloge
+const isUE5 =
+    navigator.userAgent.includes('UnrealEngine') ||
+    navigator.userAgent.includes('UE5');
+
+const led = document.getElementById('ue5Led');
+const status = document.getElementById('ue5Status');
+
+if (led) led.classList.toggle('connected', isUE5);
+if (status) status.innerText = isUE5 ? 'UE5: CONNECTÉ ✅' : 'UE5: MODE TEST';
+
+// ============================================
+// CLOCK
+// ============================================
+
 function updateClock() {
+    const clock = document.getElementById('clock');
+    if (!clock) return;
+
     const d = new Date();
-    document.getElementById('clock').innerText = d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    clock.innerText = d.toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 }
 updateClock();
 setInterval(updateClock, 1000);
 
-// Fenêtres
+// ============================================
+// WINDOW SYSTEM
+// ============================================
+
 const windows = {
     cctv: document.getElementById('window-cctv'),
     terminal: document.getElementById('window-terminal'),
     folder: document.getElementById('window-folder'),
     sensor: document.getElementById('window-sensor')
 };
+
 const overlay = document.getElementById('overlay');
-let openOrder = [], activeWin = null;
+let openOrder = [];
+let activeWin = null;
 
 function updateTaskbar() {
     const c = document.getElementById('taskbarWindows');
+    if (!c) return;
+
     c.innerHTML = '';
+
     openOrder.forEach(id => {
         if (!windows[id] || !windows[id].classList.contains('visible')) return;
+
         const btn = document.createElement('div');
-        btn.className = 'taskbar-window-item' + (activeWin === id ? ' active' : '');
-        const labels = {cctv:'📡 CCTV',terminal:'⎔ TERMINAL',folder:'🗂 DOCS',sensor:'⚡ SENSEURS'};
+        btn.className =
+            'taskbar-window-item' + (activeWin === id ? ' active' : '');
+
+        const labels = {
+            cctv: '📡 CCTV',
+            terminal: '⎔ TERMINAL',
+            folder: '🗂 DOCS',
+            sensor: '⚡ SENSEURS'
+        };
+
         btn.innerHTML = labels[id] || id;
-        btn.onclick = e => { e.stopPropagation(); openWindow(id); };
+
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            openWindow(id);
+        };
+
         c.appendChild(btn);
     });
 }
 
 function bringToFront(id) {
     let maxZ = 300;
-    for (let k in windows) { let z = parseInt(windows[k].style.zIndex)||300; if(z>maxZ) maxZ=z; }
+
+    for (let k in windows) {
+        if (!windows[k]) continue;
+        let z = parseInt(windows[k].style.zIndex) || 300;
+        if (z > maxZ) maxZ = z;
+    }
+
     windows[id].style.zIndex = maxZ + 1;
     activeWin = id;
     updateTaskbar();
@@ -269,81 +338,170 @@ function bringToFront(id) {
 
 function openWindow(id) {
     if (!windows[id]) return;
+
     windows[id].classList.add('visible');
-    overlay.classList.add('visible');
+    if (overlay) overlay.classList.add('visible');
+
     if (!openOrder.includes(id)) openOrder.push(id);
+
     bringToFront(id);
 }
 
 function closeWindow(id) {
     if (!windows[id]) return;
+
     windows[id].classList.remove('visible');
+
     openOrder = openOrder.filter(i => i !== id);
-    if (openOrder.length === 0) overlay.classList.remove('visible');
-    if (activeWin === id) activeWin = openOrder[openOrder.length-1] || null;
+
+    if (openOrder.length === 0 && overlay)
+        overlay.classList.remove('visible');
+
+    if (activeWin === id)
+        activeWin = openOrder[openOrder.length - 1] || null;
+
     updateTaskbar();
 }
 
+// ICONS CLICK
 document.querySelectorAll('.desktop-icon').forEach(i => {
-    i.addEventListener('click', () => openWindow(i.getAttribute('data-window')));
+    i.addEventListener('click', () => {
+        openWindow(i.getAttribute('data-window'));
+    });
 });
-document.querySelectorAll('.window-close').forEach(b => {
-    b.addEventListener('click', e => { closeWindow(b.getAttribute('data-window')); e.stopPropagation(); });
-});
-overlay.addEventListener('click', () => Object.keys(windows).forEach(closeWindow));
 
+// CLOSE BUTTONS
+document.querySelectorAll('.window-close').forEach(b => {
+    b.addEventListener('click', e => {
+        closeWindow(b.getAttribute('data-window'));
+        e.stopPropagation();
+    });
+});
+
+if (overlay) {
+    overlay.addEventListener('click', () => {
+        Object.keys(windows).forEach(closeWindow);
+    });
+}
+
+// DRAG
 function makeDraggable(win, id) {
+    if (!win) return;
+
     const h = win.querySelector('.window-header');
-    let drag=false, ox, oy;
+    if (!h) return;
+
+    let drag = false, ox = 0, oy = 0;
+
     h.addEventListener('mousedown', e => {
         if (e.target.classList.contains('window-close')) return;
-        drag=true; ox=e.clientX-win.offsetLeft; oy=e.clientY-win.offsetTop;
-        bringToFront(id); e.preventDefault();
+
+        drag = true;
+        ox = e.clientX - win.offsetLeft;
+        oy = e.clientY - win.offsetTop;
+
+        bringToFront(id);
+        e.preventDefault();
     });
-    document.addEventListener('mousemove', e => { if(drag){win.style.left=(e.clientX-ox)+'px';win.style.top=(e.clientY-oy)+'px';} });
-    document.addEventListener('mouseup', () => drag=false);
+
+    document.addEventListener('mousemove', e => {
+        if (!drag) return;
+        win.style.left = (e.clientX - ox) + 'px';
+        win.style.top = (e.clientY - oy) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => drag = false);
 }
-makeDraggable(windows.cctv,'cctv');
-makeDraggable(windows.terminal,'terminal');
-makeDraggable(windows.folder,'folder');
-makeDraggable(windows.sensor,'sensor');
 
-windows.cctv.style.cssText += 'left:70px;top:90px';
-windows.terminal.style.cssText += 'left:350px;top:120px';
-windows.folder.style.cssText += 'left:650px;top:100px';
-windows.sensor.style.cssText += 'left:220px;top:320px';
+makeDraggable(windows.cctv, 'cctv');
+makeDraggable(windows.terminal, 'terminal');
+makeDraggable(windows.folder, 'folder');
+makeDraggable(windows.sensor, 'sensor');
 
-// Terminal
+// DEFAULT POS
+if (windows.cctv) windows.cctv.style.cssText += 'left:70px;top:90px';
+if (windows.terminal) windows.terminal.style.cssText += 'left:350px;top:120px';
+if (windows.folder) windows.folder.style.cssText += 'left:650px;top:100px';
+if (windows.sensor) windows.sensor.style.cssText += 'left:220px;top:320px';
+
+// ============================================
+// TERMINAL
+// ============================================
+
 const termInp = document.getElementById('terminalInput');
-termInp.addEventListener('keypress', e => {
-    if (e.key !== 'Enter') return;
-    const cmd = termInp.value.trim().toLowerCase();
-    addTermLine('korsan@lab:~$ ' + termInp.value);
-    if (cmd === 'aide' || cmd === 'help') addTermLine('Commandes: cctv, senseurs, date, clear, status');
-    else if (cmd === 'cctv') { addTermLine('Ouverture CCTV...'); openWindow('cctv'); }
-    else if (cmd === 'senseurs') { addTermLine('Accès capteurs...'); openWindow('sensor'); }
-    else if (cmd === 'date') addTermLine(new Date().toString());
-    else if (cmd === 'clear') document.getElementById('terminalOutput').innerHTML = '';
-    else if (cmd === 'status') addTermLine('Bridge UE5: ' + (isUE5 ? 'CONNECTÉ' : 'MODE TEST'));
-    else if (cmd !== '') addTermLine('Commande inconnue: ' + cmd, '#ff7777');
-    termInp.value = '';
-});
 
+if (termInp) {
+    termInp.addEventListener('keypress', e => {
+
+        if (e.key !== 'Enter') return;
+
+        const cmd = termInp.value.trim().toLowerCase();
+
+        addTermLine('korsan@lab:~$ ' + termInp.value);
+
+        if (cmd === 'aide' || cmd === 'help')
+            addTermLine('Commandes: cctv, senseurs, date, clear, status');
+
+        else if (cmd === 'cctv') {
+            addTermLine('Ouverture CCTV...');
+            openWindow('cctv');
+        }
+
+        else if (cmd === 'senseurs') {
+            addTermLine('Accès capteurs...');
+            openWindow('sensor');
+        }
+
+        else if (cmd === 'date')
+            addTermLine(new Date().toString());
+
+        else if (cmd === 'clear')
+            document.getElementById('terminalOutput').innerHTML = '';
+
+        else if (cmd === 'status')
+            addTermLine('Bridge UE5: ' + (isUE5 ? 'CONNECTÉ' : 'MODE TEST'));
+
+        else if (cmd !== '')
+            addTermLine('Commande inconnue: ' + cmd, '#ff7777');
+
+        termInp.value = '';
+    });
+}
+
+// FILES
 document.querySelectorAll('.file-item').forEach(f => {
     f.addEventListener('click', () => {
+
         const t = f.getAttribute('data-file');
-        const msgs = {readme:'README: KORSAN LAB - Bridge UE5', cctv_log:'logs.cctv: Clics caméras enregistrés', config:'# config.sys\nUE5_BRIDGE=SIMPLE_URL', korsan:'KORSAN_PROTOCOL v2.3\nue5://NOM_CAMERA'};
+
+        const msgs = {
+            readme: 'README: KORSAN LAB - Bridge UE5',
+            cctv_log: 'logs.cctv: Clics caméras enregistrés',
+            config: '# config.sys\nUE5_BRIDGE=http://ue5/',
+            korsan: 'KORSAN_PROTOCOL v2.3\nhttp://ue5/NOM_CAMERA'
+        };
+
         addTermLine(msgs[t] || '');
-        if (!windows.terminal.classList.contains('visible')) openWindow('terminal');
+
+        if (!windows.terminal.classList.contains('visible'))
+            openWindow('terminal');
     });
 });
 
-document.getElementById('startBtn').addEventListener('click', () => {
-    alert('KORSAN LABORATORY\n🎮 Bridge UE5 simplifié\nClic caméra → ue5://NOM → Blueprint Print String');
+// START BUTTON
+document.getElementById('startBtn')?.addEventListener('click', () => {
+    alert('KORSAN LAB\nUE5 Bridge STABLE\nhttp://ue5/NOM_CAMERA → Blueprint');
 });
 
-lucide.createIcons();
-addTermLine('✅ Bridge prêt - Clique sur une caméra pour envoyer à UE5');
+// INIT
+if (window.lucide) lucide.createIcons();
+
+addTermLine('✅ Bridge UE5 STABLE prêt');
 </script>
+
+
+
+
+
 </body>
 </html>
