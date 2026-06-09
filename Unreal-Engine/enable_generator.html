@@ -141,6 +141,32 @@
       70% { opacity: 1; transform: translateX(0); }
       100% { opacity: 0; transform: translateX(-20px); display: none; }
     }
+
+    /* Bouton reset orange */
+    .reset-debug-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #f97316;
+      color: white;
+      font-family: monospace;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 10000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      transition: all 0.2s ease;
+    }
+    .reset-debug-btn:hover {
+      background: #ea580c;
+      transform: scale(1.02);
+    }
+    .reset-debug-btn:active {
+      transform: scale(0.98);
+    }
   </style>
 </head>
 <body>
@@ -342,6 +368,42 @@
     } else {
         showPopup('Bouton non trouvé ❌', true);
     }
+})();
+
+// ============================================
+// SCRIPT 3: BOUTON RESET ORANGE POUR DEV
+// ============================================
+(function() {
+    // Créer le bouton reset
+    var resetBtn = document.createElement('button');
+    resetBtn.textContent = '🔄 RESET localStorage';
+    resetBtn.className = 'reset-debug-btn';
+    resetBtn.title = 'Reset toutes les données sauvegardées et recharge la page';
+    
+    // Fonction reset
+    resetBtn.onclick = function() {
+        var popup = document.createElement('div');
+        popup.className = 'debug-popup';
+        popup.style.borderLeftColor = '#f97316';
+        popup.style.color = '#f97316';
+        popup.innerHTML = '🔄 RESET: localStorage vidé ! Rechargement...';
+        document.body.appendChild(popup);
+        
+        // Vider localStorage
+        localStorage.clear();
+        
+        // Recharger la page après 0.5s
+        setTimeout(function() {
+            location.reload();
+        }, 500);
+        
+        setTimeout(function() {
+            if(popup) popup.remove();
+        }, 2000);
+    };
+    
+    document.body.appendChild(resetBtn);
+    console.log("🟠 Bouton reset orange ajouté");
 })();
 </script>
 </body>
