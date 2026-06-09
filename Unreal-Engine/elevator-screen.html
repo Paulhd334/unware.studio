@@ -138,7 +138,7 @@
             cursor: pointer;
             transition: background 0.15s;
         }
-        .exit-row:hover { background: #f8f8f8; }
+     .exit-row:hover { background: transparent; }
         .exit-label {
             font-size: 13px;
             font-weight: 500;
@@ -159,6 +159,31 @@
 .exit-row:hover {
     background: transparent !important;
 }
+
+.floor-item.blocked,
+.exit-row {
+    cursor: not-allowed;
+}
+
+
+.exit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-top: 1.5px solid #000;
+    cursor: default;
+    transition: none;
+    pointer-events: none;
+}
+
+
+#floor-0 {
+    cursor: default;
+    transition: none;
+    pointer-events: none;
+}
+
 
     </style>
 </head>
