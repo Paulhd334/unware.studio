@@ -176,7 +176,7 @@
             <div class="floor-label">Rez-de-chaussée</div>
         </div>
 
-        <div class="floor-item clickable" id="floor-m1">
+    <div class="floor-item blocked" id="floor-m1">
             <div class="floor-num">−1</div>
             <div class="floor-label">Étage −1</div>
         </div>
@@ -215,7 +215,9 @@
         }
 
         document.getElementById('floor-0').addEventListener('click', () => setActive('floor-0', '0'));
-        document.getElementById('floor-m1').addEventListener('click', () => setActive('floor-m1', '-1'));
+   document.getElementById('exit').addEventListener('click', (e) => {
+    e.preventDefault();
+});
     </script>
 </body>
 </html>
