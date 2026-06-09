@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Réactivation Générateur</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ececeb;
+      --bg-2: #f6f6f4;
+      --panel: rgba(255,255,255,.94);
+      --panel-2: #fbfbfa;
+      --text: #0f1011;
+      --muted: #6d7278;
+      --line: #111315;
+      --line-soft: rgba(17,19,21,.14);
+      --danger: #b53c3c;
+      --danger-soft: rgba(181,60,60,.10);
+      --warning: #9f741d;
+      --warning-soft: rgba(159,116,29,.10);
+      --success: #23754b;
+      --success-soft: rgba(35,117,75,.10);
+      --accent: #111315;
+      --radius: 18px;
+      --shadow: 0 18px 48px rgba(0,0,0,.10);
+      --tr: 220ms cubic-bezier(.16,1,.3,1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: var(--text);
+      font-family: 'Satoshi', Arial, sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,.9), transparent 35%),
+        radial-gradient(circle at 80% 90%, rgba(0,0,0,.03), transparent 30%),
+        linear-gradient(180deg, var(--bg-2), var(--bg));
+    }
+    .panel {
+      width: min(390px, 100%);
+      background: var(--panel);
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      border-bottom: 1.5px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(245,245,243,.92));
+    }
+    .header-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .header-kicker { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); font-weight: 700; }
+    .header-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700; }
+    .ip-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px; border: 1px solid var(--line-soft); border-radius: 999px; background: rgba(255,255,255,.7); font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .hero-state { padding: 18px; background: linear-gradient(180deg, rgba(250,250,248,.95), rgba(244,244,242,.95)); border-bottom: 1px solid var(--line-soft); }
+    .hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
+    .hero-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .hero-value { font-size: 40px; font-weight: 300; line-height: 1; letter-spacing: 1px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; border: 1px solid currentColor; white-space: nowrap; }
+    .hero-badge.standby { color: #8a6316; background: var(--warning-soft); }
+    .hero-badge.loading { color: #1d1f21; background: rgba(17,19,21,.08); }
+    .hero-badge.active { color: #1b663f; background: var(--success-soft); }
+    .progress-block { display: grid; gap: 8px; }
+    .progress-head { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--muted); }
+    .progress-bar { height: 8px; border-radius: 999px; background: rgba(17,19,21,.08); overflow: hidden; position: relative; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #232628, #535b62); border-radius: inherit; transition: width 450ms ease; }
+    .status-grid { display: grid; gap: 10px; padding: 16px 18px; background: var(--panel-2); border-bottom: 1px solid var(--line-soft); }
+    .status-card { display: grid; grid-template-columns: 58px 1fr auto; align-items: center; gap: 12px; min-height: 62px; padding: 0 14px; border: 1px solid var(--line-soft); border-radius: 12px; background: #fff; transition: background var(--tr), border-color var(--tr), transform var(--tr); }
+    .status-card.is-alert { background: repeating-linear-gradient(45deg, rgba(181,60,60,.02), rgba(181,60,60,.02) 6px, rgba(181,60,60,.06) 6px, rgba(181,60,60,.06) 12px); }
+    .status-card.is-ready { background: repeating-linear-gradient(45deg, rgba(35,117,75,.02), rgba(35,117,75,.02) 6px, rgba(35,117,75,.06) 6px, rgba(35,117,75,.06) 12px); border-color: rgba(35,117,75,.28); }
+    .card-code { font-size: 26px; font-weight: 300; line-height: 1; }
+    .danger { color: var(--danger); }
+    .warning { color: var(--warning); }
+    .success { color: var(--success); }
+    .card-copy { min-width: 0; }
+    .card-title { font-size: 12px; text-transform: uppercase; letter-spacing: .9px; color: var(--muted); margin-bottom: 2px; }
+    .card-desc { font-size: 12px; color: var(--text); line-height: 1.35; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; border: 1px solid currentColor; }
+    .chip.danger { background: var(--danger-soft); }
+    .chip.warning { background: var(--warning-soft); }
+    .chip.success { background: var(--success-soft); }
+    .detail-box { padding: 16px 18px; border-bottom: 1px solid var(--line-soft); background: #fcfcfb; }
+    .detail-title { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px; }
+    .detail-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .action-wrap { padding: 18px; border-top: 1.5px solid var(--line); background: #fff; }
+    .generator-btn { width: 100%; min-height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 0 16px; border-radius: 14px; border: 1.5px solid var(--accent); background: linear-gradient(180deg, #131517, #090a0b); color: #fff; cursor: pointer; transition: transform var(--tr), box-shadow var(--tr), filter var(--tr), background var(--tr), border-color var(--tr); box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 10px 26px rgba(0,0,0,.18); }
+    .generator-btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
+    .generator-btn:active { transform: translateY(1px) scale(.995); }
+    .generator-btn:focus-visible { outline: 2px solid #0f1011; outline-offset: 3px; }
+    .generator-btn.loading { background: linear-gradient(180deg, #232628, #121416); border-color: #232628; cursor: progress; }
+    .generator-btn.active { background: linear-gradient(180deg, #2a8a58, #18663f); border-color: #175736; cursor: default; box-shadow: none; }
+    .btn-main { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .btn-icon { width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center; background: rgba(255,255,255,.10); font-size: 18px; flex: 0 0 auto; }
+    .btn-copy { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+    .btn-title { font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+    .btn-sub { font-size: 11px; opacity: .82; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .btn-arrow { font-size: 18px; opacity: .9; flex: 0 0 auto; }
+    .timeline { padding: 16px 18px 18px; background: #fafaf8; }
+    .timeline-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .timeline-title { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+    .timeline-note { font-size: 11px; color: #8a8f95; }
+    .log { list-style: none; display: grid; gap: 8px; max-height: 180px; overflow: auto; padding-right: 2px; }
+    .log li { position: relative; padding-left: 16px; font-size: 12px; line-height: 1.4; color: var(--muted); }
+    .log li::before { content: ''; position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 999px; background: #bcc1c7; }
+    .log li.ok::before { background: var(--success); }
+    .log li.warn::before { background: var(--warning); }
+    .log li.err::before { background: var(--danger); }
+    .spin { animation: spin 1s linear infinite; }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <main class="panel" aria-label="Panneau de réactivation du générateur">
+    <header class="panel-header">
+      <div class="header-copy">
+        <span class="header-kicker">Panneau technique</span>
+        <span class="header-title">Générateur de secours</span>
+      </div>
+      <div class="ip-chip" id="ip-chip"><i class="ti ti-network"></i> IP locale...</div>
+    </header>
+
+    <section class="hero-state">
+      <div class="hero-top">
+        <div>
+          <div class="hero-label">État système</div>
+          <div class="hero-value" id="display-value">ATT</div>
+        </div>
+        <div class="hero-badge standby" id="hero-badge"><i class="ti ti-clock-hour-4"></i> En attente</div>
+      </div>
+
+      <div class="progress-block">
+        <div class="progress-head">
+          <span>Activation</span>
+          <span id="progress-text">0%</span>
+        </div>
+        <div class="progress-bar" aria-hidden="true">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="status-grid">
+      <div class="status-card is-alert" id="card-alim">
+        <div class="card-code danger" id="power-code">OFF</div>
+        <div class="card-copy">
+          <div class="card-title">Alimentation principale</div>
+          <div class="card-desc">Source principale indisponible.</div>
+        </div>
+        <div class="chip danger" id="power-badge"><i class="ti ti-alert-triangle"></i> Hors service</div>
+      </div>
+
+      <div class="status-card is-alert" id="card-gen">
+        <div class="card-code warning" id="gen-code">STB</div>
+        <div class="card-copy">
+          <div class="card-title">Générateur</div>
+          <div class="card-desc">Prêt à être réarmé manuellement.</div>
+        </div>
+        <div class="chip warning" id="gen-badge"><i class="ti ti-lock"></i> Veille</div>
+      </div>
+
+      <div class="status-card" id="card-zone">
+        <div class="card-code warning" id="zone-code">B1</div>
+        <div class="card-copy">
+          <div class="card-title">Zone technique</div>
+          <div class="card-desc">Charge critique sans alimentation.</div>
+        </div>
+        <div class="chip warning" id="zone-badge"><i class="ti ti-bolt-off"></i> Non alimentée</div>
+      </div>
+    </section>
+
+    <section class="detail-box">
+      <div class="detail-title" id="detail-title">RÉACTION REQUISE</div>
+      <div class="detail-desc" id="detail-desc">Le générateur est en veille. Appuie pour relancer l'alimentation de secours.</div>
+    </section>
+
+    <section class="action-wrap">
+      <button class="generator-btn" id="generator-btn" type="button">
+        <span class="btn-main">
+          <span class="btn-icon" id="btn-icon"><i class="ti ti-bolt"></i></span>
+          <span class="btn-copy">
+            <span class="btn-title" id="btn-title">RÉACTIVER</span>
+            <span class="btn-sub" id="btn-sub">Générateur: en veille</span>
+          </span>
+        </span>
+        <i class="ti ti-arrow-right btn-arrow" id="btn-arrow"></i>
+      </button>
+    </section>
+
+    <section class="timeline">
+      <div class="timeline-head">
+        <div class="timeline-title">Journal</div>
+        <div class="timeline-note" id="timeline-note">État persistant local</div>
+      </div>
+      <ul class="log" id="log-list"></ul>
+    </section>
+  </main>
+
+<script>
+(function(){
+  if (window.__genPanelLock) return;
+  window.__genPanelLock = true;
+  window.addEventListener('beforeunload', function(e){ e.preventDefault(); e.returnValue = ''; }, {capture:true});
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'F5' || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'r')){
+      e.preventDefault(); e.stopImmediatePropagation();
+    }
+  }, true);
+})();
+
+(function(){
+  var btn = document.getElementById('generator-btn');
+  var btnTitle = document.getElementById('btn-title');
+  var btnSub = document.getElementById('btn-sub');
+  var btnArrow = document.getElementById('btn-arrow');
+  var btnIcon = document.getElementById('btn-icon');
+  var displayValue = document.getElementById('display-value');
+  var heroBadge = document.getElementById('hero-badge');
+  var progressFill = document.getElementById('progress-fill');
+  var progressText = document.getElementById('progress-text');
+  var detailTitle = document.getElementById('detail-title');
+  var detailDesc = document.getElementById('detail-desc');
+  var powerCode = document.getElementById('power-code');
+  var genCode = document.getElementById('gen-code');
+  var zoneCode = document.getElementById('zone-code');
+  var powerBadge = document.getElementById('power-badge');
+  var genBadge = document.getElementById('gen-badge');
+  var zoneBadge = document.getElementById('zone-badge');
+  var cardAlim = document.getElementById('card-alim');
+  var cardGen = document.getElementById('card-gen');
+  var cardZone = document.getElementById('card-zone');
+  var logList = document.getElementById('log-list');
+
+  var STORAGE_KEY = 'generator-panel-state-v2';
+
+  function addLog(text, cls){
+    var li = document.createElement('li'); li.textContent = text; if(cls) li.className = cls; logList.insertBefore(li, logList.firstChild);
+  }
+  function saveState(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
+  function loadState(){ try{ var r = localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):null;}catch(e){return null;} }
+
+  function renderPending(){
+    displayValue.textContent = 'ATT';
+    heroBadge.className = 'hero-badge standby'; heroBadge.innerHTML = '<i class="ti ti-clock-hour-4"></i> En attente';
+    progressFill.style.width = '0%'; progressText.textContent = '0%';
+    detailTitle.textContent = 'RÉACTION REQUISE';
+    detailDesc.textContent = 'Le générateur est en veille. Appuie pour relancer l\'alimentation de secours.';
+    powerCode.textContent = 'OFF'; powerCode.className = 'card-code danger';
+    genCode.textContent = 'STB'; genCode.className = 'card-code warning';
+    zoneCode.textContent = 'B1'; zoneCode.className = 'card-code warning';
+    powerBadge.className = 'chip danger'; powerBadge.innerHTML = '<i class="ti ti-alert-triangle"></i> Hors service';
+    genBadge.className = 'chip warning'; genBadge.innerHTML = '<i class="ti ti-lock"></i> Veille';
+    zoneBadge.className = 'chip warning'; zoneBadge.innerHTML = '<i class="ti ti-bolt-off"></i> Non alimentée';
+    cardAlim.className = 'status-card is-alert'; cardGen.className = 'status-card is-alert'; cardZone.className = 'status-card';
+    btn.disabled = false; btn.className = 'generator-btn'; btnTitle.textContent = 'RÉACTIVER'; btnSub.textContent = 'Générateur: en veille';
+    btnArrow.className = 'ti ti-arrow-right btn-arrow'; btnIcon.innerHTML = '<i class="ti ti-bolt"></i>';
+    logList.innerHTML=''; addLog('Perte d\'alimentation détectée.', 'err'); addLog('Le générateur attend une commande opérateur.', 'warn'); addLog('Zone B1 sans tension.', '');
+  }
+
+  function renderLoading(p){
+    displayValue.textContent = 'RUN'; heroBadge.className='hero-badge loading'; heroBadge.innerHTML = '<i class="ti ti-loader-2 spin"></i> Démarrage';
+    progressFill.style.width = p+'%'; progressText.textContent = p+'%'; detailTitle.textContent='Démarrage en cours'; detailDesc.textContent='Initialisation du générateur';
+    genCode.textContent='IGN'; genCode.className='card-code warning'; genBadge.className='chip warning'; genBadge.innerHTML='<i class="ti ti-loader-2 spin"></i> Initialisation';
+    btn.className='generator-btn loading'; btn.disabled=true; btnTitle.textContent='Activation en cours'; btnSub.textContent='Merci de patienter'; btnArrow.className='ti ti-loader-2 btn-arrow spin'; btnIcon.innerHTML='<i class="ti ti-power"></i>';
+  }
+
+  function renderActive(){
+    displayValue.textContent='ACT'; heroBadge.className='hero-badge active'; heroBadge.innerHTML='<i class="ti ti-check"></i> Actif'; progressFill.style.width='100%'; progressText.textContent='100%';
+    detailTitle.textContent='Générateur réactivé'; detailDesc.textContent='L\'alimentation de secours est opérationnelle.';
+    powerCode.textContent='AUX'; powerCode.className='card-code success'; genCode.textContent='ON'; genCode.className='card-code success'; zoneCode.textContent='OK'; zoneCode.className='card-code success';
+    powerBadge.className='chip success'; powerBadge.innerHTML='<i class="ti ti-plug-connected"></i> Secours actif'; genBadge.className='chip success'; genBadge.innerHTML='<i class="ti ti-bolt"></i> Générateur actif'; zoneBadge.className='chip success'; zoneBadge.innerHTML='<i class="ti ti-check"></i> Alimentée';
+    cardAlim.className='status-card is-ready'; cardGen.className='status-card is-ready'; cardZone.className='status-card is-ready';
+    btn.className='generator-btn active'; btn.disabled=true; btnTitle.textContent='ACCÈS ACTIF'; btnSub.textContent='Générateur en service'; btnArrow.className='ti ti-check btn-arrow'; btnIcon.innerHTML='<i class="ti ti-check"></i>';
+  }
+
+  function activateSequence(){ renderLoading(10); logList.innerHTML=''; addLog('Commande opérateur reçue.', 'warn'); setTimeout(function(){ progressFill.style.width='46%'; progressText.textContent='46%'; addLog('Montée en régime du générateur.', ''); }, 900);
+  setTimeout(function(){ progressFill.style.width='79%'; progressText.textContent='79%'; addLog('Synchronisation tension validée.', 'ok'); }, 2000);
+  setTimeout(function(){ renderActive(); addLog('Transfert de charge terminé avec succès.', 'ok'); saveState({active:true,activatedAt:Date.now()}); }, 3200);
+  }
+
+  btn.addEventListener('click', function(){ var cur=loadState(); if(cur && cur.active){ renderActive(); return; } activateSequence(); });
+
+  var stored = loadState(); if(stored && stored.active){ renderActive(); logList.innerHTML=''; addLog('État restauré après rechargement.', 'ok'); addLog('Le générateur est déjà actif.', 'ok'); addLog('Aucune nouvelle séquence lancée.', ''); } else { renderPending(); }
+})();
+</script>
+</body>
+</html>
