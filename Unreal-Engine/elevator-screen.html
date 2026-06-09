@@ -4,278 +4,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panneau d'Ascenseur</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f0f0f0;
-            padding: 20px;
+            background: #f0f0f0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
         }
-        
-        .elevator-panel {
-            width: 320px;
-            height: 85vh;
-            max-height: 650px;
-            background-color: #ffffff;
-            border: 2px solid #000000;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        .panel {
+            width: 300px;
+            border: 1.5px solid #000;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
-        
-        .header {
-            padding: 20px;
-            border-bottom: 2px solid #000000;
+        .panel-header {
+            padding: 16px 20px;
+            border-bottom: 1.5px solid #000;
             text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 22px;
-            font-weight: 400;
+            font-size: 13px;
+            font-weight: 500;
             letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #000000;
+            color: #666;
         }
-        
-        .floors-display {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 0;
-        }
-        
         .floor-item {
-            flex: 1;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 25px;
-            border-bottom: 1px solid #ddd;
+            padding: 0 20px;
+            height: 60px;
+            border-bottom: 0.5px solid #ddd;
+            cursor: pointer;
+            transition: background 0.15s;
             position: relative;
         }
-        
-
-        
-        .floor-item.clickable:hover:not(.active) {
-            background-color: #f8f8f8;
-        }
-        
-        .floor-item:last-child {
-            border-bottom: none;
-        }
-        
+        .floor-item:last-child { border-bottom: none; }
         .floor-item.active {
-            background-color: #000000;
-            color: #ffffff;
+            background: #000;
         }
-        
+        .floor-item.active .floor-num,
+        .floor-item.active .floor-label { color: #fff; }
         .floor-item.blocked {
             cursor: not-allowed;
-            background-color: #f5f5f5;
-            opacity: 0.5;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 6px,
+                rgba(200,50,50,0.07) 6px,
+                rgba(200,50,50,0.07) 12px
+            );
         }
-        
-        .floor-number {
-            font-size: 36px;
+        .floor-item.clickable:hover:not(.active) { background: #f8f8f8; }
+        .floor-num {
+            font-size: 26px;
             font-weight: 300;
-            color: #000000;
+            color: #000;
+            min-width: 40px;
         }
-        
-        .floor-item.active .floor-number {
-            color: #ffffff;
-        }
-        
-        .floor-item.blocked .floor-number {
-            color: #888888;
-        }
-        
+        .floor-num.blocked-num { color: #e24b4a; }
         .floor-label {
-            font-size: 14px;
-            font-weight: 300;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #666666;
-        }
-        
-        .floor-item.active .floor-label {
-            color: #ffffff;
-        }
-        
-        .floor-item.blocked .floor-label {
-            color: #888888;
-        }
-        
-        .blocked-text {
-            font-size: 11px;
-            color: #888888;
-            position: absolute;
-            right: 55px;
+            font-size: 12px;
+            color: #666;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            flex: 1;
+            padding-left: 10px;
         }
-        
-        .current-floor-display {
-            padding: 20px;
-            border-top: 2px solid #000000;
-            border-bottom: 2px solid #000000;
-            text-align: center;
-            background-color: #fafafa;
-        }
-        
-        .current-floor-display h2 {
-            font-size: 13px;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #666666;
-            margin-bottom: 10px;
-        }
-        
-        .current-floor {
-            font-size: 60px;
-            font-weight: 200;
-            color: #000000;
-            line-height: 1;
-        }
-        
-        .floor-details {
-            padding: 20px;
-            border-top: 1px solid #ddd;
-            min-height: 90px;
+        .blocked-badge {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background-color: #fafafa;
+            align-items: center;
+            gap: 4px;
+            background: #fbeaea;
+            border: 0.5px solid #e24b4a;
+            border-radius: 4px;
+            padding: 3px 7px;
+            font-size: 11px;
+            font-weight: 500;
+            color: #a32d2d;
+            letter-spacing: 0.3px;
+            animation: pulse 2s ease-in-out infinite;
+            white-space: nowrap;
         }
-        
-        .floor-details h3 {
-            font-size: 16px;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #000000;
-            margin-bottom: 5px;
+        .blocked-badge i { font-size: 12px; }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
-        
-        .floor-details p {
-            font-size: 13px;
-            font-weight: 300;
-            color: #666666;
-            line-height: 1.4;
-        }
-        
-        .exit-section {
-            padding: 20px;
-            border-top: 2px solid #000000;
+        .divider { height: 1.5px; background: #000; }
+        .current-display {
+            padding: 12px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-    
-            transition: all 0.2s ease;
+            background: #fafafa;
         }
-        
-        .exit-section:hover {
-            background-color: #f8f8f8;
-        }
-        
-        .exit-label {
-            font-size: 16px;
-            font-weight: 300;
+        .current-label {
+            font-size: 11px;
+            color: #999;
             text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .current-num {
+            font-size: 40px;
+            font-weight: 200;
+            color: #000;
+            line-height: 1;
+        }
+        .floor-detail {
+            padding: 14px 20px;
+            border-top: 0.5px solid #ddd;
+            background: #fafafa;
+        }
+        .detail-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: #000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 3px;
+        }
+        .detail-desc { font-size: 12px; color: #666; }
+        .exit-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-top: 1.5px solid #000;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .exit-row:hover { background: #f8f8f8; }
+        .exit-label {
+            font-size: 13px;
+            font-weight: 500;
             letter-spacing: 1.5px;
-            color: #000000;
+            text-transform: uppercase;
+            color: #000;
         }
-        
-        .exit-icon {
-            font-size: 20px;
-            color: #000000;
-        }
-        
-        /* Clignotement pour boutons bloqués */
-        @keyframes blink {
-            0% { opacity: 0.4; }
-            50% { opacity: 0.7; }
-            100% { opacity: 0.4; }
-
-        }
-        
-        .blinking {
-            animation: blink 2s ease-in-out infinite;
-  
-        }
-        
-        /* Animation simple pour le bouton cliqué */
-        @keyframes clickEffect {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.95); }
-            100% { transform: scale(1); }
-        }
-        
-        .clicking {
-            animation: clickEffect 0.3s ease;
-        }
+        .exit-icon { color: #666; font-size: 18px; }
     </style>
 </head>
 <body>
-    <div class="elevator-panel">
-        <div class="header">
-            <h1>ASCENSEUR</h1>
+    <div class="panel">
+        <div class="panel-header">ASCENSEUR</div>
+
+        <div class="floor-item blocked">
+            <div class="floor-num blocked-num">−4</div>
+            <div class="floor-label">Étage −4</div>
+            <div class="blocked-badge"><i class="ti ti-lock"></i> Accès refusé</div>
         </div>
-        
-        <div class="floors-display">
-            <div class="floor-item blocked blinking" data-floor="-5">
-                <div class="floor-number">-5</div>
-                <div class="floor-label">Étage -5</div>
-             
-            </div>
-            
-            <div class="floor-item blocked blinking" data-floor="-3">
-                <div class="floor-number">-3</div>
-                <div class="floor-label">Étage -3</div>
-             
-            </div>
-            
-            <div class="floor-item blocked blinking" data-floor="-2">
-                <div class="floor-number">-2</div>
-                <div class="floor-label">Étage -2</div>
-          
-            </div>
-            
-            <div class="floor-item active" data-floor="0" id="floor-0">
-                <div class="floor-number">0</div>
-                <div class="floor-label">Rez-de-chaussée</div>
-            </div>
-            
-            <div class="floor-item clickable" data-floor="-1" id="floor-minus1">
-                <div class="floor-number">-1</div>
-                <div class="floor-label">Étage -1</div>
-            </div>
+
+        <div class="floor-item blocked">
+            <div class="floor-num blocked-num">−3</div>
+            <div class="floor-label">Étage −3</div>
+            <div class="blocked-badge"><i class="ti ti-lock"></i> Accès refusé</div>
         </div>
-        
-        <div class="current-floor-display">
-            <h2>Étage actuel</h2>
-            <div class="current-floor" id="current-floor-display">0</div>
+
+        <div class="floor-item blocked">
+            <div class="floor-num blocked-num">−2</div>
+            <div class="floor-label">Étage −2</div>
+            <div class="blocked-badge"><i class="ti ti-lock"></i> Accès refusé</div>
         </div>
-        
-        <div class="floor-details">
-            <h3 id="floor-title">Rez-de-chaussée</h3>
-            <p id="floor-desc">Hall d'entrée, réception, accès principal</p>
+
+        <div class="floor-item active" id="floor-0">
+            <div class="floor-num">0</div>
+            <div class="floor-label">Rez-de-chaussée</div>
         </div>
-        
-        <div class="exit-section" id="exit-btn">
-          
-            <div class="exit-icon">→</div>
+
+        <div class="floor-item clickable" id="floor-m1">
+            <div class="floor-num">−1</div>
+            <div class="floor-label">Étage −1</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="current-display">
+            <div class="current-label">Étage actuel</div>
+            <div class="current-num" id="current-num">0</div>
+        </div>
+
+        <div class="floor-detail">
+            <div class="detail-title" id="detail-title">Rez-de-chaussée</div>
+            <div class="detail-desc" id="detail-desc">Hall d'entrée, réception, accès principal</div>
+        </div>
+
+        <div class="exit-row">
+            <span class="exit-label">Sortie</span>
+            <i class="ti ti-arrow-right exit-icon"></i>
         </div>
     </div>
- </body>
+
+    <script>
+        const floors = {
+            '0':  { label: 'Rez-de-chaussée', desc: "Hall d'entrée, réception, accès principal" },
+            '-1': { label: 'Étage −1',         desc: 'Parking souterrain, local technique' }
+        };
+
+        function setActive(id, floorKey) {
+            document.querySelectorAll('.floor-item.active').forEach(el => el.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.getElementById('current-num').textContent = floorKey;
+            const f = floors[floorKey];
+            document.getElementById('detail-title').textContent = f.label;
+            document.getElementById('detail-desc').textContent = f.desc;
+        }
+
+        document.getElementById('floor-0').addEventListener('click', () => setActive('floor-0', '0'));
+        document.getElementById('floor-m1').addEventListener('click', () => setActive('floor-m1', '-1'));
+    </script>
+</body>
 </html>
