@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Réactivation Générateur</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ececeb;
+      --bg-2: #f6f6f4;
+      --panel: rgba(255,255,255,.94);
+      --panel-2: #fbfbfa;
+      --text: #0f1011;
+      --muted: #6d7278;
+      --line: #111315;
+      --line-soft: rgba(17,19,21,.14);
+      --danger: #b53c3c;
+      --danger-soft: rgba(181,60,60,.10);
+      --warning: #9f741d;
+      --warning-soft: rgba(159,116,29,.10);
+      --success: #23754b;
+      --success-soft: rgba(35,117,75,.10);
+      --accent: #111315;
+      --radius: 18px;
+      --shadow: 0 18px 48px rgba(0,0,0,.10);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: var(--text);
+      font-family: 'Satoshi', Arial, sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,.9), transparent 35%),
+        radial-gradient(circle at 80% 90%, rgba(0,0,0,.03), transparent 30%),
+        linear-gradient(180deg, var(--bg-2), var(--bg));
+    }
+    .panel {
+      width: min(390px, 100%);
+      background: var(--panel);
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 18px;
+      border-bottom: 1.5px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(245,245,243,.92));
+      animation: fadeIn 0.4s ease-out both;
+    }
+    .header-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .header-kicker { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); font-weight: 700; }
+    .header-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700; }
+    .ip-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px; border: 1px solid var(--line-soft); border-radius: 999px; background: rgba(255,255,255,.7); font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+    /* Animations */
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes slideFromLeft {
+      0% { opacity: 0; transform: translateX(-30px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideFromRight {
+      0% { opacity: 0; transform: translateX(30px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 0 0 rgba(35, 117, 75, 0.4); }
+      50% { box-shadow: 0 0 0 8px rgba(35, 117, 75, 0.1); }
+      100% { box-shadow: 0 0 0 0 rgba(35, 117, 75, 0); }
+    }
+
+    @keyframes fillProgress {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .hero-state {
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(250,250,248,.95), rgba(244,244,242,.95));
+      border-bottom: 1px solid var(--line-soft);
+      animation: fadeIn 0.5s ease-out 0.05s both;
+    }
+    .hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
+    .hero-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .hero-value {
+      font-size: 40px;
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: 1px;
+      animation: fadeIn 0.3s ease-out 0.8s both;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid currentColor;
+      white-space: nowrap;
+      animation: fadeIn 0.3s ease-out 0.8s both;
+    }
+    .hero-badge.standby { color: #8a6316; background: var(--warning-soft); }
+    .hero-badge.active { color: #1b663f; background: var(--success-soft); animation: glowPulse 2s infinite 1.2s; }
+
+    .progress-block {
+      display: grid;
+      gap: 8px;
+      animation: fadeIn 0.4s ease-out 0.6s both;
+    }
+    .progress-head { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--muted); }
+    .progress-bar { height: 8px; border-radius: 999px; background: rgba(17,19,21,.08); overflow: hidden; position: relative; }
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #2a8a58, #535b62, #2a8a58);
+      background-size: 200% 100%;
+      border-radius: inherit;
+      animation: fillProgress 1.5s ease-out 0.7s forwards, shimmer 2s linear infinite 2.2s;
+    }
+
+    .status-grid {
+      display: grid;
+      gap: 10px;
+      padding: 16px 18px;
+      background: var(--panel-2);
+      border-bottom: 1px solid var(--line-soft);
+    }
+    .status-card {
+      display: grid;
+      grid-template-columns: 58px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      min-height: 62px;
+      padding: 0 14px;
+      border: 1px solid var(--line-soft);
+      border-radius: 12px;
+      background: #fff;
+      transition: all 0.2s ease;
+      opacity: 0;
+      animation: slideFromLeft 0.4s ease-out forwards;
+    }
+    .status-card:nth-child(1) { animation-delay: 0.1s; }
+    .status-card:nth-child(2) { animation-delay: 0.3s; }
+    .status-card:nth-child(3) { animation-delay: 0.5s; }
+    .status-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--line);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .status-card.is-alert { background: repeating-linear-gradient(45deg, rgba(181,60,60,.02), rgba(181,60,60,.02) 6px, rgba(181,60,60,.06) 6px, rgba(181,60,60,.06) 12px); }
+    .status-card.is-ready { background: repeating-linear-gradient(45deg, rgba(35,117,75,.02), rgba(35,117,75,.02) 6px, rgba(35,117,75,.06) 6px, rgba(35,117,75,.06) 12px); border-color: rgba(35,117,75,.28); }
+    .card-code { font-size: 26px; font-weight: 300; line-height: 1; }
+    .danger { color: var(--danger); }
+    .warning { color: var(--warning); }
+    .success { color: var(--success); }
+    .card-copy { min-width: 0; }
+    .card-title { font-size: 12px; text-transform: uppercase; letter-spacing: .9px; color: var(--muted); margin-bottom: 2px; }
+    .card-desc { font-size: 12px; color: var(--text); line-height: 1.35; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; border: 1px solid currentColor; }
+    .chip.danger { background: var(--danger-soft); }
+    .chip.warning { background: var(--warning-soft); }
+    .chip.success { background: var(--success-soft); }
+
+    .detail-box {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line-soft);
+      background: #fcfcfb;
+      opacity: 0;
+      animation: fadeIn 0.4s ease-out 0.9s forwards;
+    }
+    .detail-title { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px; }
+    .detail-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+    .action-wrap {
+      padding: 18px;
+      border-top: 1.5px solid var(--line);
+      background: #fff;
+      opacity: 0;
+      animation: fadeIn 0.4s ease-out 1s forwards;
+    }
+    .generator-btn {
+      width: 100%;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 0 16px;
+      border-radius: 14px;
+      border: 1.5px solid var(--accent);
+      background: linear-gradient(180deg, #131517, #090a0b);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 10px 26px rgba(0,0,0,.18);
+    }
+    .generator-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.03);
+    }
+    .generator-btn:active {
+      transform: translateY(1px) scale(0.99);
+    }
+    .generator-btn.active {
+      background: linear-gradient(180deg, #2a8a58, #18663f);
+      border-color: #175736;
+      animation: glowPulse 2s infinite;
+    }
+    .btn-main { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .btn-icon { width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center; background: rgba(255,255,255,.10); font-size: 18px; flex: 0 0 auto; }
+    .btn-copy { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+    .btn-title { font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+    .btn-sub { font-size: 11px; opacity: .82; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .btn-arrow { font-size: 18px; opacity: .9; flex: 0 0 auto; transition: transform 0.2s ease; }
+    .generator-btn:hover .btn-arrow {
+      transform: translateX(5px);
+    }
+
+    .timeline {
+      padding: 16px 18px 18px;
+      background: #fafaf8;
+      opacity: 0;
+      animation: fadeIn 0.4s ease-out 1.1s forwards;
+    }
+    .timeline-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .timeline-title { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+    .timeline-note { font-size: 11px; color: #8a8f95; }
+    .log { list-style: none; display: grid; gap: 8px; max-height: 180px; overflow: auto; padding-right: 2px; }
+    .log li {
+      position: relative;
+      padding-left: 16px;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--muted);
+      opacity: 0;
+      animation: slideFromRight 0.3s ease-out forwards;
+    }
+    .log li:nth-child(1) { animation-delay: 1.2s; }
+    .log li:nth-child(2) { animation-delay: 1.35s; }
+    .log li:nth-child(3) { animation-delay: 1.5s; }
+    .log li:nth-child(4) { animation-delay: 1.65s; }
+    .log li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #bcc1c7;
+    }
+    .log li.ok::before { background: var(--success); }
+    .log li.warn::before { background: var(--warning); }
+    .log li.err::before { background: var(--danger); }
+
+    .log::-webkit-scrollbar {
+      width: 4px;
+    }
+    .log::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.05);
+      border-radius: 4px;
+    }
+    .log::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.2);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <main class="panel" aria-label="Panneau de réactivation du générateur">
+    <header class="panel-header">
+      <div class="header-copy">
+        <span class="header-kicker">Panneau technique</span>
+        <span class="header-title">Générateur de secours</span>
+      </div>
+      <div class="ip-chip" id="ip-chip"><i class="ti ti-network"></i> 10.0.0.42</div>
+    </header>
+
+    <section class="hero-state">
+      <div class="hero-top">
+        <div>
+          <div class="hero-label">État système</div>
+          <div class="hero-value" id="display-value">ACT</div>
+        </div>
+        <div class="hero-badge active" id="hero-badge"><i class="ti ti-check"></i> Actif</div>
+      </div>
+
+      <div class="progress-block">
+        <div class="progress-head">
+          <span>Activation générateur</span>
+          <span id="progress-text">100%</span>
+        </div>
+        <div class="progress-bar" aria-hidden="true">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="status-grid">
+      <div class="status-card is-ready" id="card-alim">
+        <div class="card-code success" id="power-code">ON</div>
+        <div class="card-copy">
+          <div class="card-title">Alimentation principale</div>
+          <div class="card-desc">Source principale opérationnelle.</div>
+        </div>
+        <div class="chip success" id="power-badge"><i class="ti ti-plug-connected"></i> Active</div>
+      </div>
+
+      <div class="status-card is-ready" id="card-gen">
+        <div class="card-code success" id="gen-code">ON</div>
+        <div class="card-copy">
+          <div class="card-title">Générateur</div>
+          <div class="card-desc">Générateur en marche.</div>
+        </div>
+        <div class="chip success" id="gen-badge"><i class="ti ti-bolt"></i> Actif</div>
+      </div>
+
+      <div class="status-card is-ready" id="card-zone">
+        <div class="card-code success" id="zone-code">OK</div>
+        <div class="card-copy">
+          <div class="card-title">Zone technique</div>
+          <div class="card-desc">Alimentation stabilisée.</div>
+        </div>
+        <div class="chip success" id="zone-badge"><i class="ti ti-check"></i> Alimentée</div>
+      </div>
+    </section>
+
+    <section class="detail-box">
+      <div class="detail-title" id="detail-title">GÉNÉRATEUR ACTIF</div>
+      <div class="detail-desc" id="detail-desc">Le générateur est opérationnel. L'alimentation de secours est disponible.</div>
+    </section>
+
+    <section class="action-wrap">
+      <button class="generator-btn active" id="generator-btn" type="button">
+        <span class="btn-main">
+          <span class="btn-icon" id="btn-icon"><i class="ti ti-check"></i></span>
+          <span class="btn-copy">
+            <span class="btn-title" id="btn-title">RÉACTIVÉ</span>
+            <span class="btn-sub" id="btn-sub">Générateur: actif</span>
+          </span>
+        </span>
+        <i class="ti ti-check btn-arrow" id="btn-arrow"></i>
+      </button>
+    </section>
+
+    <section class="timeline">
+      <div class="timeline-head">
+        <div class="timeline-title">Journal</div>
+        <div class="timeline-note" id="timeline-note">État en temps réel</div>
+      </div>
+      <ul class="log" id="log-list">
+        <li class="ok">Alimentation principale rétablie.</li>
+        <li class="ok">Générateur démarré avec succès.</li>
+        <li class="ok">Synchronisation du réseau effectuée.</li>
+        <li class="ok">Zone technique maintenant alimentée.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
