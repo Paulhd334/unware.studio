@@ -25,7 +25,6 @@
       --accent: #111315;
       --radius: 18px;
       --shadow: 0 18px 48px rgba(0,0,0,.10);
-      --tr: 220ms cubic-bezier(.16,1,.3,1);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { min-height: 100%; }
@@ -69,14 +68,13 @@
     .hero-value { font-size: 40px; font-weight: 300; line-height: 1; letter-spacing: 1px; }
     .hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; border: 1px solid currentColor; white-space: nowrap; }
     .hero-badge.standby { color: #8a6316; background: var(--warning-soft); }
-    .hero-badge.loading { color: #1d1f21; background: rgba(17,19,21,.08); }
     .hero-badge.active { color: #1b663f; background: var(--success-soft); }
     .progress-block { display: grid; gap: 8px; }
     .progress-head { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--muted); }
     .progress-bar { height: 8px; border-radius: 999px; background: rgba(17,19,21,.08); overflow: hidden; position: relative; }
-    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #232628, #535b62); border-radius: inherit; transition: width 450ms ease; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #232628, #535b62); border-radius: inherit; }
     .status-grid { display: grid; gap: 10px; padding: 16px 18px; background: var(--panel-2); border-bottom: 1px solid var(--line-soft); }
-    .status-card { display: grid; grid-template-columns: 58px 1fr auto; align-items: center; gap: 12px; min-height: 62px; padding: 0 14px; border: 1px solid var(--line-soft); border-radius: 12px; background: #fff; transition: background var(--tr), border-color var(--tr), transform var(--tr); }
+    .status-card { display: grid; grid-template-columns: 58px 1fr auto; align-items: center; gap: 12px; min-height: 62px; padding: 0 14px; border: 1px solid var(--line-soft); border-radius: 12px; background: #fff; }
     .status-card.is-alert { background: repeating-linear-gradient(45deg, rgba(181,60,60,.02), rgba(181,60,60,.02) 6px, rgba(181,60,60,.06) 6px, rgba(181,60,60,.06) 12px); }
     .status-card.is-ready { background: repeating-linear-gradient(45deg, rgba(35,117,75,.02), rgba(35,117,75,.02) 6px, rgba(35,117,75,.06) 6px, rgba(35,117,75,.06) 12px); border-color: rgba(35,117,75,.28); }
     .card-code { font-size: 26px; font-weight: 300; line-height: 1; }
@@ -94,12 +92,25 @@
     .detail-title { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px; }
     .detail-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
     .action-wrap { padding: 18px; border-top: 1.5px solid var(--line); background: #fff; }
-    .generator-btn { width: 100%; min-height: 70px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 0 16px; border-radius: 14px; border: 1.5px solid var(--accent); background: linear-gradient(180deg, #131517, #090a0b); color: #fff; cursor: pointer; transition: transform var(--tr), box-shadow var(--tr), filter var(--tr), background var(--tr), border-color var(--tr); box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 10px 26px rgba(0,0,0,.18); }
-    .generator-btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
-    .generator-btn:active { transform: translateY(1px) scale(.995); }
-    .generator-btn:focus-visible { outline: 2px solid #0f1011; outline-offset: 3px; }
-    .generator-btn.loading { background: linear-gradient(180deg, #232628, #121416); border-color: #232628; cursor: progress; }
-    .generator-btn.active { background: linear-gradient(180deg, #2a8a58, #18663f); border-color: #175736; cursor: default; box-shadow: none; }
+    .generator-btn {
+      width: 100%;
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 0 16px;
+      border-radius: 14px;
+      border: 1.5px solid var(--accent);
+      background: linear-gradient(180deg, #131517, #090a0b);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 10px 26px rgba(0,0,0,.18);
+    }
+    .generator-btn.active {
+      background: linear-gradient(180deg, #2a8a58, #18663f);
+      border-color: #175736;
+    }
     .btn-main { display: flex; align-items: center; gap: 12px; min-width: 0; }
     .btn-icon { width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center; background: rgba(255,255,255,.10); font-size: 18px; flex: 0 0 auto; }
     .btn-copy { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
@@ -116,57 +127,6 @@
     .log li.ok::before { background: var(--success); }
     .log li.warn::before { background: var(--warning); }
     .log li.err::before { background: var(--danger); }
-    .spin { animation: spin 1s linear infinite; }
-    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-    /* Popup debug */
-    .debug-popup {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      background: #1a1a2e;
-      color: #0f0;
-      font-family: monospace;
-      font-size: 12px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      border-left: 4px solid #0f0;
-      z-index: 9999;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      pointer-events: none;
-      animation: fadeOut 2s ease forwards;
-    }
-    @keyframes fadeOut {
-      0% { opacity: 1; transform: translateX(0); }
-      70% { opacity: 1; transform: translateX(0); }
-      100% { opacity: 0; transform: translateX(-20px); display: none; }
-    }
-
-    /* Bouton reset orange */
-    .reset-debug-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #f97316;
-      color: white;
-      font-family: monospace;
-      font-size: 12px;
-      font-weight: bold;
-      padding: 8px 14px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 10000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      transition: all 0.2s ease;
-    }
-    .reset-debug-btn:hover {
-      background: #ea580c;
-      transform: scale(1.02);
-    }
-    .reset-debug-btn:active {
-      transform: scale(0.98);
-    }
   </style>
 </head>
 <body>
@@ -229,8 +189,8 @@
     </section>
 
     <section class="detail-box">
-      <div class="detail-title" id="detail-title">RÉACTION REQUISE</div>
-      <div class="detail-desc" id="detail-desc">Le générateur est en veille. Appuie pour relancer l'alimentation de secours.</div>
+      <div class="detail-title" id="detail-title">REACTION REQUISE</div>
+      <div class="detail-desc" id="detail-desc">Le generateur est en veille. Appuie pour relancer l'alimentation de secours.</div>
     </section>
 
     <section class="action-wrap">
@@ -238,8 +198,8 @@
         <span class="btn-main">
           <span class="btn-icon" id="btn-icon"><i class="ti ti-bolt"></i></span>
           <span class="btn-copy">
-            <span class="btn-title" id="btn-title">RÉACTIVER</span>
-            <span class="btn-sub" id="btn-sub">Générateur: en veille</span>
+            <span class="btn-title" id="btn-title">REACTIVER</span>
+            <span class="btn-sub" id="btn-sub">Generateur: en veille</span>
           </span>
         </span>
         <i class="ti ti-arrow-right btn-arrow" id="btn-arrow"></i>
@@ -249,162 +209,14 @@
     <section class="timeline">
       <div class="timeline-head">
         <div class="timeline-title">Journal</div>
-        <div class="timeline-note" id="timeline-note">État persistant local</div>
+        <div class="timeline-note" id="timeline-note">Etat persistant local</div>
       </div>
-      <ul class="log" id="log-list"></ul>
+      <ul class="log" id="log-list">
+        <li class="err">Perte d'alimentation detectee.</li>
+        <li class="warn">Le generateur attend une commande operateur.</li>
+        <li>Zone B1 sans tension.</li>
+      </ul>
     </section>
   </main>
-
-<script>
-// ============================================
-// SCRIPT 1: FONCTIONNEMENT DU GÉNÉRATEUR
-// ============================================
-(function(){
-  if (window.__genPanelLock) return;
-  window.__genPanelLock = true;
-
-  var btn = document.getElementById('generator-btn');
-  var btnTitle = document.getElementById('btn-title');
-  var btnSub = document.getElementById('btn-sub');
-  var btnArrow = document.getElementById('btn-arrow');
-  var btnIcon = document.getElementById('btn-icon');
-  var displayValue = document.getElementById('display-value');
-  var heroBadge = document.getElementById('hero-badge');
-  var progressFill = document.getElementById('progress-fill');
-  var progressText = document.getElementById('progress-text');
-  var detailTitle = document.getElementById('detail-title');
-  var detailDesc = document.getElementById('detail-desc');
-  var powerCode = document.getElementById('power-code');
-  var genCode = document.getElementById('gen-code');
-  var zoneCode = document.getElementById('zone-code');
-  var powerBadge = document.getElementById('power-badge');
-  var genBadge = document.getElementById('gen-badge');
-  var zoneBadge = document.getElementById('zone-badge');
-  var cardAlim = document.getElementById('card-alim');
-  var cardGen = document.getElementById('card-gen');
-  var cardZone = document.getElementById('card-zone');
-  var logList = document.getElementById('log-list');
-
-  var STORAGE_KEY = 'generator-panel-state-v2';
-
-  function addLog(text, cls){
-    var li = document.createElement('li'); li.textContent = text; if(cls) li.className = cls; logList.insertBefore(li, logList.firstChild);
-  }
-  function saveState(s){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }catch(e){} }
-  function loadState(){ try{ var r = localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):null;}catch(e){return null;} }
-
-  function renderPending(){
-    displayValue.textContent = 'ATT';
-    heroBadge.className = 'hero-badge standby'; heroBadge.innerHTML = '<i class="ti ti-clock-hour-4"></i> En attente';
-    progressFill.style.width = '0%'; progressText.textContent = '0%';
-    detailTitle.textContent = 'RÉACTION REQUISE';
-    detailDesc.textContent = 'Le générateur est en veille. Appuie pour relancer l\'alimentation de secours.';
-    powerCode.textContent = 'OFF'; powerCode.className = 'card-code danger';
-    genCode.textContent = 'STB'; genCode.className = 'card-code warning';
-    zoneCode.textContent = 'B1'; zoneCode.className = 'card-code warning';
-    powerBadge.className = 'chip danger'; powerBadge.innerHTML = '<i class="ti ti-alert-triangle"></i> Hors service';
-    genBadge.className = 'chip warning'; genBadge.innerHTML = '<i class="ti ti-lock"></i> Veille';
-    zoneBadge.className = 'chip warning'; zoneBadge.innerHTML = '<i class="ti ti-bolt-off"></i> Non alimentée';
-    cardAlim.className = 'status-card is-alert'; cardGen.className = 'status-card is-alert'; cardZone.className = 'status-card';
-    btn.disabled = false; btn.className = 'generator-btn'; btnTitle.textContent = 'RÉACTIVER'; btnSub.textContent = 'Générateur: en veille';
-    btnArrow.className = 'ti ti-arrow-right btn-arrow'; btnIcon.innerHTML = '<i class="ti ti-bolt"></i>';
-    logList.innerHTML=''; addLog('Perte d\'alimentation détectée.', 'err'); addLog('Le générateur attend une commande opérateur.', 'warn'); addLog('Zone B1 sans tension.', '');
-  }
-
-  function renderLoading(p){
-    displayValue.textContent = 'RUN'; heroBadge.className='hero-badge loading'; heroBadge.innerHTML = '<i class="ti ti-loader-2 spin"></i> Démarrage';
-    progressFill.style.width = p+'%'; progressText.textContent = p+'%'; detailTitle.textContent='Démarrage en cours'; detailDesc.textContent='Initialisation du générateur';
-    genCode.textContent='IGN'; genCode.className='card-code warning'; genBadge.className='chip warning'; genBadge.innerHTML='<i class="ti ti-loader-2 spin"></i> Initialisation';
-    btn.className='generator-btn loading'; btn.disabled=true; btnTitle.textContent='Activation en cours'; btnSub.textContent='Merci de patienter'; btnArrow.className='ti ti-loader-2 btn-arrow spin'; btnIcon.innerHTML='<i class="ti ti-power"></i>';
-  }
-
-  function renderActive(){
-    displayValue.textContent='ACT'; heroBadge.className='hero-badge active'; heroBadge.innerHTML='<i class="ti ti-check"></i> Actif'; progressFill.style.width='100%'; progressText.textContent='100%';
-    detailTitle.textContent='Générateur réactivé'; detailDesc.textContent='L\'alimentation de secours est opérationnelle.';
-    powerCode.textContent='AUX'; powerCode.className='card-code success'; genCode.textContent='ON'; genCode.className='card-code success'; zoneCode.textContent='OK'; zoneCode.className='card-code success';
-    powerBadge.className='chip success'; powerBadge.innerHTML='<i class="ti ti-plug-connected"></i> Secours actif'; genBadge.className='chip success'; genBadge.innerHTML='<i class="ti ti-bolt"></i> Générateur actif'; zoneBadge.className='chip success'; zoneBadge.innerHTML='<i class="ti ti-check"></i> Alimentée';
-    cardAlim.className='status-card is-ready'; cardGen.className='status-card is-ready'; cardZone.className='status-card is-ready';
-    btn.className='generator-btn active'; btn.disabled=true; btnTitle.textContent='ACCÈS ACTIF'; btnSub.textContent='Générateur en service'; btnArrow.className='ti ti-check btn-arrow'; btnIcon.innerHTML='<i class="ti ti-check"></i>';
-  }
-
-  function activateSequence(){ renderLoading(10); logList.innerHTML=''; addLog('Commande opérateur reçue.', 'warn'); setTimeout(function(){ progressFill.style.width='46%'; progressText.textContent='46%'; addLog('Montée en régime du générateur.', ''); }, 900);
-  setTimeout(function(){ progressFill.style.width='79%'; progressText.textContent='79%'; addLog('Synchronisation tension validée.', 'ok'); }, 2000);
-  setTimeout(function(){ renderActive(); addLog('Transfert de charge terminé avec succès.', 'ok'); saveState({active:true,activatedAt:Date.now()}); }, 3200);
-  }
-
-  btn.addEventListener('click', function(){ var cur=loadState(); if(cur && cur.active){ renderActive(); return; } activateSequence(); });
-
-  var stored = loadState(); if(stored && stored.active){ renderActive(); logList.innerHTML=''; addLog('État restauré après rechargement.', 'ok'); addLog('Le générateur est déjà actif.', 'ok'); addLog('Aucune nouvelle séquence lancée.', ''); } else { renderPending(); }
-})();
-
-// ============================================
-// SCRIPT 2: DÉTECTEUR POUR UE5 + POPUP
-// ============================================
-(function() {
-    var btn = document.getElementById('generator-btn');
-    
-    // Popup de debug
-    function showPopup(msg, isError) {
-        var popup = document.createElement('div');
-        popup.className = 'debug-popup';
-        popup.style.borderLeftColor = isError ? '#f00' : '#0f0';
-        popup.innerHTML = '🔍 ' + msg;
-        document.body.appendChild(popup);
-        setTimeout(function() { if(popup) popup.remove(); }, 2000);
-    }
-    
-    if (btn) {
-        btn.addEventListener('click', function() {
-            console.log("🎯 BOUTON RÉACTIVER CLIQUÉ !");
-            showPopup('Bouton RÉACTIVER cliqué !');
-            
-            // Envoi à Unreal Engine 5
-            if (typeof window.ue !== 'undefined' && window.ue.webBrowser) {
-                window.ue.webBrowser.buttonClicked();
-                console.log("📤 Notification envoyée à UE5");
-            }
-        });
-        showPopup('Détecteur actif ✅');
-    } else {
-        showPopup('Bouton non trouvé ❌', true);
-    }
-})();
-
-// ============================================
-// SCRIPT 3: BOUTON RESET ORANGE POUR DEV
-// ============================================
-(function() {
-    // Créer le bouton reset
-    var resetBtn = document.createElement('button');
-    resetBtn.textContent = '🔄 RESET localStorage';
-    resetBtn.className = 'reset-debug-btn';
-    resetBtn.title = 'Reset toutes les données sauvegardées et recharge la page';
-    
-    // Fonction reset
-    resetBtn.onclick = function() {
-        var popup = document.createElement('div');
-        popup.className = 'debug-popup';
-        popup.style.borderLeftColor = '#f97316';
-        popup.style.color = '#f97316';
-        popup.innerHTML = '🔄 RESET: localStorage vidé ! Rechargement...';
-        document.body.appendChild(popup);
-        
-        // Vider localStorage
-        localStorage.clear();
-        
-        // Recharger la page après 0.5s
-        setTimeout(function() {
-            location.reload();
-        }, 500);
-        
-        setTimeout(function() {
-            if(popup) popup.remove();
-        }, 2000);
-    };
-    
-    document.body.appendChild(resetBtn);
-    console.log("🟠 Bouton reset orange ajouté");
-})();
-</script>
 </body>
 </html>
