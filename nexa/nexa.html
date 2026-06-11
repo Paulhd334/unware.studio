@@ -19,14 +19,20 @@
     <meta name="twitter:title" content="The Void Protocol - Disponible en 2027">
     <meta name="twitter:description" content="The Void Protocol arrive en 2027 ! Jeu développé avec Unreal Engine 5.">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
     <link rel="icon" href="../favicon.ico" sizes="any">
     <link rel="icon" href="../favicon.svg" type="image/svg+xml">
     <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
     <link rel="apple-touch-icon" href="../images/favicons/apple-touch-icon.png">
     <link rel="manifest" href="/site.webmanifest">
+
+    <!-- CSS de base du site (styles.css) -->
+    <link rel="stylesheet" href="../css/styles.css">
 
     <script>
     (function() {
@@ -40,13 +46,12 @@
         if (getCookie('cookieConsent') !== 'rejected') {
             load('../js/analytics.js');
             load('../js/analytics-clarify.js');
-        } else {
-            console.log('⛔ Cookies refusés — analytics non chargés');
         }
     })();
     </script>
 
     <style>
+        /* ── Variables identiques à index.html ── */
         :root {
             --primary: #0a0a0a;
             --secondary: #111111;
@@ -61,10 +66,10 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { background-color: var(--primary); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
-
+        body.no-scroll { overflow: hidden; }
         .container { width: 90%; max-width: 1200px; margin: 0 auto; }
 
-        /* ─── HEADER (inchangé) ─── */
+        /* ── HEADER (identique index.html) ── */
         header {
             position: fixed; top: 0; width: 100%;
             padding: 20px 0; z-index: 1000;
@@ -76,29 +81,77 @@
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
         .logo-icon { color: var(--accent); font-size: 24px; }
-        .logo-text { display: flex; align-items: center; justify-content: center; width: 300px; height: 100px; overflow: hidden; }
-        .studio-logo { width: 100%; max-width: 150px; height: auto; object-fit: contain; filter: drop-shadow(0 0 4px rgba(0,0,0,0.0003)); transition: transform 0.3s ease, filter 0.3s ease; }
+        .logo-text { display: flex; align-items: center; }
+        .studio-logo { max-width: 150px; height: auto; object-fit: contain; transition: transform 0.3s ease, filter 0.3s ease; }
         .nav-links { display: flex; list-style: none; gap: 40px; }
         .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 14px; letter-spacing: 0.5px; transition: var(--transition); }
         .nav-links a:hover { color: var(--accent); }
         .nav-actions { display: flex; gap: 15px; align-items: center; }
-        .btn { padding: 12px 24px; border-radius: 4px; text-decoration: none; font-weight: 500; transition: var(--transition); border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 14px; letter-spacing: 0.5px; }
-        .btn-login { background: transparent; color: var(--accent); border: 1px solid var(--border); }
-        .btn-login:hover { background: rgba(255,255,255,0.05); }
-        .btn-primary { background: var(--accent); color: var(--primary); font-weight: 600; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
-        .mobile-menu { display: none; font-size: 20px; cursor: pointer; color: var(--accent); }
-        .mobile-nav { position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background: var(--primary); z-index: 1001; transition: all 0.3s ease; border-left: 1px solid var(--border); padding: 80px 25px 25px; }
-        .mobile-nav.active { right: 0; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
-        .overlay.active { opacity: 1; visibility: visible; }
-        .mobile-close { position: absolute; top: 20px; right: 20px; font-size: 20px; cursor: pointer; color: var(--text); }
-        .mobile-nav-links { list-style: none; }
-        .mobile-nav-links li { margin-bottom: 20px; }
-        .mobile-nav-links a { color: var(--text); text-decoration: none; font-size: 16px; }
-        @media (max-width: 768px) { .nav-links, .nav-actions .btn-login { display: none; } .mobile-menu { display: block; } }
 
-        /* ─── HERO CINÉMATIQUE ─── */
+        .btn { padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 500; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1; }
+        .btn-login { color: var(--text); background: transparent; border: 1px solid var(--border); height: 42px; }
+        .btn-login:hover { background: rgba(255,255,255,0.05); transform: translateY(-2px); }
+        .btn-primary { background: var(--accent); color: var(--primary); border: none; height: 42px; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+        /* ── MOBILE MENU (identique index.html) ── */
+        .mobile-menu {
+            display: none; font-size: 24px; cursor: pointer; color: var(--accent);
+            z-index: 1001; transition: var(--transition); padding: 8px; border-radius: 4px;
+            background: rgba(255,255,255,0.05); height: 42px; width: 42px;
+            align-items: center; justify-content: center; border: none; outline: none;
+        }
+        .mobile-menu:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+        .mobile-nav {
+            position: fixed; top: 0; right: -100%; width: 320px; height: 100vh;
+            background: var(--primary); z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            border-left: 1px solid var(--border); display: flex; flex-direction: column;
+            padding: 80px 25px 25px; overflow-y: auto;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.3); box-sizing: border-box;
+        }
+        .mobile-nav.active { right: 0; transform: translateZ(0); }
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden;
+            transition: all 0.4s ease; backdrop-filter: blur(5px); pointer-events: none;
+        }
+        .overlay.active { opacity: 1; visibility: visible; pointer-events: all; }
+        .mobile-close {
+            position: absolute; top: 25px; right: 25px; font-size: 22px; cursor: pointer;
+            color: var(--text); transition: var(--transition); padding: 8px; border-radius: 4px;
+            background: rgba(255,255,255,0.05); z-index: 1001; width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center; border: none; outline: none;
+        }
+        .mobile-close:hover { color: var(--accent); background: rgba(255,255,255,0.1); transform: rotate(90deg); }
+        .mobile-nav-links { list-style: none; order: 1; margin-bottom: 20px; flex: 1; overflow-y: auto; }
+        .mobile-nav-links li { margin-bottom: 8px; }
+        .mobile-nav-links a {
+            color: var(--text); text-decoration: none; font-size: 18px; font-weight: 500;
+            display: block; padding: 14px 16px; border-radius: 8px; transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .mobile-nav-links a:before {
+            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px;
+            background: var(--accent); transform: scaleY(0); transition: transform 0.3s ease;
+        }
+        .mobile-nav-links a:hover { color: var(--accent); background: rgba(255,255,255,0.05); padding-left: 20px; }
+        .mobile-nav-links a:hover:before { transform: scaleY(1); }
+        .mobile-nav-actions {
+            display: flex; flex-direction: column; gap: 12px; order: 2;
+            margin-bottom: 150px; padding-top: 20px; border-top: 1px solid var(--border);
+        }
+        .mobile-nav-actions .btn { text-align: center; width: 100%; padding: 14px 20px; border-radius: 8px; font-weight: 600; height: auto; }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
+            .mobile-menu { display: flex; }
+            .studio-logo { display: none; }
+            header { padding: 12px 0; }
+            .nav-container { padding: 0 15px; }
+        }
+
+        /* ── HERO AMÉLIORÉ ── */
         .void-hero {
             min-height: 100vh;
             display: flex;
@@ -107,235 +160,237 @@
             overflow: hidden;
             padding-top: 80px;
         }
+
         .void-hero-bg {
             position: absolute; inset: 0;
-            background: linear-gradient(160deg, #0a0a0a 0%, #1a0a0a 40%, #0d0d1a 100%);
-            background-size: cover;
-            background-position: center;
-            transform: scale(1.06);
-            transition: transform 1.4s cubic-bezier(0.25,0.46,0.45,0.94);
+            background: #070707;
+            z-index: 0;
         }
-        .void-hero-bg.loaded { transform: scale(1); }
+
+        /* Grille en perspective */
+        .void-hero-grid {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, black 30%, transparent 80%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Lueurs ambiantes */
+        .void-glow-1 {
+            position: absolute;
+            top: -100px; left: -80px;
+            width: 500px; height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(130,30,30,0.22) 0%, transparent 65%);
+            pointer-events: none; z-index: 1;
+            animation: voidPulse 5s ease-in-out infinite;
+        }
+        .void-glow-2 {
+            position: absolute;
+            bottom: 0; right: -60px;
+            width: 420px; height: 420px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(30,30,120,0.18) 0%, transparent 65%);
+            pointer-events: none; z-index: 1;
+            animation: voidPulse 6s ease-in-out 2s infinite;
+        }
+        @keyframes voidPulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        /* Scanlines */
         .void-hero-scan {
             position: absolute; inset: 0;
             background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 3px,
-                rgba(255,255,255,0.012) 3px,
-                rgba(255,255,255,0.012) 4px
+                0deg, transparent, transparent 3px,
+                rgba(255,255,255,0.008) 3px, rgba(255,255,255,0.008) 4px
             );
-            pointer-events: none;
+            pointer-events: none; z-index: 2;
         }
-        .void-hero-overlay {
+
+        /* Vignette + fondu bas */
+        .void-hero-vignette {
             position: absolute; inset: 0;
-            background: linear-gradient(
-                to top,
-                var(--primary) 0%,
-                rgba(0,0,0,0.6) 40%,
-                rgba(0,0,0,0.2) 100%
-            );
+            background: radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.75) 100%);
+            pointer-events: none; z-index: 3;
         }
+        .void-hero-fade {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 220px;
+            background: linear-gradient(to bottom, transparent, var(--primary));
+            pointer-events: none; z-index: 3;
+        }
+
+        /* Canvas particules */
+        .void-canvas {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
+        }
+
+        /* Contenu hero */
         .void-hero-content {
-            position: relative; z-index: 2;
+            position: relative; z-index: 10;
             padding: 60px 5% 80px;
             width: 100%; max-width: 1400px; margin: 0 auto;
         }
+
+        /* Tag annonce */
+        .void-tag {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 6px 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 2px;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 22px;
+            opacity: 0;
+            animation: voidFadeUp 0.5s ease 0.1s forwards;
+        }
+        .void-tag-dot {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: #c0392b;
+            animation: voidBlink 1.8s ease-in-out infinite;
+        }
+        @keyframes voidBlink { 0%,100%{opacity:1} 50%{opacity:0.15} }
+
         .void-hero-eyebrow {
             font-family: 'Space Mono', monospace;
-            font-size: 11px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.4);
-            margin-bottom: 20px;
+            font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            margin-bottom: 18px;
+            display: flex; align-items: center; gap: 16px;
             opacity: 0;
-            animation: fadeUp 0.7s ease 0.2s forwards;
+            animation: voidFadeUp 0.6s ease 0.2s forwards;
         }
+        .void-hero-eyebrow-line { width: 36px; height: 1px; background: rgba(255,255,255,0.15); }
+
         .void-hero-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(72px, 12vw, 140px);
+            font-size: clamp(72px, 12vw, 130px);
             line-height: 0.88;
-            letter-spacing: 3px;
-            color: var(--accent);
-            margin-bottom: 10px;
-            opacity: 0;
-            animation: fadeUp 0.7s ease 0.35s forwards;
-        }
-        .void-hero-title span {
-            display: block;
-            color: rgba(255,255,255,0.18);
-            font-size: clamp(48px, 7vw, 90px);
-        }
-        .void-hero-meta {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            margin-top: 36px;
-            opacity: 0;
-            animation: fadeUp 0.7s ease 0.5s forwards;
-        }
-        .void-hero-year {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 22px;
             letter-spacing: 4px;
-            color: rgba(255,255,255,0.5);
-        }
-        .void-hero-sep { width: 60px; height: 1px; background: rgba(255,255,255,0.2); }
-        .void-hero-engine {
-            font-size: 12px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.35);
-        }
-        .void-hero-cta {
-            margin-top: 40px;
+            color: var(--accent);
+            margin-bottom: 0;
             opacity: 0;
-            animation: fadeUp 0.7s ease 0.65s forwards;
+            animation: voidFadeUp 0.7s ease 0.35s forwards;
         }
-        .void-hero-cta a {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 32px;
-            background: var(--accent);
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 13px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        .void-hero-title-sub {
+            display: block;
+            color: rgba(255,255,255,0.1);
+            font-size: clamp(48px, 7vw, 82px);
+            letter-spacing: 8px;
+            margin-top: 4px;
+        }
+
+        .void-hero-rule {
+            width: 48px; height: 1px;
+            background: rgba(255,255,255,0.12);
+            margin: 28px 0;
+            opacity: 0;
+            animation: voidFadeUp 0.5s ease 0.5s forwards;
+        }
+
+        .void-hero-desc {
+            font-size: 13px; color: rgba(255,255,255,0.32);
+            letter-spacing: 0.4px; line-height: 1.8;
+            max-width: 380px; margin-bottom: 36px;
+            opacity: 0;
+            animation: voidFadeUp 0.6s ease 0.55s forwards;
+        }
+
+        .void-hero-actions {
+            display: flex; align-items: center; gap: 16px;
+            opacity: 0;
+            animation: voidFadeUp 0.6s ease 0.65s forwards;
+        }
+
+        .void-btn-primary {
+            display: inline-flex; align-items: center; gap: 9px;
+            padding: 14px 30px;
+            background: var(--accent); color: var(--primary);
+            font-family: 'Inter', sans-serif; font-weight: 700;
+            font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+            text-decoration: none; border: none; border-radius: 3px;
+            cursor: pointer; transition: var(--transition);
+        }
+        .void-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(255,255,255,0.13); }
+
+        .void-btn-ghost {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 24px;
+            background: transparent; color: rgba(255,255,255,0.4);
+            font-family: 'Inter', sans-serif; font-size: 11px;
+            letter-spacing: 2px; text-transform: uppercase;
             text-decoration: none;
-            border-radius: 3px;
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 3px;
             transition: var(--transition);
         }
-        .void-hero-cta a:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,255,255,0.15); }
+        .void-btn-ghost:hover { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.25); }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(28px); }
+        /* Cachet année */
+        .void-year-stamp {
+            position: absolute; bottom: 76px; right: 5%;
+            text-align: right; z-index: 10;
+            opacity: 0; animation: voidFadeUp 0.6s ease 0.8s forwards;
+        }
+        .void-year-stamp-num {
+            font-family: 'Bebas Neue', sans-serif; font-size: 60px;
+            letter-spacing: 4px; color: rgba(255,255,255,0.04);
+            line-height: 1; display: block;
+        }
+        .void-year-stamp-label {
+            font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(255,255,255,0.12);
+        }
+
+        /* Badge latéral */
+        .void-side-badge {
+            position: absolute; top: 120px; right: 5%;
+            font-family: 'Space Mono', monospace; font-size: 9px;
+            letter-spacing: 4px; color: rgba(255,255,255,0.15);
+            text-transform: uppercase; z-index: 10;
+            writing-mode: vertical-rl; transform: rotate(180deg);
+        }
+
+        @keyframes voidFadeUp {
+            from { opacity: 0; transform: translateY(24px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ─── BLOC STATS LIGNE ─── */
-        .void-stats-bar {
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            background: var(--secondary);
-        }
-        .void-stat-item {
-            padding: 36px 0;
-            text-align: center;
-            border-right: 1px solid var(--border);
-            opacity: 0;
-            transform: translateY(16px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .void-stat-item:last-child { border-right: none; }
-        .void-stat-item.visible { opacity: 1; transform: translateY(0); }
-        .void-stat-item:nth-child(1) { transition-delay: 0.05s; }
-        .void-stat-item:nth-child(2) { transition-delay: 0.15s; }
-        .void-stat-item:nth-child(3) { transition-delay: 0.25s; }
-        .void-stat-item:nth-child(4) { transition-delay: 0.35s; }
-        .void-stat-value {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 42px;
-            letter-spacing: 2px;
-            color: var(--accent);
-            display: block;
-            line-height: 1;
-            margin-bottom: 6px;
-        }
-        .void-stat-label {
-            font-size: 11px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-        }
-        @media (max-width: 640px) { .void-stats-bar { grid-template-columns: repeat(2, 1fr); } .void-stat-item:nth-child(2) { border-right: none; } .void-stat-item:nth-child(3) { border-right: 1px solid var(--border); } }
-
-        /* ─── SECTION TITRE GÉNÉRIQUE ─── */
+        /* ── SECTION LABELS ── */
         .section-label {
-            font-size: 11px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.3);
-            margin-bottom: 14px;
+            font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+            color: rgba(255,255,255,0.3); margin-bottom: 14px;
             font-family: 'Space Mono', monospace;
         }
         .section-heading {
             font-family: 'Bebas Neue', sans-serif;
             font-size: clamp(36px, 5vw, 58px);
-            letter-spacing: 2px;
-            color: var(--accent);
-            line-height: 1;
-            margin-bottom: 18px;
+            letter-spacing: 2px; color: var(--accent); line-height: 1; margin-bottom: 18px;
         }
-        .section-body {
-            color: var(--text-secondary);
-            font-size: 15px;
-            line-height: 1.8;
-            max-width: 520px;
-        }
+        .section-body { color: var(--text-secondary); font-size: 15px; line-height: 1.8; max-width: 520px; }
 
-        /* ─── PRÉSENTATION SPLIT ─── */
-        .void-split {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            min-height: 600px;
-        }
-        .void-split-visual {
-            position: relative;
-            overflow: hidden;
-            background: var(--secondary);
-        }
-        .void-split-visual img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 8s ease-in-out;
-            filter: brightness(0.85);
-        }
-        .void-split-visual:hover img { transform: scale(1.05); }
-        .void-split-visual-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(90deg, transparent 60%, var(--primary) 100%);
-        }
-        .void-split-text {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 80px 60px;
-            background: var(--primary);
-        }
-        .void-split-text .section-body { max-width: 100%; }
-        @media (max-width: 900px) {
-            .void-split { grid-template-columns: 1fr; }
-            .void-split-visual { min-height: 320px; }
-            .void-split-visual-overlay { background: linear-gradient(0deg, var(--primary) 0%, transparent 60%); }
-            .void-split-text { padding: 50px 30px; }
-        }
-
-        /* ─── FEATURES GRID ─── */
+        /* ── FEATURES ── */
         .void-features { padding: 100px 0; background: var(--secondary); }
         .void-features .container > .section-label,
         .void-features .container > .section-heading { text-align: center; }
         .void-features .container > .section-label { margin: 0 auto 14px; }
         .void-features-intro { text-align: center; margin-bottom: 60px; }
         .void-features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1px; background: var(--border); border: 1px solid var(--border);
         }
         .void-feature-card {
-            background: var(--secondary);
-            padding: 44px 36px;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(20px);
+            background: var(--secondary); padding: 44px 36px;
+            position: relative; overflow: hidden;
+            opacity: 0; transform: translateY(20px);
             transition: opacity 0.55s ease, transform 0.55s ease, background 0.3s ease;
         }
         .void-feature-card.visible { opacity: 1; transform: translateY(0); }
@@ -344,132 +399,50 @@
         .void-feature-card:nth-child(3) { transition-delay: 0.18s; }
         .void-feature-card:hover { background: rgba(255,255,255,0.04); }
         .void-feature-card::before {
-            content: '';
-            position: absolute; top: 0; left: 0;
-            width: 3px; height: 0;
-            background: var(--accent);
-            transition: height 0.4s ease;
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 3px; height: 0; background: var(--accent); transition: height 0.4s ease;
         }
         .void-feature-card:hover::before { height: 100%; }
-        .void-feature-number {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 64px;
-            color: rgba(255,255,255,0.05);
-            line-height: 1;
-            margin-bottom: -10px;
-        }
-        .void-feature-icon {
-            font-size: 22px;
-            color: var(--accent);
-            margin-bottom: 20px;
-        }
-        .void-feature-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 26px;
-            letter-spacing: 1.5px;
-            color: var(--accent);
-            margin-bottom: 12px;
-        }
+        .void-feature-number { font-family: 'Bebas Neue', sans-serif; font-size: 64px; color: rgba(255,255,255,0.05); line-height: 1; margin-bottom: -10px; }
+        .void-feature-icon { font-size: 22px; color: var(--accent); margin-bottom: 20px; }
+        .void-feature-title { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 12px; }
         .void-feature-desc { color: var(--text-secondary); font-size: 14px; line-height: 1.7; }
 
-        /* ─── TIMELINE ─── */
-        .void-timeline { padding: 100px 0; }
-        .void-timeline-inner {
-            display: grid;
-            grid-template-columns: 1fr 2px 1fr;
-            gap: 0 40px;
-            margin-top: 60px;
-        }
-        .void-timeline-line {
-            background: linear-gradient(to bottom, transparent, var(--border) 20%, var(--border) 80%, transparent);
-            width: 2px;
-            margin: 0 auto;
-        }
-        .void-timeline-left { display: flex; flex-direction: column; gap: 60px; }
-        .void-timeline-right { display: flex; flex-direction: column; gap: 60px; padding-top: 80px; }
-        .void-tl-item {
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .void-timeline-right .void-tl-item { transform: translateX(20px); }
-        .void-tl-item.visible { opacity: 1; transform: translateX(0); }
-        .void-tl-phase {
-            font-size: 10px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.3);
-            margin-bottom: 8px;
-            font-family: 'Space Mono', monospace;
-        }
-        .void-tl-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 28px;
-            letter-spacing: 1.5px;
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-        .void-tl-desc { color: var(--text-secondary); font-size: 13px; line-height: 1.7; }
-        @media (max-width: 768px) {
-            .void-timeline-inner { grid-template-columns: 1fr; }
-            .void-timeline-line { display: none; }
-            .void-timeline-right { padding-top: 0; }
-        }
-
-        /* ─── NEWSLETTER ─── */
+        /* ── NEWSLETTER ── */
         .void-newsletter {
             background: var(--secondary);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
             padding: 100px 0;
         }
-        .void-newsletter-inner {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-        }
+        .void-newsletter-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
         .void-nl-form { display: flex; flex-direction: column; gap: 16px; }
         .void-nl-input-row { display: flex; gap: 12px; }
         .void-nl-input {
-            flex: 1;
-            padding: 14px 18px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--border);
-            border-radius: 3px;
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
+            flex: 1; padding: 14px 18px;
+            background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+            border-radius: 3px; color: var(--text); font-family: 'Inter', sans-serif;
+            font-size: 14px; transition: border-color 0.3s ease;
         }
         .void-nl-input:focus { outline: none; border-color: rgba(255,255,255,0.3); }
         .void-nl-btn {
-            padding: 14px 28px;
-            background: var(--accent);
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 12px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: var(--transition);
-            white-space: nowrap;
+            padding: 14px 28px; background: var(--accent); color: var(--primary);
+            font-weight: 700; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+            border: none; border-radius: 3px; cursor: pointer; font-family: 'Inter', sans-serif;
+            transition: var(--transition); white-space: nowrap;
         }
         .void-nl-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,255,255,0.12); }
         .void-nl-note { font-size: 12px; color: rgba(255,255,255,0.25); }
         .form-message { padding: 10px 14px; border-radius: 3px; font-size: 13px; display: none; }
         .form-message.success { background: rgba(76,175,80,0.1); color: #4CAF50; border: 1px solid rgba(76,175,80,0.2); display: block; }
         .form-message.error { background: rgba(244,67,54,0.1); color: #f44336; border: 1px solid rgba(244,67,54,0.2); display: block; }
+
         @media (max-width: 800px) {
             .void-newsletter-inner { grid-template-columns: 1fr; gap: 40px; }
             .void-nl-input-row { flex-direction: column; }
             .void-nl-btn { width: 100%; }
         }
 
-        /* ─── FOOTER (inchangé) ─── */
+        /* ── FOOTER (identique index.html) ── */
         footer { background: var(--secondary); padding: 80px 0 40px; border-top: 1px solid var(--border); }
         .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px; }
         .footer-brand { max-width: 300px; }
@@ -486,260 +459,331 @@
         .footer-links a:hover { color: var(--accent); }
         .copyright { text-align: center; padding-top: 40px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 14px; }
         .studio-credit { color: var(--accent); font-weight: 600; }
-        .scroll-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--accent); color: var(--primary); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; opacity: 0; visibility: hidden; transition: var(--transition); z-index: 100; }
+
+        .scroll-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--accent); color: var(--primary); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; opacity: 0; visibility: hidden; transition: var(--transition); z-index: 100; border: none; }
         .scroll-to-top.active { opacity: 1; visibility: visible; }
         .scroll-to-top:hover { transform: translateY(-5px); }
     </style>
 </head>
 <body>
 
-    <!-- ═══════════ HEADER (inchangé) ═══════════ -->
-    <header>
-        <div class="container nav-container">
-            <div class="logo">
-                <div class="logo-icon"><i class="fas fa-temple"></i></div>
-                <div class="logo-text">
-                    <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
-                </div>
-            </div>
-            <ul class="nav-links">
-                <li><a href="../index.html">Accueil</a></li>
-                <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-                <li><a href="../nexa/galerie.html">Galeries</a></li>
-                <li><a href="../nexa/nexa.html">The Void Protocol</a></li>
-            </ul>
-            <div class="nav-actions">
-                <div class="mobile-menu" id="mobileMenu"><i class="fas fa-bars"></i></div>
+<!-- ═══════════ HEADER (identique index.html) ═══════════ -->
+<header>
+    <div class="container nav-container">
+        <div class="logo">
+            <div class="logo-icon"><i class="fas fa-temple"></i></div>
+            <div class="logo-text">
+                <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
             </div>
         </div>
-    </header>
-
-    <div class="overlay" id="overlay"></div>
-    <nav class="mobile-nav" id="mobileNav">
-        <div class="mobile-close" id="mobileClose"><i class="fas fa-times"></i></div>
-        <ul class="mobile-nav-links">
-            <li><a href="../index.html">Accueil</a></li>
-            <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-            <li><a href="../nexa/galerie.html">Galeries</a></li>
-            <li><a href="../nexa/nexa.html">The Void Protocol</a></li>
+        <ul class="nav-links">
+            <li><a href="/#accueil">Accueil</a></li>
+            <li><a href="/nexa/fonctionnalites.html">Fonctionnalités</a></li>
+            <li><a href="/nexa/galerie.html">Galeries</a></li>
+            <li><a href="/nexa/nexa.html">The void protocol</a></li>
         </ul>
-    </nav>
-
-<br><br><br><br>
-<br>
-
-
-    <!-- ═══════════ STATS ═══════════ -->
-    <div class="void-stats-bar">
-        <div class="void-stat-item">
-            <span class="void-stat-value">2027</span>
-            <span class="void-stat-label">Sortie prévue</span>
+        <div class="nav-actions">
+            <div class="mobile-menu" id="mobileMenu" aria-label="Ouvrir le menu" role="button" tabindex="0">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+            </div>
         </div>
-        <div class="void-stat-item">
-            <span class="void-stat-value">UE 5.6</span>
-            <span class="void-stat-label">Moteur graphique</span>
+    </div>
+</header>
+
+<!-- Menu Mobile -->
+<div class="overlay" id="overlay"></div>
+<nav class="mobile-nav" id="mobileNav" aria-label="Menu mobile">
+    <div class="mobile-close" id="mobileClose" aria-label="Fermer le menu" role="button" tabindex="0">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+    </div>
+    <ul class="mobile-nav-links">
+        <li><a href="/#accueil" class="mobile-nav-link">Accueil</a></li>
+        <li><a href="/nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
+        <li><a href="/nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
+        <li><a href="/nexa/nexa.html" class="mobile-nav-link">The void protocol</a></li>
+    </ul>
+    <div class="mobile-nav-actions"></div>
+</nav>
+
+<!-- ═══════════ HERO AMÉLIORÉ ═══════════ -->
+<section class="void-hero">
+    <div class="void-hero-bg"></div>
+    <canvas class="void-canvas" id="voidCanvas"></canvas>
+    <div class="void-hero-grid"></div>
+    <div class="void-glow-1"></div>
+    <div class="void-glow-2"></div>
+    <div class="void-hero-scan"></div>
+    <div class="void-hero-vignette"></div>
+    <div class="void-hero-fade"></div>
+
+    <div class="void-side-badge">UNWARE STUDIO</div>
+
+    <div class="void-hero-content">
+
+        <div class="void-hero-eyebrow">
+            <div class="void-hero-eyebrow-line"></div>
+            Unreal Engine 5.6 &nbsp;/&nbsp; PC &nbsp;/&nbsp; Console
         </div>
-        <div class="void-stat-item">
-            <span class="void-stat-value">1</span>
-            <span class="void-stat-label">indépendant</span>
-        </div>
-        <div class="void-stat-item">
-            <span class="void-stat-value">∞</span>
-            <span class="void-stat-label">Blender</span>
+        <h1 class="void-hero-title">
+            The Void
+            <span class="void-hero-title-sub">Protocol</span>
+        </h1>
+        <div class="void-hero-rule"></div>
+        <p class="void-hero-desc">Une expérience conçue pour désorienter. Lumière globale dynamique, audio immersif, level design impitoyable.</p>
+        <div class="void-hero-actions">
+            <a href="#newsletter" class="void-btn-primary">
+                <i class="fas fa-bell"></i>
+                Être alerté au lancement
+            </a>
+            <a href="https://discord.gg/PE7MS4Sazk" class="void-btn-ghost" target="_blank" rel="noopener">
+                <i class="fab fa-discord"></i>
+                Discord
+            </a>
         </div>
     </div>
 
-    <!-- ═══════════ PRÉSENTATION SPLIT ═══════════ -->
-    <div class="void-split">
-        <div class="void-split-visual">
-            <img src="../images/nexa_image_website_2.jpg" alt="The Void Protocol — Couloir 13" loading="lazy">
-            <div class="void-split-visual-overlay"></div>
+    <div class="void-year-stamp">
+        <span class="void-year-stamp-num">2027</span>
+        <span class="void-year-stamp-label">Sortie prévue</span>
+    </div>
+</section>
+
+<!-- ═══════════ FEATURES ═══════════ -->
+<section class="void-features">
+    <div class="container">
+        <div class="void-features-intro">
+            <p class="section-label">Caractéristiques</p>
+            <h2 class="section-heading">Ce qui vous attend</h2>
         </div>
-        <div class="void-split-text">
-            <p class="section-label">À propos du jeu</p>
-            <h2 class="section-heading">Un monde<br>sans lumière</h2>
-            <p class="section-body">
-                The Void Protocol est un jeu d'horreur et de survie développé avec Unreal Engine 5.6.
-                Plongez dans un complexe abandonné où chaque couloir cache une menace, chaque ombre dissimule un secret.
-                <br><br>
-                Développé par UNWARE STUDIO,  prévue pour 2027.
-            </p>
+        <div class="void-features-grid">
+            <div class="void-feature-card">
+                <div class="void-feature-number">01</div>
+                <div class="void-feature-icon"><i class="fas fa-eye"></i></div>
+                <div class="void-feature-title">Rendu ultra-réaliste</div>
+                <p class="void-feature-desc">Lumière globale dynamique, ray tracing et Lumen pour des environnements d'une fidélité sans précédent sous Unreal Engine 5.6.</p>
+            </div>
+            <div class="void-feature-card">
+                <div class="void-feature-number">02</div>
+                <div class="void-feature-icon"><i class="fas fa-ear-listen"></i></div>
+                <div class="void-feature-title">Audio immersif</div>
+                <p class="void-feature-desc">La menace se fait entendre avant de se voir — votre ouïe est votre meilleure arme.</p>
+            </div>
+            <div class="void-feature-card">
+                <div class="void-feature-number">03</div>
+                <div class="void-feature-icon"><i class="fas fa-map"></i></div>
+                <div class="void-feature-title">Level design</div>
+                <p class="void-feature-desc">Des niveaux conçus pour désorienter et surprendre. Chaque recoin recèle une histoire, chaque trappe une issue — ou un piège.</p>
+            </div>
         </div>
     </div>
+</section>
 
-    <!-- ═══════════ FEATURES ═══════════ -->
-    <section class="void-features">
-        <div class="container">
-            <div class="void-features-intro">
-                <p class="section-label">Caractéristiques</p>
-                <h2 class="section-heading">Ce qui vous attend</h2>
+<!-- ═══════════ NEWSLETTER ═══════════ -->
+<section class="void-newsletter" id="newsletter">
+    <div class="container">
+        <div class="void-newsletter-inner">
+            <div>
+                <p class="section-label">Ne manquez pas</p>
+                <h2 class="section-heading">Soyez alerté<br>au lancement</h2>
+                <p class="section-body">Recevez une notification dès que The Void Protocol sera disponible. Nous respectons votre vie privée — désinscription à tout moment.</p>
             </div>
-            <div class="void-features-grid">
-                <div class="void-feature-card">
-                    <div class="void-feature-number">01</div>
-                    <div class="void-feature-icon"><i class="fas fa-eye"></i></div>
-                    <div class="void-feature-title">Rendu ultra-réaliste</div>
-                    <p class="void-feature-desc">Lumière globale dynamique, ray tracing et Lumen pour des environnements d'une fidélité sans précédent sous Unreal Engine 5.6.</p>
-                </div>
-                <div class="void-feature-card">
-                    <div class="void-feature-number">02</div>
-                    <div class="void-feature-icon"><i class="fas fa-ear-listen"></i></div>
-                    <div class="void-feature-title">Audio immersif</div>
-                    <p class="void-feature-desc"> La menace se fait entendre avant de se voir — votre ouïe est votre meilleure arme.</p>
-                </div>
-                <div class="void-feature-card">
-                    <div class="void-feature-number">03</div>
-                    <div class="void-feature-icon"><i class="fas fa-map"></i></div>
-                    <div class="void-feature-title">Level design </div>
-                    <p class="void-feature-desc">Des niveaux conçus pour désorienter et surprendre. Chaque recoin recèle une histoire, chaque trappe une issue — ou un piège.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ═══════════ NEWSLETTER ═══════════ -->
-    <section class="void-newsletter" id="newsletter">
-        <div class="container">
-            <div class="void-newsletter-inner">
-                <div>
-                    <p class="section-label">Ne manquez pas</p>
-                    <h2 class="section-heading">Soyez alerté<br>au lancement</h2>
-                    <p class="section-body">Recevez une notification dès que The Void Protocol sera disponible. Nous respectons votre vie privée — désinscription à tout moment.</p>
-                </div>
-                <div>
-                    <form id="notificationForm" class="void-nl-form">
-                        <div class="void-nl-input-row">
-                            <input type="email" name="email" class="void-nl-input" placeholder="votre@email.com" required>
-                            <button type="submit" class="void-nl-btn">M'informer</button>
-                        </div>
-                        <p class="void-nl-note">Aucun spam. Juste le lancement.</p>
-                        <div id="formMessage" class="form-message"></div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════════ FOOTER (inchangé) ═══════════ -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <div class="footer-logo-text">The Void Protocol</div>
+            <div>
+                <form id="notificationForm" class="void-nl-form">
+                    <div class="void-nl-input-row">
+                        <input type="email" name="email" class="void-nl-input" placeholder="votre@email.com" required>
+                        <button type="submit" class="void-nl-btn">M'informer</button>
                     </div>
-                    <p class="footer-desc">Un jeu développé par UNWARE STUDIO utilisant la puissance d'Unreal Engine 5 pour créer une expérience de jeu révolutionnaire.</p>
-                    <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="https://discord.gg/PE7MS4Sazk" class="social-link" target="_blank"><i class="fab fa-discord"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-                <div class="footer-column">
-                    <h3>Navigation</h3>
-                    <ul class="footer-links">
-                        <li><a href="../index.html">Accueil</a></li>
-                        <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-                        <li><a href="../nexa/galerie.html">Galeries</a></li>
-                        <li><a href="../nexa/nexa.html">The Void Protocol</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Support</h3>
-                    <ul class="footer-links">
-                        <li><a href="../Support/centre-aide.html">Centre d'aide</a></li>
-                        <li><a href="../Support/FAQ.html">FAQ</a></li>
-                        <li><a href="../Support/contact.html">Contact</a></li>
-                        <li><a href="../Support/statut.html">Statut des services</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Légal</h3>
-                    <ul class="footer-links">
-                        <li><a href="../legals/conditions-utilisation.html">Conditions d'utilisation</a></li>
-                        <li><a href="../legals/politique-confidentialite.html">Politique de confidentialité</a></li>
-                        <li><a href="../legals/mentions-legales.html">Mentions légales</a></li>
-                        <li><a href="../legals/politique-cookies.html">Politique de cookies</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
+                    <p class="void-nl-note">Aucun spam. Juste le lancement.</p>
+                    <div id="formMessage" class="form-message"></div>
+                </form>
             </div>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <div class="scroll-to-top" id="scrollToTop"><i class="fas fa-arrow-up"></i></div>
+<!-- ═══════════ FOOTER (identique index.html) ═══════════ -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <div class="footer-logo-text">The void protocol</div>
+                </div>
+                <p class="footer-desc">Un jeu développé par UNWARE STUDIO.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Twitter">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.016 10.016 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                    <a href="https://discord.gg/PE7MS4Sazk" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer">
+                        <svg width="21" height="21" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="YouTube">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Navigation</h3>
+                <ul class="footer-links">
+                    <li><a href="/#accueil">Accueil</a></li>
+                    <li><a href="/nexa/fonctionnalites.html">Fonctionnalités</a></li>
+                    <li><a href="/nexa/galerie.html">Galeries</a></li>
+                    <li><a href="/nexa/nexa.html">The void protocol</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="/Support/centre-aide.html">Centre d'aide</a></li>
+                    <li><a href="/Support/FAQ.html">FAQ</a></li>
+                    <li><a href="/Support/contact.html">Contact</a></li>
+                    <li><a href="/Support/statut.html">Statut des services</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Légal</h3>
+                <ul class="footer-links">
+                    <li><a href="/legals/conditions-utilisation.html">Conditions d'utilisation</a></li>
+                    <li><a href="/legals/politique-confidentialite.html">Politique de confidentialité</a></li>
+                    <li><a href="/legals/mentions-legales.html">Mentions légales</a></li>
+                    <li><a href="/legals/politique-cookies.html">Politique de cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
+        </div>
+    </div>
+</footer>
 
-    <script>
-        // Mobile menu
+<button class="scroll-to-top" id="scrollToTop" aria-label="Retour en haut">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+    /* ── MOBILE MENU (identique index.html) ── */
+    document.addEventListener('DOMContentLoaded', function() {
         const mobileMenu  = document.getElementById('mobileMenu');
         const mobileNav   = document.getElementById('mobileNav');
         const overlay     = document.getElementById('overlay');
         const mobileClose = document.getElementById('mobileClose');
-        function openMenu()  { mobileNav.classList.add('active'); overlay.classList.add('active'); document.body.style.overflow='hidden'; }
-        function closeMenu() { mobileNav.classList.remove('active'); overlay.classList.remove('active'); document.body.style.overflow=''; }
-        mobileMenu?.addEventListener('click', openMenu);
-        overlay?.addEventListener('click', closeMenu);
-        mobileClose?.addEventListener('click', closeMenu);
-        document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        const body = document.body;
 
-        // Hero bg load
-        window.addEventListener('load', () => { document.getElementById('heroBg').classList.add('loaded'); });
+        function openMenu()  { mobileNav.classList.add('active'); overlay.classList.add('active'); mobileMenu.classList.add('active'); body.classList.add('no-scroll'); mobileMenu.setAttribute('aria-expanded','true'); }
+        function closeMenu() { mobileNav.classList.remove('active'); overlay.classList.remove('active'); mobileMenu.classList.remove('active'); body.classList.remove('no-scroll'); mobileMenu.setAttribute('aria-expanded','false'); }
+        function toggleMenu() { mobileNav.classList.contains('active') ? closeMenu() : openMenu(); }
 
-        // Scroll reveal
-        const revealObs = new IntersectionObserver((entries) => {
-            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.void-stat-item, .void-feature-card, .void-tl-item').forEach(el => revealObs.observe(el));
+        mobileMenu.addEventListener('click', toggleMenu);
+        mobileMenu.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleMenu();} });
+        overlay.addEventListener('click', closeMenu);
+        mobileClose.addEventListener('click', closeMenu);
+        mobileClose.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){e.preventDefault();closeMenu();} });
+        mobileNavLinks.forEach(l => l.addEventListener('click', closeMenu));
+        document.addEventListener('keydown', e => { if(e.key==='Escape'&&mobileNav.classList.contains('active'))closeMenu(); });
+    });
 
-        // Scroll to top
-        const scrollToTop = document.getElementById('scrollToTop');
-        window.addEventListener('scroll', () => {
-            scrollToTop.classList.toggle('active', window.scrollY > 300);
-        });
-        scrollToTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    /* ── CANVAS PARTICULES ── */
+    (function() {
+        const canvas = document.getElementById('voidCanvas');
+        const ctx = canvas.getContext('2d');
+        const section = canvas.parentElement;
 
-        // Newsletter
-        document.getElementById('notificationForm')?.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const email = this.email.value;
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const formMessage = document.getElementById('formMessage');
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if(!emailRegex.test(email)) {
-                formMessage.textContent = 'Veuillez entrer une adresse email valide.';
+        function resize() { canvas.width = section.offsetWidth; canvas.height = section.offsetHeight; }
+        resize();
+        window.addEventListener('resize', resize);
+
+        const pts = Array.from({length: 60}, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 1.1 + 0.2,
+            vy: -(Math.random() * 0.25 + 0.07),
+            vx: (Math.random() - 0.5) * 0.1,
+            o: Math.random() * 0.3 + 0.04,
+            life: Math.random()
+        }));
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            pts.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255,255,255,' + (p.o * Math.sin(p.life * Math.PI)).toFixed(3) + ')';
+                ctx.fill();
+                p.x += p.vx; p.y += p.vy; p.life += 0.004;
+                if (p.life >= 1) { p.life = 0; p.x = Math.random() * canvas.width; p.y = canvas.height + 10; }
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    })();
+
+    /* ── SCROLL REVEAL ── */
+    const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.void-feature-card').forEach(el => revealObs.observe(el));
+
+    /* ── SCROLL TO TOP ── */
+    const scrollToTop = document.getElementById('scrollToTop');
+    window.addEventListener('scroll', () => scrollToTop.classList.toggle('active', window.scrollY > 300));
+    scrollToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    /* ── NEWSLETTER ── */
+    document.getElementById('notificationForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const email = this.email.value;
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const formMessage = document.getElementById('formMessage');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(email)) {
+            formMessage.textContent = 'Veuillez entrer une adresse email valide.';
+            formMessage.className = 'form-message error';
+            setTimeout(() => formMessage.className = 'form-message', 5000);
+            return;
+        }
+        submitBtn.textContent = 'Inscription...';
+        submitBtn.disabled = true;
+        try {
+            const response = await fetch('/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            if (response.status === 409) {
+                formMessage.textContent = 'Vous êtes déjà inscrit !';
                 formMessage.className = 'form-message error';
-                setTimeout(() => formMessage.className = 'form-message', 5000);
-                return;
-            }
-            submitBtn.textContent = 'Inscription...';
-            submitBtn.disabled = true;
-            try {
-                const response = await fetch('/api/subscribe', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email })
-                });
-                if(response.status === 409) {
-                    formMessage.textContent = 'Vous êtes déjà inscrit !';
-                    formMessage.className = 'form-message error';
-                } else if(response.ok) {
-                    formMessage.textContent = 'Merci ! Vous serez informé dès le lancement en 2027.';
-                    formMessage.className = 'form-message success';
-                    this.reset();
-                } else throw new Error();
-            } catch {
-                formMessage.textContent = 'Une erreur est survenue. Veuillez réessayer.';
-                formMessage.className = 'form-message error';
-            } finally {
-                submitBtn.textContent = "M'informer";
-                submitBtn.disabled = false;
-                setTimeout(() => formMessage.className = 'form-message', 6000);
-            }
-        });
-    </script>
+            } else if (response.ok) {
+                formMessage.textContent = 'Merci ! Vous serez informé dès le lancement en 2027.';
+                formMessage.className = 'form-message success';
+                this.reset();
+            } else throw new Error();
+        } catch {
+            formMessage.textContent = 'Une erreur est survenue. Veuillez réessayer.';
+            formMessage.className = 'form-message error';
+        } finally {
+            submitBtn.textContent = "M'informer";
+            submitBtn.disabled = false;
+            setTimeout(() => formMessage.className = 'form-message', 6000);
+        }
+    });
+</script>
+
 </body>
 </html>
