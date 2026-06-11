@@ -1,4 +1,4 @@
-# NEXA - Site Web Officiel
+# UNWARE STUDIO - Site Web Officiel
 
 Site vitrine professionnel pour le jeu **NEXA** développé par **UNWARE STUDIO**.
 
@@ -6,11 +6,11 @@ Site vitrine professionnel pour le jeu **NEXA** développé par **UNWARE STUDIO*
 
 ## 📋 Aperçu
 
-Site web moderne et responsive présentant l'univers gaming de **NEXA**. Design épuré, animations fluides et expérience utilisateur optimisée avec un **système d’authentification Google Firebase**.
+Site web moderne et responsive présentant l'univers de **UNWARE STUDIO**. Design épuré, animations fluides et expérience utilisateur optimisée.
 
 ## ✨ Fonctionnalités
 
-*  **Présentation immersive** de l'univers NEXA
+*  **Présentation immersive** de l'univers 
 *  **Design 100% responsive** (mobile, tablette, desktop)
 *  **Authentification Firebase** (Google OAuth)
 *  **Base de données temps réel** avec **Firebase Firestore**
