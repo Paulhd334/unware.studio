@@ -105,7 +105,7 @@
       background: linear-gradient(90deg, #2a8a58, #535b62, #2a8a58);
       background-size: 200% 100%;
       border-radius: inherit;
-      transition: width 8s cubic-bezier(.4,0,.2,1);
+      transition: width 60ms linear;
     }
     .progress-fill.done { animation: shimmer 2s linear infinite; }
 
@@ -221,7 +221,7 @@
     <header class="panel-header">
       <div class="header-copy">
         <span class="header-kicker">Panneau technique</span>
-        <span class="header-title">Générateur de secours</span>
+        <span class="header-title">Générateur</span>
       </div>
       <div class="ip-chip"><i class="ti ti-network"></i> 10.0.0.42</div>
     </header>
@@ -303,100 +303,170 @@
   </main>
 
   <script>
-    /* Séquence lente et progressive
-       Carte 1  →  3s
-       Carte 2  →  6s
-       Carte 3  →  9s
-       Final    → 11s
-    */
+    (function() {
+      // ---- TIMING CONSTANTS ----
+      // Carte 1 (alimentation) => 3s
+      // Carte 2 (générateur)    => 6s
+      // Carte 3 (zone)          => 9s
+      // Hero ACT                => 10.5s
+      // Badge actif             => 11s
+      // Detail final            => 11.5s
+      // Bouton vert             => 12s
+      // Progression fluide de 0% à 100% sur [1.0s, 10.5s] (durée 9500ms)
 
-    function setGreen(cardId, codeId, codeText, descId, descText, badgeId, badgeHTML) {
-      document.getElementById(cardId).className = 'status-card is-ready';
-      var code = document.getElementById(codeId);
-      code.textContent = codeText;
-      code.className = 'card-code success';
-      document.getElementById(descId).textContent = descText;
-      var badge = document.getElementById(badgeId);
-      badge.innerHTML = badgeHTML;
-      badge.className = 'chip success';
-    }
+      const PROGRESS_START_DELAY = 1000;    // commence à t=1s
+      const PROGRESS_END_DELAY   = 10500;   // fin à t=10.5s
+      const PROGRESS_DURATION    = PROGRESS_END_DELAY - PROGRESS_START_DELAY; // 9500ms
 
-    function addLog(text, cls, delay) {
-      setTimeout(function() {
-        var li = document.createElement('li');
-        li.textContent = text;
-        li.className = cls;
-        document.getElementById('log-list').appendChild(li);
-        setTimeout(function() { li.classList.add('show'); }, 40);
-      }, delay);
-    }
+      const fillElem = document.getElementById('progress-fill');
+      const progressTextSpan = document.getElementById('progress-text');
 
-    function animProgress(target, duration, startDelay) {
-      setTimeout(function() {
-        document.getElementById('progress-fill').style.width = target + '%';
-        var start = null;
-        function step(ts) {
-          if (!start) start = ts;
-          var p = Math.min(Math.round((ts - start) / duration * target), target);
-          document.getElementById('progress-text').textContent = p + '%';
-          if (p < target) requestAnimationFrame(step);
-          else {
-            document.getElementById('progress-text').textContent = target + '%';
-            document.getElementById('progress-fill').classList.add('done');
-          }
+      let progressAnimFrame = null;
+      let progressStartTime = null;
+
+      function updateProgress(now) {
+        if (!progressStartTime) {
+          progressStartTime = now;
         }
-        requestAnimationFrame(step);
-      }, startDelay);
-    }
+        const elapsed = now - progressStartTime;
+        let percent = Math.min(100, Math.max(0, (elapsed / PROGRESS_DURATION) * 100));
+        // Arrondi à une décimale pour plus de fluidité, mais affichage integer
+        const displayPercent = Math.floor(percent);
+        progressTextSpan.textContent = displayPercent + '%';
+        fillElem.style.width = percent + '%';
+        
+        if (percent < 100 && elapsed < PROGRESS_DURATION) {
+          progressAnimFrame = requestAnimationFrame(updateProgress);
+        } else {
+          // fin atteinte : on s'assure 100%
+          progressTextSpan.textContent = '100%';
+          fillElem.style.width = '100%';
+          fillElem.classList.add('done');
+          if (progressAnimFrame) cancelAnimationFrame(progressAnimFrame);
+        }
+      }
 
-    /* Carte 1 @ 3s */
-    setTimeout(function() {
-      setGreen('card-alim','power-code','ON','power-desc','Source principale opérationnelle.','power-badge','<i class="ti ti-plug-connected"></i> Active');
-    }, 3000);
-    addLog('Alimentation principale rétablie.', 'ok', 3200);
+      // Helper pour les cartes
+      function setGreen(cardId, codeId, codeText, descId, descText, badgeId, badgeHTML) {
+        const card = document.getElementById(cardId);
+        if (card) card.className = 'status-card is-ready';
+        const codeSpan = document.getElementById(codeId);
+        if (codeSpan) {
+          codeSpan.textContent = codeText;
+          codeSpan.className = 'card-code success';
+        }
+        const descSpan = document.getElementById(descId);
+        if (descSpan) descSpan.textContent = descText;
+        const badgeSpan = document.getElementById(badgeId);
+        if (badgeSpan) {
+          badgeSpan.innerHTML = badgeHTML;
+          badgeSpan.className = 'chip success';
+        }
+      }
 
-    /* Carte 2 @ 6s */
-    setTimeout(function() {
-      setGreen('card-gen','gen-code','ON','gen-desc','Générateur en marche.','gen-badge','<i class="ti ti-bolt"></i> Actif');
-    }, 6000);
-    addLog('Générateur démarré avec succès.', 'ok', 6200);
+      function addLog(text, cls, delay) {
+        setTimeout(() => {
+          const logList = document.getElementById('log-list');
+          if (!logList) return;
+          const li = document.createElement('li');
+          li.textContent = text;
+          li.className = cls;
+          logList.appendChild(li);
+          setTimeout(() => { li.classList.add('show'); }, 30);
+          // auto-scroll
+          li.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, delay);
+      }
 
-    /* Carte 3 @ 9s */
-    setTimeout(function() {
-      setGreen('card-zone','zone-code','OK','zone-desc','Alimentation stabilisée.','zone-badge','<i class="ti ti-check"></i> Alimentée');
-    }, 9000);
-    addLog('Synchronisation du réseau effectuée.', 'ok', 9200);
-    addLog('Zone technique maintenant alimentée.', 'ok', 9800);
+      // ---- LANCEMENT DE LA PROGRESSION FLUIDE ----
+      setTimeout(() => {
+        progressStartTime = null;
+        progressAnimFrame = requestAnimationFrame(updateProgress);
+      }, PROGRESS_START_DELAY);
 
-    /* Barre démarre à 1s, finit pile à 10s */
-    animProgress(100, 9000, 1000);
+      // ------------------------------------------------------------------
+      // ÉTAPES PRINCIPALES (correspondance avec le brief)
+      // ------------------------------------------------------------------
+      // Carte 1 (alimentation) @ 3000ms
+      setTimeout(() => {
+        setGreen(
+          'card-alim', 'power-code', 'ON',
+          'power-desc', 'Source principale opérationnelle.',
+          'power-badge', '<i class="ti ti-plug-connected"></i> Active'
+        );
+      }, 3000);
+      addLog('Alimentation principale rétablie.', 'ok', 3200);
 
-    /* Hero "ACT" @ 10.5s */
-    setTimeout(function() {
-      document.getElementById('display-value').textContent = 'ACT';
-    }, 10500);
+      // Carte 2 (générateur) @ 6000ms
+      setTimeout(() => {
+        setGreen(
+          'card-gen', 'gen-code', 'ON',
+          'gen-desc', 'Générateur en marche.',
+          'gen-badge', '<i class="ti ti-bolt"></i> Actif'
+        );
+      }, 6000);
+      addLog('Générateur démarré avec succès.', 'ok', 6200);
 
-    /* Badge Actif @ 11s */
-    setTimeout(function() {
-      var b = document.getElementById('hero-badge');
-      b.className = 'hero-badge active';
-      b.innerHTML = '<i class="ti ti-check"></i> Actif';
-    }, 11000);
+      // Carte 3 (zone technique) @ 9000ms
+      setTimeout(() => {
+        setGreen(
+          'card-zone', 'zone-code', 'OK',
+          'zone-desc', 'Alimentation stabilisée.',
+          'zone-badge', '<i class="ti ti-check"></i> Alimentée'
+        );
+      }, 9000);
+      addLog('Synchronisation du réseau effectuée.', 'ok', 9200);
+      addLog('Zone technique maintenant alimentée.', 'ok', 9800);
 
-    /* Detail @ 11.5s */
-    setTimeout(function() {
-      document.getElementById('detail-title').textContent = 'GÉNÉRATEUR ACTIF';
-      document.getElementById('detail-desc').textContent  = "Le générateur est opérationnel. L'alimentation de secours est disponible.";
-    }, 11500);
+      // Hero valeur "ACT" @ 10500ms
+      setTimeout(() => {
+        const displayVal = document.getElementById('display-value');
+        if (displayVal) displayVal.textContent = 'ACT';
+      }, 10500);
 
-    /* Bouton vert @ 12s */
-    setTimeout(function() {
-      document.getElementById('generator-btn').className = 'generator-btn active';
-      document.getElementById('btn-icon-i').className    = 'ti ti-check';
-      document.getElementById('btn-title').textContent   = 'RÉACTIVÉ';
-      document.getElementById('btn-sub').textContent     = 'Générateur: actif';
-      document.getElementById('btn-arrow').className     = 'ti ti-check btn-arrow';
-    }, 12000);
+      // Badge passe à actif @ 11000ms
+      setTimeout(() => {
+        const badge = document.getElementById('hero-badge');
+        if (badge) {
+          badge.className = 'hero-badge active';
+          badge.innerHTML = '<i class="ti ti-check"></i> Actif';
+        }
+      }, 11000);
+
+      // Détail final @ 11500ms
+      setTimeout(() => {
+        const detailTitle = document.getElementById('detail-title');
+        const detailDesc = document.getElementById('detail-desc');
+        if (detailTitle) detailTitle.textContent = 'GÉNÉRATEUR ACTIF';
+        if (detailDesc) detailDesc.textContent = "Le générateur est opérationnel. L'alimentation de secours est disponible.";
+      }, 11500);
+
+      // Bouton final (vert, icone check) @ 12000ms
+      setTimeout(() => {
+        const genBtn = document.getElementById('generator-btn');
+        const btnIcon = document.getElementById('btn-icon-i');
+        const btnTitle = document.getElementById('btn-title');
+        const btnSub = document.getElementById('btn-sub');
+        const btnArrow = document.getElementById('btn-arrow');
+        if (genBtn) genBtn.className = 'generator-btn active';
+        if (btnIcon) btnIcon.className = 'ti ti-check';
+        if (btnTitle) btnTitle.textContent = 'RÉACTIVÉ';
+        if (btnSub) btnSub.textContent = 'Générateur: actif';
+        if (btnArrow) {
+          btnArrow.className = 'ti ti-check btn-arrow';
+        }
+      }, 12000);
+
+      // Petit détail: si jamais la progression était déjà à 100% et que le shimmer s'active correctement
+      // On garantit aussi qu'après 10.5s la progression est bien à 100% même si l'animation était en retard
+      setTimeout(() => {
+        if (fillElem && fillElem.style.width !== '100%') {
+          fillElem.style.width = '100%';
+          progressTextSpan.textContent = '100%';
+          fillElem.classList.add('done');
+        }
+      }, PROGRESS_END_DELAY + 50);
+    })();
   </script>
 </body>
 </html>
