@@ -2,8 +2,7 @@
 
 Site vitrine professionnel pour le jeu **THE VOID PROTOCOL** développé par **UNWARE STUDIO**.
 
-[![NEXA Banner](https://res.cloudinary.com/dud1jhsyk/image/upload/w_1200,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp](https://res.cloudinary.com/dud1jhsyk/image/upload/v1781526739/void_protocol_sbci0b.png)](https://res.cloudinary.com/dud1jhsyk/image/upload/v1781526739/void_protocol_sbci0b.png
-)
+![THE VOID PROTOCOL Banner](https://res.cloudinary.com/dud1jhsyk/image/upload/v1781526739/void_protocol_sbci0b.png)
 
 ## 📋 Aperçu
 
