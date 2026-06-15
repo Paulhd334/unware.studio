@@ -4,11 +4,11 @@ Site vitrine professionnel pour le jeu **THE VOID PROTOCOL** développé par **U
 
 ![THE VOID PROTOCOL Banner](https://res.cloudinary.com/dud1jhsyk/image/upload/v1781526739/void_protocol_sbci0b.png)
 
-## 📋 Aperçu
+## Aperçu
 
 Site web moderne et responsive présentant l'univers de **UNWARE STUDIO**. Design épuré, animations fluides et expérience utilisateur optimisée.
 
-## ✨ Fonctionnalités
+## Fonctionnalités
 
 *  **Présentation immersive** de l'univers 
 *  **Design 100% responsive** (mobile, tablette, desktop)
