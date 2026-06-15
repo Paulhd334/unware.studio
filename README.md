@@ -2,7 +2,7 @@
 
 Site vitrine professionnel pour le jeu **THE VOID PROTOCOL** développé par **UNWARE STUDIO**.
 
-![NEXA Banner](https://res.cloudinary.com/dud1jhsyk/image/upload/w_1200,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp)
+![NEXA Banner](https://res.cloudinary.com/dud1jhsyk/image/upload/w_1200,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp](https://res.cloudinary.com/dud1jhsyk/image/upload/v1781526739/void_protocol_sbci0b.png)
 
 ## 📋 Aperçu
 
@@ -12,13 +12,10 @@ Site web moderne et responsive présentant l'univers de **UNWARE STUDIO**. Desig
 
 *  **Présentation immersive** de l'univers 
 *  **Design 100% responsive** (mobile, tablette, desktop)
-*  **Authentification Firebase** (Google OAuth)
-*  **Base de données temps réel** avec **Firebase Firestore**
 *  **Animations fluides** et interface moderne
 *  **Newsletter** et inscription aux mises à jour
 *  **Performance optimisée** avec **Vercel**
 
-## 🛠 Stack Technique
 
 ### Frontend
 
