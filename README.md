@@ -1,6 +1,6 @@
 # UNWARE STUDIO - Site Web Officiel
 
-Site vitrine professionnel pour le jeu **NEXA** développé par **UNWARE STUDIO**.
+Site vitrine professionnel pour le jeu **THE VOID PROTOCOL** développé par **UNWARE STUDIO**.
 
 ![NEXA Banner](https://res.cloudinary.com/dud1jhsyk/image/upload/w_1200,f_webp,q_auto/v1761831631/nexa-screen_an2kjy.webp)
 
@@ -28,12 +28,6 @@ Site web moderne et responsive présentant l'univers de **UNWARE STUDIO**. Desig
 * **Font Awesome** – Icônes
 * **Google Fonts** – Typographie
 
-### Backend & Base de Données
-
-* **Google Firebase Authentication** – Gestion des comptes utilisateurs
-* **Google OAuth** – Connexion avec compte Google
-* **Firebase Firestore** – Base de données NoSQL en temps réel
-* **Firebase SDK (Web)** – Intégration côté client
 
 ### Déploiement & Outils
 
