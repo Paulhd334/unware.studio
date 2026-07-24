@@ -72,9 +72,7 @@
     .progress-block { display: grid; gap: 8px; }
     .progress-head { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--muted); }
     .progress-bar { height: 8px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; position: relative; }
-    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #6b7278, #cfd3d6); border-radius: inherit; transition: width 0.05s linear; }
-    .status-card { transition: background 0.6s ease, border-color 0.6s ease; }
-    .card-code, .chip, .hero-badge, .generator-btn { transition: all 0.5s ease; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #6b7278, #cfd3d6); border-radius: inherit; }
     .status-grid { display: grid; gap: 10px; padding: 16px 18px; background: var(--panel-2); border-bottom: 1px solid var(--line-soft); }
     .status-card { display: grid; grid-template-columns: 58px 1fr auto; align-items: center; gap: 12px; min-height: 62px; padding: 0 14px; border: 1px solid var(--line-soft); border-radius: 12px; background: #1b1c1f; }
     .status-card.is-alert { background: repeating-linear-gradient(45deg, rgba(224,96,96,.03), rgba(224,96,96,.03) 6px, rgba(224,96,96,.08) 6px, rgba(224,96,96,.08) 12px); }
@@ -106,12 +104,9 @@
       border: 1.5px solid var(--accent);
       background: linear-gradient(180deg, #2a2c2f, #0e0f10);
       color: #fff;
-      cursor: pointer;
+      cursor: not-allowed;
       box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), 0 10px 26px rgba(0,0,0,.4);
-    }
-    .generator-btn.active {
-      background: linear-gradient(180deg, #2f9a68, #1a6f45);
-      border-color: #1c7c4d;
+      opacity: 0.8;
     }
     .btn-main { display: flex; align-items: center; gap: 12px; min-width: 0; }
     .btn-icon { width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center; background: rgba(255,255,255,.10); font-size: 18px; flex: 0 0 auto; }
@@ -138,196 +133,88 @@
         <span class="header-kicker">Panneau technique</span>
         <span class="header-title">Générateur de secours</span>
       </div>
-      <div class="ip-chip" id="ip-chip"><i class="ti ti-network"></i> IP locale...</div>
+      <div class="ip-chip"><i class="ti ti-network"></i> 192.168.1.24</div>
     </header>
 
     <section class="hero-state">
       <div class="hero-top">
         <div>
           <div class="hero-label">État système</div>
-          <div class="hero-value" id="display-value">ATT</div>
+          <div class="hero-value">ATT</div>
         </div>
-        <div class="hero-badge standby" id="hero-badge"><i class="ti ti-clock-hour-4"></i> En attente</div>
+        <div class="hero-badge standby"><i class="ti ti-clock-hour-4"></i> En attente</div>
       </div>
 
       <div class="progress-block">
         <div class="progress-head">
           <span>Activation</span>
-          <span id="progress-text">0%</span>
+          <span>0%</span>
         </div>
         <div class="progress-bar" aria-hidden="true">
-          <div class="progress-fill" id="progress-fill"></div>
+          <div class="progress-fill"></div>
         </div>
       </div>
     </section>
 
     <section class="status-grid">
-      <div class="status-card is-alert" id="card-alim">
-        <div class="card-code danger" id="power-code">OFF</div>
+      <div class="status-card is-alert">
+        <div class="card-code danger">OFF</div>
         <div class="card-copy">
           <div class="card-title">Alimentation principale</div>
           <div class="card-desc">Source principale indisponible.</div>
         </div>
-        <div class="chip danger" id="power-badge"><i class="ti ti-alert-triangle"></i> Hors service</div>
+        <div class="chip danger"><i class="ti ti-alert-triangle"></i> Hors service</div>
       </div>
 
-      <div class="status-card is-alert" id="card-gen">
-        <div class="card-code warning" id="gen-code">STB</div>
+      <div class="status-card is-alert">
+        <div class="card-code warning">STB</div>
         <div class="card-copy">
           <div class="card-title">Générateur</div>
           <div class="card-desc">Prêt à être réarmé manuellement.</div>
         </div>
-        <div class="chip warning" id="gen-badge"><i class="ti ti-lock"></i> Veille</div>
+        <div class="chip warning"><i class="ti ti-lock"></i> Veille</div>
       </div>
 
-      <div class="status-card" id="card-zone">
-        <div class="card-code warning" id="zone-code">B1</div>
+      <div class="status-card is-alert">
+        <div class="card-code warning">B1</div>
         <div class="card-copy">
           <div class="card-title">Zone technique</div>
           <div class="card-desc">Charge critique sans alimentation.</div>
         </div>
-        <div class="chip warning" id="zone-badge"><i class="ti ti-bolt-off"></i> Non alimentée</div>
+        <div class="chip warning"><i class="ti ti-bolt-off"></i> Non alimentée</div>
       </div>
     </section>
 
     <section class="detail-box">
-      <div class="detail-title" id="detail-title">REACTION REQUISE</div>
-      <div class="detail-desc" id="detail-desc">Le generateur est en veille. Appuie pour relancer l'alimentation de secours.</div>
+      <div class="detail-title">RÉACTION REQUISE</div>
+      <div class="detail-desc">Le générateur est en veille. Appuyez pour relancer l'alimentation de secours.</div>
     </section>
 
     <section class="action-wrap">
-      <button class="generator-btn" id="generator-btn" type="button">
+      <button class="generator-btn" type="button" disabled>
         <span class="btn-main">
-          <span class="btn-icon" id="btn-icon"><i class="ti ti-bolt"></i></span>
+          <span class="btn-icon"><i class="ti ti-bolt"></i></span>
           <span class="btn-copy">
-            <span class="btn-title" id="btn-title">REACTIVER</span>
-            <span class="btn-sub" id="btn-sub">Generateur: en veille</span>
+            <span class="btn-title">RÉACTIVER</span>
+            <span class="btn-sub">Générateur : en veille</span>
           </span>
         </span>
-        <i class="ti ti-arrow-right btn-arrow" id="btn-arrow"></i>
+        <i class="ti ti-arrow-right btn-arrow"></i>
       </button>
     </section>
 
     <section class="timeline">
       <div class="timeline-head">
         <div class="timeline-title">Journal</div>
-        <div class="timeline-note" id="timeline-note">Etat persistant local</div>
+        <div class="timeline-note">État persistant local</div>
       </div>
-      <ul class="log" id="log-list">
-        <li class="err">Perte d'alimentation detectee.</li>
-        <li class="warn">Le generateur attend une commande operateur.</li>
+      <ul class="log">
+        <li class="err">Perte d'alimentation détectée.</li>
+        <li class="warn">Le générateur attend une commande opérateur.</li>
         <li>Zone B1 sans tension.</li>
+        <li>Séquence de démarrage en attente.</li>
       </ul>
     </section>
   </main>
-
-  <script>
-    const els = {
-      ipChip: document.getElementById('ip-chip'),
-      displayValue: document.getElementById('display-value'),
-      heroBadge: document.getElementById('hero-badge'),
-      progressText: document.getElementById('progress-text'),
-      progressFill: document.getElementById('progress-fill'),
-      cardAlim: document.getElementById('card-alim'),
-      powerCode: document.getElementById('power-code'),
-      powerBadge: document.getElementById('power-badge'),
-      cardGen: document.getElementById('card-gen'),
-      genCode: document.getElementById('gen-code'),
-      genBadge: document.getElementById('gen-badge'),
-      cardZone: document.getElementById('card-zone'),
-      zoneCode: document.getElementById('zone-code'),
-      zoneBadge: document.getElementById('zone-badge'),
-      detailTitle: document.getElementById('detail-title'),
-      detailDesc: document.getElementById('detail-desc'),
-      genBtn: document.getElementById('generator-btn'),
-      btnIcon: document.getElementById('btn-icon'),
-      btnTitle: document.getElementById('btn-title'),
-      btnSub: document.getElementById('btn-sub'),
-      btnArrow: document.getElementById('btn-arrow'),
-      logList: document.getElementById('log-list'),
-    };
-
-    function addLog(text, type) {
-      const li = document.createElement('li');
-      if (type) li.className = type;
-      li.textContent = text;
-      els.logList.insertBefore(li, els.logList.firstChild);
-    }
-
-    function setIp() {
-      els.ipChip.innerHTML = '<i class="ti ti-network"></i> 192.168.1.24';
-    }
-
-    function setActiveState() {
-      els.displayValue.textContent = 'RUN';
-      els.heroBadge.className = 'hero-badge active';
-      els.heroBadge.innerHTML = '<i class="ti ti-bolt"></i> Actif';
-
-      els.cardAlim.classList.remove('is-alert');
-      els.cardAlim.classList.add('is-ready');
-      els.powerCode.className = 'card-code success';
-      els.powerCode.textContent = 'GEN';
-      els.powerBadge.className = 'chip success';
-      els.powerBadge.innerHTML = '<i class="ti ti-plug-connected"></i> Relais actif';
-
-      els.cardGen.classList.remove('is-alert');
-      els.cardGen.classList.add('is-ready');
-      els.genCode.className = 'card-code success';
-      els.genCode.textContent = 'RUN';
-      els.genBadge.className = 'chip success';
-      els.genBadge.innerHTML = '<i class="ti ti-engine"></i> En marche';
-
-      els.cardZone.classList.add('is-ready');
-      els.zoneCode.className = 'card-code success';
-      els.zoneCode.textContent = 'B1';
-      els.zoneBadge.className = 'chip success';
-      els.zoneBadge.innerHTML = '<i class="ti ti-bolt"></i> Alimentée';
-
-      els.detailTitle.textContent = 'ALIMENTATION RETABLIE';
-      els.detailDesc.textContent = "Le generateur tourne et la zone B1 est de nouveau sous tension.";
-
-      els.genBtn.classList.add('active');
-      els.btnIcon.innerHTML = '<i class="ti ti-check"></i>';
-      els.btnTitle.textContent = 'GENERATEUR ACTIF';
-      els.btnSub.textContent = 'Fonctionnement normal';
-      els.btnArrow.className = 'ti ti-circle-check btn-arrow';
-
-      addLog('Generateur demarre avec succes.', 'ok');
-      addLog('Zone B1 de nouveau sous tension.', 'ok');
-    }
-
-    function runStartupSequence() {
-      setIp();
-      addLog('Sequence de demarrage automatique initiee.');
-
-      let progress = 0;
-      const duration = 2200;
-      const stepTime = 40;
-      const steps = duration / stepTime;
-      const increment = 100 / steps;
-
-      const interval = setInterval(() => {
-        progress = Math.min(100, progress + increment);
-        els.progressFill.style.width = progress + '%';
-        els.progressText.textContent = Math.round(progress) + '%';
-
-        if (progress >= 100) {
-          clearInterval(interval);
-          setActiveState();
-        }
-      }, stepTime);
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      addLog('Demarrage automatique dans 2 secondes...');
-      setTimeout(runStartupSequence, 2000);
-    });
-
-    els.genBtn.addEventListener('click', () => {
-      if (!els.genBtn.classList.contains('active')) {
-        runStartupSequence();
-      }
-    });
-  </script>
 </body>
 </html>
