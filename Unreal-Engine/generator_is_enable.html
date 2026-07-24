@@ -8,23 +8,23 @@
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #ececeb;
-      --bg-2: #f6f6f4;
-      --panel: rgba(255,255,255,.94);
-      --panel-2: #fbfbfa;
-      --text: #0f1011;
-      --muted: #6d7278;
-      --line: #111315;
-      --line-soft: rgba(17,19,21,.14);
-      --danger: #b53c3c;
-      --danger-soft: rgba(181,60,60,.10);
-      --warning: #9f741d;
-      --warning-soft: rgba(159,116,29,.10);
-      --success: #23754b;
-      --success-soft: rgba(35,117,75,.10);
-      --accent: #111315;
+      --bg: #0a0b0c;
+      --bg-2: #131416;
+      --panel: rgba(20,21,23,.94);
+      --panel-2: #18191b;
+      --text: #eceeef;
+      --muted: #9a9ea3;
+      --line: #2c2f33;
+      --line-soft: rgba(255,255,255,.10);
+      --danger: #e06060;
+      --danger-soft: rgba(224,96,96,.12);
+      --warning: #d9a441;
+      --warning-soft: rgba(217,164,65,.12);
+      --success: #4fbf8b;
+      --success-soft: rgba(79,191,139,.12);
+      --accent: #eceeef;
       --radius: 18px;
-      --shadow: 0 18px 48px rgba(0,0,0,.10);
+      --shadow: 0 18px 48px rgba(0,0,0,.55);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { min-height: 100%; }
@@ -36,8 +36,8 @@
       color: var(--text);
       font-family: 'Satoshi', Arial, sans-serif;
       background:
-        radial-gradient(circle at 20% 10%, rgba(255,255,255,.9), transparent 35%),
-        radial-gradient(circle at 80% 90%, rgba(0,0,0,.03), transparent 30%),
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,.03), transparent 35%),
+        radial-gradient(circle at 80% 90%, rgba(0,0,0,.4), transparent 30%),
         linear-gradient(180deg, var(--bg-2), var(--bg));
     }
     .panel {
@@ -56,107 +56,44 @@
       gap: 12px;
       padding: 14px 18px;
       border-bottom: 1.5px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(245,245,243,.92));
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.15));
     }
     .header-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
     .header-kicker { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); font-weight: 700; }
     .header-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700; }
-    .ip-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px; border: 1px solid var(--line-soft); border-radius: 999px; background: rgba(255,255,255,.7); font-size: 11px; color: var(--muted); white-space: nowrap; }
-
-    @keyframes glowPulse {
-      0%   { box-shadow: 0 0 0 0   rgba(35,117,75,0.4); }
-      50%  { box-shadow: 0 0 0 8px rgba(35,117,75,0.1); }
-      100% { box-shadow: 0 0 0 0   rgba(35,117,75,0);   }
-    }
-    @keyframes shimmer {
-      0%   { background-position: -200% 0; }
-      100% { background-position:  200% 0; }
-    }
-
-    .hero-state {
-      padding: 18px;
-      background: linear-gradient(180deg, rgba(250,250,248,.95), rgba(244,244,242,.95));
-      border-bottom: 1px solid var(--line-soft);
-    }
+    .ip-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px; border: 1px solid var(--line-soft); border-radius: 999px; background: rgba(255,255,255,.04); font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .hero-state { padding: 18px; background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.15)); border-bottom: 1px solid var(--line-soft); }
     .hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
     .hero-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
     .hero-value { font-size: 40px; font-weight: 300; line-height: 1; letter-spacing: 1px; }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 9px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
-      border: 1px solid currentColor;
-      white-space: nowrap;
-      transition: color 0.8s ease, background 0.8s ease;
-    }
-    .hero-badge.standby { color: #8a6316; background: var(--warning-soft); }
-    .hero-badge.active  { color: #1b663f; background: var(--success-soft); animation: glowPulse 2s infinite; }
-
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; border: 1px solid currentColor; white-space: nowrap; }
+    .hero-badge.standby { color: #e0b458; background: var(--warning-soft); }
+    .hero-badge.active { color: #5fd6a3; background: var(--success-soft); }
     .progress-block { display: grid; gap: 8px; }
     .progress-head { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--muted); }
-    .progress-bar { height: 8px; border-radius: 999px; background: rgba(17,19,21,.08); overflow: hidden; }
-    .progress-fill {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, #2a8a58, #535b62, #2a8a58);
-      background-size: 200% 100%;
-      border-radius: inherit;
-      transition: width 60ms linear;
-    }
-    .progress-fill.done { animation: shimmer 2s linear infinite; }
-
-    .status-grid {
-      display: grid;
-      gap: 10px;
-      padding: 16px 18px;
-      background: var(--panel-2);
-      border-bottom: 1px solid var(--line-soft);
-    }
-    .status-card {
-      display: grid;
-      grid-template-columns: 58px 1fr auto;
-      align-items: center;
-      gap: 12px;
-      min-height: 62px;
-      padding: 0 14px;
-      border: 1px solid var(--line-soft);
-      border-radius: 12px;
-      background: #fff;
-      transition: background 1s ease, border-color 1s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .status-card:hover { transform: translateY(-2px); border-color: var(--line); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .status-card.is-alert { background: repeating-linear-gradient(45deg, rgba(181,60,60,.02), rgba(181,60,60,.02) 6px, rgba(181,60,60,.06) 6px, rgba(181,60,60,.06) 12px); }
-    .status-card.is-ready { background: repeating-linear-gradient(45deg, rgba(35,117,75,.02), rgba(35,117,75,.02) 6px, rgba(35,117,75,.06) 6px, rgba(35,117,75,.06) 12px); border-color: rgba(35,117,75,.28); }
-
-    .card-code { font-size: 26px; font-weight: 300; line-height: 1; transition: color 0.8s ease; }
-    .danger  { color: var(--danger); }
+    .progress-bar { height: 8px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; position: relative; }
+    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #6b7278, #cfd3d6); border-radius: inherit; transition: width 0.05s linear; }
+    .status-card { transition: background 0.6s ease, border-color 0.6s ease; }
+    .card-code, .chip, .hero-badge, .generator-btn { transition: all 0.5s ease; }
+    .status-grid { display: grid; gap: 10px; padding: 16px 18px; background: var(--panel-2); border-bottom: 1px solid var(--line-soft); }
+    .status-card { display: grid; grid-template-columns: 58px 1fr auto; align-items: center; gap: 12px; min-height: 62px; padding: 0 14px; border: 1px solid var(--line-soft); border-radius: 12px; background: #1b1c1f; }
+    .status-card.is-alert { background: repeating-linear-gradient(45deg, rgba(224,96,96,.03), rgba(224,96,96,.03) 6px, rgba(224,96,96,.08) 6px, rgba(224,96,96,.08) 12px); }
+    .status-card.is-ready { background: repeating-linear-gradient(45deg, rgba(79,191,139,.03), rgba(79,191,139,.03) 6px, rgba(79,191,139,.08) 6px, rgba(79,191,139,.08) 12px); border-color: rgba(79,191,139,.30); }
+    .card-code { font-size: 26px; font-weight: 300; line-height: 1; }
+    .danger { color: var(--danger); }
     .warning { color: var(--warning); }
     .success { color: var(--success); }
     .card-copy { min-width: 0; }
     .card-title { font-size: 12px; text-transform: uppercase; letter-spacing: .9px; color: var(--muted); margin-bottom: 2px; }
-    .card-desc  { font-size: 12px; color: var(--text); line-height: 1.35; }
-    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; border: 1px solid currentColor; transition: all 0.8s ease; }
-    .chip.danger  { background: var(--danger-soft); }
+    .card-desc { font-size: 12px; color: var(--text); line-height: 1.35; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; border: 1px solid currentColor; }
+    .chip.danger { background: var(--danger-soft); }
     .chip.warning { background: var(--warning-soft); }
     .chip.success { background: var(--success-soft); }
-
-    .detail-box {
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--line-soft);
-      background: #fcfcfb;
-    }
+    .detail-box { padding: 16px 18px; border-bottom: 1px solid var(--line-soft); background: #151619; }
     .detail-title { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 4px; }
-    .detail-desc  { font-size: 12px; color: var(--muted); line-height: 1.5; }
-
-    .action-wrap {
-      padding: 18px;
-      border-top: 1.5px solid var(--line);
-      background: #fff;
-    }
+    .detail-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .action-wrap { padding: 18px; border-top: 1.5px solid var(--line); background: #101113; }
     .generator-btn {
       width: 100%;
       min-height: 70px;
@@ -167,76 +104,55 @@
       padding: 0 16px;
       border-radius: 14px;
       border: 1.5px solid var(--accent);
-      background: linear-gradient(180deg, #131517, #090a0b);
+      background: linear-gradient(180deg, #2a2c2f, #0e0f10);
       color: #fff;
       cursor: pointer;
-      transition: background 1s ease, border-color 0.8s ease, transform 0.2s ease, filter 0.2s ease;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 10px 26px rgba(0,0,0,.18);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), 0 10px 26px rgba(0,0,0,.4);
     }
-    .generator-btn:hover { transform: translateY(-2px); filter: brightness(1.03); }
-    .generator-btn:active { transform: translateY(1px) scale(0.99); }
     .generator-btn.active {
-      background: linear-gradient(180deg, #2a8a58, #18663f);
-      border-color: #175736;
-      animation: glowPulse 2s infinite;
+      background: linear-gradient(180deg, #2f9a68, #1a6f45);
+      border-color: #1c7c4d;
     }
     .btn-main { display: flex; align-items: center; gap: 12px; min-width: 0; }
     .btn-icon { width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center; background: rgba(255,255,255,.10); font-size: 18px; flex: 0 0 auto; }
     .btn-copy { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
     .btn-title { font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
-    .btn-sub   { font-size: 11px; opacity: .82; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
-    .btn-arrow { font-size: 18px; opacity: .9; flex: 0 0 auto; transition: transform 0.2s ease; }
-    .generator-btn:hover .btn-arrow { transform: translateX(5px); }
-
-    .timeline {
-      padding: 16px 18px 18px;
-      background: #fafaf8;
-    }
+    .btn-sub { font-size: 11px; opacity: .82; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .btn-arrow { font-size: 18px; opacity: .9; flex: 0 0 auto; }
+    .timeline { padding: 16px 18px 18px; background: #131417; }
     .timeline-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
     .timeline-title { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-    .timeline-note  { font-size: 11px; color: #8a8f95; }
+    .timeline-note { font-size: 11px; color: #7a7f85; }
     .log { list-style: none; display: grid; gap: 8px; max-height: 180px; overflow: auto; padding-right: 2px; }
-    .log li {
-      position: relative;
-      padding-left: 16px;
-      font-size: 12px;
-      line-height: 1.4;
-      color: var(--muted);
-      opacity: 0;
-      transition: opacity 0.6s ease;
-    }
-    .log li.show { opacity: 1; }
-    .log li::before { content: ''; position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 999px; background: #bcc1c7; }
-    .log li.ok::before   { background: var(--success); }
+    .log li { position: relative; padding-left: 16px; font-size: 12px; line-height: 1.4; color: var(--muted); }
+    .log li::before { content: ''; position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 999px; background: #4a4f55; }
+    .log li.ok::before { background: var(--success); }
     .log li.warn::before { background: var(--warning); }
-    .log li.err::before  { background: var(--danger); }
-    .log::-webkit-scrollbar { width: 4px; }
-    .log::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 4px; }
-    .log::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 4px; }
+    .log li.err::before { background: var(--danger); }
   </style>
 </head>
 <body>
   <main class="panel" aria-label="Panneau de réactivation du générateur">
-
     <header class="panel-header">
       <div class="header-copy">
         <span class="header-kicker">Panneau technique</span>
-        <span class="header-title">Générateur</span>
+        <span class="header-title">Générateur de secours</span>
       </div>
-      <div class="ip-chip"><i class="ti ti-network"></i> 10.0.0.42</div>
+      <div class="ip-chip" id="ip-chip"><i class="ti ti-network"></i> IP locale...</div>
     </header>
 
     <section class="hero-state">
       <div class="hero-top">
         <div>
           <div class="hero-label">État système</div>
-          <div class="hero-value" id="display-value">---</div>
+          <div class="hero-value" id="display-value">ATT</div>
         </div>
-        <div class="hero-badge standby" id="hero-badge"><i class="ti ti-loader"></i> Démarrage…</div>
+        <div class="hero-badge standby" id="hero-badge"><i class="ti ti-clock-hour-4"></i> En attente</div>
       </div>
+
       <div class="progress-block">
         <div class="progress-head">
-          <span>Activation générateur</span>
+          <span>Activation</span>
           <span id="progress-text">0%</span>
         </div>
         <div class="progress-bar" aria-hidden="true">
@@ -250,223 +166,168 @@
         <div class="card-code danger" id="power-code">OFF</div>
         <div class="card-copy">
           <div class="card-title">Alimentation principale</div>
-          <div class="card-desc" id="power-desc">Vérification en cours…</div>
+          <div class="card-desc">Source principale indisponible.</div>
         </div>
-        <div class="chip danger" id="power-badge"><i class="ti ti-plug"></i> Inactif</div>
+        <div class="chip danger" id="power-badge"><i class="ti ti-alert-triangle"></i> Hors service</div>
       </div>
 
       <div class="status-card is-alert" id="card-gen">
-        <div class="card-code danger" id="gen-code">OFF</div>
+        <div class="card-code warning" id="gen-code">STB</div>
         <div class="card-copy">
           <div class="card-title">Générateur</div>
-          <div class="card-desc" id="gen-desc">Démarrage en attente.</div>
+          <div class="card-desc">Prêt à être réarmé manuellement.</div>
         </div>
-        <div class="chip danger" id="gen-badge"><i class="ti ti-bolt"></i> Inactif</div>
+        <div class="chip warning" id="gen-badge"><i class="ti ti-lock"></i> Veille</div>
       </div>
 
-      <div class="status-card is-alert" id="card-zone">
-        <div class="card-code warning" id="zone-code">—</div>
+      <div class="status-card" id="card-zone">
+        <div class="card-code warning" id="zone-code">B1</div>
         <div class="card-copy">
           <div class="card-title">Zone technique</div>
-          <div class="card-desc" id="zone-desc">Alimentation non stable.</div>
+          <div class="card-desc">Charge critique sans alimentation.</div>
         </div>
-        <div class="chip warning" id="zone-badge"><i class="ti ti-alert-triangle"></i> En attente</div>
+        <div class="chip warning" id="zone-badge"><i class="ti ti-bolt-off"></i> Non alimentée</div>
       </div>
     </section>
 
     <section class="detail-box">
-      <div class="detail-title" id="detail-title">INITIALISATION…</div>
-      <div class="detail-desc" id="detail-desc">Séquence de démarrage en cours. Veuillez patienter.</div>
+      <div class="detail-title" id="detail-title">REACTION REQUISE</div>
+      <div class="detail-desc" id="detail-desc">Le generateur est en veille. Appuie pour relancer l'alimentation de secours.</div>
     </section>
 
     <section class="action-wrap">
       <button class="generator-btn" id="generator-btn" type="button">
         <span class="btn-main">
-          <span class="btn-icon"><i class="ti ti-loader" id="btn-icon-i"></i></span>
+          <span class="btn-icon" id="btn-icon"><i class="ti ti-bolt"></i></span>
           <span class="btn-copy">
-            <span class="btn-title" id="btn-title">DÉMARRAGE…</span>
-            <span class="btn-sub"   id="btn-sub">Initialisation système</span>
+            <span class="btn-title" id="btn-title">REACTIVER</span>
+            <span class="btn-sub" id="btn-sub">Generateur: en veille</span>
           </span>
         </span>
-        <i class="ti ti-chevron-right btn-arrow" id="btn-arrow"></i>
+        <i class="ti ti-arrow-right btn-arrow" id="btn-arrow"></i>
       </button>
     </section>
 
     <section class="timeline">
       <div class="timeline-head">
         <div class="timeline-title">Journal</div>
-        <div class="timeline-note">État en temps réel</div>
+        <div class="timeline-note" id="timeline-note">Etat persistant local</div>
       </div>
-      <ul class="log" id="log-list"></ul>
+      <ul class="log" id="log-list">
+        <li class="err">Perte d'alimentation detectee.</li>
+        <li class="warn">Le generateur attend une commande operateur.</li>
+        <li>Zone B1 sans tension.</li>
+      </ul>
     </section>
-
   </main>
 
   <script>
-    (function() {
-      // ---- TIMING CONSTANTS ----
-      // Carte 1 (alimentation) => 3s
-      // Carte 2 (générateur)    => 6s
-      // Carte 3 (zone)          => 9s
-      // Hero ACT                => 10.5s
-      // Badge actif             => 11s
-      // Detail final            => 11.5s
-      // Bouton vert             => 12s
-      // Progression fluide de 0% à 100% sur [1.0s, 10.5s] (durée 9500ms)
+    const els = {
+      ipChip: document.getElementById('ip-chip'),
+      displayValue: document.getElementById('display-value'),
+      heroBadge: document.getElementById('hero-badge'),
+      progressText: document.getElementById('progress-text'),
+      progressFill: document.getElementById('progress-fill'),
+      cardAlim: document.getElementById('card-alim'),
+      powerCode: document.getElementById('power-code'),
+      powerBadge: document.getElementById('power-badge'),
+      cardGen: document.getElementById('card-gen'),
+      genCode: document.getElementById('gen-code'),
+      genBadge: document.getElementById('gen-badge'),
+      cardZone: document.getElementById('card-zone'),
+      zoneCode: document.getElementById('zone-code'),
+      zoneBadge: document.getElementById('zone-badge'),
+      detailTitle: document.getElementById('detail-title'),
+      detailDesc: document.getElementById('detail-desc'),
+      genBtn: document.getElementById('generator-btn'),
+      btnIcon: document.getElementById('btn-icon'),
+      btnTitle: document.getElementById('btn-title'),
+      btnSub: document.getElementById('btn-sub'),
+      btnArrow: document.getElementById('btn-arrow'),
+      logList: document.getElementById('log-list'),
+    };
 
-      const PROGRESS_START_DELAY = 1000;    // commence à t=1s
-      const PROGRESS_END_DELAY   = 10500;   // fin à t=10.5s
-      const PROGRESS_DURATION    = PROGRESS_END_DELAY - PROGRESS_START_DELAY; // 9500ms
+    function addLog(text, type) {
+      const li = document.createElement('li');
+      if (type) li.className = type;
+      li.textContent = text;
+      els.logList.insertBefore(li, els.logList.firstChild);
+    }
 
-      const fillElem = document.getElementById('progress-fill');
-      const progressTextSpan = document.getElementById('progress-text');
+    function setIp() {
+      els.ipChip.innerHTML = '<i class="ti ti-network"></i> 192.168.1.24';
+    }
 
-      let progressAnimFrame = null;
-      let progressStartTime = null;
+    function setActiveState() {
+      els.displayValue.textContent = 'RUN';
+      els.heroBadge.className = 'hero-badge active';
+      els.heroBadge.innerHTML = '<i class="ti ti-bolt"></i> Actif';
 
-      function updateProgress(now) {
-        if (!progressStartTime) {
-          progressStartTime = now;
+      els.cardAlim.classList.remove('is-alert');
+      els.cardAlim.classList.add('is-ready');
+      els.powerCode.className = 'card-code success';
+      els.powerCode.textContent = 'GEN';
+      els.powerBadge.className = 'chip success';
+      els.powerBadge.innerHTML = '<i class="ti ti-plug-connected"></i> Relais actif';
+
+      els.cardGen.classList.remove('is-alert');
+      els.cardGen.classList.add('is-ready');
+      els.genCode.className = 'card-code success';
+      els.genCode.textContent = 'RUN';
+      els.genBadge.className = 'chip success';
+      els.genBadge.innerHTML = '<i class="ti ti-engine"></i> En marche';
+
+      els.cardZone.classList.add('is-ready');
+      els.zoneCode.className = 'card-code success';
+      els.zoneCode.textContent = 'B1';
+      els.zoneBadge.className = 'chip success';
+      els.zoneBadge.innerHTML = '<i class="ti ti-bolt"></i> Alimentée';
+
+      els.detailTitle.textContent = 'ALIMENTATION RETABLIE';
+      els.detailDesc.textContent = "Le generateur tourne et la zone B1 est de nouveau sous tension.";
+
+      els.genBtn.classList.add('active');
+      els.btnIcon.innerHTML = '<i class="ti ti-check"></i>';
+      els.btnTitle.textContent = 'GENERATEUR ACTIF';
+      els.btnSub.textContent = 'Fonctionnement normal';
+      els.btnArrow.className = 'ti ti-circle-check btn-arrow';
+
+      addLog('Generateur demarre avec succes.', 'ok');
+      addLog('Zone B1 de nouveau sous tension.', 'ok');
+    }
+
+    function runStartupSequence() {
+      setIp();
+      addLog('Sequence de demarrage automatique initiee.');
+
+      let progress = 0;
+      const duration = 2200;
+      const stepTime = 40;
+      const steps = duration / stepTime;
+      const increment = 100 / steps;
+
+      const interval = setInterval(() => {
+        progress = Math.min(100, progress + increment);
+        els.progressFill.style.width = progress + '%';
+        els.progressText.textContent = Math.round(progress) + '%';
+
+        if (progress >= 100) {
+          clearInterval(interval);
+          setActiveState();
         }
-        const elapsed = now - progressStartTime;
-        let percent = Math.min(100, Math.max(0, (elapsed / PROGRESS_DURATION) * 100));
-        // Arrondi à une décimale pour plus de fluidité, mais affichage integer
-        const displayPercent = Math.floor(percent);
-        progressTextSpan.textContent = displayPercent + '%';
-        fillElem.style.width = percent + '%';
-        
-        if (percent < 100 && elapsed < PROGRESS_DURATION) {
-          progressAnimFrame = requestAnimationFrame(updateProgress);
-        } else {
-          // fin atteinte : on s'assure 100%
-          progressTextSpan.textContent = '100%';
-          fillElem.style.width = '100%';
-          fillElem.classList.add('done');
-          if (progressAnimFrame) cancelAnimationFrame(progressAnimFrame);
-        }
+      }, stepTime);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      addLog('Demarrage automatique dans 2 secondes...');
+      setTimeout(runStartupSequence, 2000);
+    });
+
+    els.genBtn.addEventListener('click', () => {
+      if (!els.genBtn.classList.contains('active')) {
+        runStartupSequence();
       }
-
-      // Helper pour les cartes
-      function setGreen(cardId, codeId, codeText, descId, descText, badgeId, badgeHTML) {
-        const card = document.getElementById(cardId);
-        if (card) card.className = 'status-card is-ready';
-        const codeSpan = document.getElementById(codeId);
-        if (codeSpan) {
-          codeSpan.textContent = codeText;
-          codeSpan.className = 'card-code success';
-        }
-        const descSpan = document.getElementById(descId);
-        if (descSpan) descSpan.textContent = descText;
-        const badgeSpan = document.getElementById(badgeId);
-        if (badgeSpan) {
-          badgeSpan.innerHTML = badgeHTML;
-          badgeSpan.className = 'chip success';
-        }
-      }
-
-      function addLog(text, cls, delay) {
-        setTimeout(() => {
-          const logList = document.getElementById('log-list');
-          if (!logList) return;
-          const li = document.createElement('li');
-          li.textContent = text;
-          li.className = cls;
-          logList.appendChild(li);
-          setTimeout(() => { li.classList.add('show'); }, 30);
-          // auto-scroll
-          li.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, delay);
-      }
-
-      // ---- LANCEMENT DE LA PROGRESSION FLUIDE ----
-      setTimeout(() => {
-        progressStartTime = null;
-        progressAnimFrame = requestAnimationFrame(updateProgress);
-      }, PROGRESS_START_DELAY);
-
-      // ------------------------------------------------------------------
-      // ÉTAPES PRINCIPALES (correspondance avec le brief)
-      // ------------------------------------------------------------------
-      // Carte 1 (alimentation) @ 3000ms
-      setTimeout(() => {
-        setGreen(
-          'card-alim', 'power-code', 'ON',
-          'power-desc', 'Source principale opérationnelle.',
-          'power-badge', '<i class="ti ti-plug-connected"></i> Active'
-        );
-      }, 3000);
-      addLog('Alimentation principale rétablie.', 'ok', 3200);
-
-      // Carte 2 (générateur) @ 6000ms
-      setTimeout(() => {
-        setGreen(
-          'card-gen', 'gen-code', 'ON',
-          'gen-desc', 'Générateur en marche.',
-          'gen-badge', '<i class="ti ti-bolt"></i> Actif'
-        );
-      }, 6000);
-      addLog('Générateur démarré avec succès.', 'ok', 6200);
-
-      // Carte 3 (zone technique) @ 9000ms
-      setTimeout(() => {
-        setGreen(
-          'card-zone', 'zone-code', 'OK',
-          'zone-desc', 'Alimentation stabilisée.',
-          'zone-badge', '<i class="ti ti-check"></i> Alimentée'
-        );
-      }, 9000);
-      addLog('Synchronisation du réseau effectuée.', 'ok', 9200);
-      addLog('Zone technique maintenant alimentée.', 'ok', 9800);
-
-      // Hero valeur "ACT" @ 10500ms
-      setTimeout(() => {
-        const displayVal = document.getElementById('display-value');
-        if (displayVal) displayVal.textContent = 'ACT';
-      }, 10500);
-
-      // Badge passe à actif @ 11000ms
-      setTimeout(() => {
-        const badge = document.getElementById('hero-badge');
-        if (badge) {
-          badge.className = 'hero-badge active';
-          badge.innerHTML = '<i class="ti ti-check"></i> Actif';
-        }
-      }, 11000);
-
-      // Détail final @ 11500ms
-      setTimeout(() => {
-        const detailTitle = document.getElementById('detail-title');
-        const detailDesc = document.getElementById('detail-desc');
-        if (detailTitle) detailTitle.textContent = 'GÉNÉRATEUR ACTIF';
-        if (detailDesc) detailDesc.textContent = "Le générateur est opérationnel. L'alimentation de secours est disponible.";
-      }, 11500);
-
-      // Bouton final (vert, icone check) @ 12000ms
-      setTimeout(() => {
-        const genBtn = document.getElementById('generator-btn');
-        const btnIcon = document.getElementById('btn-icon-i');
-        const btnTitle = document.getElementById('btn-title');
-        const btnSub = document.getElementById('btn-sub');
-        const btnArrow = document.getElementById('btn-arrow');
-        if (genBtn) genBtn.className = 'generator-btn active';
-        if (btnIcon) btnIcon.className = 'ti ti-check';
-        if (btnTitle) btnTitle.textContent = 'RÉACTIVÉ';
-        if (btnSub) btnSub.textContent = 'Générateur: actif';
-        if (btnArrow) {
-          btnArrow.className = 'ti ti-check btn-arrow';
-        }
-      }, 12000);
-
-      // Petit détail: si jamais la progression était déjà à 100% et que le shimmer s'active correctement
-      // On garantit aussi qu'après 10.5s la progression est bien à 100% même si l'animation était en retard
-      setTimeout(() => {
-        if (fillElem && fillElem.style.width !== '100%') {
-          fillElem.style.width = '100%';
-          progressTextSpan.textContent = '100%';
-          fillElem.classList.add('done');
-        }
-      }, PROGRESS_END_DELAY + 50);
-    })();
+    });
   </script>
 </body>
 </html>
