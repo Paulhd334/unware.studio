@@ -662,187 +662,10 @@
             padding: 12px 16px;
             font-size: 16px;
         }
-
-           /* === COOKIES === */
-    #custom-cookie-banner {
-        position: fixed; bottom: 30px; right: 30px; max-width: 420px;
-        background: #000000; color: #ffffff;
-        padding: 28px; border-radius: 16px; z-index: 10000;
-        display: none; font-family: 'Inter', sans-serif;
-        border: 1px solid #333333;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    }
-    #custom-cookie-banner.show { display: block; animation: cookieSlideIn 0.5s ease; }
-
-    @keyframes cookieSlideIn {
-        from { opacity: 0; transform: translateY(30px); }
-        to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .cookie-banner-content { display: flex; flex-direction: column; gap: 20px; }
-    .cookie-text h3 { margin: 0 0 12px 0; font-size: 18px; font-weight: 600; color: #ffffff; }
-    .cookie-text p { margin: 0; font-size: 14px; color: #cccccc; line-height: 1.5; }
-    .cookie-actions { display: flex; gap: 10px; justify-content: flex-end; }
-
-    .cookie-btn {
-        padding: 10px 20px; border: 1px solid #444444; border-radius: 8px;
-        background: transparent; color: #ffffff; font-size: 13px; font-weight: 500;
-        cursor: pointer; transition: all 0.3s ease; min-width: 90px;
-    }
-    .cookie-btn:hover { transform: translateY(-1px); }
-    .cookie-btn.reject { background: rgba(255,255,255,0.05); }
-    .cookie-btn.reject:hover { background: rgba(255,255,255,0.1); }
-    .cookie-btn.settings { background: rgba(255,255,255,0.08); }
-    .cookie-btn.settings:hover { background: rgba(255,255,255,0.15); }
-    .cookie-btn.accept { background: #ffffff; color: #000000; font-weight: 600; }
-    .cookie-btn.accept:hover { background: #e0e0e0; }
-
-    /* Modal cookies */
-    .cookie-modal {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.8); z-index: 10001;
-        display: none; align-items: center; justify-content: center; padding: 20px;
-    }
-    .cookie-modal.show { display: flex; }
-
-    .modal-content {
-        background: #000000; padding: 30px; border-radius: 16px;
-        max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto;
-        border: 1px solid #333333; box-shadow: 0 25px 50px rgba(0,0,0,0.6); color: #ffffff;
-    }
-    .modal-header {
-        display: flex; justify-content: space-between; align-items: center;
-        margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #333333;
-    }
-    .modal-header h3 { margin: 0; font-size: 18px; font-weight: 600; color: #ffffff; }
-
-    .close-modal {
-        background: rgba(255,255,255,0.1); border: 1px solid #444444;
-        color: #ffffff; font-size: 18px; cursor: pointer;
-        padding: 6px; border-radius: 6px;
-        width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-        transition: all 0.3s ease;
-    }
-    .close-modal:hover { background: rgba(255,255,255,0.2); transform: rotate(90deg); }
-
-    .cookie-options { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
-    .cookie-option {
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 20px; background: rgba(255,255,255,0.05);
-        border-radius: 12px; border: 1px solid #333333; transition: all 0.3s ease;
-    }
-    .cookie-option:hover { background: rgba(255,255,255,0.08); border-color: #444444; }
-    .cookie-option-info { flex: 1; margin-right: 20px; }
-    .cookie-option-title { display: block; color: #ffffff; font-weight: 600; font-size: 15px; margin-bottom: 6px; }
-    .cookie-option-description { font-size: 13px; color: #999999; line-height: 1.4; }
-
-    /* Toggles */
-    .cookie-slide-container { position: relative; display: inline-block; width: 54px; height: 28px; flex-shrink: 0; }
-    .cookie-slide { opacity: 0; width: 0; height: 0; position: absolute; }
-    .cookie-slide-label {
-        position: relative; display: block; width: 100%; height: 100%;
-        background: #333333; border-radius: 20px; cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 2px solid transparent;
-    }
-    .cookie-slide-label:before {
-        content: ''; position: absolute; top: 2px; left: 2px;
-        width: 20px; height: 20px; background: #666666; border-radius: 50%;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-    .cookie-slide:checked + .cookie-slide-label { background: #ffffff; border-color: #ffffff; }
-    .cookie-slide:checked + .cookie-slide-label:before { transform: translateX(26px); background: #000000; }
-    .cookie-slide-label:hover:before { transform: scale(1.1); }
-    .cookie-slide:checked + .cookie-slide-label:hover:before { transform: translateX(26px) scale(1.1); }
-    .cookie-slide:disabled + .cookie-slide-label { opacity: 0.4; cursor: not-allowed; }
-    .cookie-slide:disabled + .cookie-slide-label:hover:before { transform: none; }
-
-    .modal-actions {
-        display: flex; gap: 12px; justify-content: flex-end;
-        margin-top: 25px; padding-top: 20px; border-top: 1px solid #333333;
-    }
-    .modal-btn {
-        padding: 12px 24px; border: 1px solid #444444; border-radius: 10px;
-        background: transparent; color: #ffffff; font-size: 14px; font-weight: 500;
-        cursor: pointer; transition: all 0.3s ease; min-width: 100px;
-    }
-    .modal-btn.save { background: #ffffff; color: #000000; font-weight: 600; border-color: #ffffff; }
-    .modal-btn.save:hover { background: #e0e0e0; transform: translateY(-1px); }
-    .modal-btn.cancel { background: rgba(255,255,255,0.05); }
-    .modal-btn.cancel:hover { background: rgba(255,255,255,0.1); transform: translateY(-1px); }
-
-    /* === RESPONSIVE === */
-    @media (max-width: 1024px) {
-        .hero-content { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-        .hero-subtitle { margin: 0 auto 40px; }
-        .hero-actions { justify-content: center; }
-        .footer-content { grid-template-columns: 1fr 1fr; gap: 30px; }
-    }
-
-    @media (max-width: 768px) {
-        .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
-        .mobile-menu { display: flex; }
-        .studio-logo { display: none !important; visibility: hidden !important; position: absolute !important; width: 0 !important; height: 0 !important; opacity: 0 !important; pointer-events: none !important; }
-        .hero-title { font-size: 3.5rem; }
-        .hero-actions { flex-direction: column; align-items: center; }
-        .footer-content { grid-template-columns: 1fr; gap: 30px; }
-
-        #custom-cookie-banner {
-            bottom: 0; right: 0; left: 0; max-width: none;
-            border-radius: 16px 16px 0 0; padding: 24px 20px; margin: 0;
-            animation: cookieSlideUp 0.5s ease;
-        }
-        @keyframes cookieSlideUp {
-            from { opacity: 0; transform: translateY(100%); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-        .cookie-banner-content { gap: 16px; }
-        .cookie-text h3 { font-size: 16px; margin-bottom: 8px; }
-        .cookie-text p { font-size: 13px; }
-        .cookie-actions { flex-direction: column; gap: 8px; }
-        .cookie-btn { width: 100%; padding: 12px 16px; font-size: 14px; min-width: auto; }
-        .cookie-modal { padding: 10px; align-items: flex-end; }
-        .modal-content { max-width: none; border-radius: 16px 16px 0 0; padding: 24px 20px; max-height: 85vh; }
-        .cookie-option { padding: 16px; flex-direction: column; align-items: flex-start; gap: 12px; }
-        .cookie-option-info { margin-right: 0; }
-        .cookie-option-title { font-size: 14px; }
-        .cookie-option-description { font-size: 12px; }
-        .cookie-slide-container { align-self: flex-end; }
-        .modal-actions { flex-direction: column; gap: 10px; margin-top: 20px; padding-top: 16px; }
-        .modal-btn { width: 100%; padding: 14px 16px; font-size: 14px; min-width: auto; }
-    }
-
-    @media (max-width: 480px) {
-        .hero-title { font-size: 2.8rem; }
-        #custom-cookie-banner { padding: 20px 16px; }
-        .modal-content { padding: 20px 16px; }
-        .cookie-option { padding: 14px; }
-    }
-
-    @media (max-height: 600px) {
-        .mobile-nav { padding: 70px 20px 20px; }
-        .mobile-close { top: 20px; right: 20px; }
-        .mobile-nav-actions { gap: 10px; margin-bottom: 20px; }
-        .mobile-nav-actions .btn { padding: 12px 15px; }
-        .mobile-nav-links li { margin-bottom: 6px; }
-        .mobile-nav-links a { padding: 12px 16px; font-size: 16px; }
-    }
-
-    #custom-cookie-banner.hiding { animation: cookieSlideOut 0.4s ease forwards; }
-    @keyframes cookieSlideOut {
-        to { opacity: 0; transform: translateY(30px); }
-    }
-    @media (max-width: 768px) {
-        #custom-cookie-banner.hiding { animation: cookieSlideDown 0.4s ease forwards; }
-        @keyframes cookieSlideDown {
-            to { opacity: 0; transform: translateY(100%); }
-        }
     }
     </style>
 </head>
 <body>
-<br>
     <!-- Header -->
     <header>
         <div class="container nav-container">
@@ -859,7 +682,6 @@
                 <li><a href="../nexa/nexa.html">The void protocol</a></li>
             </ul>
             <div class="nav-actions">
-
                 <div class="mobile-menu" id="mobileMenu">
                     <i class="fas fa-bars"></i>
                 </div>
@@ -880,9 +702,7 @@
             <li><a href="../nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
             <li><a href="../nexa/nexa.html" class="mobile-nav-link">The void protocol</a></li>
         </ul>
-        <div class="mobile-nav-actions">
-
-        </div>
+        <div class="mobile-nav-actions"></div>
     </nav>
 
     <!-- Legal Section -->
@@ -935,7 +755,6 @@
                                 <td>Analyse d'audience, statistiques</td>
                                 <td>Google Analytics</td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -970,7 +789,7 @@
                     
                     <div class="warning-note">
                         <h4><i class="fas fa-info-circle"></i> Protection des Données</h4>
-                        <p><strong>Des données personnelles (telles que l’adresse IP anonymisée, les pages consultées et les interactions) peuvent être collectées via des cookies analytiques, 
+                        <p><strong>Des données personnelles (telles que l'adresse IP anonymisée, les pages consultées et les interactions) peuvent être collectées via des cookies analytiques, 
                             uniquement après obtention de votre consentement explicite.</strong></p>
                     </div>
                 </div>
@@ -1014,67 +833,59 @@
                                 <td>Consentement explicite</td>
                                 <td>Requis</td>
                             </tr>
-                               <tr>                             
                         </tbody>
                     </table>
                 </div>
 
-<div class="legal-card">
-    <h3><i class="fas fa-sync-alt"></i> Durée de Conservation</h3>
-    <p>Les durées de conservation des cookies et des données associées sont limitées à ce qui est nécessaire aux finalités pour lesquelles ils sont utilisés :</p>
+                <div class="legal-card">
+                    <h3><i class="fas fa-sync-alt"></i> Durée de Conservation</h3>
+                    <p>Les durées de conservation des cookies et des données associées sont limitées à ce qui est nécessaire aux finalités pour lesquelles ils sont utilisés :</p>
 
-    <ul class="legal-list">
-        <li>
-            <strong>Google Analytics</strong><br>
-            Durée du cookie : selon la configuration du service.<br>
-            Conservation des données : selon les paramètres de conservation configurés dans Google Analytics.
-        </li>
-        <li>
-            <strong>Microsoft Clarity</strong><br>
-            Durée de conservation : selon les paramètres du service.
-        </li>
-        <li>
-            <strong>Consentement</strong><br>
-            Le choix concernant les cookies est conservé afin de mémoriser vos préférences.
-        </li>
-    </ul>
-</div>
-
+                    <ul class="legal-list">
+                        <li>
+                            <strong>Google Analytics</strong><br>
+                            Durée du cookie : selon la configuration du service.<br>
+                            Conservation des données : selon les paramètres de conservation configurés dans Google Analytics.
+                        </li>
+                        <li>
+                            <strong>Microsoft Clarity</strong><br>
+                            Durée de conservation : selon les paramètres du service.
+                        </li>
+                        <li>
+                            <strong>Consentement</strong><br>
+                            Le choix concernant les cookies est conservé afin de mémoriser vos préférences.
+                        </li>
+                    </ul>
+                </div>
 
                 <div class="legal-card">
-    <h3><i class="fas fa-download"></i> Suppression des données</h3>
-    <p>Vous disposez de droits étendus sur vos données :</p>
-    
-    <div class="nexa-cookie-actions">
-        <button class="btn-nexa-cookie" onclick="deleteGoogleAnalyticsData()">
-            <i class="fas fa-trash"></i>Supprimer les cookies Google Analytics
-        </button>
-
-    </div>
-    
-    <div id="cookie-status" style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px; display: none;">
-        <p id="cookie-status-text" style="margin: 0; font-size: 13px;"></p>
-    </div>
-    
-    <p style="margin-top: 15px; font-size: 13px; color: var(--text-secondary);">
-        <i class="fas fa-info-circle"></i> Cette action supprime les cookies de Google Analytics  de votre navigateur.
-    </p>
-    
-    <details style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
-        <summary>Qu'est-ce qui sera supprimé ?</summary>
-        <ul style="padding-left: 20px; margin-top: 5px;">
-            <li>Tous les cookies Google Analytics (_ga, _gid, etc.)</li>
-            <li>Les données de stockage local liées à GA</li>
-            <li>Les données de session</li>
-            <li>Votre consentement enregistré localement</li>
-        </ul>
-    </details>
-</div>
-
-
-
-
-         
+                    <h3><i class="fas fa-download"></i> Suppression des données</h3>
+                    <p>Vous disposez de droits étendus sur vos données :</p>
+                    
+                    <div class="nexa-cookie-actions">
+                        <button class="btn-nexa-cookie" onclick="deleteGoogleAnalyticsData()">
+                            <i class="fas fa-trash"></i>Supprimer les cookies Google Analytics
+                        </button>
+                    </div>
+                    
+                    <div id="cookie-status" style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px; display: none;">
+                        <p id="cookie-status-text" style="margin: 0; font-size: 13px;"></p>
+                    </div>
+                    
+                    <p style="margin-top: 15px; font-size: 13px; color: var(--text-secondary);">
+                        <i class="fas fa-info-circle"></i> Cette action supprime les cookies de Google Analytics de votre navigateur.
+                    </p>
+                    
+                    <details style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
+                        <summary>Qu'est-ce qui sera supprimé ?</summary>
+                        <ul style="padding-left: 20px; margin-top: 5px;">
+                            <li>Tous les cookies Google Analytics (_ga, _gid, etc.)</li>
+                            <li>Les données de stockage local liées à GA</li>
+                            <li>Les données de session</li>
+                            <li>Votre consentement enregistré localement</li>
+                        </ul>
+                    </details>
+                </div>
 
                 <div class="contact-legal">
                     <h3><i class="fas fa-question-circle"></i> Questions sur les Cookies</h3>
@@ -1085,423 +896,420 @@
 
                 <div class="last-update">
                     <p><strong>Dernière mise à jour :</strong> 29 Juillet 2026</p>
-                
                 </div>
             </div>
         </div>
     </section>
 
-<!-- Footer -->
-<footer>
-  <div class="container">
-    <div class="footer-content">
-      <!-- Brand / Studio -->
-      <div class="footer-brand">
-        <div class="footer-logo">
-          <span class="footer-logo-text">The void protocol</span>
-        </div>
-        <p class="footer-desc">Un jeu développé par UNWARE STUDIO.</p>
-        <div class="social-links">
-          <!-- Twitch (remplace Twitter) -->
-          <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer">
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/>
-            </svg>
-          </a>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- Brand / Studio -->
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <span class="footer-logo-text">The void protocol</span>
+                    </div>
+                    <p class="footer-desc">Un jeu développé par UNWARE STUDIO.</p>
+                    <div class="social-links">
+                        <!-- Twitch (remplace Twitter) -->
+                        <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer">
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/>
+                            </svg>
+                        </a>
 
-          <!-- Discord -->
-          <a href="https://discord.gg/PE7MS4Sazk" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer">
-            <svg width="21" height="21" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
-            </svg>
-          </a>
+                        <!-- Discord -->
+                        <a href="https://discord.gg/PE7MS4Sazk" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer">
+                            <svg width="21" height="21" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+                            </svg>
+                        </a>
 
-          <!-- YouTube -->
-          <a href="https://www.youtube.com/@unware.studio" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-          </a>
+                        <!-- YouTube -->
+                        <a href="https://www.youtube.com/@unware.studio" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
 
-          <!-- Instagram -->
-          <a href="https://www.instagram.com/unware.studio?igsh=bXcyaWVlMG96cXhl" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- Navigation -->
-      <div class="footer-column">
-        <h3>Navigation</h3>
-        <ul class="footer-links">
-          <li><a href="/#accueil" target="_blank" rel="noopener noreferrer">Accueil</a></li>
-          <li><a href="/nexa/fonctionnalites.html" target="_blank" rel="noopener noreferrer">Fonctionnalités</a></li>
-          <li><a href="/nexa/galerie.html" target="_blank" rel="noopener noreferrer">Galeries</a></li>
-          <li><a href="/nexa/nexa.html" target="_blank" rel="noopener noreferrer">The Void Protocol</a></li>
-        </ul>
-      </div>
-
-      <!-- Support -->
-      <div class="footer-column">
-        <h3>Support</h3>
-        <ul class="footer-links">
-          <li><a href="/Support/centre-aide.html" target="_blank" rel="noopener noreferrer">Centre d'aide</a></li>
-          <li><a href="/Support/FAQ.html" target="_blank" rel="noopener noreferrer">FAQ</a></li>
-          <li><a href="/Support/contact.html" target="_blank" rel="noopener noreferrer">Contact</a></li>
-          <li><a href="/Support/statut.html" target="_blank" rel="noopener noreferrer">Statut des services</a></li>
-        </ul>
-      </div>
-
-      <!-- Légal -->
-      <div class="footer-column">
-        <h3>Légal</h3>
-        <ul class="footer-links">
-          <li><a href="/legals/conditions-utilisation.html" target="_blank" rel="noopener noreferrer">Conditions d'utilisation</a></li>
-          <li><a href="/legals/politique-confidentialite.html" target="_blank" rel="noopener noreferrer">Politique de confidentialité</a></li>
-          <li><a href="/legals/mentions-legales.html" target="_blank" rel="noopener noreferrer">Mentions légales</a></li>
-          <li><a href="/legals/politique-cookies.html" target="_blank" rel="noopener noreferrer">Politique de cookies</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Copyright -->
-    <div class="copyright">
-      <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
-    </div>
-  </div>
-</footer>
-
-<!-- Bannière Cookies RGPD 2026 / 2027 -->
-<div id="custom-cookie-banner" role="dialog" aria-label="Gestion des cookies">
-    <div class="cookie-banner-content">
-        <div class="cookie-text">
-            <h3>Respect de votre vie privée</h3>
-            <p>Nous utilisons des cookies pour améliorer votre expérience. Vous pouvez personnaliser vos préférences.</p>
-        </div>
-        <div class="cookie-actions">
-            <button class="cookie-btn reject" onclick="rejectCookies()">Refuser</button>
-            <button class="cookie-btn settings" onclick="showCookieSettings()">Personnaliser</button>
-            <button class="cookie-btn accept" onclick="acceptCookies()">Accepter</button>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Cookies -->
-<div class="cookie-modal" id="cookieModal" role="dialog" aria-modal="true" aria-label="Paramètres des cookies">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Gestion des cookies</h3>
-            <button class="close-modal" onclick="hideCookieSettings()" aria-label="Fermer">&times;</button>
-        </div>
-        <div class="cookie-options">
-            <div class="cookie-option">
-                <div class="cookie-option-info">
-                    <div class="cookie-option-title">Cookies essentiels</div>
-                    <div class="cookie-option-description">Nécessaires au bon fonctionnement du site. Ils ne peuvent pas être désactivés.</div>
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/unware.studio?igsh=bXcyaWVlMG96cXhl" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-                <div class="cookie-slide-container">
-                    <input type="checkbox" class="cookie-slide essential" checked disabled id="essentialCookies">
-                    <label class="cookie-slide-label" for="essentialCookies"></label>
+
+                <!-- Navigation -->
+                <div class="footer-column">
+                    <h3>Navigation</h3>
+                    <ul class="footer-links">
+                        <li><a href="/#accueil" target="_blank" rel="noopener noreferrer">Accueil</a></li>
+                        <li><a href="/nexa/fonctionnalites.html" target="_blank" rel="noopener noreferrer">Fonctionnalités</a></li>
+                        <li><a href="/nexa/galerie.html" target="_blank" rel="noopener noreferrer">Galeries</a></li>
+                        <li><a href="/nexa/nexa.html" target="_blank" rel="noopener noreferrer">The Void Protocol</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="/Support/centre-aide.html" target="_blank" rel="noopener noreferrer">Centre d'aide</a></li>
+                        <li><a href="/Support/FAQ.html" target="_blank" rel="noopener noreferrer">FAQ</a></li>
+                        <li><a href="/Support/contact.html" target="_blank" rel="noopener noreferrer">Contact</a></li>
+                        <li><a href="/Support/statut.html" target="_blank" rel="noopener noreferrer">Statut des services</a></li>
+                    </ul>
+                </div>
+
+                <!-- Légal -->
+                <div class="footer-column">
+                    <h3>Légal</h3>
+                    <ul class="footer-links">
+                        <li><a href="/legals/conditions-utilisation.html" target="_blank" rel="noopener noreferrer">Conditions d'utilisation</a></li>
+                        <li><a href="/legals/politique-confidentialite.html" target="_blank" rel="noopener noreferrer">Politique de confidentialité</a></li>
+                        <li><a href="/legals/mentions-legales.html" target="_blank" rel="noopener noreferrer">Mentions légales</a></li>
+                        <li><a href="/legals/politique-cookies.html" target="_blank" rel="noopener noreferrer">Politique de cookies</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="cookie-option">
-                <div class="cookie-option-info">
-                    <div class="cookie-option-title">Cookies analytiques</div>
-                    <div class="cookie-option-description">Nous aident à comprendre comment vous utilisez le site pour l'améliorer.</div>
-                </div>
-                <div class="cookie-slide-container">
-                    <input type="checkbox" class="cookie-slide" id="analyticsCookies">
-                    <label class="cookie-slide-label" for="analyticsCookies"></label>
-                </div>
-            </div>
-            <div class="cookie-option">
-                <div class="cookie-option-info">
-                    <div class="cookie-option-title">Cookies de performance</div>
-                    <div class="cookie-option-description">Améliorent les performances du site en mémorisant vos préférences.</div>
-                </div>
-                <div class="cookie-slide-container">
-                    <input type="checkbox" class="cookie-slide" id="performanceCookies">
-                    <label class="cookie-slide-label" for="performanceCookies"></label>
-                </div>
+
+            <!-- Copyright -->
+            <div class="copyright">
+                <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
             </div>
         </div>
-        <div class="modal-actions">
-            <button class="modal-btn cancel" onclick="hideCookieSettings()">Annuler</button>
-            <button class="modal-btn save" onclick="saveCookiePreferences()">Enregistrer mes choix</button>
+    </footer>
+
+    <!-- Bannière Cookies RGPD 2026 / 2027 -->
+    <div id="custom-cookie-banner" role="dialog" aria-label="Gestion des cookies">
+        <div class="cookie-banner-content">
+            <div class="cookie-text">
+                <h3>Respect de votre vie privée</h3>
+                <p>Nous utilisons des cookies pour améliorer votre expérience. Vous pouvez personnaliser vos préférences.</p>
+            </div>
+            <div class="cookie-actions">
+                <button class="cookie-btn reject" onclick="rejectCookies()">Refuser</button>
+                <button class="cookie-btn settings" onclick="showCookieSettings()">Personnaliser</button>
+                <button class="cookie-btn accept" onclick="acceptCookies()">Accepter</button>
+            </div>
         </div>
     </div>
-</div>
-    
-<script>
-    // Menu Burger Functionality
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileNav = document.getElementById('mobileNav');
-    const overlay = document.getElementById('overlay');
-    const mobileClose = document.getElementById('mobileClose');
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-    const body = document.body;
 
-    function openMobileMenu() {
-        mobileNav.classList.add('active');
-        overlay.classList.add('active');
-        mobileMenu.classList.add('active');
-        body.classList.add('no-scroll');
-        void mobileNav.offsetWidth;
-    }
-
-    function closeMobileMenu() {
-        mobileNav.classList.remove('active');
-        overlay.classList.remove('active');
-        mobileMenu.classList.remove('active');
-        body.classList.remove('no-scroll');
-    }
-
-    function toggleMobileMenu() {
-        if (mobileNav.classList.contains('active')) {
-            closeMobileMenu();
-        } else {
-            openMobileMenu();
-        }
-    }
-
-    mobileMenu.addEventListener('click', toggleMobileMenu);
-    overlay.addEventListener('click', closeMobileMenu);
-    mobileClose.addEventListener('click', closeMobileMenu);
-
-    mobileNavLinks.forEach(link => {
-        link.addEventListener('click', closeMobileMenu);
-    });
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-            closeMobileMenu();
-        }
-    });
-
-    window.addEventListener('load', function() {
-        if (window.location.hash) {
-            history.replaceState(null, null, window.location.pathname + window.location.search);
-        }
-    });
-
-    // Système de suppression des données Google Analytics G-NJLCB6G0G8
-    function deleteGoogleAnalyticsData() {
-        if (confirm('🗑️ Êtes-vous sûr de vouloir supprimer toutes vos données Google Analytics ?\n\nCette action supprimera :\n• Vos cookies de suivi Google Analytics\n• Vos données de session\n• Vos préférences de consentement\n\nNote : Cette action est locale à votre navigateur.')) {
-            
-            // 1. Supprimer tous les cookies Google Analytics
-            deleteAllGoogleAnalyticsCookies();
-            
-            // 2. Supprimer le stockage local
-            deleteLocalStorageData();
-            
-            // 3. Supprimer le stockage de session
-            deleteSessionStorageData();
-            
-            // 4. Désactiver Google Analytics pour cette session
-            disableGoogleAnalytics();
-            
-            // 5. Confirmation à l'utilisateur
-            showDeletionConfirmation();
-            
-            console.log(' Données Google Analytics supprimées');
-        }
-    }
-
-    function deleteAllGoogleAnalyticsCookies() {
-        // Liste des cookies Google Analytics à supprimer
-        const gaCookies = [
-            '_ga',           // Cookie principal GA4
-            '_ga_',          // Tous les cookies _ga_*
-            '_gid',          // Cookie d'ID utilisateur
-            '_gat',          // Cookie de limitation du débit
-            '_gat_gtag_',    // Cookies gtag
-            '_gac_',         // Cookies publicitaires
-            '_dc_gtm_',      // Google Tag Manager
-            '_fbp',          // Facebook pixel (souvent utilisé avec GA)
-            '_fbc',          // Facebook click ID
-            'AMP_TOKEN',     // Token AMP
-            '_gaexp',        // Expérimentations Google
-            '_opt_',         // Optimize
-            '_gcl_au'        // Google Ads
-        ];
-
-        // Supprimer tous les cookies du domaine actuel
-        const hostname = window.location.hostname;
-        const domainParts = hostname.split('.');
+    <!-- Modal Cookies -->
+    <div class="cookie-modal" id="cookieModal" role="dialog" aria-modal="true" aria-label="Paramètres des cookies">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Gestion des cookies</h3>
+                <button class="close-modal" onclick="hideCookieSettings()" aria-label="Fermer">&times;</button>
+            </div>
+            <div class="cookie-options">
+                <div class="cookie-option">
+                    <div class="cookie-option-info">
+                        <div class="cookie-option-title">Cookies essentiels</div>
+                        <div class="cookie-option-description">Nécessaires au bon fonctionnement du site. Ils ne peuvent pas être désactivés.</div>
+                    </div>
+                    <div class="cookie-slide-container">
+                        <input type="checkbox" class="cookie-slide essential" checked disabled id="essentialCookies">
+                        <label class="cookie-slide-label" for="essentialCookies"></label>
+                    </div>
+                </div>
+                <div class="cookie-option">
+                    <div class="cookie-option-info">
+                        <div class="cookie-option-title">Cookies analytiques</div>
+                        <div class="cookie-option-description">Nous aident à comprendre comment vous utilisez le site pour l'améliorer.</div>
+                    </div>
+                    <div class="cookie-slide-container">
+                        <input type="checkbox" class="cookie-slide" id="analyticsCookies">
+                        <label class="cookie-slide-label" for="analyticsCookies"></label>
+                    </div>
+                </div>
+                <div class="cookie-option">
+                    <div class="cookie-option-info">
+                        <div class="cookie-option-title">Cookies de performance</div>
+                        <div class="cookie-option-description">Améliorent les performances du site en mémorisant vos préférences.</div>
+                    </div>
+                    <div class="cookie-slide-container">
+                        <input type="checkbox" class="cookie-slide" id="performanceCookies">
+                        <label class="cookie-slide-label" for="performanceCookies"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="hideCookieSettings()">Annuler</button>
+                <button class="modal-btn save" onclick="saveCookiePreferences()">Enregistrer mes choix</button>
+            </div>
+        </div>
+    </div>
         
-        // Essayer différents domaines pour la suppression
-        const domainsToClear = [
-            hostname,
-            '.' + hostname,
-            '.' + domainParts.slice(-2).join('.')  // domaine de second niveau
-        ];
+    <script>
+        // Menu Burger Functionality
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileNav = document.getElementById('mobileNav');
+        const overlay = document.getElementById('overlay');
+        const mobileClose = document.getElementById('mobileClose');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        const body = document.body;
 
-        gaCookies.forEach(cookieName => {
-            domainsToClear.forEach(domain => {
-                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
-                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-            });
+        function openMobileMenu() {
+            mobileNav.classList.add('active');
+            overlay.classList.add('active');
+            mobileMenu.classList.add('active');
+            body.classList.add('no-scroll');
+            void mobileNav.offsetWidth;
+        }
+
+        function closeMobileMenu() {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            body.classList.remove('no-scroll');
+        }
+
+        function toggleMobileMenu() {
+            if (mobileNav.classList.contains('active')) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
+        }
+
+        mobileMenu.addEventListener('click', toggleMobileMenu);
+        overlay.addEventListener('click', closeMobileMenu);
+        mobileClose.addEventListener('click', closeMobileMenu);
+
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
         });
 
-        // Supprimer aussi les cookies avec pattern (comme _ga_*)
-        const allCookies = document.cookie.split(';');
-        allCookies.forEach(cookie => {
-            const cookieName = cookie.split('=')[0].trim();
-            gaCookies.forEach(gaPattern => {
-                if (cookieName.includes(gaPattern.replace('*', ''))) {
-                    domainsToClear.forEach(domain => {
-                        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
-                        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-                    });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
+
+        window.addEventListener('load', function() {
+            if (window.location.hash) {
+                history.replaceState(null, null, window.location.pathname + window.location.search);
+            }
+        });
+
+        // Système de suppression des données Google Analytics G-NJLCB6G0G8
+        function deleteGoogleAnalyticsData() {
+            if (confirm('🗑️ Êtes-vous sûr de vouloir supprimer toutes vos données Google Analytics ?\n\nCette action supprimera :\n• Vos cookies de suivi Google Analytics\n• Vos données de session\n• Vos préférences de consentement\n\nNote : Cette action est locale à votre navigateur.')) {
+                
+                // 1. Supprimer tous les cookies Google Analytics
+                deleteAllGoogleAnalyticsCookies();
+                
+                // 2. Supprimer le stockage local
+                deleteLocalStorageData();
+                
+                // 3. Supprimer le stockage de session
+                deleteSessionStorageData();
+                
+                // 4. Désactiver Google Analytics pour cette session
+                disableGoogleAnalytics();
+                
+                // 5. Confirmation à l'utilisateur
+                showDeletionConfirmation();
+                
+                console.log(' Données Google Analytics supprimées');
+            }
+        }
+
+        function deleteAllGoogleAnalyticsCookies() {
+            // Liste des cookies Google Analytics à supprimer
+            const gaCookies = [
+                '_ga',           // Cookie principal GA4
+                '_ga_',          // Tous les cookies _ga_*
+                '_gid',          // Cookie d'ID utilisateur
+                '_gat',          // Cookie de limitation du débit
+                '_gat_gtag_',    // Cookies gtag
+                '_gac_',         // Cookies publicitaires
+                '_dc_gtm_',      // Google Tag Manager
+                '_fbp',          // Facebook pixel (souvent utilisé avec GA)
+                '_fbc',          // Facebook click ID
+                'AMP_TOKEN',     // Token AMP
+                '_gaexp',        // Expérimentations Google
+                '_opt_',         // Optimize
+                '_gcl_au'        // Google Ads
+            ];
+
+            // Supprimer tous les cookies du domaine actuel
+            const hostname = window.location.hostname;
+            const domainParts = hostname.split('.');
+            
+            // Essayer différents domaines pour la suppression
+            const domainsToClear = [
+                hostname,
+                '.' + hostname,
+                '.' + domainParts.slice(-2).join('.')  // domaine de second niveau
+            ];
+
+            gaCookies.forEach(cookieName => {
+                domainsToClear.forEach(domain => {
+                    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
+                    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                });
+            });
+
+            // Supprimer aussi les cookies avec pattern (comme _ga_*)
+            const allCookies = document.cookie.split(';');
+            allCookies.forEach(cookie => {
+                const cookieName = cookie.split('=')[0].trim();
+                gaCookies.forEach(gaPattern => {
+                    if (cookieName.includes(gaPattern.replace('*', ''))) {
+                        domainsToClear.forEach(domain => {
+                            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
+                            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                        });
+                    }
+                });
+            });
+        }
+
+        function deleteLocalStorageData() {
+            // Supprimer les clés liées à Google Analytics
+            const gaKeys = [
+                'ga:clientId',
+                'ga_cookie_consent',
+                'google_analytics',
+                'gtm',
+                'gtag',
+                '_ga',
+                'analytics',
+                'cookie_consent'
+            ];
+
+            gaKeys.forEach(key => {
+                localStorage.removeItem(key);
+                // Supprimer aussi avec préfixes
+                for (let i = 0; i < localStorage.length; i++) {
+                    const storageKey = localStorage.key(i);
+                    if (storageKey.includes(key) || key.includes(storageKey)) {
+                        localStorage.removeItem(storageKey);
+                    }
                 }
             });
-        });
-    }
 
-    function deleteLocalStorageData() {
-        // Supprimer les clés liées à Google Analytics
-        const gaKeys = [
-            'ga:clientId',
-            'ga_cookie_consent',
-            'google_analytics',
-            'gtm',
-            'gtag',
-            '_ga',
-            'analytics',
-            'cookie_consent'
-        ];
+            // Optionnel : vider tout le localStorage
+            // localStorage.clear();
+        }
 
-        gaKeys.forEach(key => {
-            localStorage.removeItem(key);
-            // Supprimer aussi avec préfixes
-            for (let i = 0; i < localStorage.length; i++) {
-                const storageKey = localStorage.key(i);
-                if (storageKey.includes(key) || key.includes(storageKey)) {
-                    localStorage.removeItem(storageKey);
-                }
-            }
-        });
+        function deleteSessionStorageData() {
+            // Supprimer les données de session liées à GA
+            const sessionKeys = [
+                'ga_session',
+                'analytics_session',
+                'gtm_session'
+            ];
 
-        // Optionnel : vider tout le localStorage
-        // localStorage.clear();
-    }
-
-    function deleteSessionStorageData() {
-        // Supprimer les données de session liées à GA
-        const sessionKeys = [
-            'ga_session',
-            'analytics_session',
-            'gtm_session'
-        ];
-
-        sessionKeys.forEach(key => {
-            sessionStorage.removeItem(key);
-        });
-    }
-
-    function disableGoogleAnalytics() {
-        // Désactiver Google Analytics pour cette session
-        window['ga-disable-G-NJLCB6G0G8'] = true;
-        
-        // Désactiver le dataLayer
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-            'event': 'analytics_opt_out',
-            'analytics_storage': 'denied'
-        });
-        
-        // Bloquer future collecte
-        if (window.gtag) {
-            gtag('consent', 'update', {
-                'analytics_storage': 'denied',
-                'ad_storage': 'denied',
-                'personalization_storage': 'denied'
+            sessionKeys.forEach(key => {
+                sessionStorage.removeItem(key);
             });
         }
-    }
 
-    function showDeletionConfirmation() {
-        // Créer une notification de confirmation
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #4CAF50;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 5px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 10000;
-            animation: slideIn 0.3s ease;
-            max-width: 400px;
-        `;
-        
-        // Ajouter une animation CSS
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
+        function disableGoogleAnalytics() {
+            // Désactiver Google Analytics pour cette session
+            window['ga-disable-G-NJLCB6G0G8'] = true;
+            
+            // Désactiver le dataLayer
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'analytics_opt_out',
+                'analytics_storage': 'denied'
+            });
+            
+            // Bloquer future collecte
+            if (window.gtag) {
+                gtag('consent', 'update', {
+                    'analytics_storage': 'denied',
+                    'ad_storage': 'denied',
+                    'personalization_storage': 'denied'
+                });
             }
-            @keyframes fadeOut {
-                from { opacity: 1; }
-                to { opacity: 0; }
+        }
+
+        function showDeletionConfirmation() {
+            // Créer une notification de confirmation
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                padding: 15px 25px;
+                border-radius: 5px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                max-width: 400px;
+            `;
+            
+            // Ajouter une animation CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            notification.innerHTML = `
+                <strong> Suppression réussie !</strong>
+                <p style="margin: 8px 0 0 0; font-size: 14px;">
+                    Vos données Google Analytics ont été supprimées.<br>
+                    <small>Les cookies et la session ont été effacés.</small>
+                </p>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-suppression après 5 secondes
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.5s ease';
+                setTimeout(() => notification.remove(), 500);
+            }, 5000);
+        }
+
+        // Fonction pour vérifier les cookies GA actifs
+        function checkGoogleAnalyticsCookies() {
+            const cookies = document.cookie.split(';');
+            const gaCookies = cookies.filter(cookie => 
+                cookie.includes('_ga') || 
+                cookie.includes('_gid') || 
+                cookie.includes('gtm') ||
+                cookie.includes('gtag')
+            );
+            
+            if (gaCookies.length > 0) {
+                console.log('Cookies Google Analytics détectés:', gaCookies);
+                return true;
             }
-        `;
-        document.head.appendChild(style);
-        
-        notification.innerHTML = `
-            <strong> Suppression réussie !</strong>
-            <p style="margin: 8px 0 0 0; font-size: 14px;">
-                Vos données Google Analytics  ont été supprimées.<br>
-                <small>Les cookies et la session ont été effacés.</small>
-            </p>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        // Auto-suppression après 5 secondes
-        setTimeout(() => {
-            notification.style.animation = 'fadeOut 0.5s ease';
-            setTimeout(() => notification.remove(), 500);
-        }, 5000);
-    }
-
-    // Fonction pour vérifier les cookies GA actifs
-    function checkGoogleAnalyticsCookies() {
-        const cookies = document.cookie.split(';');
-        const gaCookies = cookies.filter(cookie => 
-            cookie.includes('_ga') || 
-            cookie.includes('_gid') || 
-            cookie.includes('gtm') ||
-            cookie.includes('gtag')
-        );
-        
-        if (gaCookies.length > 0) {
-            console.log('Cookies Google Analytics détectés:', gaCookies);
-            return true;
+            return false;
         }
-        return false;
-    }
 
-    // Initialisation
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('Système de suppression Google Analytics G-NJLCB6G0G8 initialisé');
-        
-        // Vérifier les cookies au chargement
-        if (checkGoogleAnalyticsCookies()) {
-            console.log('Google Analytics est actif sur cette page');
-        }
-    });
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Système de suppression Google Analytics G-NJLCB6G0G8 initialisé');
+            
+            // Vérifier les cookies au chargement
+            if (checkGoogleAnalyticsCookies()) {
+                console.log('Google Analytics est actif sur cette page');
+            }
+        });
 
-    // Exposer la fonction globalement
-    window.deleteGoogleAnalyticsData = deleteGoogleAnalyticsData;
-    window.checkGoogleAnalyticsCookies = checkGoogleAnalyticsCookies;
-   </script>
- </body>
+        // Exposer la fonction globalement
+        window.deleteGoogleAnalyticsData = deleteGoogleAnalyticsData;
+        window.checkGoogleAnalyticsCookies = checkGoogleAnalyticsCookies;
+    </script>
+</body>
 </html>
-
-
