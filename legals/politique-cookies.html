@@ -41,6 +41,24 @@
     <!-- CSS principal -->
     <link rel="stylesheet" href="../css/styles.css">
 
+
+    <!-- Cookies script RGPD / 2026 -->   
+       <script>
+    (function() {
+        function getCookie(n) {
+            var eq=n+"=", ca=document.cookie.split(';');
+            for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
+            return null;
+        }
+        function load(src) { var s=document.createElement('script');s.src=src;document.head.appendChild(s); }
+        load('../js/cookie-banner.js');
+        if (getCookie('cookieConsent') !== 'rejected') {
+            load('../js/analytics.js');
+            load('../js/analytics-clarify.js');
+        }
+    })();
+    </script>
+
     <style>
     .btn {
         padding: 12px 24px;
