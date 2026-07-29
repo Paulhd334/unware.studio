@@ -1190,67 +1190,6 @@
     </div>
   </div>
 </footer>
-
-<!-- Bannière Cookies RGPD 2026 / 2027 -->
-<div id="custom-cookie-banner" role="dialog" aria-label="Gestion des cookies">
-    <div class="cookie-banner-content">
-        <div class="cookie-text">
-            <h3>Respect de votre vie privée</h3>
-            <p>Nous utilisons des cookies pour améliorer votre expérience. Vous pouvez personnaliser vos préférences.</p>
-        </div>
-        <div class="cookie-actions">
-            <button class="cookie-btn reject" onclick="rejectCookies()">Refuser</button>
-            <button class="cookie-btn settings" onclick="showCookieSettings()">Personnaliser</button>
-            <button class="cookie-btn accept" onclick="acceptCookies()">Accepter</button>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Cookies -->
-<div class="cookie-modal" id="cookieModal" role="dialog" aria-modal="true" aria-label="Paramètres des cookies">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Gestion des cookies</h3>
-            <button class="close-modal" onclick="hideCookieSettings()" aria-label="Fermer">&times;</button>
-        </div>
-        <div class="cookie-options">
-            <div class="cookie-option">
-                <div class="cookie-option-info">
-                    <div class="cookie-option-title">Cookies essentiels</div>
-                    <div class="cookie-option-description">Nécessaires au bon fonctionnement du site. Ils ne peuvent pas être désactivés.</div>
-                </div>
-                <div class="cookie-slide-container">
-                    <input type="checkbox" class="cookie-slide essential" checked disabled id="essentialCookies">
-                    <label class="cookie-slide-label" for="essentialCookies"></label>
-                </div>
-            </div>
-            <div class="cookie-option">
-                <div class="cookie-option-info">
-                    <div class="cookie-option-title">Cookies analytiques</div>
-                    <div class="cookie-option-description">Nous aident à comprendre comment vous utilisez le site pour l'améliorer.</div>
-                </div>
-                <div class="cookie-slide-container">
-                    <input type="checkbox" class="cookie-slide" id="analyticsCookies">
-                    <label class="cookie-slide-label" for="analyticsCookies"></label>
-                </div>
-            </div>
-            <div class="cookie-option">
-                <div class="cookie-option-info">
-                    <div class="cookie-option-title">Cookies de performance</div>
-                    <div class="cookie-option-description">Améliorent les performances du site en mémorisant vos préférences.</div>
-                </div>
-                <div class="cookie-slide-container">
-                    <input type="checkbox" class="cookie-slide" id="performanceCookies">
-                    <label class="cookie-slide-label" for="performanceCookies"></label>
-                </div>
-            </div>
-        </div>
-        <div class="modal-actions">
-            <button class="modal-btn cancel" onclick="hideCookieSettings()">Annuler</button>
-            <button class="modal-btn save" onclick="saveCookiePreferences()">Enregistrer mes choix</button>
-        </div>
-    </div>
-</div>
     
 <script>
     // Menu Burger Functionality
