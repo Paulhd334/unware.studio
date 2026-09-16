@@ -10,25 +10,35 @@ Site web moderne et responsive présentant l'univers de **UNWARE STUDIO**. Desig
 
 ## Fonctionnalités
 
-*  **Présentation immersive** de l'univers 
-*  **Design 100% responsive** (mobile, tablette, desktop)
-*  **Animations fluides** et interface moderne
-*  **Newsletter** et inscription aux mises à jour
-*  **Performance optimisée** avec **Vercel**
+* ![Immersive](https://img.shields.io/badge/Immersive-Experience-000000)
+  **Présentation immersive** de l'univers
+* ![Responsive](https://img.shields.io/badge/Responsive-Design-000000)
+  **Design 100% responsive** (mobile, tablette, desktop)
+* ![Animations](https://img.shields.io/badge/Animations-Fluide-000000)
+  **Animations fluides** et interface moderne
+* ![Newsletter](https://img.shields.io/badge/Newsletter-Updates-000000)
+  **Newsletter** et inscription aux mises à jour
+* ![Performance](https://img.shields.io/badge/Performance-Optimized-000000)
+  **Performance optimisée** avec **Vercel**
 
+## Frontend
 
-### Frontend
+* ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
+  **HTML5** – Structure sémantique
+* ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
+  **CSS3** – Styles modernes avec variables CSS
+* ![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E?logo=javascript&logoColor=000000)
+  **JavaScript ES6+** – Interactivité et animations
+* ![Font Awesome](https://img.shields.io/badge/Font%20Awesome-528DD7?logo=fontawesome&logoColor=white)
+  **Font Awesome** – Icônes
+* ![Google Fonts](https://img.shields.io/badge/Google%20Fonts-4285F4?logo=googlefonts&logoColor=white)
+  **Google Fonts** – Typographie
 
-* **HTML5** – Structure sémantique
-* **CSS3** – Styles modernes avec variables CSS
-* **JavaScript ES6+** – Interactivité et animations
-* **Font Awesome** – Icônes
-* **Google Fonts** – Typographie
+## Déploiement & Outils
 
-
-### Déploiement & Outils
-
-* **Vercel** – Hébergement et déploiement continu
-* **Git** – Versioning
-* **Cloudinary** – Optimisation et hébergement des images
-
+* ![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)
+  **Vercel** – Hébergement et déploiement continu
+* ![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white)
+  **Git** – Versioning
+* ![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?logo=cloudinary&logoColor=white)
+  **Cloudinary** – Optimisation et hébergement des images
