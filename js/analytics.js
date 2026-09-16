@@ -1,4 +1,4 @@
-// =============== GOOGLE ANALYTICS 4 - Version MAX DATA v2 ===============
+// =============== GOOGLE ANALYTICS 4 - Version MAX DATA v3 (FORCE MODE) ===============
 const GA_MEASUREMENT_ID = 'G-NJLCB6G0G8';
 let isGALoaded = false;
 let isClarityLoaded = false;
@@ -6,6 +6,12 @@ let deviceType = 'desktop';
 let clientId = null;
 let cookiesRejected = false;
 let pageCountIncremented = false; // ✅ FIX: évite double-incrément
+
+// =============== MODE FORCÉ (pages sans bannière cookie / tests) ===============
+// Défini AVANT le chargement de ce script via : window.__FORCE_ANALYTICS__ = true;
+// Dans ce mode, le tracking est actif pour tout le monde, sans consentement requis
+// et sans afficher la bannière cookie. À utiliser uniquement sur les pages prévues à cet effet.
+const FORCE_ANALYTICS = window.__FORCE_ANALYTICS__ === true;
 
 // =============== DÉTECTION DU DEVICE ===============
 function detectDeviceType() {
@@ -35,7 +41,8 @@ function getPageTitle() {
         '/legals/politique-confidentialite.html': 'Politique confidentialité',
         '/Support/Articles/article.configuration.html': 'Article de configuration',
         '/Support/Articles/feuille.route.nexa.html': 'Feuille de Routes',
-        '/legals/politique-cookies.html': 'Politique cookies'
+        '/legals/politique-cookies.html': 'Politique cookies',
+        '/pack-france.html': 'Pack France LSPDFR 2026'
     };
     return pageMap[path] || document.title || 'UNWARE STUDIO';
 }
@@ -123,6 +130,7 @@ function setCookie(name, value, days) {
 }
 
 function shouldLoadGA() {
+    if (FORCE_ANALYTICS) return true; // ✅ page en mode forcé : pas de consentement requis
     const consent = getCookie('cookieConsent');
     if (consent === 'rejected') { cookiesRejected = true; return false; }
     const analytics = getCookie('analyticsCookies');
@@ -130,6 +138,7 @@ function shouldLoadGA() {
 }
 
 function areCookiesRejected() {
+    if (FORCE_ANALYTICS) { cookiesRejected = false; return false; } // ✅ jamais refusé en mode forcé
     const consent = getCookie('cookieConsent');
     cookiesRejected = consent === 'rejected';
     return cookiesRejected;
@@ -145,6 +154,14 @@ function resetAnalyticsState() {
 
 // =============== DEBUG CONSOLE : ÉTAT DU CONSENTEMENT ===============
 function logConsentStatus() {
+    if (FORCE_ANALYTICS) {
+        console.groupCollapsed('🍪 Analytics — État du consentement');
+        console.log('%c⚡ MODE FORCÉ actif', 'color: #22c55e; font-weight: bold;');
+        console.log('   → Tracking actif pour tout le monde, sans bannière cookie (page de test)');
+        console.log('   Page:', getPageTitle(), '|', getPagePath());
+        console.groupEnd();
+        return;
+    }
     const consent = getCookie('cookieConsent');
     const analytics = getCookie('analyticsCookies');
     const performance = getCookie('performanceCookies');
@@ -207,6 +224,7 @@ function getEnrichedUserData() {
         utm_campaign:        params.get('utm_campaign') || null,
         utm_content:         params.get('utm_content') || null,
         utm_term:            params.get('utm_term') || null,
+        force_mode:          FORCE_ANALYTICS,
     };
 }
 
@@ -259,8 +277,8 @@ function initializeGoogleAnalytics() {
     if (areCookiesRejected() || !shouldLoadGA()) return;
     if (isGALoaded) return;
 
-    console.log('🚀 Init GA4 MAX DATA v2...');
-    console.log('📊 Analytics MAX DATA prêt — 15 trackers actifs');
+    console.log('🚀 Init GA4 MAX DATA v3...');
+    console.log('📊 Analytics MAX DATA prêt — 16 trackers actifs' + (FORCE_ANALYTICS ? ' (mode forcé)' : ''));
 
     const enriched = getEnrichedUserData();
     markVisit();
@@ -311,10 +329,15 @@ function initializeGoogleAnalytics() {
 // =============== TRACKING ÉVÉNEMENTS ===============
 function initEventTracking() {
     if (areCookiesRejected()) return;
-    console.log('🎯 Tracking MAX v2 activé...');
+    console.log('🎯 Tracking MAX v3 activé...');
 
     document.addEventListener('click', (e) => {
         if (areCookiesRejected()) return;
+        // ✅ Mémorise la destination cliquée AVANT la navigation (pour savoir où va l'utilisateur)
+        const clickedLink = e.target.closest('a[href]');
+        if (clickedLink && clickedLink.href) {
+            try { sessionStorage.setItem(NEXT_PAGE_KEY, clickedLink.href); } catch(err) {}
+        }
         setTimeout(() => { trackClick(e.target); trackClickSecure(e.target); }, 50);
     }, { passive: true });
 
@@ -335,12 +358,12 @@ function initEventTracking() {
     trackInactivity();
     trackFirstEngagement();
     trackHover();
-    trackPageNavigation(); // ✅ NOUVEAU : navigation inter-pages
+    trackPageNavigation(); // navigation inter-pages
 }
 
-// ── SCROLL DEPTH ──
+// ── SCROLL DEPTH (précision augmentée : paliers tous les 10%) ──
 function trackScrollDepth() {
-    const milestones = [25, 50, 75, 90, 100];
+    const milestones = [10, 25, 50, 75, 90, 100];
     const reached = new Set();
     window.addEventListener('scroll', () => {
         if (areCookiesRejected()) return;
@@ -360,9 +383,9 @@ function trackScrollDepth() {
     }, { passive: true });
 }
 
-// ── TEMPS SUR LA PAGE ──
+// ── TEMPS SUR LA PAGE (paliers plus fins + destination de sortie) ──
 function trackTimeOnPage() {
-    const milestones = [15, 30, 60, 120, 300];
+    const milestones = [5, 15, 30, 60, 120, 300];
     const reached = new Set();
     const startTime = Date.now();
 
@@ -379,14 +402,23 @@ function trackTimeOnPage() {
                 console.log(`⏱️ ${m}s sur la page`);
             }
         });
-    }, 5000);
+    }, 3000);
 
     window.addEventListener('beforeunload', () => {
         if (areCookiesRejected()) return;
         const total = Math.round((Date.now() - startTime) / 1000);
-        const d = { seconds_on_page: total, exit_page: getPagePath(), page_title: getPageTitle() };
+        let nextPage = 'unknown';
+        try { nextPage = sessionStorage.getItem(NEXT_PAGE_KEY) || 'unknown'; } catch(err) {}
+        const d = {
+            seconds_on_page: total,
+            exit_page:       getPagePath(),
+            next_page:       nextPage,   // ✅ vers où l'utilisateur part
+            page_title:      getPageTitle()
+        };
         sendToSecureAPI('page_exit', d);
         if (window.gtag) gtag('event', 'page_exit', d);
+        // On nettoie la clé pour ne pas la réutiliser sur la page suivante
+        try { sessionStorage.removeItem(NEXT_PAGE_KEY); } catch(err) {}
     });
 }
 
@@ -440,15 +472,13 @@ function trackCopyPaste() {
         if (areCookiesRejected()) return;
         const raw = window.getSelection()?.toString() || '';
         const length = raw.length;
-        // ✅ On envoie uniquement la longueur + les 30 premiers chars (pas de données perso)
-        const preview = raw.substring(0, 30).replace(/\S/g, '*'); // masqué
         const d = { copied_length: length, page_title: getPageTitle() };
         if (window.gtag) gtag('event', 'text_copy', d);
         sendToSecureAPI('text_copy', d);
     });
 }
 
-// ── LIENS SORTANTS ──
+// ── LIENS SORTANTS (avec destination précise) ──
 function trackExternalLinks() {
     document.addEventListener('click', (e) => {
         if (areCookiesRejected()) return;
@@ -456,7 +486,18 @@ function trackExternalLinks() {
         if (!link) return;
         const href = link.href || '';
         if (href && !href.includes(window.location.hostname) && href.startsWith('http')) {
-            const d = { outbound_url: href.substring(0, 200), link_text: link.textContent?.trim()?.substring(0, 50) || '', page_title: getPageTitle() };
+            const trackName = link.getAttribute('data-track-name');
+            let destination = 'other';
+            if (href.includes('drive.google.com')) destination = 'google_drive';
+            else if (href.includes('discord.gg') || href.includes('discord.com')) destination = 'discord';
+            else if (href.includes('youtube.com') || href.includes('youtu.be')) destination = 'youtube';
+            const d = {
+                outbound_url:  href.substring(0, 200),
+                destination:   destination,
+                link_text:     link.textContent?.trim()?.substring(0, 50) || '',
+                link_name:     trackName || '',
+                page_title:    getPageTitle()
+            };
             if (window.gtag) gtag('event', 'outbound_link', d);
             sendToSecureAPI('outbound_link', d);
             console.log('🔗 Lien sortant:', href);
@@ -526,7 +567,7 @@ function trackWebVitals() {
         }
     } catch(e) {}
 
-    // ── INP — ✅ FIX: dédupliqué, on garde uniquement le pire score
+    // ── INP — dédupliqué, on garde uniquement le pire score
     try {
         let worstINP = 0;
         let worstINPName = '';
@@ -539,7 +580,6 @@ function trackWebVitals() {
             });
         }).observe({ type: 'event', durationThreshold: 40, buffered: true });
 
-        // Envoi au déchargement de la page avec le pire INP mesuré
         window.addEventListener('beforeunload', () => {
             if (worstINP > 0 && !areCookiesRejected()) {
                 const d = { value_ms: Math.round(worstINP), interaction: worstINPName, page_title: getPageTitle() };
@@ -599,13 +639,14 @@ function trackFirstEngagement() {
 }
 
 // ── HOVER SUR ÉLÉMENTS CLÉS ──
-// ✅ FIX: MutationObserver pour couvrir les éléments ajoutés dynamiquement au DOM
+// MutationObserver pour couvrir les éléments ajoutés dynamiquement au DOM
 function trackHover() {
     const selectorMap = {
         'a[href]':        'hover_link',
         'button':         'hover_button',
         '.btn':           'hover_btn',
         '.gallery-card':  'hover_gallery_card',
+        '.video-card':    'hover_video_card',
         '.nav-links a':   'hover_nav'
     };
     const hovered = new Set();
@@ -636,18 +677,24 @@ function trackHover() {
 
     scanAndAttach();
 
-    // ✅ FIX: Observer les nouveaux éléments ajoutés dynamiquement
     const observer = new MutationObserver(() => scanAndAttach());
     observer.observe(document.body, { childList: true, subtree: true });
 }
 
-// ── TRACKING CLICS ──
+// ── TRACKING CLICS (avec nom d'événement dédié pour les CTA marqués) ──
 function trackClick(element) {
     if (areCookiesRejected() || !window.gtag || !element) return;
     const el = element.closest('a, button, .btn');
     if (!el) return;
     const text = el.textContent?.trim()?.substring(0, 100) || el.getAttribute('aria-label') || 'unknown';
-    gtag('event', 'click', { event_category: 'engagement', event_label: text, element_type: el.tagName.toLowerCase(), page_title: getPageTitle() });
+    const trackName = el.getAttribute('data-track-name');
+    gtag('event', trackName ? 'cta_click' : 'click', {
+        event_category:  'engagement',
+        event_label:     trackName || text,
+        element_type:    el.tagName.toLowerCase(),
+        element_href:    el.href || '',
+        page_title:      getPageTitle()
+    });
 }
 
 function trackClickSecure(element) {
@@ -655,7 +702,14 @@ function trackClickSecure(element) {
     const el = element.closest('a, button, .btn');
     if (!el) return;
     const text = el.textContent?.trim()?.substring(0, 100) || el.getAttribute('aria-label') || 'unknown';
-    sendToSecureAPI('click', { event_category: 'engagement', event_label: text, element_type: el.tagName.toLowerCase(), engagement_time_msec: '50' });
+    const trackName = el.getAttribute('data-track-name');
+    sendToSecureAPI(trackName ? 'cta_click' : 'click', {
+        event_category:       'engagement',
+        event_label:          trackName || text,
+        element_type:         el.tagName.toLowerCase(),
+        element_href:         el.href || '',
+        engagement_time_msec: '50'
+    });
 }
 
 function trackFormSubmit(form) {
@@ -669,13 +723,10 @@ function trackFormSubmitSecure(form) {
 }
 
 // =============== NAVIGATION INTER-PAGES ===============
-// Objectif : savoir exactement comment l'utilisateur navigue sur le site.
-// GA4 verra : page_navigation (avec from/to/method/time_spent)
-// Stocké dans localStorage : navigation_history (tableau des N dernières pages)
-
 const NAV_HISTORY_KEY  = 'ga_nav_history';
 const NAV_ENTER_KEY    = 'ga_page_enter_time';
-const NAV_MAX_HISTORY  = 20; // nombre max de pages gardées en historique
+const NEXT_PAGE_KEY    = 'ga_next_intended_page'; // ✅ mémorise la destination cliquée avant de quitter
+const NAV_MAX_HISTORY  = 20;
 
 function getNavigationHistory() {
     try {
@@ -716,13 +767,11 @@ function trackPageNavigation() {
     const currentTitle = getPageTitle();
     const previous     = getPreviousPage();
 
-    // Détermine la méthode d'arrivée sur cette page
     const navEntry = performance.getEntriesByType('navigation')[0];
-    const navType  = navEntry?.type || 'navigate'; // navigate | reload | back_forward | prerender
+    const navType  = navEntry?.type || 'navigate';
 
     if (previous && previous.path !== currentPath) {
-        // L'utilisateur vient d'une autre page du site
-        const timeSpent = getTimeSpentOnCurrentPage(); // temps passé sur la page précédente
+        const timeSpent = getTimeSpentOnCurrentPage();
         const d = {
             from_page:      previous.path,
             from_title:     previous.title,
@@ -736,7 +785,6 @@ function trackPageNavigation() {
         sendToSecureAPI('page_navigation', d);
         console.log(`🗺️ Navigation: ${previous.path} → ${currentPath} (${timeSpent}s)`);
     } else if (!previous) {
-        // Première page de la session
         const d = {
             from_page:     document.referrer ? new URL(document.referrer).hostname : 'direct',
             from_title:    document.referrer ? 'external' : 'direct',
@@ -751,12 +799,9 @@ function trackPageNavigation() {
         console.log(`🚪 Entrée: ${d.from_page} → ${currentPath}`);
     }
 
-    // Enregistre la page courante dans l'historique et le temps d'entrée
     pushPageToHistory(currentPath, currentTitle);
     recordPageEnter();
 
-    // ── SPA : intercepte pushState / replaceState ──
-    // Permet de tracker les navigations sans rechargement (React Router, Vue Router, etc.)
     ['pushState', 'replaceState'].forEach(method => {
         const original = history[method];
         history[method] = function(...args) {
@@ -769,7 +814,6 @@ function trackPageNavigation() {
     window.addEventListener('locationchange', onSPANavigation);
 }
 
-// Appelé à chaque changement de route SPA (sans rechargement de page)
 function onSPANavigation() {
     if (areCookiesRejected()) return;
 
@@ -777,7 +821,7 @@ function onSPANavigation() {
     const newTitle = getPageTitle();
     const previous = getPreviousPage();
 
-    if (previous && previous.path === newPath) return; // évite les doublons
+    if (previous && previous.path === newPath) return;
 
     const timeSpent = getTimeSpentOnCurrentPage();
 
@@ -802,12 +846,12 @@ function onSPANavigation() {
     pushPageToHistory(newPath, newTitle);
     recordPageEnter();
 
-    // Réattache les trackers hover sur les nouveaux éléments SPA
     console.log(`🔄 SPA Navigation: ${previous?.path} → ${newPath} (${timeSpent}s)`);
 }
 
 // =============== COOKIES UI ===============
 function showCookieBanner() {
+    if (FORCE_ANALYTICS) return; // ✅ jamais de bannière en mode forcé
     const banner = document.getElementById('custom-cookie-banner');
     const consent = getCookie('cookieConsent');
     if (consent) return;
@@ -831,6 +875,7 @@ function hideCookieBanner() {
 }
 
 function showCookieSettings() {
+    if (FORCE_ANALYTICS) return;
     const modal = document.getElementById('cookieModal');
     if (modal) {
         modal.classList.add('show');
@@ -848,7 +893,7 @@ function hideCookieSettings() {
     const modal = document.getElementById('cookieModal');
     if (modal) modal.classList.remove('show');
     const consent = getCookie('cookieConsent');
-    if (!consent) setTimeout(showCookieBanner, 500);
+    if (!consent && !FORCE_ANALYTICS) setTimeout(showCookieBanner, 500);
 }
 
 // =============== DISPATCH CONSENTEMENT ===============
@@ -900,6 +945,13 @@ function initAnalytics() {
     deviceType = detectDeviceType();
     logConsentStatus();
 
+    // ✅ MODE FORCÉ : tracking actif immédiatement, sans bannière ni consentement
+    if (FORCE_ANALYTICS) {
+        cookiesRejected = false;
+        setTimeout(() => initializeGoogleAnalytics(), 300);
+        return;
+    }
+
     const consent = getCookie('cookieConsent');
 
     if (!consent) {
@@ -923,7 +975,8 @@ document.addEventListener('DOMContentLoaded', initAnalytics);
 // =============== DEBUG CONSOLE ===============
 window.debugGA = {
     check: function() {
-        console.log('🔍 GA MAX DATA v2:');
+        console.log('🔍 GA MAX DATA v3:');
+        console.log('- Mode forcé      :', FORCE_ANALYTICS);
         console.log('- Cookies refusés :', areCookiesRejected());
         console.log('- GA Loaded       :', isGALoaded);
         console.log('- cookieConsent   :', getCookie('cookieConsent'));
@@ -943,7 +996,6 @@ window.debugGA = {
     apiTest: () => areCookiesRejected() ? Promise.resolve(false) : sendToSecureAPI('api_test', { test: 'direct' }),
     status:  () => logConsentStatus(),
 
-    // ✅ NOUVEAU : debug navigation
     navHistory: function() {
         const h = getNavigationHistory();
         console.groupCollapsed(`🗺️ Historique navigation (${h.length} pages)`);
