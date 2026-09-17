@@ -47,6 +47,12 @@ function rowsToObjects(res, dimNames, metNames) {
 // ── Handler ──────────────────────────────────────────────
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
+  // Le dashboard n'est pas hébergé sur unware.studio (fichier local ou artefact),
+  // donc on autorise les requêtes cross-origin vers cette route précise.
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'x-dashboard-token, Content-Type');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  if (req.method === 'OPTIONS') return res.status(204).end();
 
   // Protection par token
   const expected = process.env.DASHBOARD_TOKEN;
