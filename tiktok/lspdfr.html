@@ -334,6 +334,96 @@
             transform: translateX(4px);
             opacity: 1;
         }
+
+        /* ===== ONGLETS ===== */
+        .tabs-nav {
+            display: flex;
+            gap: 4px;
+            max-width: 440px;
+            margin: 0 auto 48px;
+            padding: 5px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+        }
+        .tab-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 13px 18px;
+            border: none;
+            border-radius: 999px;
+            background: transparent;
+            color: var(--text);
+            opacity: 0.55;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .tab-btn i { font-size: 13px; }
+        .tab-btn.active {
+            background: var(--accent);
+            color: var(--primary);
+            opacity: 1;
+        }
+        .tab-btn:not(.active):hover { opacity: 0.85; }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; animation: fadeUp 0.45s ease; }
+
+        .panel-heading {
+            text-align: center;
+            max-width: 520px;
+            margin: 0 auto 36px;
+        }
+        .panel-heading h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: 1px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        .panel-heading p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .social-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 32px;
+        }
+        .social-card {
+            flex: 1;
+            min-width: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 28px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card-bg);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-card i { font-size: 24px; color: var(--social-color, var(--accent)); }
+        .social-card span { font-size: 13px; font-weight: 600; color: var(--text); }
+        .social-card:hover {
+            border-color: var(--social-color, var(--accent));
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 480px) {
+            .tabs-nav { max-width: 100%; }
+            .tab-btn span { display: none; }
+        }
     </style>
 </head>
 
@@ -382,31 +472,61 @@
         </section>
 
         <section class="product-section">
-            <a class="video-card" href="https://www.youtube.com/watch?v=oXKjN61I0F4&t=78s" target="_blank" rel="noopener" data-track-name="video_preview_youtube">
-                <img src="https://img.youtube.com/vi/oXKjN61I0F4/maxresdefault.jpg" alt="Aperçu vidéo">
-                <div class="video-play-icon"></div>
-            </a>
-
-            <div class="download-actions">
-                <a href="https://drive.google.com/drive/folders/11fhNWxlzTyFf1sEc3Bb1kwFHge3HvqHm?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener" data-track-name="cta_access_digital_files">
-                    Access Digital Files
-                </a>
-                <a href="https://drive.google.com/drive/folders/1mlHde0CX6JvZ3ey8qMhdK9p-wOLDGgOV?usp=sharing" class="btn btn-login" target="_blank" rel="noopener" data-track-name="cta_france_pack">
-                    France Pack
-                </a>
-                <a href="https://discord.gg/bD6C8WgcE7" class="btn btn-discord" target="_blank" rel="noopener" data-track-name="cta_join_discord">
-                    Rejoindre le Discord
-                </a>
+            <div class="tabs-nav">
+                <button class="tab-btn active" data-tab="tab-france" data-track-name="tab_pack_france">
+                    <i class="fas fa-flag"></i><span>Pack France</span>
+                </button>
+                <button class="tab-btn" data-tab="tab-lspdfr" data-track-name="tab_lspdfr">
+                    <i class="fas fa-shield-halved"></i><span>LSPDFR</span>
+                </button>
             </div>
 
-            <a href="https://www.lcpdfr.com/downloads/gta4mods/scripts/55465-superpoursuitecallout/" class="lspdfr-callout" target="_blank" rel="noopener" data-track-name="callout_superpoursuitecallout">
-                <div class="lspdfr-callout-icon"><img src="https://s3-screenshots.int-cdn.lcpdfrusercontent.com/monthly_2026_09/SUPERPOUSSUITECALLOUT.thumb.png.9fbd86a634e754f53a8d401d0e981658.png" alt="SuperPoursuiteCallout"></div>
-                <div class="lspdfr-callout-body">
-                    <div class="lspdfr-callout-label">Callout LSPDFR</div>
-                    <div class="lspdfr-callout-title">SuperPoursuiteCallout</div>
+            <div class="tab-panel active" id="tab-france">
+                <a class="video-card" href="https://www.youtube.com/watch?v=oXKjN61I0F4&t=78s" target="_blank" rel="noopener" data-track-name="video_preview_youtube">
+                    <img src="https://img.youtube.com/vi/oXKjN61I0F4/maxresdefault.jpg" alt="Aperçu vidéo">
+                    <div class="video-play-icon"></div>
+                </a>
+
+                <div class="download-actions">
+                    <a href="https://drive.google.com/drive/folders/11fhNWxlzTyFf1sEc3Bb1kwFHge3HvqHm?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener" data-track-name="cta_access_digital_files">
+                        Access Digital Files
+                    </a>
+                    <a href="https://drive.google.com/drive/folders/1mlHde0CX6JvZ3ey8qMhdK9p-wOLDGgOV?usp=sharing" class="btn btn-login" target="_blank" rel="noopener" data-track-name="cta_france_pack">
+                        France Pack
+                    </a>
                 </div>
-                <div class="lspdfr-callout-arrow"><i class="fas fa-arrow-right"></i></div>
-            </a>
+            </div>
+
+            <div class="tab-panel" id="tab-lspdfr">
+                <div class="panel-heading">
+                    <h2>Mes callouts LSPDFR</h2>
+                    <p>Retrouvez mes créations pour LSPDFR et rejoignez la communauté UNWARE STUDIO.</p>
+                </div>
+
+                <a href="https://www.lcpdfr.com/downloads/gta4mods/scripts/55465-superpoursuitecallout/" class="lspdfr-callout" target="_blank" rel="noopener" data-track-name="callout_superpoursuitecallout">
+                    <div class="lspdfr-callout-icon"><img src="https://s3-screenshots.int-cdn.lcpdfrusercontent.com/monthly_2026_09/SUPERPOUSSUITECALLOUT.thumb.png.9fbd86a634e754f53a8d401d0e981658.png" alt="SuperPoursuiteCallout"></div>
+                    <div class="lspdfr-callout-body">
+                        <div class="lspdfr-callout-label">Callout LSPDFR</div>
+                        <div class="lspdfr-callout-title">SuperPoursuiteCallout</div>
+                    </div>
+                    <div class="lspdfr-callout-arrow"><i class="fas fa-arrow-right"></i></div>
+                </a>
+
+                <div class="social-row">
+                    <a href="https://discord.gg/bD6C8WgcE7" class="social-card" style="--social-color:#5865F2" target="_blank" rel="noopener" data-track-name="social_card_discord">
+                        <i class="fab fa-discord"></i>
+                        <span>Discord</span>
+                    </a>
+                    <a href="https://www.twitch.tv/unware_studio" class="social-card" style="--social-color:#9146FF" target="_blank" rel="noopener" data-track-name="social_card_twitch">
+                        <i class="fab fa-twitch"></i>
+                        <span>Twitch</span>
+                    </a>
+                    <a href="#" class="social-card" style="--social-color:#ffffff" target="_blank" rel="noopener" data-track-name="social_card_tiktok">
+                        <i class="fab fa-tiktok"></i>
+                        <span>TikTok</span>
+                    </a>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -498,6 +618,17 @@
 
         window.addEventListener('load', () => {
             document.getElementById('heroBg').classList.add('loaded');
+        });
+
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabPanels.forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab).classList.add('active');
+            });
         });
     </script>
 
