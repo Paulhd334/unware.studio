@@ -192,7 +192,7 @@
         }
 
         /* ===== SECTION CONTENU ===== */
-        .product-section { padding: 60px 5% 100px; max-width: 1000px; margin: 0 auto; }
+        .product-section { padding: 60px 5% 100px; max-width: 1200px; margin: 0 auto; }
 
         .video-card {
             position: relative;
@@ -335,94 +335,99 @@
             opacity: 1;
         }
 
-        /* ===== ONGLETS ===== */
-        .tabs-nav {
-            display: flex;
-            gap: 4px;
-            max-width: 440px;
-            margin: 0 auto 48px;
-            padding: 5px;
-            background: var(--card-bg);
+        /* ===== DEUX COLONNES ===== */
+        .split-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+        .column-card {
             border: 1px solid var(--border);
-            border-radius: 999px;
-        }
-        .tab-btn {
-            flex: 1;
+            border-radius: 10px;
+            background: var(--card-bg);
+            padding: 32px;
             display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .column-eyebrow {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 8px;
-            padding: 13px 18px;
-            border: none;
-            border-radius: 999px;
-            background: transparent;
-            color: var(--text);
-            opacity: 0.55;
-            font-family: inherit;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 14px;
         }
-        .tab-btn i { font-size: 13px; }
-        .tab-btn.active {
-            background: var(--accent);
-            color: var(--primary);
-            opacity: 1;
-        }
-        .tab-btn:not(.active):hover { opacity: 0.85; }
-
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; animation: fadeUp 0.45s ease; }
-
-        .panel-heading {
-            text-align: center;
-            max-width: 520px;
-            margin: 0 auto 36px;
-        }
-        .panel-heading h2 {
+        .column-card h2 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 32px;
+            font-size: 30px;
             letter-spacing: 1px;
             color: var(--text);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
-        .panel-heading p {
+        .column-card > p {
             font-size: 14px;
-            line-height: 1.6;
-            color: rgba(255,255,255,0.5);
+            line-height: 1.65;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 24px;
         }
+        .column-card .video-card { margin-bottom: 24px; }
+        .column-card .download-actions { flex-wrap: wrap; }
+        .column-card .download-actions .btn { flex: 1; min-width: 140px; }
+
+        .feature-list {
+            list-style: none;
+            margin: 0 0 24px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13.5px;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.5;
+        }
+        .feature-list i { color: var(--accent); font-size: 12px; margin-top: 3px; }
+
+        .column-footer { margin-top: auto; }
+
+        .lspdfr-callout { margin-top: 0; margin-bottom: 24px; }
 
         .social-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 16px;
-            margin-top: 32px;
+            gap: 14px;
         }
         .social-card {
             flex: 1;
-            min-width: 150px;
+            min-width: 110px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
-            padding: 28px 16px;
+            gap: 10px;
+            padding: 20px 14px;
             border: 1px solid var(--border);
             border-radius: 8px;
-            background: var(--card-bg);
+            background: rgba(255,255,255,0.02);
             text-decoration: none;
             transition: all 0.3s ease;
         }
-        .social-card i { font-size: 24px; color: var(--social-color, var(--accent)); }
-        .social-card span { font-size: 13px; font-weight: 600; color: var(--text); }
+        .social-card i { font-size: 22px; color: var(--social-color, var(--accent)); }
+        .social-card span { font-size: 12.5px; font-weight: 600; color: var(--text); }
         .social-card:hover {
             border-color: var(--social-color, var(--accent));
             transform: translateY(-3px);
         }
 
-        @media (max-width: 480px) {
-            .tabs-nav { max-width: 100%; }
-            .tab-btn span { display: none; }
+        @media (max-width: 860px) {
+            .split-columns { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -472,59 +477,69 @@
         </section>
 
         <section class="product-section">
-            <div class="tabs-nav">
-                <button class="tab-btn active" data-tab="tab-france" data-track-name="tab_pack_france">
-                    <i class="fas fa-flag"></i><span>Pack France</span>
-                </button>
-                <button class="tab-btn" data-tab="tab-lspdfr" data-track-name="tab_lspdfr">
-                    <i class="fas fa-shield-halved"></i><span>LSPDFR</span>
-                </button>
-            </div>
+            <div class="split-columns">
+                <div class="column-card">
+                    <div class="column-eyebrow"><i class="fas fa-flag"></i> Pack France</div>
+                    <h2>Pack France 2026</h2>
+                    <p>Une conversion complète des véhicules et unités d'intervention françaises pour LSPDFR : police, gendarmerie, pompiers et SAMU, prêts à être déployés en jeu.</p>
 
-            <div class="tab-panel active" id="tab-france">
-                <a class="video-card" href="https://www.youtube.com/watch?v=oXKjN61I0F4&t=78s" target="_blank" rel="noopener" data-track-name="video_preview_youtube">
-                    <img src="https://img.youtube.com/vi/oXKjN61I0F4/maxresdefault.jpg" alt="Aperçu vidéo">
-                    <div class="video-play-icon"></div>
-                </a>
-
-                <div class="download-actions">
-                    <a href="https://drive.google.com/drive/folders/11fhNWxlzTyFf1sEc3Bb1kwFHge3HvqHm?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener" data-track-name="cta_access_digital_files">
-                        Access Digital Files
+                    <a class="video-card" href="https://www.youtube.com/watch?v=oXKjN61I0F4&t=78s" target="_blank" rel="noopener" data-track-name="video_preview_youtube">
+                        <img src="https://img.youtube.com/vi/oXKjN61I0F4/maxresdefault.jpg" alt="Aperçu vidéo">
+                        <div class="video-play-icon"></div>
                     </a>
-                    <a href="https://drive.google.com/drive/folders/1mlHde0CX6JvZ3ey8qMhdK9p-wOLDGgOV?usp=sharing" class="btn btn-login" target="_blank" rel="noopener" data-track-name="cta_france_pack">
-                        France Pack
-                    </a>
-                </div>
-            </div>
 
-            <div class="tab-panel" id="tab-lspdfr">
-                <div class="panel-heading">
-                    <h2>Mes callouts LSPDFR</h2>
-                    <p>Retrouvez mes créations pour LSPDFR et rejoignez la communauté UNWARE STUDIO.</p>
-                </div>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Véhicules et EUP aux couleurs françaises</li>
+                        <li><i class="fas fa-check"></i> Mise à jour régulière du pack</li>
+                        <li><i class="fas fa-check"></i> Compatible avec les dernières versions de LSPDFR</li>
+                    </ul>
 
-                <a href="https://www.lcpdfr.com/downloads/gta4mods/scripts/55465-superpoursuitecallout/" class="lspdfr-callout" target="_blank" rel="noopener" data-track-name="callout_superpoursuitecallout">
-                    <div class="lspdfr-callout-icon"><img src="https://s3-screenshots.int-cdn.lcpdfrusercontent.com/monthly_2026_09/SUPERPOUSSUITECALLOUT.thumb.png.9fbd86a634e754f53a8d401d0e981658.png" alt="SuperPoursuiteCallout"></div>
-                    <div class="lspdfr-callout-body">
-                        <div class="lspdfr-callout-label">Callout LSPDFR</div>
-                        <div class="lspdfr-callout-title">SuperPoursuiteCallout</div>
+                    <div class="column-footer download-actions">
+                        <a href="https://drive.google.com/drive/folders/11fhNWxlzTyFf1sEc3Bb1kwFHge3HvqHm?usp=drive_link" class="btn btn-primary" target="_blank" rel="noopener" data-track-name="cta_access_digital_files">
+                            Access Digital Files
+                        </a>
+                        <a href="https://drive.google.com/drive/folders/1mlHde0CX6JvZ3ey8qMhdK9p-wOLDGgOV?usp=sharing" class="btn btn-login" target="_blank" rel="noopener" data-track-name="cta_france_pack">
+                            France Pack
+                        </a>
                     </div>
-                    <div class="lspdfr-callout-arrow"><i class="fas fa-arrow-right"></i></div>
-                </a>
+                </div>
 
-                <div class="social-row">
-                    <a href="https://discord.gg/bD6C8WgcE7" class="social-card" style="--social-color:#5865F2" target="_blank" rel="noopener" data-track-name="social_card_discord">
-                        <i class="fab fa-discord"></i>
-                        <span>Discord</span>
+                <div class="column-card">
+                    <div class="column-eyebrow"><i class="fas fa-shield-halved"></i> LSPDFR</div>
+                    <h2>Mes callouts</h2>
+                    <p>Des scripts d'interventions inédits développés par UNWARE STUDIO pour enrichir vos patrouilles avec de nouvelles situations et poursuites.</p>
+
+                    <a href="https://www.lcpdfr.com/downloads/gta4mods/scripts/55465-superpoursuitecallout/" class="lspdfr-callout" target="_blank" rel="noopener" data-track-name="callout_superpoursuitecallout">
+                        <div class="lspdfr-callout-icon"><img src="https://s3-screenshots.int-cdn.lcpdfrusercontent.com/monthly_2026_09/SUPERPOUSSUITECALLOUT.thumb.png.9fbd86a634e754f53a8d401d0e981658.png" alt="SuperPoursuiteCallout"></div>
+                        <div class="lspdfr-callout-body">
+                            <div class="lspdfr-callout-label">Callout LSPDFR</div>
+                            <div class="lspdfr-callout-title">SuperPoursuiteCallout</div>
+                        </div>
+                        <div class="lspdfr-callout-arrow"><i class="fas fa-arrow-right"></i></div>
                     </a>
-                    <a href="https://www.twitch.tv/unware_studio" class="social-card" style="--social-color:#9146FF" target="_blank" rel="noopener" data-track-name="social_card_twitch">
-                        <i class="fab fa-twitch"></i>
-                        <span>Twitch</span>
-                    </a>
-                    <a href="#" class="social-card" style="--social-color:#ffffff" target="_blank" rel="noopener" data-track-name="social_card_tiktok">
-                        <i class="fab fa-tiktok"></i>
-                        <span>TikTok</span>
-                    </a>
+
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> 7 callouts de poursuite inédits</li>
+                        <li><i class="fas fa-check"></i> Véhicules, blindés et engins de chantier</li>
+                        <li><i class="fas fa-check"></i> Développé avec l'API LCPDFR 1.0</li>
+                    </ul>
+
+                    <div class="column-footer">
+                        <div class="social-row">
+                            <a href="https://discord.gg/bD6C8WgcE7" class="social-card" style="--social-color:#5865F2" target="_blank" rel="noopener" data-track-name="social_card_discord">
+                                <i class="fab fa-discord"></i>
+                                <span>Discord</span>
+                            </a>
+                            <a href="https://www.twitch.tv/unware_studio" class="social-card" style="--social-color:#9146FF" target="_blank" rel="noopener" data-track-name="social_card_twitch">
+                                <i class="fab fa-twitch"></i>
+                                <span>Twitch</span>
+                            </a>
+                            <a href="#" class="social-card" style="--social-color:#ffffff" target="_blank" rel="noopener" data-track-name="social_card_tiktok">
+                                <i class="fab fa-tiktok"></i>
+                                <span>TikTok</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -618,17 +633,6 @@
 
         window.addEventListener('load', () => {
             document.getElementById('heroBg').classList.add('loaded');
-        });
-
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabPanels = document.querySelectorAll('.tab-panel');
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                tabBtns.forEach(b => b.classList.remove('active'));
-                tabPanels.forEach(p => p.classList.remove('active'));
-                btn.classList.add('active');
-                document.getElementById(btn.dataset.tab).classList.add('active');
-            });
         });
     </script>
 
