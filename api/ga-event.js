@@ -1,4 +1,4 @@
-// /api/ga-event.js — Secure GA4 proxy (fixed version)
+// /api/ga-event.js — Secure GA4 proxy (fixed version + garde-fou sessions)
 
 const rateLimitMap = new Map();
 
@@ -54,7 +54,6 @@ function isValidPayload(body) {
     for (const event of body.events) {
         if (!event || typeof event !== 'object') return false;
         if (!event.name || typeof event.name !== 'string') return false;
-        // ✅ Regex supprimé — on accepte tous les noms d'events valides
     }
 
     return true;
@@ -108,13 +107,24 @@ export default async function handler(req, res) {
 
     try {
         // ✅ Nettoyage des null/undefined avant envoi à GA4
+        // ✅ FIX SESSIONS (garde-fou) : si un event arrive un jour sans session_id
+        // ou sans engagement_time_msec (nouveau tracker ajouté côté client, oubli...),
+        // on complète ici plutôt que de laisser GA4 recevoir un hit "non engagé"
+        // qui ne compterait pas dans la durée/le taux d'engagement/le rebond.
         const cleanedBody = {
             ...body,
             user_id: body.user_id || undefined,
-            events: body.events.map(event => ({
-                ...event,
-                params: cleanObject(event.params || {})
-            }))
+            events: body.events.map(event => {
+                const params = cleanObject(event.params || {});
+                if (!params.session_id) {
+                    // Filet de sécurité : dérive un id de session numérique à partir du timestamp
+                    params.session_id = String(Math.floor(Date.now() / 1000));
+                }
+                if (!params.engagement_time_msec) {
+                    params.engagement_time_msec = '1';
+                }
+                return { ...event, params };
+            })
         };
 
         // Supprime user_id si undefined
