@@ -81,7 +81,8 @@ module.exports = async (req, res) => {
       devicesRes,
       sourcesRes,
       countriesRes,
-      realtimeRes,
+      realtimeTotalRes,
+      realtimePagesRes,
     ] = await Promise.all([
       // 1. Totaux période courante + période précédente
       analytics.runReport({
@@ -164,7 +165,15 @@ module.exports = async (req, res) => {
         limit: 10,
       }),
 
-      // 8. Temps réel
+      // 8a. Temps réel — total RÉEL de visiteurs uniques (sans dimension : une seule ligne)
+      analytics.runRealtimeReport({
+        property: PROPERTY,
+        metrics: [{ name: 'activeUsers' }],
+      }).catch(() => [{ rows: [] }]),
+
+      // 8b. Temps réel — répartition par page (uniquement pour la liste affichée,
+      // ne JAMAIS sommer ces valeurs : un même visiteur peut apparaître sur
+      // plusieurs pages s'il a navigué dans la fenêtre temps réel de GA4)
       analytics.runRealtimeReport({
         property: PROPERTY,
         metrics: [{ name: 'activeUsers' }],
@@ -208,8 +217,14 @@ module.exports = async (req, res) => {
     // ── Événements ──
     const events = rowsToObjects(eventsRes[0], ['name'], ['count', 'users']);
 
-    const realtimeRows = (realtimeRes[0] && realtimeRes[0].rows) || [];
-    const realtime = realtimeRows.reduce((sum, r) => sum + num(r.metricValues[0].value), 0);
+    // ✅ FIX : le total vient de la requête SANS dimension (un visiteur = 1, même
+    // s'il a changé de page plusieurs fois). On ne somme plus les lignes par page.
+    const realtimeTotalRows = (realtimeTotalRes[0] && realtimeTotalRes[0].rows) || [];
+    const realtime = realtimeTotalRows.length
+      ? num(realtimeTotalRows[0].metricValues[0].value)
+      : 0;
+
+    const realtimeRows = (realtimePagesRes[0] && realtimePagesRes[0].rows) || [];
 
     return res.status(200).json({
       generated_at: new Date().toISOString(),
