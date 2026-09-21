@@ -435,6 +435,98 @@
         @media (max-width: 860px) {
             .split-columns { grid-template-columns: 1fr; }
         }
+
+        /* ===== RESPONSIVE MOBILE (iPhone / Android) ===== */
+        html { -webkit-text-size-adjust: 100%; }
+        img { max-width: 100%; height: auto; }
+        * { box-sizing: border-box; }
+
+        @media (max-width: 600px) {
+            .product-section {
+                padding: 32px 16px 60px;
+            }
+            .split-columns {
+                gap: 18px;
+            }
+            .column-card {
+                padding: 20px 16px;
+                border-radius: 8px;
+            }
+            .column-card h2 {
+                font-size: 24px;
+            }
+            .column-card > p {
+                font-size: 13.5px;
+                margin-bottom: 18px;
+            }
+            .column-eyebrow {
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+            .video-card {
+                margin-bottom: 18px;
+                border-radius: 6px;
+            }
+            .video-play-icon {
+                width: 48px;
+                height: 48px;
+            }
+            .video-play-icon::after {
+                border-top-width: 8px;
+                border-bottom-width: 8px;
+                border-left-width: 13px;
+                margin-left: 3px;
+            }
+            .feature-list { margin-bottom: 18px; gap: 8px; }
+            .feature-list li { font-size: 13px; }
+
+            .lspdfr-callout {
+                padding: 14px 16px;
+                gap: 12px;
+                margin-bottom: 18px;
+                flex-wrap: nowrap;
+            }
+            .lspdfr-callout-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 16px;
+            }
+            .lspdfr-callout-title {
+                font-size: 14px;
+            }
+            .lspdfr-callout-label {
+                font-size: 10px;
+            }
+
+            .column-card .download-actions .btn {
+                min-width: 100%;
+                flex: 1 1 100%;
+            }
+            .download-actions {
+                gap: 10px;
+            }
+            .download-actions .btn {
+                min-width: 100%;
+                width: 100%;
+                padding: 14px 20px;
+            }
+
+            .social-row {
+                gap: 10px;
+            }
+            .social-card {
+                min-width: 0;
+                flex: 1 1 calc(33.333% - 7px);
+                padding: 14px 8px;
+            }
+            .social-card i { font-size: 19px; }
+            .social-card span { font-size: 11px; }
+        }
+
+        @media (max-width: 380px) {
+            .column-card h2 { font-size: 21px; }
+            .social-card span { font-size: 10px; }
+        }
     </style>
 </head>
 
@@ -486,7 +578,8 @@
                 <div class="column-card">
                     <div class="column-eyebrow"><i class="fas fa-flag"></i> Pack France</div>
                     <h2>Pack France 2026</h2>
-                    <p>Une conversion complète des véhicules et unités d'intervention françaises pour LSPDFR : police, gendarmerie, pompiers et SAMU, prêts à être déployés en jeu.</p>
+                     <p>Vidéo créée par Multierot, présentant des véhicules de la police, de la gendarmerie, des pompiers et du SAMU, prêts à être déployés en jeu. Cette vidéo n'a pas été créée par UNWARE STUDIO.</p>
+
 
                     <a class="video-card" href="https://www.youtube.com/watch?v=oXKjN61I0F4&t=78s" target="_blank" rel="noopener" data-track-name="video_preview_youtube">
                         <img src="https://img.youtube.com/vi/oXKjN61I0F4/maxresdefault.jpg" alt="Aperçu vidéo">
@@ -502,9 +595,6 @@
                     <div class="column-footer download-actions">
                         <a href="https://drive.google.com/drive/folders/1mlHde0CX6JvZ3ey8qMhdK9p-wOLDGgOV?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener" data-track-name="cta_access_digital_files">
                            Google Drive 
-                        </a>
-                        <a href="https://drive.google.com/drive/folders/1mlHde0CX6JvZ3ey8qMhdK9p-wOLDGgOV?usp=sharing" class="btn btn-login" target="_blank" rel="noopener" data-track-name="cta_france_pack">
-                            France Pack
                         </a>
                     </div>
                 </div>
@@ -588,7 +678,7 @@
           <li><a href="/#accueil" target="_blank" rel="noopener noreferrer" data-track-name="footer_nav_accueil">Accueil</a></li>
           <li><a href="/nexa/fonctionnalites.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_nav_fonctionnalites">Fonctionnalités</a></li>
           <li><a href="/nexa/galerie.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_nav_galeries">Galeries</a></li>
-          <li><a href="../nexa/the_void_protocol.html" data-track-name="nav_void_protocol">The void protocol</a></li>
+          <li><a href="/nexa/the_void_protocol.html" data-track-name="nav_void_protocol">The void protocol</a></li>
         </ul>
       </div>
 
@@ -637,7 +727,8 @@
         document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
 
         window.addEventListener('load', () => {
-            document.getElementById('heroBg').classList.add('loaded');
+            const heroBg = document.getElementById('heroBg');
+            if (heroBg) heroBg.classList.add('loaded');
         });
     </script>
 
