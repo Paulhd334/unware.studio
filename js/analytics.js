@@ -1,4 +1,5 @@
 // =============== GOOGLE ANALYTICS 4 - Version MAX DATA v3 (FORCE MODE) ===============
+// ✅ FIX SESSIONS (voir commentaires marqués "FIX SESSION")
 const GA_MEASUREMENT_ID = 'G-NJLCB6G0G8';
 let isGALoaded = false;
 let isClarityLoaded = false;
@@ -8,9 +9,6 @@ let cookiesRejected = false;
 let pageCountIncremented = false; // ✅ FIX: évite double-incrément
 
 // =============== MODE FORCÉ (pages sans bannière cookie / tests) ===============
-// Défini AVANT le chargement de ce script via : window.__FORCE_ANALYTICS__ = true;
-// Dans ce mode, le tracking est actif pour tout le monde, sans consentement requis
-// et sans afficher la bannière cookie. À utiliser uniquement sur les pages prévues à cet effet.
 const FORCE_ANALYTICS = window.__FORCE_ANALYTICS__ === true;
 
 // =============== DÉTECTION DU DEVICE ===============
@@ -64,6 +62,13 @@ function getClientId() {
 }
 
 // =============== SESSION ID PERSISTANT (résiste au F5) ===============
+// ✅ FIX SESSION 1/4 : GA4 Measurement Protocol attend un session_id NUMÉRIQUE
+// (convention : timestamp Unix en secondes du début de session). Une chaîne du type
+// "session_ab3x9d2" n'est pas reconnue comme un identifiant de session valide par GA4,
+// ce qui empêche le calcul de durée moyenne / taux d'engagement / taux de rebond.
+// On garde aussi un flag `is_new` pour savoir si on doit envoyer un event `session_start`.
+let sessionJustCreated = false;
+
 function getSessionId() {
     const SESSION_DURATION = 30 * 60 * 1000;
     const now = Date.now();
@@ -76,16 +81,18 @@ function getSessionId() {
     if (sessionData && (now - sessionData.last_activity) < SESSION_DURATION) {
         sessionData.last_activity = now;
         sessionStorage.setItem('ga_session', JSON.stringify(sessionData));
+        sessionJustCreated = false;
         return sessionData.id;
     }
 
     const newSession = {
-        id: 'session_' + Math.random().toString(36).substr(2, 9),
+        id: String(Math.floor(now / 1000)), // ✅ FIX SESSION : timestamp en secondes, format attendu par GA4
         started_at: now,
         last_activity: now,
         page_count: 0
     };
     sessionStorage.setItem('ga_session', JSON.stringify(newSession));
+    sessionJustCreated = true;
     console.log('🆕 Nouvelle session:', newSession.id);
     return newSession.id;
 }
@@ -130,7 +137,7 @@ function setCookie(name, value, days) {
 }
 
 function shouldLoadGA() {
-    if (FORCE_ANALYTICS) return true; // ✅ page en mode forcé : pas de consentement requis
+    if (FORCE_ANALYTICS) return true;
     const consent = getCookie('cookieConsent');
     if (consent === 'rejected') { cookiesRejected = true; return false; }
     const analytics = getCookie('analyticsCookies');
@@ -138,7 +145,7 @@ function shouldLoadGA() {
 }
 
 function areCookiesRejected() {
-    if (FORCE_ANALYTICS) { cookiesRejected = false; return false; } // ✅ jamais refusé en mode forcé
+    if (FORCE_ANALYTICS) { cookiesRejected = false; return false; }
     const consent = getCookie('cookieConsent');
     cookiesRejected = consent === 'rejected';
     return cookiesRejected;
@@ -187,7 +194,6 @@ function logConsentStatus() {
 }
 
 // =============== DONNÉES ENRICHIES ===============
-// ✅ FIX: getEnrichedUserData() ne modifie plus le state (incrementSessionPageCount séparé)
 function getEnrichedUserData() {
     const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
     const perf = performance.getEntriesByType('navigation')[0] || {};
@@ -215,8 +221,12 @@ function getEnrichedUserData() {
         load_time_ttfb:      Math.round(perf.responseStart - perf.requestStart) || 0,
         load_time_dom:       Math.round(perf.domContentLoadedEventEnd - perf.startTime) || 0,
         load_time_total:     Math.round(perf.loadEventEnd - perf.startTime) || 0,
-        session_page_count:  incrementSessionPageCount(), // ✅ protégé contre le double-appel
+        session_page_count:  incrementSessionPageCount(),
         is_returning:        !!localStorage.getItem('ga_has_visited'),
+        // ✅ FIX SESSION 2/4 : GA4 attend le nom exact "page_referrer" pour calculer
+        // la provenance (sessionSourceMedium). "referrer"/"referrer_full" ne sont pas
+        // reconnus et laissaient la section Provenance vide.
+        page_referrer:       document.referrer || '',
         referrer:            document.referrer ? new URL(document.referrer).hostname : 'direct',
         referrer_full:       document.referrer || 'direct',
         utm_source:          params.get('utm_source') || null,
@@ -233,6 +243,9 @@ function markVisit() {
 }
 
 // =============== API SÉCURISÉE VERCEL ===============
+// ✅ FIX SESSION 3/4 : on force engagement_time_msec sur CHAQUE event (pas seulement
+// page_view). Sans ça, GA4 ne compte pas le hit comme "engagé" et le taux
+// d'engagement/rebond/durée moyenne restent à 0 même si des sessions existent.
 async function sendToSecureAPI(eventName, params = {}) {
     if (areCookiesRejected() || cookiesRejected) return false;
     if (!shouldLoadGA()) return false;
@@ -245,11 +258,13 @@ async function sendToSecureAPI(eventName, params = {}) {
             events: [{
                 name: eventName,
                 params: {
-                    page_title:    getPageTitle(),
-                    page_location: window.location.href,
-                    page_path:     getPagePath(),
-                    device_type:   deviceType,
-                    session_id:    getSessionId(),
+                    page_title:            getPageTitle(),
+                    page_location:         window.location.href,
+                    page_path:             getPagePath(),
+                    page_referrer:         document.referrer || '',
+                    device_type:           deviceType,
+                    session_id:            getSessionId(),
+                    engagement_time_msec:  '1', // valeur par défaut, écrasée ci-dessous si fournie
                     ...params
                 }
             }]
@@ -281,7 +296,23 @@ function initializeGoogleAnalytics() {
     console.log('📊 Analytics MAX DATA prêt — 16 trackers actifs' + (FORCE_ANALYTICS ? ' (mode forcé)' : ''));
 
     const enriched = getEnrichedUserData();
+    const startingNewSession = sessionJustCreated; // capturé avant d'appeler getSessionId() à nouveau
     markVisit();
+
+    // ✅ FIX SESSION 4/4 : on envoie un event `session_start` explicite au début
+    // d'une nouvelle session, avec les paramètres de provenance (source/medium/campaign)
+    // dans le format que GA4 Measurement Protocol attend pour l'acquisition de session.
+    if (startingNewSession) {
+        sendToSecureAPI('session_start', {
+            engagement_time_msec: '1',
+            source:   enriched.utm_source   || undefined,
+            medium:   enriched.utm_medium   || undefined,
+            campaign: enriched.utm_campaign || undefined,
+            term:     enriched.utm_term     || undefined,
+            content:  enriched.utm_content  || undefined,
+            ...enriched
+        });
+    }
 
     sendToSecureAPI('page_view', { engagement_time_msec: '100', ...enriched });
 
@@ -333,7 +364,6 @@ function initEventTracking() {
 
     document.addEventListener('click', (e) => {
         if (areCookiesRejected()) return;
-        // ✅ Mémorise la destination cliquée AVANT la navigation (pour savoir où va l'utilisateur)
         const clickedLink = e.target.closest('a[href]');
         if (clickedLink && clickedLink.href) {
             try { sessionStorage.setItem(NEXT_PAGE_KEY, clickedLink.href); } catch(err) {}
@@ -358,10 +388,10 @@ function initEventTracking() {
     trackInactivity();
     trackFirstEngagement();
     trackHover();
-    trackPageNavigation(); // navigation inter-pages
+    trackPageNavigation();
 }
 
-// ── SCROLL DEPTH (précision augmentée : paliers tous les 10%) ──
+// ── SCROLL DEPTH ──
 function trackScrollDepth() {
     const milestones = [10, 25, 50, 75, 90, 100];
     const reached = new Set();
@@ -374,7 +404,7 @@ function trackScrollDepth() {
             if (pct >= m && !reached.has(m)) {
                 reached.add(m);
                 const eventName = `scroll_${m}`;
-                const d = { scroll_depth_pct: m, page_title: getPageTitle() };
+                const d = { scroll_depth_pct: m, page_title: getPageTitle(), engagement_time_msec: '1000' };
                 if (window.gtag) gtag('event', eventName, d);
                 sendToSecureAPI(eventName, d);
                 console.log(`📜 Scroll ${m}%`);
@@ -383,7 +413,7 @@ function trackScrollDepth() {
     }, { passive: true });
 }
 
-// ── TEMPS SUR LA PAGE (paliers plus fins + destination de sortie) ──
+// ── TEMPS SUR LA PAGE ──
 function trackTimeOnPage() {
     const milestones = [5, 15, 30, 60, 120, 300];
     const reached = new Set();
@@ -396,7 +426,7 @@ function trackTimeOnPage() {
             if (elapsed >= m && !reached.has(m)) {
                 reached.add(m);
                 const eventName = `time_${m}s`;
-                const d = { seconds_on_page: m, page_title: getPageTitle() };
+                const d = { seconds_on_page: m, page_title: getPageTitle(), engagement_time_msec: String(m * 1000) };
                 if (window.gtag) gtag('event', eventName, d);
                 sendToSecureAPI(eventName, d);
                 console.log(`⏱️ ${m}s sur la page`);
@@ -412,12 +442,12 @@ function trackTimeOnPage() {
         const d = {
             seconds_on_page: total,
             exit_page:       getPagePath(),
-            next_page:       nextPage,   // ✅ vers où l'utilisateur part
-            page_title:      getPageTitle()
+            next_page:       nextPage,
+            page_title:      getPageTitle(),
+            engagement_time_msec: String(Math.max(total, 1) * 1000)
         };
         sendToSecureAPI('page_exit', d);
         if (window.gtag) gtag('event', 'page_exit', d);
-        // On nettoie la clé pour ne pas la réutiliser sur la page suivante
         try { sessionStorage.removeItem(NEXT_PAGE_KEY); } catch(err) {}
     });
 }
@@ -466,7 +496,6 @@ function trackRageClicks() {
 }
 
 // ── COPIER DU TEXTE ──
-// ✅ RGPD: on ne capture que les 50 premiers caractères, anonymisés
 function trackCopyPaste() {
     document.addEventListener('copy', () => {
         if (areCookiesRejected()) return;
@@ -478,7 +507,7 @@ function trackCopyPaste() {
     });
 }
 
-// ── LIENS SORTANTS (avec destination précise) ──
+// ── LIENS SORTANTS ──
 function trackExternalLinks() {
     document.addEventListener('click', (e) => {
         if (areCookiesRejected()) return;
@@ -567,7 +596,6 @@ function trackWebVitals() {
         }
     } catch(e) {}
 
-    // ── INP — dédupliqué, on garde uniquement le pire score
     try {
         let worstINP = 0;
         let worstINPName = '';
@@ -627,7 +655,7 @@ function trackFirstEngagement() {
         if (done || areCookiesRejected()) return;
         done = true;
         const t = Math.round((Date.now() - performance.timeOrigin) / 1000);
-        const d = { seconds_to_engage: t, interaction_type: e.type, page_title: getPageTitle() };
+        const d = { seconds_to_engage: t, interaction_type: e.type, page_title: getPageTitle(), engagement_time_msec: String(Math.max(t,1) * 1000) };
         if (window.gtag) gtag('event', 'first_engagement', d);
         sendToSecureAPI('first_engagement', d);
         console.log(`👆 Premier engagement: ${t}s (${e.type})`);
@@ -639,7 +667,6 @@ function trackFirstEngagement() {
 }
 
 // ── HOVER SUR ÉLÉMENTS CLÉS ──
-// MutationObserver pour couvrir les éléments ajoutés dynamiquement au DOM
 function trackHover() {
     const selectorMap = {
         'a[href]':        'hover_link',
@@ -681,7 +708,7 @@ function trackHover() {
     observer.observe(document.body, { childList: true, subtree: true });
 }
 
-// ── TRACKING CLICS (avec nom d'événement dédié pour les CTA marqués) ──
+// ── TRACKING CLICS ──
 function trackClick(element) {
     if (areCookiesRejected() || !window.gtag || !element) return;
     const el = element.closest('a, button, .btn');
@@ -725,7 +752,7 @@ function trackFormSubmitSecure(form) {
 // =============== NAVIGATION INTER-PAGES ===============
 const NAV_HISTORY_KEY  = 'ga_nav_history';
 const NAV_ENTER_KEY    = 'ga_page_enter_time';
-const NEXT_PAGE_KEY    = 'ga_next_intended_page'; // ✅ mémorise la destination cliquée avant de quitter
+const NEXT_PAGE_KEY    = 'ga_next_intended_page';
 const NAV_MAX_HISTORY  = 20;
 
 function getNavigationHistory() {
@@ -841,7 +868,7 @@ function onSPANavigation() {
         gtag('event', 'page_view', { page_title: newTitle, page_location: window.location.href, page_path: newPath });
     }
     sendToSecureAPI('page_navigation', d);
-    sendToSecureAPI('page_view', { page_title: newTitle, page_path: newPath });
+    sendToSecureAPI('page_view', { page_title: newTitle, page_path: newPath, engagement_time_msec: '100' });
 
     pushPageToHistory(newPath, newTitle);
     recordPageEnter();
@@ -851,7 +878,7 @@ function onSPANavigation() {
 
 // =============== COOKIES UI ===============
 function showCookieBanner() {
-    if (FORCE_ANALYTICS) return; // ✅ jamais de bannière en mode forcé
+    if (FORCE_ANALYTICS) return;
     const banner = document.getElementById('custom-cookie-banner');
     const consent = getCookie('cookieConsent');
     if (consent) return;
@@ -945,7 +972,6 @@ function initAnalytics() {
     deviceType = detectDeviceType();
     logConsentStatus();
 
-    // ✅ MODE FORCÉ : tracking actif immédiatement, sans bannière ni consentement
     if (FORCE_ANALYTICS) {
         cookiesRejected = false;
         setTimeout(() => initializeGoogleAnalytics(), 300);
