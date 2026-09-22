@@ -37,7 +37,6 @@ function getPageTitle() {
         '/Support/Articles/article.configuration.html': 'Article de configuration',
         '/Support/Articles/feuille.route.nexa.html': 'Feuille de Routes',
         '/legals/politique-cookies.html': 'Politique cookies',
-        '/pack-france.html': 'Pack France LSPDFR 2026',
         '/tiktok/tiktok.html': 'Pack France 2026 & Callouts LSPDFR'
     };
     return pageMap[path] || document.title || 'UNWARE STUDIO';
