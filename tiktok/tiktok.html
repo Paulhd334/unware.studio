@@ -38,6 +38,30 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="../css/styles.css">
+
+    <!-- Cookies script RGPD / 2026 -->
+    <script>
+    (function() {
+        function getCookie(n) {
+            var eq=n+"=", ca=document.cookie.split(';');
+            for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
+            return null;
+        }
+        function load(src) { var s=document.createElement('script');s.src=src;document.head.appendChild(s); }
+
+        // cookie-banner.js TOUJOURS en premier — gère la bannière + consentement sur toutes les pages
+        load('../js/cookie-banner.js');
+
+        // analytics uniquement si pas refusé
+        if (getCookie('cookieConsent') !== 'rejected') {
+            load('../js/analytics.js');
+            load('../js/analytics-clarify.js');
+        } else {
+            console.log('⛔ Cookies refusés — analytics non chargés');
+        }
+    })();
+    </script>
+
     <style>
         .btn {
             padding: 12px 24px;
