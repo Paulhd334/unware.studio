@@ -1,4 +1,4 @@
-// =============== GOOGLE ANALYTICS 4 - Version MAX DATA v3 (FORCE MODE) ===============
+// =============== GOOGLE ANALYTICS 4 - Version MAX DATA v3 ===============
 // ✅ FIX SESSIONS (voir commentaires marqués "FIX SESSION")
 const GA_MEASUREMENT_ID = 'G-NJLCB6G0G8';
 let isGALoaded = false;
@@ -7,9 +7,6 @@ let deviceType = 'desktop';
 let clientId = null;
 let cookiesRejected = false;
 let pageCountIncremented = false; // ✅ FIX: évite double-incrément
-
-// =============== MODE FORCÉ (pages sans bannière cookie / tests) ===============
-const FORCE_ANALYTICS = window.__FORCE_ANALYTICS__ === true;
 
 // =============== DÉTECTION DU DEVICE ===============
 function detectDeviceType() {
@@ -40,7 +37,8 @@ function getPageTitle() {
         '/Support/Articles/article.configuration.html': 'Article de configuration',
         '/Support/Articles/feuille.route.nexa.html': 'Feuille de Routes',
         '/legals/politique-cookies.html': 'Politique cookies',
-        '/pack-france.html': 'Pack France LSPDFR 2026'
+        '/pack-france.html': 'Pack France LSPDFR 2026',
+        '/tiktok/tiktok.html': 'Pack France 2026 & Callouts LSPDFR'
     };
     return pageMap[path] || document.title || 'UNWARE STUDIO';
 }
@@ -137,7 +135,6 @@ function setCookie(name, value, days) {
 }
 
 function shouldLoadGA() {
-    if (FORCE_ANALYTICS) return true;
     const consent = getCookie('cookieConsent');
     if (consent === 'rejected') { cookiesRejected = true; return false; }
     const analytics = getCookie('analyticsCookies');
@@ -145,7 +142,6 @@ function shouldLoadGA() {
 }
 
 function areCookiesRejected() {
-    if (FORCE_ANALYTICS) { cookiesRejected = false; return false; }
     const consent = getCookie('cookieConsent');
     cookiesRejected = consent === 'rejected';
     return cookiesRejected;
@@ -161,14 +157,6 @@ function resetAnalyticsState() {
 
 // =============== DEBUG CONSOLE : ÉTAT DU CONSENTEMENT ===============
 function logConsentStatus() {
-    if (FORCE_ANALYTICS) {
-        console.groupCollapsed('🍪 Analytics — État du consentement');
-        console.log('%c⚡ MODE FORCÉ actif', 'color: #22c55e; font-weight: bold;');
-        console.log('   → Tracking actif pour tout le monde, sans bannière cookie (page de test)');
-        console.log('   Page:', getPageTitle(), '|', getPagePath());
-        console.groupEnd();
-        return;
-    }
     const consent = getCookie('cookieConsent');
     const analytics = getCookie('analyticsCookies');
     const performance = getCookie('performanceCookies');
@@ -234,7 +222,6 @@ function getEnrichedUserData() {
         utm_campaign:        params.get('utm_campaign') || null,
         utm_content:         params.get('utm_content') || null,
         utm_term:            params.get('utm_term') || null,
-        force_mode:          FORCE_ANALYTICS,
     };
 }
 
@@ -293,7 +280,7 @@ function initializeGoogleAnalytics() {
     if (isGALoaded) return;
 
     console.log('🚀 Init GA4 MAX DATA v3...');
-    console.log('📊 Analytics MAX DATA prêt — 16 trackers actifs' + (FORCE_ANALYTICS ? ' (mode forcé)' : ''));
+    console.log('📊 Analytics MAX DATA prêt — 16 trackers actifs');
 
     const enriched = getEnrichedUserData();
     const startingNewSession = sessionJustCreated; // capturé avant d'appeler getSessionId() à nouveau
@@ -878,7 +865,6 @@ function onSPANavigation() {
 
 // =============== COOKIES UI ===============
 function showCookieBanner() {
-    if (FORCE_ANALYTICS) return;
     const banner = document.getElementById('custom-cookie-banner');
     const consent = getCookie('cookieConsent');
     if (consent) return;
@@ -902,7 +888,6 @@ function hideCookieBanner() {
 }
 
 function showCookieSettings() {
-    if (FORCE_ANALYTICS) return;
     const modal = document.getElementById('cookieModal');
     if (modal) {
         modal.classList.add('show');
@@ -920,7 +905,7 @@ function hideCookieSettings() {
     const modal = document.getElementById('cookieModal');
     if (modal) modal.classList.remove('show');
     const consent = getCookie('cookieConsent');
-    if (!consent && !FORCE_ANALYTICS) setTimeout(showCookieBanner, 500);
+    if (!consent) setTimeout(showCookieBanner, 500);
 }
 
 // =============== DISPATCH CONSENTEMENT ===============
@@ -972,12 +957,6 @@ function initAnalytics() {
     deviceType = detectDeviceType();
     logConsentStatus();
 
-    if (FORCE_ANALYTICS) {
-        cookiesRejected = false;
-        setTimeout(() => initializeGoogleAnalytics(), 300);
-        return;
-    }
-
     const consent = getCookie('cookieConsent');
 
     if (!consent) {
@@ -1002,7 +981,6 @@ document.addEventListener('DOMContentLoaded', initAnalytics);
 window.debugGA = {
     check: function() {
         console.log('🔍 GA MAX DATA v3:');
-        console.log('- Mode forcé      :', FORCE_ANALYTICS);
         console.log('- Cookies refusés :', areCookiesRejected());
         console.log('- GA Loaded       :', isGALoaded);
         console.log('- cookieConsent   :', getCookie('cookieConsent'));
