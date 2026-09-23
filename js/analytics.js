@@ -1,8 +1,16 @@
-// =============== GOOGLE ANALYTICS 4 - Version MAX DATA v3 ===============
+// =============== GOOGLE ANALYTICS 4 - Version MAX DATA v4 (CORRIGÉE) ===============
 // ✅ FIX SESSIONS (voir commentaires marqués "FIX SESSION")
+// ✅ FIX v4 (voir commentaires marqués "FIX v4") :
+//    1. new URL(document.referrer) protégé par try/catch (pouvait bloquer TOUT le
+//       tracking en silence si le referrer avait un format non standard)
+//    2. Suppression du double envoi de page_view (gtag('config', ...) en envoie
+//       déjà un automatiquement, l'event manuel gtag('event','page_view', ...)
+//       était redondant et faussait les statistiques)
+//    3. Variable isClarityLoaded (inutilisée ici, le vrai flag partagé est
+//       window._isClarityLoaded défini dans analytics-clarify.js) supprimée
+//       pour éviter la confusion
 const GA_MEASUREMENT_ID = 'G-NJLCB6G0G8';
 let isGALoaded = false;
-let isClarityLoaded = false;
 let deviceType = 'desktop';
 let clientId = null;
 let cookiesRejected = false;
@@ -149,7 +157,6 @@ function areCookiesRejected() {
 // =============== RESET COMPLET DE L'ÉTAT ANALYTICS ===============
 function resetAnalyticsState() {
     isGALoaded = false;
-    isClarityLoaded = false;
     cookiesRejected = true;
     console.log('🔴 Analytics désactivé — consentement refusé');
 }
@@ -178,6 +185,17 @@ function logConsentStatus() {
     }
     console.log('   Page:', getPageTitle(), '|', getPagePath());
     console.groupEnd();
+}
+
+// ✅ FIX v4 : extraction sécurisée du hostname d'un referrer, jamais d'exception
+function safeReferrerHostname() {
+    if (!document.referrer) return 'direct';
+    try {
+        return new URL(document.referrer).hostname;
+    } catch (e) {
+        console.warn('⚠️ Referrer non parsable, ignoré:', document.referrer);
+        return 'unknown';
+    }
 }
 
 // =============== DONNÉES ENRICHIES ===============
@@ -214,7 +232,10 @@ function getEnrichedUserData() {
         // la provenance (sessionSourceMedium). "referrer"/"referrer_full" ne sont pas
         // reconnus et laissaient la section Provenance vide.
         page_referrer:       document.referrer || '',
-        referrer:            document.referrer ? new URL(document.referrer).hostname : 'direct',
+        // ✅ FIX v4 : appel sécurisé (voir safeReferrerHostname) au lieu de
+        // `new URL(document.referrer).hostname` non protégé, qui pouvait lever
+        // une exception et interrompre TOUT initializeGoogleAnalytics() en silence.
+        referrer:            safeReferrerHostname(),
         referrer_full:       document.referrer || 'direct',
         utm_source:          params.get('utm_source') || null,
         utm_medium:          params.get('utm_medium') || null,
@@ -266,6 +287,7 @@ async function sendToSecureAPI(eventName, params = {}) {
         });
 
         if (response.ok) { console.log(`📡 [API] ${eventName}`); return true; }
+        console.warn(`⚠️ [API] ${eventName} — statut HTTP ${response.status}`);
         return false;
     } catch (error) {
         console.warn('⚠️ [API]', error);
@@ -278,10 +300,20 @@ function initializeGoogleAnalytics() {
     if (areCookiesRejected() || !shouldLoadGA()) return;
     if (isGALoaded) return;
 
-    console.log('🚀 Init GA4 MAX DATA v3...');
+    console.log('🚀 Init GA4 MAX DATA v4...');
     console.log('📊 Analytics MAX DATA prêt — 16 trackers actifs');
 
-    const enriched = getEnrichedUserData();
+    // ✅ FIX v4 : getEnrichedUserData() peut désormais échouer sans planter cette
+    // fonction (le try/catch reste ici en filet de sécurité supplémentaire au cas
+    // où une future donnée enrichie lèverait une exception).
+    let enriched;
+    try {
+        enriched = getEnrichedUserData();
+    } catch (e) {
+        console.warn('⚠️ getEnrichedUserData a échoué, valeurs par défaut utilisées:', e);
+        enriched = {};
+    }
+
     const startingNewSession = sessionJustCreated; // capturé avant d'appeler getSessionId() à nouveau
     markVisit();
 
@@ -316,6 +348,10 @@ function initializeGoogleAnalytics() {
         allow_google_signals: false,
         client_id:            getClientId(),
         session_id:           getSessionId(),
+        // ✅ FIX v4 : gtag('config', ...) envoie déjà automatiquement un page_view.
+        // On le laisse faire ce travail (send_page_view reste true par défaut) et
+        // on supprime l'appel manuel gtag('event','page_view', ...) plus bas qui
+        // créait un DOUBLE comptage de pages vues dans GA4.
         user_properties: {
             device_type:       deviceType,
             screen_resolution: `${window.screen.width}x${window.screen.height}`,
@@ -325,28 +361,22 @@ function initializeGoogleAnalytics() {
         }
     });
 
-    gtag('event', 'page_view', {
-        page_title:      getPageTitle(),
-        page_location:   window.location.href,
-        page_path:       getPagePath(),
-        device_type:     deviceType,
-        load_time_total: enriched.load_time_total,
-        connection_type: enriched.connection_type,
-        is_returning:    enriched.is_returning
-    });
+    // ✅ FIX v4 : l'ancien second appel gtag('event', 'page_view', {...}) a été
+    // supprimé ici — il dupliquait le page_view déjà envoyé par gtag('config', ...)
+    // ci-dessus et gonflait artificiellement le nombre de pages vues dans GA4.
 
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
     script.onload = () => { isGALoaded = true; initEventTracking(); };
-    script.onerror = () => { isGALoaded = true; initEventTracking(); };
+    script.onerror = () => { isGALoaded = true; initEventTracking(); console.warn('⚠️ gtag.js n\'a pas pu être chargé (bloqueur de pub probable)'); };
     document.head.appendChild(script);
 }
 
 // =============== TRACKING ÉVÉNEMENTS ===============
 function initEventTracking() {
     if (areCookiesRejected()) return;
-    console.log('🎯 Tracking MAX v3 activé...');
+    console.log('🎯 Tracking MAX v4 activé...');
 
     document.addEventListener('click', (e) => {
         if (areCookiesRejected()) return;
@@ -799,7 +829,8 @@ function trackPageNavigation() {
         console.log(`🗺️ Navigation: ${previous.path} → ${currentPath} (${timeSpent}s)`);
     } else if (!previous) {
         const d = {
-            from_page:     document.referrer ? new URL(document.referrer).hostname : 'direct',
+            // ✅ FIX v4 : appel sécurisé, plus de new URL() non protégé
+            from_page:     safeReferrerHostname(),
             from_title:    document.referrer ? 'external' : 'direct',
             to_page:       currentPath,
             to_title:      currentTitle,
@@ -851,6 +882,9 @@ function onSPANavigation() {
     if (window.gtag) {
         gtag('config', GA_MEASUREMENT_ID, { page_title: newTitle, page_location: window.location.href, page_path: newPath });
         gtag('event', 'page_navigation', d);
+        // Note : ici gtag('config', ...) ne renvoie pas de page_view automatique lors
+        // d'un changement de route SPA, donc l'event manuel ci-dessous reste nécessaire
+        // (contrairement au chargement initial dans initializeGoogleAnalytics()).
         gtag('event', 'page_view', { page_title: newTitle, page_location: window.location.href, page_path: newPath });
     }
     sendToSecureAPI('page_navigation', d);
@@ -979,7 +1013,7 @@ document.addEventListener('DOMContentLoaded', initAnalytics);
 // =============== DEBUG CONSOLE ===============
 window.debugGA = {
     check: function() {
-        console.log('🔍 GA MAX DATA v3:');
+        console.log('🔍 GA MAX DATA v4:');
         console.log('- Cookies refusés :', areCookiesRejected());
         console.log('- GA Loaded       :', isGALoaded);
         console.log('- cookieConsent   :', getCookie('cookieConsent'));
