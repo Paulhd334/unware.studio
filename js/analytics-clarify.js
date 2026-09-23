@@ -1,7 +1,9 @@
-// =============== MICROSOFT CLARITY - Version MAX DATA ===============
+// =============== MICROSOFT CLARITY - Version MAX DATA (CORRIGÉE v2) ===============
+// ✅ FIX v2 : le commentaire ci-dessous prêtait à confusion — il n'existe PAS de
+// variable "isClarityLoaded" partagée avec analytics.js. Le flag réellement utilisé
+// et partagé entre les deux fichiers est bien window._isClarityLoaded (getter/setter
+// ci-dessous), ce qui est correct et ne change pas de comportement.
 const CLARITY_PROJECT_ID = 'vrmfcq4hei';
-// NOTE: isClarityLoaded est déclaré dans analytics.js (partagé entre les deux fichiers)
-// On utilise window.isClarityLoaded pour éviter les conflits de scope
 let clarityLoadAttempted = false;
 
 // =============== COOKIES ===============
@@ -41,7 +43,7 @@ function shouldLoadClarity() {
 // =============== RESET COMPLET DE L'ÉTAT CLARITY ===============
 // FIX: appelé à chaque refus pour permettre une future ré-initialisation
 function resetClarityState() {
-    // On réinitialise les flags — isClarityLoaded est partagé avec analytics.js
+    // isClarityLoaded est partagé avec analytics.js via window._isClarityLoaded
     if (typeof window !== 'undefined') {
         window._isClarityLoaded = false;
     }
@@ -66,6 +68,7 @@ function getConnectionType() {
     return conn.effectiveType || 'unknown';
 }
 
+// Déjà protégé par try/catch — inchangé
 function getReferrerSource() {
     if (!document.referrer) return 'direct';
     try { return new URL(document.referrer).hostname; } catch(e) { return 'unknown'; }
@@ -555,6 +558,3 @@ window.debugClarity = {
         console.log('✅ Tags redéfinis');
     }
 };
-
-// FIX: log supprimé d'ici — déplacé dans le onload du script Clarity
-// pour n'apparaître que si Clarity est réellement chargé avec consentement valide
