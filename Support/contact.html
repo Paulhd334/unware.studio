@@ -5,31 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- ====== SEO ESSENTIELS ====== -->
-    <title>Centre d'aide | UNWARE STUDIO</title>
-    <meta name="description" content="Besoin d'aide avec UNWARE STUDIO ? Contactez-moi par email, Discord ou réseaux sociaux. Réponse garantie sous 48h. FAQ et assistance dédiée.">
-    <meta name="keywords" content="Centre d'aide UNWARE STUDIO, contact, assistance, aide, FAQ, Discord, email support">
+    <title>Informations | UNWARE STUDIO</title>
+    <meta name="description" content="Informations sur The Void Protocol et UNWARE STUDIO : présentation du jeu, du studio, plateformes, moteur et liens officiels.">
+    <meta name="keywords" content="UNWARE STUDIO, The Void Protocol, informations, plateformes, Unreal Engine 5, liens officiels">
     <meta name="author" content="UNWARE STUDIO">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://unware.studio/Support/contact.html">
+    <link rel="canonical" href="https://unware.studio/Support/informations.html">
 
     <!-- ====== OPEN GRAPH ====== -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://unware.studio/Support/contact.html">
-    <meta property="og:title" content="Centre d'aidee | UNWARE STUDIO">
-    <meta property="og:description" content="Besoin d'aide avec UNWARE STUDIO ? Contactez-moi par email, Discord ou réseaux sociaux. Réponse sous 48h.">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Page support  UNWARE STUDIO">
+    <meta property="og:url" content="https://unware.studio/Support/informations.html">
+    <meta property="og:title" content="Informations | UNWARE STUDIO">
+    <meta property="og:description" content="Présentation de The Void Protocol et d'UNWARE STUDIO : concept, plateformes, moteur et liens officiels.">
     <meta property="og:site_name" content="UNWARE STUDIO">
     <meta property="og:locale" content="fr_FR">
 
     <!-- ====== TWITTER / X CARD ====== -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@unwarestudio">
-    <meta name="twitter:creator" content="@unwarestudio">
-    <meta name="twitter:title" content="Centre d'aide | UNWARE STUDIO">
-    <meta name="twitter:description" content="Besoin d'aide ? Contactez-moi par email, Discord ou réseaux sociaux. Réponse sous 48h.">
-    <meta name="twitter:image:alt" content="Page support UNWARE STUDIO">
+    <meta name="twitter:title" content="Informations | UNWARE STUDIO">
+    <meta name="twitter:description" content="Présentation de The Void Protocol et d'UNWARE STUDIO : concept, plateformes, moteur et liens officiels.">
 
     <!-- ====== PERFORMANCE & PRÉCHARGEMENT ====== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,9 +34,9 @@
 
     <!-- ====== RESSOURCES ====== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!--  ANALYTICS LOADER -->
+    <!-- ANALYTICS LOADER -->
     <script>
     (function() {
         function getCookie(n) {
@@ -60,22 +55,15 @@
     })();
     </script>
 
-    <!-- ====== CSS PRINCIPAL ====== -->
+    <!-- ====== CSS PRINCIPAL DU SITE ====== -->
     <link rel="stylesheet" href="../css/styles.css">
 
     <style>
-    /* ====== BASE HEADER/NAV ====== */
+    /* ====== HEADER / NAV (identique au reste du site) ====== */
     .btn {
-        padding: 12px 24px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        line-height: 1;
+        padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 500;
+        transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center;
+        font-size: 14px; line-height: 1;
     }
     .btn-login { color: var(--text); background: transparent; border: 1px solid var(--border); height: 42px; }
     .btn-login:hover { background: rgba(255, 255, 255, 0.05); transform: translateY(-2px); }
@@ -150,633 +138,166 @@
     .mobile-menu.active i { transform: rotate(90deg); }
 
     /* ============================================================ */
-    /* ============ PAGE SUPPORT — STYLE ÉDITORIAL ================ */
+    /* ==================== PAGE TERMINAL =========================== */
     /* ============================================================ */
 
-    .support-page {
-        padding: 140px 0 120px;
-        background:
-            radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255,255,255,0.04), transparent),
-            var(--primary);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .support-page::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image: radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px);
-        background-size: 32px 32px;
-        mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent 80%);
-        -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent 80%);
-        pointer-events: none;
-        z-index: 0;
-    }
-
-    .support-page .container { position: relative; z-index: 1; }
-
-    /* ---------- HERO ÉDITORIAL ---------- */
-    .sp-hero {
-        max-width: 780px;
-        margin: 0 auto 60px;
-        text-align: center;
-    }
-
-    .sp-hero .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 2.5px;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 24px;
-    }
-
-    .sp-hero .eyebrow::before,
-    .sp-hero .eyebrow::after {
-        content: '';
-        width: 24px;
-        height: 1px;
-        background: var(--accent);
-        opacity: 0.4;
-    }
-
-    .sp-hero h1 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 72px;
-        line-height: 0.95;
-        letter-spacing: 2px;
-        color: var(--accent);
-        margin-bottom: 24px;
-        font-weight: 400;
-    }
-
-    .sp-hero h1 em {
-        font-style: normal;
-        display: inline-block;
-        background: linear-gradient(135deg, var(--accent) 0%, rgba(255,255,255,0.6) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    .sp-hero p {
-        font-size: 17px;
-        line-height: 1.7;
-        color: var(--text-secondary);
-        max-width: 560px;
-        margin: 0 auto;
-    }
-
-    /* ============================================================ */
-    /* ==================== BARRE DE RECHERCHE ==================== */
-    /* ============================================================ */
-
-    .sp-search-wrap {
-        max-width: 640px;
-        margin: 0 auto 90px;
-        position: relative;
-        z-index: 5;
-    }
-
-    .sp-search {
-        position: relative;
-        display: flex;
-        align-items: center;
-        background: linear-gradient(160deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 4px 6px 4px 4px;
-        transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-        backdrop-filter: blur(12px);
-        box-shadow:
-            0 4px 24px rgba(0,0,0,0.15),
-            inset 0 1px 0 rgba(255,255,255,0.04);
-    }
-
-    .sp-search:hover {
-        border-color: rgba(255,255,255,0.14);
-        box-shadow:
-            0 6px 28px rgba(0,0,0,0.2),
-            inset 0 1px 0 rgba(255,255,255,0.06);
-    }
-
-    .sp-search.is-focused {
-        border-color: var(--accent);
-        box-shadow:
-            0 8px 32px rgba(0,0,0,0.25),
-            0 0 0 4px rgba(255,255,255,0.04),
-            inset 0 1px 0 rgba(255,255,255,0.08);
-        background: linear-gradient(160deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
-    }
-
-    /* Icône loupe dans un cercle */
-    .sp-search-icon {
-        flex-shrink: 0;
-        width: 44px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--text-secondary);
-        font-size: 15px;
-        transition: color 0.3s ease;
-        pointer-events: none;
-    }
-
-    .sp-search.is-focused .sp-search-icon {
-        color: var(--accent);
-    }
-
-    /* Input */
-    .sp-search input {
-        flex: 1;
-        background: transparent;
-        border: none;
-        outline: none;
-        color: var(--text);
-        font-size: 15px;
-        font-family: inherit;
-        font-weight: 400;
-        padding: 14px 8px;
-        letter-spacing: -0.1px;
-    }
-
-    .sp-search input::placeholder {
-        color: var(--text-secondary);
-        opacity: 0.65;
-        transition: opacity 0.3s ease;
-    }
-
-    .sp-search.is-focused input::placeholder {
-        opacity: 0.4;
-    }
-
-    /* Raccourci clavier */
-    .sp-search-kbd {
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        padding: 0 6px 0 0;
-    }
-
-    .sp-search-kbd kbd {
-        font-family: inherit;
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--text-secondary);
-        padding: 5px 8px;
-        border: 1px solid var(--border);
-        border-bottom-width: 2px;
-        border-radius: 6px;
-        background: rgba(255,255,255,0.03);
-        min-width: 22px;
-        text-align: center;
-        transition: all 0.3s ease;
-        line-height: 1;
-    }
-
-    .sp-search.is-focused .sp-search-kbd kbd {
-        opacity: 0.4;
-    }
-
-    /* Bouton clear (croix) */
-    .sp-search-clear {
-        flex-shrink: 0;
-        width: 32px;
-        height: 32px;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        border: none;
-        background: rgba(255,255,255,0.06);
-        color: var(--text-secondary);
-        cursor: pointer;
-        font-size: 12px;
-        margin-right: 8px;
-        transition: all 0.25s ease;
-        font-family: inherit;
-    }
-
-    .sp-search-clear:hover {
-        background: var(--accent);
-        color: var(--primary);
-        transform: rotate(90deg);
-    }
-
-    .sp-search.has-value .sp-search-clear { display: flex; }
-    .sp-search.has-value .sp-search-kbd { display: none; }
-
-    /* Compteur de résultats */
-    .sp-search-count {
-        position: absolute;
-        top: calc(100% + 12px);
-        left: 50%;
-        transform: translateX(-50%) translateY(-4px);
-        font-size: 12px;
-        color: var(--text-secondary);
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.3s ease;
-        white-space: nowrap;
-        padding: 6px 14px;
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        backdrop-filter: blur(8px);
-    }
-
-    .sp-search-count.visible {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-    }
-
-    .sp-search-count strong {
-        color: var(--accent);
-        font-weight: 600;
-    }
-
-    /* ---------- SECTION LABEL ---------- */
-    .sp-section-label {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 2.5px;
-        text-transform: uppercase;
-        color: var(--text-secondary);
-        margin-bottom: 28px;
-    }
-
-    .sp-section-label::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background: linear-gradient(90deg, var(--border), transparent);
-    }
-
-    /* ---------- CONTACT ---------- */
-    .sp-contact-grid {
-        display: grid;
-        grid-template-columns: 1.4fr 1fr 1fr;
-        gap: 16px;
-        margin-bottom: 100px;
-    }
-
-    .sp-contact-card {
-        position: relative;
-        padding: 32px 30px;
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 16px;
+    .term-page {
+        min-height: 100vh;
+        background: #ffffff;
+        padding: 140px 20px 100px;
         display: flex;
         flex-direction: column;
-        gap: 20px;
-        transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
-        overflow: hidden;
-        text-decoration: none;
-        color: inherit;
-    }
-
-    .sp-contact-card::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at var(--x, 50%) var(--y, 0%), rgba(255,255,255,0.06), transparent 60%);
-        opacity: 0;
-        transition: opacity 0.4s ease;
-        pointer-events: none;
-    }
-
-    .sp-contact-card:hover::before { opacity: 1; }
-    .sp-contact-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.16); }
-
-    .sp-contact-card .sp-cc-top {
-        display: flex;
         align-items: center;
-        justify-content: space-between;
     }
 
-    .sp-contact-card .sp-cc-icon {
-        width: 46px;
-        height: 46px;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.04);
-        border: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        color: var(--accent);
-        transition: all 0.4s ease;
-    }
-
-    .sp-contact-card:hover .sp-cc-icon {
-        transform: rotate(-6deg) scale(1.05);
-        background: var(--accent);
-        color: var(--primary);
-        border-color: var(--accent);
-    }
-
-    .sp-contact-card .sp-cc-arrow {
-        font-size: 13px;
-        color: var(--text-secondary);
-        opacity: 0.5;
-        transition: all 0.35s ease;
-    }
-
-    .sp-contact-card:hover .sp-cc-arrow {
-        transform: translate(3px, -3px);
-        color: var(--accent);
-        opacity: 1;
-    }
-
-    .sp-contact-card h3 {
-        font-size: 18px;
-        font-weight: 600;
-        color: var(--text);
-        letter-spacing: -0.2px;
-    }
-
-    .sp-contact-card .sp-cc-desc {
-        font-size: 14px;
-        line-height: 1.6;
-        color: var(--text-secondary);
-    }
-
-    .sp-contact-card .sp-cc-meta {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        color: var(--text-secondary);
-        padding-top: 16px;
-        margin-top: auto;
-        border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .sp-contact-card .sp-cc-meta .dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 0 3px rgba(255,255,255,0.05);
-        animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.5; }
-    }
-
-    .sp-contact-card.sp-cc-featured {
-        background: linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
-    }
-
-    .sp-contact-card.sp-cc-featured .sp-cc-email {
-        font-size: 15px;
-        color: var(--accent);
-        font-weight: 500;
-        word-break: break-all;
-        text-decoration: none;
-        transition: color 0.25s ease;
-    }
-
-    .sp-contact-card.sp-cc-featured .sp-cc-email:hover { color: var(--text); }
-
-    /* ---------- FAQ ---------- */
-    .sp-faq {
-        max-width: 820px;
-        margin: 0 auto;
-    }
-
-    .sp-faq-list {
-        border-top: 1px solid var(--border);
-        transition: opacity 0.3s ease;
-    }
-
-    .sp-faq-item {
-        border-bottom: 1px solid var(--border);
-        transition: background 0.3s ease, opacity 0.3s ease;
-    }
-
-    .sp-faq-item:hover { background: rgba(255,255,255,0.015); }
-
-    .sp-faq-item.hidden {
-        display: none;
-    }
-
-    .sp-faq-q {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-        padding: 26px 8px;
-        cursor: pointer;
-        user-select: none;
-        transition: padding 0.3s ease;
-    }
-
-    .sp-faq-item:hover .sp-faq-q { padding-left: 16px; padding-right: 16px; }
-
-    .sp-faq-q .sp-faq-num {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 15px;
-        color: var(--text-secondary);
-        letter-spacing: 1px;
-        flex-shrink: 0;
-        width: 32px;
-        transition: color 0.3s ease;
-    }
-
-    .sp-faq-item.active .sp-faq-num { color: var(--accent); }
-
-    .sp-faq-q h3 {
-        flex: 1;
-        font-size: 16px;
-        font-weight: 500;
-        color: var(--text);
-        letter-spacing: -0.1px;
-        transition: color 0.3s ease;
-    }
-
-    .sp-faq-item.active .sp-faq-q h3 { color: var(--accent); }
-
-    /* Surlignage des correspondances */
-    .sp-faq-q h3 mark {
-        background: rgba(255, 255, 255, 0.12);
-        color: var(--accent);
-        padding: 1px 3px;
-        border-radius: 3px;
-        font-weight: 600;
-    }
-
-    .sp-faq-q .sp-faq-toggle {
-        flex-shrink: 0;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        border: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 11px;
-        color: var(--text-secondary);
-        transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-        background: rgba(255,255,255,0.02);
-    }
-
-    .sp-faq-item.active .sp-faq-toggle {
-        background: var(--accent);
-        color: var(--primary);
-        border-color: var(--accent);
-        transform: rotate(135deg);
-    }
-
-    .sp-faq-a {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-
-    .sp-faq-item.active .sp-faq-a { max-height: 300px; }
-
-    .sp-faq-a p {
-        padding: 0 8px 28px 64px;
-        font-size: 14.5px;
-        line-height: 1.75;
-        color: var(--text-secondary);
-        max-width: 640px;
-    }
-
-    /* État vide */
-    .sp-faq-empty {
-        display: none;
-        text-align: center;
-        padding: 70px 30px;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .sp-faq-empty.visible { display: block; }
-
-    .sp-faq-empty .empty-icon {
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        background: rgba(255,255,255,0.03);
-        border: 1px solid var(--border);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-        color: var(--text-secondary);
-        margin: 0 auto 20px;
-        animation: emptyFloat 3s ease-in-out infinite;
-    }
-
-    @keyframes emptyFloat {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-6px); }
-    }
-
-    .sp-faq-empty h4 {
-        font-size: 17px;
-        color: var(--text);
-        margin-bottom: 8px;
-        font-weight: 600;
-    }
-
-    .sp-faq-empty p {
-        font-size: 14px;
-        color: var(--text-secondary);
-        line-height: 1.6;
-        max-width: 380px;
-        margin: 0 auto;
-    }
-
-    .sp-faq-empty .empty-query {
-        color: var(--accent);
-        font-weight: 500;
-    }
-
-    /* ---------- CTA FINAL ---------- */
-    .sp-cta {
-        margin-top: 100px;
-        text-align: center;
-        padding: 60px 30px;
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        background:
-            radial-gradient(ellipse 60% 100% at 50% 0%, rgba(255,255,255,0.04), transparent),
-            var(--card-bg);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .sp-cta::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle, rgba(255,255,255,0.03), transparent 70%);
-        pointer-events: none;
-    }
-
-    .sp-cta h2 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 40px;
-        letter-spacing: 2px;
-        color: var(--accent);
-        margin-bottom: 14px;
-        font-weight: 400;
-        position: relative;
-    }
-
-    .sp-cta p {
-        font-size: 15px;
-        color: var(--text-secondary);
-        margin-bottom: 28px;
-        max-width: 480px;
-        margin-left: auto;
-        margin-right: auto;
-        line-height: 1.6;
-        position: relative;
-    }
-
-    .sp-cta-btn {
+    .term-eyebrow {
         display: inline-flex;
         align-items: center;
         gap: 10px;
-        padding: 15px 32px;
-        background: var(--accent);
-        color: var(--primary);
-        border-radius: 10px;
-        font-size: 14px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12px;
         font-weight: 600;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        position: relative;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #000;
+        margin-bottom: 28px;
     }
 
-    .sp-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
-    .sp-cta-btn i { transition: transform 0.3s ease; }
-    .sp-cta-btn:hover i { transform: translateX(3px); }
+    .term-eyebrow::before {
+        content: '';
+        width: 8px; height: 8px;
+        background: #000;
+        border-radius: 50%;
+        animation: blinkDot 1.4s ease-in-out infinite;
+    }
+
+    @keyframes blinkDot {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.15; }
+    }
+
+    /* ---------- FENÊTRE TERMINAL ---------- */
+    .terminal {
+        width: 100%;
+        max-width: 980px;
+        background: #ffffff;
+        border: 2px solid #000;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+    }
+
+    .terminal-bar {
+        background: #000;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .terminal-dots {
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+    }
+
+    .terminal-dots span {
+        width: 12px; height: 12px;
+        border-radius: 50%;
+        background: #fff;
+        opacity: 0.25;
+    }
+
+    .terminal-title {
+        flex: 1;
+        text-align: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12.5px;
+        letter-spacing: 0.5px;
+        color: #fff;
+        opacity: 0.75;
+    }
+
+    .terminal-body {
+        background: #ffffff;
+        padding: 40px clamp(20px, 5vw, 56px) 56px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 14.5px;
+        line-height: 1.9;
+        color: #000;
+        min-height: 60vh;
+    }
+
+    .term-line {
+        opacity: 0;
+        transform: translateY(-26px);
+        animation: dropIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    @keyframes dropIn {
+        0% { opacity: 0; transform: translateY(-26px); }
+        60% { opacity: 1; }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .term-prompt { color: #000; font-weight: 700; }
+    .term-cmd { color: #000; font-weight: 600; }
+    .term-comment { color: #9a9a9a; }
+    .term-out { color: #1a1a1a; padding-left: 0; }
+
+    .term-heading {
+        color: #000;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        margin-top: 6px;
+        display: inline-block;
+        border-bottom: 2px solid #000;
+        padding-bottom: 2px;
+    }
+
+    .term-tag {
+        display: inline-block;
+        border: 1.5px solid #000;
+        border-radius: 6px;
+        padding: 2px 10px;
+        margin: 3px 6px 3px 0;
+        font-size: 13px;
+    }
+
+    .term-link {
+        color: #000;
+        font-weight: 700;
+        text-decoration: none;
+        border-bottom: 2px solid #000;
+        padding-bottom: 1px;
+        transition: all 0.2s ease;
+    }
+
+    .term-link:hover { background: #000; color: #fff; }
+
+    .term-cursor {
+        display: inline-block;
+        width: 9px;
+        height: 18px;
+        background: #000;
+        vertical-align: text-bottom;
+        margin-left: 4px;
+        animation: cursorBlink 1s step-end infinite;
+        opacity: 0;
+    }
+
+    .term-cursor.show { opacity: 1; }
+
+    @keyframes cursorBlink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0; }
+    }
+
+    .term-spacer { height: 14px; }
 
     /* ---------- RESPONSIVE ---------- */
-    @media (max-width: 1024px) {
-        .sp-contact-grid { grid-template-columns: 1fr 1fr; }
-        .sp-contact-card.sp-cc-featured { grid-column: 1 / -1; }
-    }
-
     @media (max-width: 768px) {
         .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
         .mobile-menu { display: flex; }
@@ -787,28 +308,9 @@
         .logo-icon { font-size: 20px; }
         .nav-actions { height: auto; }
 
-        .support-page { padding: 100px 0 70px; }
-        .sp-hero h1 { font-size: 44px; }
-        .sp-hero p { font-size: 15px; }
-        .sp-hero { margin-bottom: 40px; }
-        .sp-search-wrap { margin-bottom: 70px; }
-        .sp-contact-grid { grid-template-columns: 1fr; margin-bottom: 70px; }
-        .sp-contact-card.sp-cc-featured { grid-column: auto; }
-        .sp-faq-a p { padding-left: 8px; }
-        .sp-faq-q .sp-faq-num { display: none; }
-        .sp-cta { padding: 44px 22px; }
-        .sp-cta h2 { font-size: 30px; }
-    }
-
-    @media (max-width: 576px) {
-        .sp-hero h1 { font-size: 36px; }
-        .sp-contact-card { padding: 26px 22px; }
-        .sp-faq-q { padding: 22px 4px; }
-        .sp-faq-item:hover .sp-faq-q { padding-left: 8px; padding-right: 8px; }
-        .sp-search { border-radius: 14px; }
-        .sp-search-icon { width: 40px; height: 40px; font-size: 14px; }
-        .sp-search input { font-size: 14px; padding: 13px 6px; }
-        .sp-search-kbd kbd { font-size: 10px; padding: 4px 6px; }
+        .term-page { padding: 110px 12px 70px; }
+        .terminal-body { font-size: 13px; padding: 30px 18px 44px; }
+        .terminal-title { font-size: 11px; }
     }
 
     @media (max-height: 600px) {
@@ -847,185 +349,34 @@
     </div>
 </header>
 
-
     <!-- Menu Mobile -->
     <div class="overlay" id="overlay"></div>
     <nav class="mobile-nav" id="mobileNav">
         <div class="mobile-close" id="mobileClose">
             <i class="fas fa-times"></i>
         </div>
-        
         <ul class="mobile-nav-links">
             <li><a href="../index.html" class="mobile-nav-link">Accueil</a></li>
             <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
             <li><a href="../nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
             <li><a href="../nexa/the_void_protocol.html" class="mobile-nav-link">The void protocol</a></li>
         </ul>
-        <div class="mobile-nav-actions">
-
-        </div>
+        <div class="mobile-nav-actions"></div>
     </nav>
 
     <!-- ============================================================ -->
-    <!-- ==================== PAGE SUPPORT ÉDITORIALE ================= -->
+    <!-- ==================== PAGE INFORMATIONS ====================== -->
     <!-- ============================================================ -->
-    <section class="support-page">
-        <div class="container">
+    <section class="term-page">
+        <span class="term-eyebrow">unware_studio — informations</span>
 
-            <!-- HERO -->
-            <div class="sp-hero">
-                <span class="eyebrow">Centre d'aide</span>
-                <h1>Besoin d'un <em>coup de main</em> ?</h1>
-                <p>Une question, un bug, une idée ? Écrivez-moi directement, je vous réponds personnellement en moins de 48 heures.</p>
+        <div class="terminal">
+            <div class="terminal-bar">
+                <div class="terminal-dots"><span></span><span></span><span></span></div>
+                <div class="terminal-title">informations.sh — 80x24</div>
+                <div style="width:52px"></div>
             </div>
-
-            <!-- BARRE DE RECHERCHE -->
-            <div class="sp-search-wrap">
-                <div class="sp-search" id="spSearch">
-                    <span class="sp-search-icon"><i class="fas fa-search"></i></span>
-                    <input
-                        type="text"
-                        id="faqSearch"
-                        placeholder="Rechercher une question… (essayez « bug », « compte »)"
-                        autocomplete="off"
-                        spellcheck="false"
-                    >
-                    <button type="button" class="sp-search-clear" id="spSearchClear" aria-label="Effacer">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <span class="sp-search-kbd">
-                        <kbd>/</kbd>
-                    </span>
-                </div>
-                <div class="sp-search-count" id="spSearchCount"></div>
-            </div>
-
-            <!-- CONTACT -->
-            <div class="sp-section-label">Me contacter</div>
-            <div class="sp-contact-grid">
-
-                <a href="mailto:contact.unwarestudio@gmail.com" class="sp-contact-card sp-cc-featured">
-                    <div class="sp-cc-top">
-                        <div class="sp-cc-icon"><i class="fas fa-envelope"></i></div>
-                        <i class="fas fa-arrow-up-right-from-square sp-cc-arrow"></i>
-                    </div>
-                    <h3>Envoyez-moi un email</h3>
-                    <span class="sp-cc-email">contact.unwarestudio@gmail.com</span>
-                    <div class="sp-cc-meta">
-                        <span class="dot"></span>
-                        Réponse garantie sous 48h
-                    </div>
-                </a>
-
-<a href="https://discord.gg/bD6C8WgcE7"
-   target="_blank"
-   rel="noopener noreferrer"
-   class="sp-contact-card"
-   aria-label="Rejoindre le Discord UNWARE STUDIO">
-    <div class="sp-cc-top">
-        <div class="sp-cc-icon"><i class="fab fa-discord"></i></div>
-        <i class="fas fa-arrow-up-right-from-square sp-cc-arrow"></i>
-    </div>
-    <h3>Discord</h3>
-    <p class="sp-cc-desc">Rejoignez le serveur pour discuter, poser vos questions et suivre l'avancement du projet.</p>
-    <div class="sp-cc-meta">
-        <span class="dot"></span>
-        Échanges directs
-    </div>
-</a>
-
-<a href="https://x.com/unwarestudio"
-   target="_blank"
-   rel="noopener noreferrer"
-   class="sp-contact-card"
-   aria-label="Suivre UNWARE STUDIO sur X">
-    <div class="sp-cc-top">
-        <div class="sp-cc-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-        </div>
-        <i class="fas fa-arrow-up-right-from-square sp-cc-arrow"></i>
-    </div>
-    <h3>Réseaux sociaux</h3>
-    <p class="sp-cc-desc">Suivez les annonces, mises à jour et coulisses du développement.</p>
-    <div class="sp-cc-meta">
-        <span class="dot"></span>
-        Annonces officielles
-    </div>
-</a>
-            </div>
-
-            <!-- FAQ -->
-            <div class="sp-section-label">Questions fréquentes</div>
-            <div class="sp-faq">
-                <div class="sp-faq-list" id="faqList">
-
-                    <div class="sp-faq-item" data-question="comment puis-je récupérer mon compte">
-                        <div class="sp-faq-q" onclick="toggleFAQ(this)">
-                            <span class="sp-faq-num">01</span>
-                            <h3>Comment puis-je récupérer mon compte ?</h3>
-                            <span class="sp-faq-toggle"><i class="fas fa-plus"></i></span>
-                        </div>
-                        <div class="sp-faq-a">
-                            <p>Écrivez-moi par email à contact.unwarestudio@gmail.com en précisant votre pseudo et, si possible, votre email de création de compte. Je traiterai votre demande sous 48h.</p>
-                        </div>
-                    </div>
-
-                    <div class="sp-faq-item" data-question="où puis-je signaler un bug">
-                        <div class="sp-faq-q" onclick="toggleFAQ(this)">
-                            <span class="sp-faq-num">02</span>
-                            <h3>Où puis-je signaler un bug ?</h3>
-                            <span class="sp-faq-toggle"><i class="fas fa-plus"></i></span>
-                        </div>
-                        <div class="sp-faq-a">
-                            <p>Le plus rapide est de le signaler directement sur le Discord, dans le salon dédié aux retours. Vous pouvez aussi m'écrire par email si vous préférez.</p>
-                        </div>
-                    </div>
-
-                    <div class="sp-faq-item" data-question="quand sortira the void protocol date de sortie">
-                        <div class="sp-faq-q" onclick="toggleFAQ(this)">
-                            <span class="sp-faq-num">03</span>
-                            <h3>Quand sortira The Void Protocol ?</h3>
-                            <span class="sp-faq-toggle"><i class="fas fa-plus"></i></span>
-                        </div>
-                        <div class="sp-faq-a">
-                            <p>Suivez les réseaux sociaux et le Discord pour toutes les annonces officielles concernant la date de sortie et les prochaines mises à jour du jeu.</p>
-                        </div>
-                    </div>
-
-                    <div class="sp-faq-item" data-question="comment supprimer mes données personnelles effacement rgpd">
-                        <div class="sp-faq-q" onclick="toggleFAQ(this)">
-                            <span class="sp-faq-num">04</span>
-                            <h3>Comment supprimer mes données personnelles ?</h3>
-                            <span class="sp-faq-toggle"><i class="fas fa-plus"></i></span>
-                        </div>
-                        <div class="sp-faq-a">
-                            <p>Vous pouvez exercer votre droit à l'effacement en m'écrivant à contact.unwarestudio@gmail.com. Consultez la politique de confidentialité pour le détail de vos droits.</p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- État vide -->
-                <div class="sp-faq-empty" id="faqEmpty">
-                    <div class="empty-icon"><i class="fas fa-magnifying-glass"></i></div>
-                    <h4>Aucun résultat</h4>
-                    <p>Aucune question ne correspond à <span class="empty-query" id="emptyQuery"></span>. Essayez un autre mot, ou écrivez-moi directement.</p>
-                </div>
-
-            </div>
-
-            <!-- CTA FINAL -->
-            <div class="sp-cta">
-                <h2>Vous n'avez pas trouvé ?</h2>
-                <p>Pas de panique. Écrivez-moi directement, je vous répondrai personnellement.</p>
-                <a href="mailto:contact.unwarestudio@gmail.com" class="sp-cta-btn">
-                    M'écrire
-                    <i class="fas fa-arrow-right"></i>
-                </a>
-            </div>
-
+            <div class="terminal-body" id="termBody"></div>
         </div>
     </section>
 
@@ -1045,7 +396,7 @@
                         <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="footer-column">
                     <h3>Navigation</h3>
                     <ul class="footer-links">
@@ -1055,7 +406,7 @@
                         <li><a href="../nexa/nexa.html">NEXA</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-column">
                     <h3>Support</h3>
                     <ul class="footer-links">
@@ -1063,9 +414,10 @@
                         <li><a href="../Support/FAQ.html">FAQ</a></li>
                         <li><a href="../Support/contact.html">Contact</a></li>
                         <li><a href="../Support/statut.html">Statut des services</a></li>
+                        <li><a href="../Support/informations.html">Informations</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-column">
                     <h3>Légal</h3>
                     <ul class="footer-links">
@@ -1076,7 +428,7 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="copyright">
                 <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
             </div>
@@ -1111,18 +463,13 @@
             if (mobileNav.classList.contains('active')) { closeMobileMenu(); }
             else { openMobileMenu(); }
         }
-
         mobileMenu.addEventListener('click', toggleMobileMenu);
         overlay.addEventListener('click', closeMobileMenu);
         mobileClose.addEventListener('click', closeMobileMenu);
         mobileNavLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
-
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-                closeMobileMenu();
-            }
+            if (e.key === 'Escape' && mobileNav.classList.contains('active')) closeMobileMenu();
         });
-
         window.addEventListener('load', function() {
             if (window.location.hash) {
                 history.replaceState(null, null, window.location.pathname + window.location.search);
@@ -1130,177 +477,95 @@
         });
 
         /* ============================================================ */
-        /* ==================== FAQ ACCORDÉON ========================= */
+        /* ============ TERMINAL — LIGNES QUI TOMBENT ================== */
         /* ============================================================ */
-        function toggleFAQ(element) {
-            const item = element.closest('.sp-faq-item');
-            const wasActive = item.classList.contains('active');
-            document.querySelectorAll('.sp-faq-item').forEach(i => i.classList.remove('active'));
-            if (!wasActive) item.classList.add('active');
-        }
+        /*
+          Modifiez le contenu ci-dessous pour remplir vos infos.
+          type: 'prompt'  -> ligne de commande façon "$ commande"
+          type: 'comment' -> texte gris explicatif
+          type: 'out'     -> texte de sortie standard
+          type: 'heading' -> titre souligné
+          type: 'tags'    -> liste de tags (plateformes)
+          type: 'link'    -> lien cliquable
+          type: 'space'   -> espace vertical
+        */
+        const termLines = [
+            { type: 'prompt', text: 'cat the_void_protocol.info' },
+            { type: 'heading', text: 'THE VOID PROTOCOL' },
+            { type: 'out', text: '[Genre du jeu] — [description courte du concept et de l\'univers de The Void Protocol].' },
+            { type: 'out', text: 'Statut : [en développement / préproduction / démo jouable].' },
+            { type: 'space' },
 
-        /* ============================================================ */
-        /* ================ RECHERCHE FAQ FONCTIONNELLE =============== */
-        /* ============================================================ */
-        const searchWrap  = document.getElementById('spSearch');
-        const searchInput = document.getElementById('faqSearch');
-        const searchClear = document.getElementById('spSearchClear');
-        const searchCount = document.getElementById('spSearchCount');
-        const faqItems    = document.querySelectorAll('.sp-faq-item');
-        const faqEmpty    = document.getElementById('faqEmpty');
-        const emptyQuery  = document.getElementById('emptyQuery');
+            { type: 'prompt', text: 'whoami' },
+            { type: 'heading', text: 'UNWARE STUDIO' },
+            { type: 'out', text: '[Présentation courte du studio : qui vous êtes, depuis quand, votre démarche].' },
+            { type: 'space' },
 
-        /* Sauvegarde du contenu original pour le surlignage */
-        const originalQuestions = new Map();
-        faqItems.forEach(item => {
-            const h3 = item.querySelector('.sp-faq-q h3');
-            originalQuestions.set(item, h3.innerHTML);
-        });
+            { type: 'prompt', text: 'ls ./plateformes' },
+            { type: 'tags', tags: ['PC', 'Windows'] },
+            { type: 'space' },
 
-        /* Normalisation : enlève accents + minuscules */
-        function normalize(str) {
-            return str
-                .toLowerCase()
-                .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '')
-                .trim();
-        }
+            { type: 'prompt', text: 'cat moteur.txt' },
+            { type: 'out', text: 'Unreal Engine 5' },
+            { type: 'space' },
 
-        /* Échappe le HTML pour éviter les injections */
-        function escapeHTML(str) {
-            return str.replace(/[&<>"']/g, m => ({
-                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-            }[m]));
-        }
+            { type: 'prompt', text: 'ls ./liens' },
+            { type: 'link', text: 'Discord', href: 'https://discord.gg/bD6C8WgcE7' },
+            { type: 'link', text: 'X / Twitter', href: 'https://x.com/unwarestudio' },
+            { type: 'link', text: 'itch.io (lien à compléter)', href: '#' },
+            { type: 'space' },
 
-        /* Échappe les caractères spéciaux regex */
-        function escapeRegex(str) {
-            return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        }
+            { type: 'comment', text: '# une question ? -> ../Support/contact.html' },
+        ];
 
-        /* Surligne le mot recherché dans une chaîne HTML */
-        function highlight(html, query) {
-            if (!query) return html;
-            const safeQuery = escapeRegex(query);
-            const regex = new RegExp('(' + safeQuery + ')', 'gi');
-            /* On évite de toucher aux balises HTML */
-            return html.replace(/>([^<]+)</g, (match, text) => {
-                const highlighted = text.replace(regex, '<mark>$1</mark>');
-                return '>' + highlighted + '<';
-            });
-        }
+        const termBody = document.getElementById('termBody');
+        let delay = 0;
+        const STEP = 130; // ms entre chaque ligne
 
-        let currentQuery = '';
+        termLines.forEach((line) => {
+            let el;
 
-        function performSearch(rawQuery) {
-            const query = normalize(rawQuery);
-            currentQuery = rawQuery.trim();
-
-            let visibleCount = 0;
-            let totalCount = faqItems.length;
-
-            faqItems.forEach(item => {
-                const dataQ = normalize(item.dataset.question || '');
-                const contentQ = normalize(item.textContent);
-
-                const matches = !query || dataQ.includes(query) || contentQ.includes(query);
-
-                const h3 = item.querySelector('.sp-faq-q h3');
-
-                if (matches) {
-                    item.classList.remove('hidden');
-                    visibleCount++;
-                    /* Surlignage */
-                    if (query) {
-                        h3.innerHTML = highlight(originalQuestions.get(item), currentQuery);
-                    } else {
-                        h3.innerHTML = originalQuestions.get(item);
-                    }
-                } else {
-                    item.classList.add('hidden');
-                    h3.innerHTML = originalQuestions.get(item);
-                    item.classList.remove('active');
-                }
-            });
-
-            /* Compteur */
-            if (query) {
-                searchCount.innerHTML = visibleCount > 0
-                    ? '<strong>' + visibleCount + '</strong> résultat' + (visibleCount > 1 ? 's' : '') + ' sur ' + totalCount
-                    : 'Aucun résultat';
-                searchCount.classList.add('visible');
-            } else {
-                searchCount.classList.remove('visible');
+            if (line.type === 'space') {
+                el = document.createElement('div');
+                el.className = 'term-spacer term-line';
+            } else if (line.type === 'prompt') {
+                el = document.createElement('div');
+                el.className = 'term-line';
+                el.innerHTML = '<span class="term-prompt">$&nbsp;</span><span class="term-cmd">' + line.text + '</span>';
+            } else if (line.type === 'comment') {
+                el = document.createElement('div');
+                el.className = 'term-line term-comment';
+                el.textContent = line.text;
+            } else if (line.type === 'out') {
+                el = document.createElement('div');
+                el.className = 'term-line term-out';
+                el.textContent = line.text;
+            } else if (line.type === 'heading') {
+                el = document.createElement('div');
+                el.className = 'term-line';
+                el.innerHTML = '<span class="term-heading">' + line.text + '</span>';
+            } else if (line.type === 'tags') {
+                el = document.createElement('div');
+                el.className = 'term-line';
+                el.innerHTML = line.tags.map(t => '<span class="term-tag">' + t + '</span>').join('');
+            } else if (line.type === 'link') {
+                el = document.createElement('div');
+                el.className = 'term-line';
+                el.innerHTML = '<a class="term-link" href="' + line.href + '" target="_blank" rel="noopener noreferrer">' + line.text + ' ↗</a>';
             }
 
-            /* État vide */
-            if (visibleCount === 0 && query) {
-                faqEmpty.classList.add('visible');
-                emptyQuery.textContent = '« ' + currentQuery + ' »';
-            } else {
-                faqEmpty.classList.remove('visible');
-            }
-
-            /* Toggle bouton clear */
-            if (rawQuery.length > 0) {
-                searchWrap.classList.add('has-value');
-            } else {
-                searchWrap.classList.remove('has-value');
-            }
-        }
-
-        /* Écoute de la saisie */
-        searchInput.addEventListener('input', e => {
-            performSearch(e.target.value);
+            el.style.animationDelay = delay + 'ms';
+            termBody.appendChild(el);
+            delay += STEP;
         });
 
-        /* Focus / blur pour le style */
-        searchInput.addEventListener('focus', () => {
-            searchWrap.classList.add('is-focused');
-        });
-        searchInput.addEventListener('blur', () => {
-            searchWrap.classList.remove('is-focused');
-        });
-
-        /* Bouton clear */
-        searchClear.addEventListener('click', () => {
-            searchInput.value = '';
-            performSearch('');
-            searchInput.focus();
-        });
-
-        /* Raccourci clavier "/" */
-        document.addEventListener('keydown', e => {
-            if (e.key === '/' && document.activeElement !== searchInput
-                && document.activeElement.tagName !== 'INPUT'
-                && document.activeElement.tagName !== 'TEXTAREA') {
-                e.preventDefault();
-                searchInput.focus();
-                searchInput.select();
-            }
-            /* Échap pour vider */
-            if (e.key === 'Escape' && document.activeElement === searchInput) {
-                searchInput.value = '';
-                performSearch('');
-                searchInput.blur();
-            }
-        });
-
-        /* ============================================================ */
-        /* ============ EFFET LUMIÈRE SUR LES CARTES CONTACT =========== */
-        /* ============================================================ */
-        document.querySelectorAll('.sp-contact-card').forEach(card => {
-            card.addEventListener('mousemove', e => {
-                const rect = card.getBoundingClientRect();
-                const x = ((e.clientX - rect.left) / rect.width) * 100;
-                const y = ((e.clientY - rect.top) / rect.height) * 100;
-                card.style.setProperty('--x', x + '%');
-                card.style.setProperty('--y', y + '%');
-            });
-        });
+        const cursor = document.createElement('span');
+        cursor.className = 'term-cursor';
+        termBody.appendChild(cursor);
+        setTimeout(() => cursor.classList.add('show'), delay + 300);
 
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page Support NEXA chargée — recherche FAQ active');
+            console.log('Page Informations (terminal) UNWARE STUDIO chargée');
         });
     </script>
   </body>
