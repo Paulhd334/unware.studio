@@ -12,7 +12,6 @@
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://unware.studio/Support/informations.html">
 
-    <!-- ====== OPEN GRAPH ====== -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://unware.studio/Support/informations.html">
     <meta property="og:title" content="Informations | UNWARE STUDIO">
@@ -20,21 +19,17 @@
     <meta property="og:site_name" content="UNWARE STUDIO">
     <meta property="og:locale" content="fr_FR">
 
-    <!-- ====== TWITTER / X CARD ====== -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@unwarestudio">
     <meta name="twitter:title" content="Informations | UNWARE STUDIO">
     <meta name="twitter:description" content="Présentation de The Void Protocol et d'UNWARE STUDIO : concept, plateformes, moteur et liens officiels.">
 
-    <!-- ====== PERFORMANCE & PRÉCHARGEMENT ====== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-
-    <!-- ====== RESSOURCES ====== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
 
     <!-- ANALYTICS LOADER -->
     <script>
@@ -138,187 +133,173 @@
     .mobile-menu.active i { transform: rotate(90deg); }
 
     /* ============================================================ */
-    /* ==================== PAGE TERMINAL =========================== */
+    /* ==================== FOND — PLUIE BLANCHE ==================== */
     /* ============================================================ */
+    body { background: #000; }
 
-    .term-page {
-        min-height: 100vh;
-        background: #ffffff;
-        padding: 140px 20px 100px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    #matrixCanvas {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        display: block;
+        z-index: 0;
     }
 
-    .term-eyebrow {
+    /* ============================================================ */
+    /* ==================== CONTENU (au-dessus) ===================== */
+    /* ============================================================ */
+    .info-page {
+        position: relative;
+        z-index: 1;
+        padding: 150px 20px 120px;
+    }
+
+    .info-hero {
+        max-width: 780px;
+        margin: 0 auto 60px;
+        text-align: center;
+    }
+
+    .info-hero .eyebrow {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 12px;
+        gap: 8px;
+        font-size: 11px;
         font-weight: 600;
-        letter-spacing: 3px;
+        letter-spacing: 2.5px;
         text-transform: uppercase;
-        color: #000;
-        margin-bottom: 28px;
+        color: #fff;
+        margin-bottom: 24px;
+        opacity: 0.85;
     }
 
-    .term-eyebrow::before {
+    .info-hero .eyebrow::before,
+    .info-hero .eyebrow::after {
         content: '';
-        width: 8px; height: 8px;
-        background: #000;
-        border-radius: 50%;
-        animation: blinkDot 1.4s ease-in-out infinite;
+        width: 24px; height: 1px;
+        background: #fff;
+        opacity: 0.4;
     }
 
-    @keyframes blinkDot {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.15; }
+    .info-hero h1 {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 68px;
+        line-height: 0.95;
+        letter-spacing: 2px;
+        color: #fff;
+        margin-bottom: 22px;
+        font-weight: 400;
+        text-shadow: 0 0 30px rgba(255,255,255,0.15);
     }
 
-    /* ---------- FENÊTRE TERMINAL ---------- */
-    .terminal {
-        width: 100%;
-        max-width: 980px;
-        background: #ffffff;
-        border: 2px solid #000;
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+    .info-hero p {
+        font-size: 16px;
+        line-height: 1.7;
+        color: rgba(255,255,255,0.65);
+        max-width: 560px;
+        margin: 0 auto;
     }
 
-    .terminal-bar {
-        background: #000;
-        padding: 14px 20px;
+    .info-section-label {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 14px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.6);
+        margin-bottom: 24px;
+        max-width: 820px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    .terminal-dots {
-        display: flex;
-        gap: 8px;
-        flex-shrink: 0;
-    }
-
-    .terminal-dots span {
-        width: 12px; height: 12px;
-        border-radius: 50%;
-        background: #fff;
-        opacity: 0.25;
-    }
-
-    .terminal-title {
+    .info-section-label::after {
+        content: '';
         flex: 1;
-        text-align: center;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 12.5px;
-        letter-spacing: 0.5px;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(255,255,255,0.25), transparent);
+    }
+
+    .info-block {
+        max-width: 820px;
+        margin: 0 auto 70px;
+        background: rgba(0,0,0,0.55);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 16px;
+        backdrop-filter: blur(4px);
+    }
+
+    .info-block-item {
+        padding: 28px 32px;
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 32px;
+    }
+
+    .info-block-item:last-child { border-bottom: none; }
+
+    .info-block-item h3 {
+        font-size: 16px;
+        font-weight: 600;
         color: #fff;
-        opacity: 0.75;
+        letter-spacing: -0.2px;
     }
 
-    .terminal-body {
-        background: #ffffff;
-        padding: 40px clamp(20px, 5vw, 56px) 56px;
-        font-family: 'JetBrains Mono', monospace;
+    .info-block-item .info-content p {
         font-size: 14.5px;
-        line-height: 1.9;
-        color: #000;
-        min-height: 60vh;
+        line-height: 1.75;
+        color: rgba(255,255,255,0.72);
+        margin-bottom: 8px;
     }
+    .info-block-item .info-content p:last-child { margin-bottom: 0; }
 
-    .term-line {
-        opacity: 0;
-        transform: translateY(-26px);
-        animation: dropIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        white-space: pre-wrap;
-        word-break: break-word;
-    }
-
-    @keyframes dropIn {
-        0% { opacity: 0; transform: translateY(-26px); }
-        60% { opacity: 1; }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-
-    .term-prompt { color: #000; font-weight: 700; }
-    .term-cmd { color: #000; font-weight: 600; }
-    .term-comment { color: #9a9a9a; }
-    .term-out { color: #1a1a1a; padding-left: 0; }
-
-    .term-heading {
-        color: #000;
-        font-weight: 800;
-        letter-spacing: 0.5px;
-        margin-top: 6px;
-        display: inline-block;
-        border-bottom: 2px solid #000;
-        padding-bottom: 2px;
-    }
-
-    .term-tag {
-        display: inline-block;
-        border: 1.5px solid #000;
-        border-radius: 6px;
-        padding: 2px 10px;
-        margin: 3px 6px 3px 0;
+    .info-tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .info-tag {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 14px;
         font-size: 13px;
+        font-weight: 500;
+        color: #fff;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.18);
+        border-radius: 20px;
     }
 
-    .term-link {
-        color: #000;
-        font-weight: 700;
+    .info-links {
+        max-width: 820px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+    }
+
+    .info-link-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 18px 20px;
+        background: rgba(0,0,0,0.55);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 12px;
+        color: #fff;
         text-decoration: none;
-        border-bottom: 2px solid #000;
-        padding-bottom: 1px;
-        transition: all 0.2s ease;
+        font-size: 14px;
+        font-weight: 500;
+        backdrop-filter: blur(4px);
+        transition: all 0.25s ease;
     }
+    .info-link-card:hover { border-color: rgba(255,255,255,0.4); transform: translateY(-2px); }
+    .info-link-card i { font-size: 16px; opacity: 0.9; }
 
-    .term-link:hover { background: #000; color: #fff; }
-
-    .term-cursor {
-        display: inline-block;
-        width: 9px;
-        height: 18px;
-        background: #000;
-        vertical-align: text-bottom;
-        margin-left: 4px;
-        animation: cursorBlink 1s step-end infinite;
-        opacity: 0;
-    }
-
-    .term-cursor.show { opacity: 1; }
-
-    @keyframes cursorBlink {
-        0%, 50% { opacity: 1; }
-        51%, 100% { opacity: 0; }
-    }
-
-    .term-spacer { height: 14px; }
-
-    /* ---------- RESPONSIVE ---------- */
-    @media (max-width: 768px) {
-        .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
-        .mobile-menu { display: flex; }
-        .studio-logo { display: none; }
-        header { padding: 12px 0; }
-        .nav-container { padding: 0 15px; }
-        .logo { gap: 8px; }
-        .logo-icon { font-size: 20px; }
-        .nav-actions { height: auto; }
-
-        .term-page { padding: 110px 12px 70px; }
-        .terminal-body { font-size: 13px; padding: 30px 18px 44px; }
-        .terminal-title { font-size: 11px; }
-    }
-
-    @media (max-height: 600px) {
-        .mobile-nav { padding: 70px 20px 20px; }
-        .mobile-close { top: 20px; right: 20px; }
-        .mobile-nav-actions { gap: 10px; margin-bottom: 20px; }
-        .mobile-nav-links li { margin-bottom: 6px; }
-        .mobile-nav-links a { padding: 12px 16px; font-size: 16px; }
+    @media (max-width: 640px) {
+        .info-hero h1 { font-size: 42px; }
+        .info-block-item { grid-template-columns: 1fr; gap: 8px; }
+        .info-links { grid-template-columns: 1fr; }
     }
     </style>
 </head>
@@ -326,6 +307,9 @@
 
 <body>
 <br><br><br><br>
+
+<canvas id="matrixCanvas"></canvas>
+
 <!-- Header -->
 <header>
     <div class="container nav-container">
@@ -365,19 +349,70 @@
     </nav>
 
     <!-- ============================================================ -->
-    <!-- ==================== PAGE INFORMATIONS ====================== -->
+    <!-- ==================== PAGE INFORMATIONS ======================= -->
     <!-- ============================================================ -->
-    <section class="term-page">
-        <span class="term-eyebrow">unware_studio — informations</span>
+    <section class="info-page">
 
-        <div class="terminal">
-            <div class="terminal-bar">
-                <div class="terminal-dots"><span></span><span></span><span></span></div>
-                <div class="terminal-title">informations.sh — 80x24</div>
-                <div style="width:52px"></div>
-            </div>
-            <div class="terminal-body" id="termBody"></div>
+        <div class="info-hero">
+            <span class="eyebrow">Informations</span>
+            <h1>Tout savoir sur <em>le projet</em></h1>
+            <p>Le jeu, le studio, les plateformes visées et les liens pour suivre l'avancement de The Void Protocol.</p>
         </div>
+
+        <div class="info-section-label">Le projet</div>
+        <div class="info-block">
+
+            <div class="info-block-item">
+                <h3>The Void Protocol</h3>
+                <div class="info-content">
+                    <!-- À compléter : genre, concept, univers, statut actuel -->
+                    <p>[Genre du jeu] — [courte description du concept et de l'univers de The Void Protocol].</p>
+                    <p>Statut : [en développement / préproduction / démo jouable].</p>
+                </div>
+            </div>
+
+            <div class="info-block-item">
+                <h3>À propos d'UNWARE STUDIO</h3>
+                <div class="info-content">
+                    <!-- À compléter : présentation du studio -->
+                    <p>[Présentation courte du studio : qui vous êtes, depuis quand, votre démarche].</p>
+                </div>
+            </div>
+
+            <div class="info-block-item">
+                <h3>Plateformes</h3>
+                <div class="info-content">
+                    <div class="info-tag-row">
+                        <!-- À compléter : ajoutez/retirez des tags -->
+                        <span class="info-tag">PC</span>
+                        <span class="info-tag">Windows</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-block-item">
+                <h3>Moteur</h3>
+                <div class="info-content">
+                    <p>Développé avec <strong>Unreal Engine 5</strong>.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="info-section-label">Liens officiels</div>
+        <div class="info-links">
+            <a href="https://discord.gg/bD6C8WgcE7" target="_blank" rel="noopener noreferrer" class="info-link-card">
+                <i class="fab fa-discord"></i> Discord
+            </a>
+            <a href="https://x.com/unwarestudio" target="_blank" rel="noopener noreferrer" class="info-link-card">
+                <i class="fab fa-x-twitter"></i> X / Twitter
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="info-link-card">
+                <!-- À compléter : lien itch.io / YouTube / autre -->
+                <i class="fas fa-gamepad"></i> itch.io
+            </a>
+        </div>
+
     </section>
 
     <!-- Footer -->
@@ -477,96 +512,54 @@
         });
 
         /* ============================================================ */
-        /* ============ TERMINAL — LIGNES QUI TOMBENT ================== */
+        /* ================ PLUIE DE CARACTÈRES (CANVAS) ================ */
         /* ============================================================ */
-        /*
-          Modifiez le contenu ci-dessous pour remplir vos infos.
-          type: 'prompt'  -> ligne de commande façon "$ commande"
-          type: 'comment' -> texte gris explicatif
-          type: 'out'     -> texte de sortie standard
-          type: 'heading' -> titre souligné
-          type: 'tags'    -> liste de tags (plateformes)
-          type: 'link'    -> lien cliquable
-          type: 'space'   -> espace vertical
-        */
-        const termLines = [
-            { type: 'prompt', text: 'cat the_void_protocol.info' },
-            { type: 'heading', text: 'THE VOID PROTOCOL' },
-            { type: 'out', text: '[Genre du jeu] — [description courte du concept et de l\'univers de The Void Protocol].' },
-            { type: 'out', text: 'Statut : [en développement / préproduction / démo jouable].' },
-            { type: 'space' },
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+        let cw, ch, columns, drops, fontSize = 16;
 
-            { type: 'prompt', text: 'whoami' },
-            { type: 'heading', text: 'UNWARE STUDIO' },
-            { type: 'out', text: '[Présentation courte du studio : qui vous êtes, depuis quand, votre démarche].' },
-            { type: 'space' },
+        const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-            { type: 'prompt', text: 'ls ./plateformes' },
-            { type: 'tags', tags: ['PC', 'Windows'] },
-            { type: 'space' },
+        function resize() {
+            cw = canvas.width = window.innerWidth;
+            ch = canvas.height = window.innerHeight;
+            columns = Math.floor(cw / fontSize);
+            drops = new Array(columns).fill(0).map(() => Math.random() * -100);
+        }
+        window.addEventListener('resize', resize);
+        resize();
 
-            { type: 'prompt', text: 'cat moteur.txt' },
-            { type: 'out', text: 'Unreal Engine 5' },
-            { type: 'space' },
+        function draw() {
+            /* traînée : fond noir semi-transparent redessiné à chaque frame */
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+            ctx.fillRect(0, 0, cw, ch);
 
-            { type: 'prompt', text: 'ls ./liens' },
-            { type: 'link', text: 'Discord', href: 'https://discord.gg/bD6C8WgcE7' },
-            { type: 'link', text: 'X / Twitter', href: 'https://x.com/unwarestudio' },
-            { type: 'link', text: 'itch.io (lien à compléter)', href: '#' },
-            { type: 'space' },
+            ctx.font = fontSize + 'px monospace';
 
-            { type: 'comment', text: '# une question ? -> ../Support/contact.html' },
-        ];
+            for (let i = 0; i < columns; i++) {
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
 
-        const termBody = document.getElementById('termBody');
-        let delay = 0;
-        const STEP = 130; // ms entre chaque ligne
+                /* tête lumineuse blanche */
+                ctx.fillStyle = '#ffffff';
+                ctx.shadowColor = '#ffffff';
+                ctx.shadowBlur = 6;
+                ctx.fillText(text, x, y);
 
-        termLines.forEach((line) => {
-            let el;
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+                ctx.fillText(text, x, y - fontSize);
 
-            if (line.type === 'space') {
-                el = document.createElement('div');
-                el.className = 'term-spacer term-line';
-            } else if (line.type === 'prompt') {
-                el = document.createElement('div');
-                el.className = 'term-line';
-                el.innerHTML = '<span class="term-prompt">$&nbsp;</span><span class="term-cmd">' + line.text + '</span>';
-            } else if (line.type === 'comment') {
-                el = document.createElement('div');
-                el.className = 'term-line term-comment';
-                el.textContent = line.text;
-            } else if (line.type === 'out') {
-                el = document.createElement('div');
-                el.className = 'term-line term-out';
-                el.textContent = line.text;
-            } else if (line.type === 'heading') {
-                el = document.createElement('div');
-                el.className = 'term-line';
-                el.innerHTML = '<span class="term-heading">' + line.text + '</span>';
-            } else if (line.type === 'tags') {
-                el = document.createElement('div');
-                el.className = 'term-line';
-                el.innerHTML = line.tags.map(t => '<span class="term-tag">' + t + '</span>').join('');
-            } else if (line.type === 'link') {
-                el = document.createElement('div');
-                el.className = 'term-line';
-                el.innerHTML = '<a class="term-link" href="' + line.href + '" target="_blank" rel="noopener noreferrer">' + line.text + ' ↗</a>';
+                if (y > ch && Math.random() > 0.985) {
+                    drops[i] = Math.random() * -40;
+                }
+                /* vitesse de chute réduite */
+                drops[i] += 0.18 + Math.random() * 0.22;
             }
-
-            el.style.animationDelay = delay + 'ms';
-            termBody.appendChild(el);
-            delay += STEP;
-        });
-
-        const cursor = document.createElement('span');
-        cursor.className = 'term-cursor';
-        termBody.appendChild(cursor);
-        setTimeout(() => cursor.classList.add('show'), delay + 300);
-
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page Informations (terminal) UNWARE STUDIO chargée');
-        });
+            requestAnimationFrame(draw);
+        }
+        draw();
     </script>
   </body>
 </html>
