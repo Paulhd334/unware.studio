@@ -1,59 +1,61 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ====== SEO ESSENTIELS ====== -->
-    <title>Informations | UNWARE STUDIO</title>
-    <meta name="description" content="Informations sur The Void Protocol et UNWARE STUDIO : présentation du jeu, du studio, plateformes, moteur et liens officiels.">
-    <meta name="keywords" content="UNWARE STUDIO, The Void Protocol, informations, plateformes, Unreal Engine 5, liens officiels">
-    <meta name="author" content="UNWARE STUDIO">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://unware.studio/Support/informations.html">
+<title>Maintenance | UNWARE STUDIO</title>
+<meta name="description" content="Le site UNWARE STUDIO est actuellement en maintenance. Merci de votre patience.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://unware.studio/maintenance.html">
 
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://unware.studio/Support/informations.html">
-    <meta property="og:title" content="Informations | UNWARE STUDIO">
-    <meta property="og:description" content="Présentation de The Void Protocol et d'UNWARE STUDIO : concept, plateformes, moteur et liens officiels.">
-    <meta property="og:site_name" content="UNWARE STUDIO">
-    <meta property="og:locale" content="fr_FR">
+<!-- Favicon -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/images/favicons/apple-touch-icon.png">
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Informations | UNWARE STUDIO">
-    <meta name="twitter:description" content="Présentation de The Void Protocol et d'UNWARE STUDIO : concept, plateformes, moteur et liens officiels.">
+<!-- Préconnexions -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 
-    <!-- ANALYTICS LOADER -->
-    <script>
-    (function() {
-        function getCookie(n) {
-            var eq=n+"=", ca=document.cookie.split(';');
-            for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
-            return null;
-        }
-        function load(src) { var s=document.createElement('script');s.src=src;document.head.appendChild(s); }
-        load('../js/cookie-banner.js');
-        if (getCookie('cookieConsent') !== 'rejected') {
-            load('../js/analytics.js');
-            load('../js/analytics-clarify.js');
-        } else {
-            console.log('⛔ Cookies refusés — analytics non chargés');
-        }
-    })();
-    </script>
+</head>
+<body>
 
-    <!-- ====== CSS PRINCIPAL ====== -->
-    <link rel="stylesheet" href="../css/styles.css">
+<style>
+    :root {
+        --primary: #0a0a0a;
+        --secondary: #111111;
+        --accent: #ffffff;
+        --accent-glow: #ffffff;
+        --text: #e0e0e0;
+        --text-secondary: #888888;
+        --card-bg: rgba(255, 255, 255, 0.03);
+        --border: rgba(255, 255, 255, 0.08);
+        --transition: all 0.3s ease;
+    }
 
-    <style>
-    /* ====== BASE HEADER/NAV (identique au fichier de base) ====== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+        background-color: var(--primary);
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    /* Header */
+    header { position: relative; z-index: 10; padding: 24px 0; }
+    .nav-container { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-icon { font-size: 20px; color: var(--accent); }
+    .logo-text img { height: 28px; }
+
     .btn {
         padding: 12px 24px;
         border-radius: 6px;
@@ -67,613 +69,149 @@
         line-height: 1;
     }
     .btn-login { color: var(--text); background: transparent; border: 1px solid var(--border); height: 42px; }
-    .btn-login:hover { background: rgba(255, 255, 255, 0.05); transform: translateY(-2px); }
+    .btn-login:hover { background: rgba(255,255,255,0.05); transform: translateY(-2px); }
     .btn-primary { background: var(--accent); color: var(--primary); border: none; height: 42px; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-    .mobile-menu {
-        display: none; font-size: 24px; cursor: pointer; color: var(--accent);
-        z-index: 1001; transition: var(--transition); padding: 8px;
-        border-radius: 4px; background: rgba(255, 255, 255, 0.05);
-        height: 42px; width: 42px; align-items: center; justify-content: center;
-        border: none; outline: none;
-    }
-    .mobile-menu:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.05); }
-    body.no-scroll { overflow: hidden; }
-
-    .mobile-nav {
-        position: fixed; top: 0; right: -100%; width: 320px; height: 100vh;
-        background: var(--primary); z-index: 1000;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border-left: 1px solid var(--border); display: flex; flex-direction: column;
-        padding: 80px 25px 25px; overflow-y: auto;
-        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3); box-sizing: border-box;
-        -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none;
-        -webkit-user-select: none; user-select: none;
-    }
-    .mobile-nav.active { right: 0; transform: translateZ(0); }
-
-    .overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.7); z-index: 999; opacity: 0; visibility: hidden;
-        transition: all 0.4s ease; backdrop-filter: blur(5px); pointer-events: none;
-    }
-    .overlay.active { opacity: 1; visibility: visible; pointer-events: all; }
-
-    .mobile-close {
-        position: absolute; top: 25px; right: 25px; font-size: 22px; cursor: pointer;
-        color: var(--text); transition: var(--transition); padding: 8px;
-        border-radius: 4px; background: rgba(255, 255, 255, 0.05); z-index: 1001;
-        width: 40px; height: 40px; display: flex; align-items: center;
-        justify-content: center; border: none; outline: none;
-    }
-    .mobile-close:hover { color: var(--accent); background: rgba(255, 255, 255, 0.1); transform: rotate(90deg); }
-
-    .mobile-nav-links { list-style: none; order: 1; margin-bottom: 20px; flex: 1; overflow-y: auto; }
-    .mobile-nav-links li { margin-bottom: 8px; opacity: 0; transform: translateX(20px); transition: all 0.3s ease; }
-    .mobile-nav.active .mobile-nav-links li { opacity: 1; transform: translateX(0); }
-    .mobile-nav.active .mobile-nav-links li:nth-child(1) { transition-delay: 0.1s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(2) { transition-delay: 0.15s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(3) { transition-delay: 0.2s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(4) { transition-delay: 0.25s; }
-
-    .mobile-nav-links a {
-        color: var(--text); text-decoration: none; font-size: 18px; font-weight: 500;
-        display: block; padding: 14px 16px; border-radius: 8px; transition: all 0.3s ease;
-        position: relative; overflow: hidden;
-    }
-    .mobile-nav-links a:before {
-        content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px;
-        background: var(--accent); transform: scaleY(0); transition: transform 0.3s ease;
-    }
-    .mobile-nav-links a:hover { color: var(--accent); background: rgba(255, 255, 255, 0.05); padding-left: 20px; }
-    .mobile-nav-links a:hover:before { transform: scaleY(1); }
-
-    .mobile-nav-actions {
-        display: flex; flex-direction: column; gap: 12px; order: 2;
-        margin-bottom: 150px; padding-top: 20px; border-top: 1px solid var(--border);
-        position: relative; top: 0; opacity: 0; transform: translateX(20px);
-        transition: all 0.3s ease 0.3s;
-    }
-    .mobile-nav.active .mobile-nav-actions { opacity: 1; transform: translateX(0); }
-    .mobile-menu.active i { transform: rotate(90deg); }
-
-    /* ============================================================ */
-    /* ================ FOND — CHAMP D'ÉTOILES (VOID) =============== */
-    /* ============================================================ */
-    #starCanvas {
-        position: fixed;
-        inset: 0;
-        width: 100vw;
-        height: 100vh;
-        display: block;
-        z-index: 0;
-        pointer-events: none;
-    }
-
-    .void-glow {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-        background:
-            radial-gradient(ellipse 60% 45% at 50% 8%, rgba(120,90,255,0.14), transparent 60%),
-            radial-gradient(ellipse 50% 40% at 85% 75%, rgba(60,120,255,0.08), transparent 60%);
-    }
-
-    /* ============================================================ */
-    /* ==================== CONTENU (au-dessus) ===================== */
-    /* ============================================================ */
-    .info-page {
-        position: relative;
-        z-index: 5;
-        padding: 150px 20px 120px;
-    }
-
-    /* ---------- HERO (même pattern que la home) ---------- */
-    .info-hero {
-        max-width: 760px;
-        margin: 0 auto 70px;
+    /* Maintenance hero */
+    .hero {
+        min-height: calc(100vh - 160px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
         text-align: center;
+        padding: 60px 0;
     }
+    .hero-content { max-width: 640px; margin: 0 auto; }
 
-    .info-hero .eyebrow {
+    .hero-badge {
         display: inline-flex;
         align-items: center;
         gap: 10px;
         font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 22px;
-    }
-    .info-hero .eyebrow::before,
-    .info-hero .eyebrow::after {
-        content: ''; width: 26px; height: 1px;
-        background: var(--accent); opacity: 0.4;
-    }
-
-    .info-hero h1 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 72px;
-        line-height: 0.95;
+        font-weight: 600;
         letter-spacing: 1.5px;
-        color: var(--text);
-        margin: 0 0 20px;
-        font-weight: 400;
-    }
-
-    .info-hero p {
-        font-size: 16.5px;
-        line-height: 1.7;
+        text-transform: uppercase;
         color: var(--text-secondary);
-        max-width: 540px;
-        margin: 0 auto 34px;
+        border: 1px solid var(--border);
+        background: var(--card-bg);
+        padding: 8px 18px;
+        border-radius: 999px;
+        margin-bottom: 32px;
+    }
+    .status-dot {
+        width: 8px; height: 8px; border-radius: 50%;
+        background: var(--accent);
+        display: inline-block;
+        animation: pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .hero-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 4rem;
+        line-height: 0.95;
+        letter-spacing: 1px;
+        margin-bottom: 24px;
+        color: var(--accent);
     }
 
-    .info-hero-actions {
+    .hero-subtitle {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        max-width: 480px;
+        margin: 0 auto 40px;
+    }
+
+    .hero-actions {
         display: flex;
-        align-items: center;
+        gap: 15px;
         justify-content: center;
-        gap: 14px;
         flex-wrap: wrap;
     }
 
-    .pill-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 14px 28px;
-        border-radius: 999px;
-        font-size: 14px;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-    .pill-btn.primary { background: var(--accent); color: var(--primary); }
-    .pill-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,0.35); }
-    .pill-btn.outline { color: var(--text); border: 1px solid var(--border); background: rgba(255,255,255,0.02); }
-    .pill-btn.outline:hover { border-color: rgba(255,255,255,0.35); transform: translateY(-2px); }
-
-    /* ---------- SECTIONS ---------- */
-    .info-section-label {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 2.5px;
-        text-transform: uppercase;
-        color: var(--text-secondary);
-        margin: 0 auto 22px;
-        max-width: 860px;
-    }
-    .info-section-label::after {
-        content: ''; flex: 1; height: 1px;
-        background: linear-gradient(90deg, var(--border), transparent);
-    }
-
-    .info-grid {
-        max-width: 860px;
-        margin: 0 auto 72px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-    }
-
-    .info-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 28px 28px 26px;
-        transition: border-color 0.25s ease, transform 0.25s ease;
-    }
-    .info-card:hover { border-color: rgba(255,255,255,0.28); transform: translateY(-2px); }
-    .info-card.full { grid-column: 1 / -1; }
-
-    .info-card-top {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 14px;
-    }
-    .info-card-icon {
-        width: 40px; height: 40px; border-radius: 11px;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid var(--border);
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 40px 0; margin-top: 40px; }
+    .footer-content { display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
+    .footer-desc { color: var(--text-secondary); font-size: 14px; }
+    .social-links { display: flex; gap: 14px; }
+    .social-link {
+        width: 38px; height: 38px;
         display: flex; align-items: center; justify-content: center;
-        color: var(--accent); font-size: 16px; flex-shrink: 0;
-    }
-    .info-card h3 {
-        font-size: 16.5px; font-weight: 600;
-        color: var(--text); margin: 0;
-        letter-spacing: -0.1px;
-    }
-    .info-card p {
-        font-size: 14.5px; line-height: 1.75;
-        color: var(--text-secondary);
-        margin: 0 0 8px;
-    }
-    .info-card p:last-child { margin-bottom: 0; }
-
-    .info-tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
-    .info-tag {
-        display: inline-flex; align-items: center;
-        padding: 6px 14px; font-size: 13px; font-weight: 500;
-        color: var(--text);
-        background: rgba(255,255,255,0.04);
+        border-radius: 8px;
         border: 1px solid var(--border);
-        border-radius: 20px;
-    }
-
-    /* ---------- LIENS OFFICIELS ---------- */
-    .info-links {
-        max-width: 860px;
-        margin: 0 auto 90px;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 14px;
-    }
-    .info-link-card {
-        display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
-        padding: 22px 20px;
         background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 14px;
         color: var(--text);
-        text-decoration: none;
-        transition: all 0.25s ease;
+        transition: var(--transition);
     }
-    .info-link-card:hover { border-color: rgba(255,255,255,0.35); transform: translateY(-3px); }
-    .info-link-card i { font-size: 18px; color: var(--accent); }
-    .info-link-card span { font-size: 13.5px; font-weight: 600; }
-
-    /* ---------- CTA FINALE (façon newsletter de la home) ---------- */
-    .info-cta {
-        max-width: 700px;
-        margin: 0 auto;
-        text-align: center;
-        padding: 54px 30px;
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        background: var(--card-bg);
-    }
-    .info-cta h2 {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 34px;
-        letter-spacing: 1.5px;
-        color: var(--text);
-        margin: 0 0 12px;
-        font-weight: 400;
-    }
-    .info-cta p {
-        font-size: 14.5px;
-        color: var(--text-secondary);
-        margin: 0 0 26px;
-        line-height: 1.6;
-    }
+    .social-link:hover { background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+    .copyright { color: var(--text-secondary); font-size: 12.5px; opacity: 0.7; }
 
     @media (max-width: 768px) {
-        .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
-        .mobile-menu { display: flex; }
-        .studio-logo { display: none; }
-        header { padding: 12px 0; }
-        .nav-container { padding: 0 15px; }
-        .logo { gap: 8px; }
-        .logo-icon { font-size: 20px; }
-        .nav-actions { height: auto; }
+        .hero-title { font-size: 2.8rem; }
+        .hero-actions { flex-direction: column; align-items: center; }
+        .btn { width: 100%; max-width: 280px; }
     }
-
-    @media (max-width: 720px) {
-        .info-hero h1 { font-size: 46px; }
-        .info-grid { grid-template-columns: 1fr; }
-        .info-links { grid-template-columns: 1fr 1fr; }
-    }
-
-    @media (max-height: 600px) {
-        .mobile-nav { padding: 70px 20px 20px; }
-        .mobile-close { top: 20px; right: 20px; }
-        .mobile-nav-actions { gap: 10px; margin-bottom: 20px; }
-        .mobile-nav-links li { margin-bottom: 6px; }
-        .mobile-nav-links a { padding: 12px 16px; font-size: 16px; }
-    }
-    </style>
-</head>
-
-
-<body>
-<br><br><br><br>
-
-<canvas id="starCanvas"></canvas>
-<div class="void-glow"></div>
+</style>
 
 <!-- Header -->
 <header>
     <div class="container nav-container">
         <div class="logo">
-            <div class="logo-icon"><i class="fas fa-temple"></i></div>
+            <div class="logo-icon">&#9670;</div>
             <div class="logo-text">
-                <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
-            </div>
-        </div>
-        <ul class="nav-links">
-            <li><a href="../index.html">Accueil</a></li>
-            <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-            <li><a href="../nexa/galerie.html">Galeries</a></li>
-            <li><a href="../nexa/the_void_protocol.html">The void protocol</a></li>
-        </ul>
-        <div class="nav-actions">
-            <div class="mobile-menu" id="mobileMenu">
-                <i class="fas fa-bars"></i>
+                <img src="./images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
             </div>
         </div>
     </div>
 </header>
 
-
-    <!-- Menu Mobile -->
-    <div class="overlay" id="overlay"></div>
-    <nav class="mobile-nav" id="mobileNav">
-        <div class="mobile-close" id="mobileClose">
-            <i class="fas fa-times"></i>
+<!-- Section maintenance -->
+<section class="hero">
+    <div class="container hero-content">
+        <span class="hero-badge"><span class="status-dot"></span> Maintenance en cours</span>
+        <h1 class="hero-title">Site en maintenance</h1>
+        <p class="hero-subtitle">Nous effectuons actuellement des travaux sur le site. Aucune date de retour n'est fixée pour le moment — merci de votre patience.</p>
+        <div class="hero-actions">
+            <a href="https://discord.gg/PE7MS4Sazk" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Rejoindre le Discord</a>
+            <a href="https://linktr.ee/UNWARE.STUDIO" class="btn btn-login" target="_blank" rel="noopener noreferrer">Nos réseaux</a>
         </div>
+    </div>
+</section>
 
-        <ul class="mobile-nav-links">
-            <li><a href="../index.html" class="mobile-nav-link">Accueil</a></li>
-            <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
-            <li><a href="../nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
-            <li><a href="../nexa/the_void_protocol.html" class="mobile-nav-link">The void protocol</a></li>
-        </ul>
-        <div class="mobile-nav-actions">
-
-        </div>
-    </nav>
-
-    <!-- ============================================================ -->
-    <!-- ==================== PAGE INFORMATIONS ======================= -->
-    <!-- ============================================================ -->
-    <section class="info-page">
-
-        <div class="info-hero">
-            <span class="eyebrow">Informations</span>
-            <h1>The Void Protocol</h1>
-            <p>Tout savoir sur le jeu, le studio, les plateformes visées et les liens officiels pour suivre le développement.</p>
-            <div class="info-hero-actions">
-                <a href="https://discord.gg/PE7MS4Sazk" target="_blank" rel="noopener noreferrer" class="pill-btn primary">
-                    <i class="fab fa-discord"></i> Rejoindre le Discord
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <p class="footer-desc">Un jeu développé par UNWARE STUDIO.</p>
+            <div class="social-links">
+                <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/>
+                    </svg>
                 </a>
-                <a href="../nexa/nexa.html" class="pill-btn outline">S'inscrire à la newsletter</a>
+                <a href="https://discord.gg/PE7MS4Sazk" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+                    </svg>
+                </a>
+                <a href="https://www.youtube.com/@unware.studio" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/unware.studio" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
             </div>
-        </div>
-
-        <div class="info-section-label">Le projet</div>
-        <div class="info-grid">
-
-            <div class="info-card full">
-                <div class="info-card-top">
-                    <div class="info-card-icon"><i class="fas fa-meteor"></i></div>
-                    <h3>The Void Protocol</h3>
-                </div>
-                <!-- À compléter : genre, concept, univers, statut actuel -->
-                <p>[Genre du jeu] — [courte description du concept et de l'univers de The Void Protocol].</p>
-                <p>Statut : projet à venir, actuellement en phase de conception (sortie prévue en 2027).</p>
-            </div>
-
-            <div class="info-card">
-                <div class="info-card-top">
-                    <div class="info-card-icon"><i class="fas fa-building"></i></div>
-                    <h3>À propos d'UNWARE STUDIO</h3>
-                </div>
-                <!-- À compléter : présentation du studio -->
-                <p>[Présentation courte du studio : qui vous êtes, depuis quand, votre démarche].</p>
-            </div>
-
-            <div class="info-card">
-                <div class="info-card-top">
-                    <div class="info-card-icon"><i class="fas fa-desktop"></i></div>
-                    <h3>Plateformes</h3>
-                </div>
-                <div class="info-tag-row">
-                    <!-- À compléter : ajoutez/retirez des tags -->
-                    <span class="info-tag">PC</span>
-                    <span class="info-tag">Windows</span>
-                </div>
-            </div>
-
-            <div class="info-card full">
-                <div class="info-card-top">
-                    <div class="info-card-icon"><i class="fas fa-cogs"></i></div>
-                    <h3>Moteur</h3>
-                </div>
-                <p>Développé avec <strong>Unreal Engine 5</strong>.</p>
-            </div>
-
-        </div>
-
-        <div class="info-section-label">Liens officiels</div>
-        <div class="info-links">
-            <a href="https://discord.gg/PE7MS4Sazk" target="_blank" rel="noopener noreferrer" class="info-link-card">
-                <i class="fab fa-discord"></i><span>Discord</span>
-            </a>
-            <a href="https://www.twitch.tv/unware_studio" target="_blank" rel="noopener noreferrer" class="info-link-card">
-                <i class="fab fa-twitch"></i><span>Twitch</span>
-            </a>
-            <a href="https://www.youtube.com/@unware.studio" target="_blank" rel="noopener noreferrer" class="info-link-card">
-                <i class="fab fa-youtube"></i><span>YouTube</span>
-            </a>
-            <a href="https://www.instagram.com/unware.studio" target="_blank" rel="noopener noreferrer" class="info-link-card">
-                <i class="fab fa-instagram"></i><span>Instagram</span>
-            </a>
-        </div>
-
-        <div class="info-cta">
-            <h2>Une question ?</h2>
-            <p>Le centre d'aide reste le meilleur endroit pour me contacter directement.</p>
-            <a href="../Support/contact.html" class="pill-btn primary">Centre d'aide</a>
-        </div>
-
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <div class="footer-logo-text">The void protocol</div>
-                    </div>
-                    <p class="footer-desc">Un jeu développé par UNWARE STUDIO.</p>
-                    <div class="social-links">
-                        <a href="https://www.twitch.tv/unware_studio" class="social-link"><i class="fab fa-twitch"></i></a>
-                        <a href="https://discord.gg/PE7MS4Sazk" class="social-link"><i class="fab fa-discord"></i></a>
-                        <a href="https://www.youtube.com/@unware.studio" class="social-link"><i class="fab fa-youtube"></i></a>
-                        <a href="https://www.instagram.com/unware.studio" class="social-link"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-column">
-                    <h3>Navigation</h3>
-                    <ul class="footer-links">
-                        <li><a href="../index.html">Accueil</a></li>
-                        <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-                        <li><a href="../nexa/galerie.html">Galeries</a></li>
-                        <li><a href="../nexa/the_void_protocol.html">The Void Protocol</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h3>Support</h3>
-                    <ul class="footer-links">
-                        <li><a href="../Support/centre-aide.html">Centre d'aide</a></li>
-                        <li><a href="../Support/FAQ.html">FAQ</a></li>
-                        <li><a href="../Support/contact.html">Contact</a></li>
-                        <li><a href="../Support/statut.html">Statut des services</a></li>
-                        <li><a href="../Support/informations.html">Informations</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h3>Légal</h3>
-                    <ul class="footer-links">
-                        <li><a href="../legals/conditions-utilisation.html">Conditions d'utilisation</a></li>
-                        <li><a href="../legals/politique-confidentialite.html">Politique de confidentialité</a></li>
-                        <li><a href="../legals/mentions-legales.html">Mentions légales</a></li>
-                        <li><a href="../legals/politique-cookies.html">Politique de cookies</a></li>
-                    </ul>
-                </div>
-            </div>
-
             <div class="copyright">
-                <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
+                <p>&copy; 2026 UNWARE STUDIO. Tous droits réservés.</p>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script>
-        /* ============================================================ */
-        /* ==================== MENU BURGER =========================== */
-        /* ============================================================ */
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileNav = document.getElementById('mobileNav');
-        const overlay = document.getElementById('overlay');
-        const mobileClose = document.getElementById('mobileClose');
-        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-        const body = document.body;
-
-        function openMobileMenu() {
-            mobileNav.classList.add('active');
-            overlay.classList.add('active');
-            mobileMenu.classList.add('active');
-            body.classList.add('no-scroll');
-            void mobileNav.offsetWidth;
-        }
-        function closeMobileMenu() {
-            mobileNav.classList.remove('active');
-            overlay.classList.remove('active');
-            mobileMenu.classList.remove('active');
-            body.classList.remove('no-scroll');
-        }
-        function toggleMobileMenu() {
-            if (mobileNav.classList.contains('active')) { closeMobileMenu(); }
-            else { openMobileMenu(); }
-        }
-
-        mobileMenu.addEventListener('click', toggleMobileMenu);
-        overlay.addEventListener('click', closeMobileMenu);
-        mobileClose.addEventListener('click', closeMobileMenu);
-        mobileNavLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-                closeMobileMenu();
-            }
-        });
-
-        window.addEventListener('load', function() {
-            if (window.location.hash) {
-                history.replaceState(null, null, window.location.pathname + window.location.search);
-            }
-        });
-
-        /* ============================================================ */
-        /* ================ CHAMP D'ÉTOILES (CANVAS) ==================== */
-        /* ============================================================ */
-        const canvas = document.getElementById('starCanvas');
-        const ctx = canvas.getContext('2d');
-        let cw, ch, stars;
-
-        function makeStars() {
-            const count = Math.floor((cw * ch) / 9000);
-            stars = new Array(count).fill(0).map(() => ({
-                x: Math.random() * cw,
-                y: Math.random() * ch,
-                r: Math.random() * 1.3 + 0.3,
-                baseAlpha: Math.random() * 0.5 + 0.25,
-                twinkleSpeed: Math.random() * 0.015 + 0.004,
-                phase: Math.random() * Math.PI * 2,
-                driftY: Math.random() * 0.05 + 0.01
-            }));
-        }
-
-        function resize() {
-            cw = canvas.width = window.innerWidth;
-            ch = canvas.height = window.innerHeight;
-            makeStars();
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        /* léger parallax au mouvement de la souris */
-        const mouse = { x: 0, y: 0 };
-        window.addEventListener('mousemove', e => {
-            mouse.x = (e.clientX / window.innerWidth - 0.5);
-            mouse.y = (e.clientY / window.innerHeight - 0.5);
-        });
-
-        let t = 0;
-        function draw() {
-            t += 1;
-            ctx.clearRect(0, 0, cw, ch);
-
-            for (const s of stars) {
-                s.phase += s.twinkleSpeed;
-                const alpha = s.baseAlpha + Math.sin(s.phase) * 0.25;
-
-                s.y += s.driftY;
-                if (s.y > ch) s.y = 0;
-
-                const px = s.x + mouse.x * 14 * s.r;
-                const py = s.y + mouse.y * 14 * s.r;
-
-                ctx.beginPath();
-                ctx.fillStyle = 'rgba(255,255,255,' + Math.max(0, alpha) + ')';
-                ctx.arc(px, py, s.r, 0, Math.PI * 2);
-                ctx.fill();
-            }
-            requestAnimationFrame(draw);
-        }
-        draw();
-    </script>
-  </body>
+</body>
 </html>
