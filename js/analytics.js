@@ -34,7 +34,7 @@ function getPageTitle() {
         '/index.html': 'UNWARE STUDIO',
         '/nexa/fonctionnalites.html': 'Fonctionnalités NEXA',
         '/nexa/galerie.html': 'Galerie NEXA',
-        '/nexa/nexa.html': 'NEXA',
+        '/nexa/the_void_protocol.html': 'The Void Protocol',
         '/Support/FAQ.html': 'FAQ Support',
         '/Support/centre-aide.html': 'Centre aide',
         '/Support/contact.html': 'Contact',
