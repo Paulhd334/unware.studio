@@ -111,8 +111,6 @@
     })();
     </script>
 
-</head>
-
     <style>
         .btn {
             padding: 12px 24px;
@@ -519,7 +517,6 @@
             .split-columns { grid-template-columns: 1fr; }
         }
     </style>
-</head>
 
 <body>
 
@@ -711,14 +708,17 @@
         function openMobileMenu()  { mobileNav.classList.add('active'); overlay.classList.add('active'); mobileMenu.classList.add('active'); body.classList.add('no-scroll'); void mobileNav.offsetWidth; }
         function closeMobileMenu() { mobileNav.classList.remove('active'); overlay.classList.remove('active'); mobileMenu.classList.remove('active'); body.classList.remove('no-scroll'); }
 
-        mobileMenu.addEventListener('click', () => mobileNav.classList.contains('active') ? closeMobileMenu() : openMobileMenu());
-        overlay.addEventListener('click', closeMobileMenu);
-        mobileClose.addEventListener('click', closeMobileMenu);
+        if (mobileMenu && mobileNav && overlay && mobileClose) {
+            mobileMenu.addEventListener('click', () => mobileNav.classList.contains('active') ? closeMobileMenu() : openMobileMenu());
+            overlay.addEventListener('click', closeMobileMenu);
+            mobileClose.addEventListener('click', closeMobileMenu);
+        }
         mobileNavLinks.forEach(l => l.addEventListener('click', closeMobileMenu));
         document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
 
         window.addEventListener('load', () => {
-            document.getElementById('heroBg').classList.add('loaded');
+            const heroBg = document.querySelector('.product-hero-bg');
+            if (heroBg) heroBg.classList.add('loaded');
         });
     </script>
 
