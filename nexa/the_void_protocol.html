@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0a0a0a">
+    <meta name="format-detection" content="telephone=no">
 
     <title>The Void Protocol | UNWARE STUDIO</title>
 
@@ -79,8 +80,6 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
         }
         body.no-scroll { overflow: hidden; }
         .container { width: 90%; max-width: 1200px; margin: 0 auto; }
@@ -121,12 +120,13 @@
         .mobile-menu:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
         .mobile-nav {
             position: fixed; top: 0; right: -100%; width: 320px; max-width: 85vw; height: 100vh;
+            height: 100dvh;
             background: var(--primary); z-index: 1000;
             transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
             border-left: 1px solid var(--border); display: flex; flex-direction: column;
             padding: 80px 25px 25px; overflow-y: auto;
             box-shadow: -5px 0 30px rgba(0,0,0,0.3); box-sizing: border-box;
-            padding-bottom: calc(25px + env(safe-area-inset-bottom));
+            padding-bottom: calc(25px + env(safe-area-inset-bottom, 0px));
         }
         .mobile-nav.active { right: 0; transform: translateZ(0); }
         .overlay {
@@ -170,12 +170,12 @@
         }
 
         /* ═══════════════════════════════════════════════════════
-           HERO CINÉMATOGRAPHIQUE
+           HERO
            ═══════════════════════════════════════════════════════ */
         .cine-hero {
             position: relative;
             height: 100vh;
-            height: 100dvh; /* Dynamic vh pour mobile */
+            height: 100dvh;
             min-height: 560px;
             width: 100%;
             overflow: hidden;
@@ -224,7 +224,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 0 6% calc(6vh + env(safe-area-inset-bottom));
+            padding: 0 6% calc(6vh + env(safe-area-inset-bottom, 0px));
             max-width: 1600px;
             margin: 0 auto;
             width: 100%;
@@ -232,7 +232,7 @@
 
         .cine-hero-top {
             position: absolute;
-            top: calc(90px + env(safe-area-inset-top));
+            top: calc(90px + env(safe-area-inset-top, 0px));
             left: 6%;
             right: 6%;
             display: flex;
@@ -342,7 +342,6 @@
             position: relative;
             overflow: hidden;
             min-height: 48px;
-            -webkit-tap-highlight-color: transparent;
         }
         .cine-btn-primary {
             background: #fff;
@@ -365,7 +364,7 @@
 
         .cine-hero-scroll {
             position: absolute;
-            bottom: calc(6vh + env(safe-area-inset-bottom));
+            bottom: calc(6vh + env(safe-area-inset-bottom, 0px));
             right: 6%;
             z-index: 6;
             display: flex;
@@ -408,7 +407,7 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ═══════════ BANDEAU DÉFILANT ═══════════ */
+        /* ═══════════ MARQUEE ═══════════ */
         .cine-marquee {
             background: var(--primary);
             border-top: 1px solid var(--border);
@@ -443,7 +442,7 @@
             to { transform: translateX(-50%); }
         }
 
-        /* ═══════════ SECTIONS COMMUNES ═══════════ */
+        /* ═══════════ SECTIONS ═══════════ */
         .cine-section {
             padding: 140px 0;
             position: relative;
@@ -614,12 +613,13 @@
         }
 
         /* ═══════════════════════════════════════════════════════
-           GALERIE — EFFET ULTRA STYLÉ (VERSION STABLE)
-           Les images arrivent de tous les côtés SANS blur (bug mobile)
+           GALERIE — REFONTE COMPLÈTE
+           Grille CSS explicite avec zones nommées
+           Chaque image a son aspect-ratio fixe
            ═══════════════════════════════════════════════════════ */
         .cine-gallery {
             padding: 140px 0;
-            overflow-x: clip; /* clip au lieu de hidden pour éviter les bugs mobile */
+            overflow-x: clip;
         }
         .cine-gallery-header {
             display: flex;
@@ -639,41 +639,76 @@
         }
         .cine-gallery-counter strong { color: #fff; font-weight: 700; }
 
+        /* ── Grille desktop : 12 colonnes / 2 rangées fixes ── */
         .cine-gallery-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 10px;
+            grid-template-rows: auto auto;
+            gap: 12px;
         }
 
-        /* ── ÉTAT INITIAL : chaque image part d'un côté différent ── */
+        /* ── Cellules avec positions explicites ── */
         .cine-gallery-item {
             position: relative;
             overflow: hidden;
             background: #0d0d0d;
+            border: 1px solid rgba(255,255,255,0.05);
             cursor: pointer;
             opacity: 0;
-            transform-style: flat;
             will-change: transform, opacity;
             transition:
                 opacity 1s cubic-bezier(0.16,1,0.3,1),
                 transform 1.2s cubic-bezier(0.16,1,0.3,1);
+            border-radius: 2px;
         }
 
-        /* Position de départ — de TOUS les côtés (SANS blur) */
-        .cine-gallery-item--a { transform: translate3d(-100%, 20%, 0) rotate(-6deg) scale(0.9); }
-        .cine-gallery-item--b { transform: translate3d(100%, -15%, 0) rotate(8deg) scale(0.9); }
-        .cine-gallery-item--c { transform: translate3d(-60%, 100%, 0) rotate(-10deg) scale(0.9); }
-        .cine-gallery-item--d { transform: translate3d(50%, -100%, 0) rotate(6deg) scale(0.9); }
-        .cine-gallery-item--e { transform: translate3d(100%, 60%, 0) rotate(12deg) scale(0.9); }
-        .cine-gallery-item--f { transform: translate3d(0%, 100%, 0) rotate(-5deg) scale(0.9); }
+        /* Position explicite dans la grille */
+        .cine-gallery-item--a {
+            grid-column: 1 / 8;
+            grid-row: 1 / 2;
+            aspect-ratio: 16 / 10;
+        }
+        .cine-gallery-item--b {
+            grid-column: 8 / 13;
+            grid-row: 1 / 3;
+            aspect-ratio: 5 / 7;
+        }
+        .cine-gallery-item--c {
+            grid-column: 1 / 4;
+            grid-row: 2 / 3;
+            aspect-ratio: 1 / 1;
+        }
+        .cine-gallery-item--d {
+            grid-column: 4 / 7;
+            grid-row: 2 / 3;
+            aspect-ratio: 1 / 1;
+        }
+        .cine-gallery-item--e {
+            grid-column: 7 / 8;
+            grid-row: 2 / 3;
+            aspect-ratio: 1 / 2;
+        }
+        .cine-gallery-item--f {
+            grid-column: 1 / 13;
+            grid-row: 3 / 4;
+            aspect-ratio: 21 / 7;
+        }
 
-        /* État final — centré, net, droit */
+        /* ── États de départ (arrivent de tous les côtés) ── */
+        .cine-gallery-item--a { transform: translate3d(-100%, 0, 0) rotate(-5deg); }
+        .cine-gallery-item--b { transform: translate3d(100%, -20%, 0) rotate(6deg); }
+        .cine-gallery-item--c { transform: translate3d(-50%, 100%, 0) rotate(-8deg); }
+        .cine-gallery-item--d { transform: translate3d(0, -100%, 0) rotate(5deg); }
+        .cine-gallery-item--e { transform: translate3d(50%, 100%, 0) rotate(7deg); }
+        .cine-gallery-item--f { transform: translate3d(0, 100%, 0) rotate(-4deg); }
+
+        /* ── État final ── */
         .cine-gallery-item.is-visible {
             opacity: 1;
-            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+            transform: translate3d(0, 0, 0) rotate(0deg);
         }
 
-        /* Délais échelonnés pour un effet cascade */
+        /* ── Cascade des délais ── */
         .cine-gallery-item--a.is-visible { transition-delay: 0.05s; }
         .cine-gallery-item--b.is-visible { transition-delay: 0.15s; }
         .cine-gallery-item--c.is-visible { transition-delay: 0.25s; }
@@ -681,38 +716,35 @@
         .cine-gallery-item--e.is-visible { transition-delay: 0.45s; }
         .cine-gallery-item--f.is-visible { transition-delay: 0.55s; }
 
-        /* Layout asymétrique */
-        .cine-gallery-item--a { grid-column: span 7; aspect-ratio: 16/10; }
-        .cine-gallery-item--b { grid-column: span 5; aspect-ratio: 5/6; }
-        .cine-gallery-item--c { grid-column: span 4; aspect-ratio: 1/1; }
-        .cine-gallery-item--d { grid-column: span 4; aspect-ratio: 1/1; }
-        .cine-gallery-item--e { grid-column: span 4; aspect-ratio: 1/1; }
-        .cine-gallery-item--f { grid-column: span 12; aspect-ratio: 21/9; }
-
+        /* ── Image interne parfaitement calée ── */
         .cine-gallery-item img {
-            width: 100%; height: 100%;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
+            object-position: center;
             display: block;
-            filter: grayscale(60%) brightness(0.65);
-            transition: filter 0.8s ease, transform 1s cubic-bezier(0.16,1,0.3,1);
+            filter: grayscale(55%) brightness(0.7);
+            transition: filter 0.6s ease, transform 1s cubic-bezier(0.16,1,0.3,1);
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
+            will-change: transform;
         }
-        .cine-gallery-item:hover img {
-            filter: grayscale(0%) brightness(1);
-        }
+
         @media (hover: hover) and (pointer: fine) {
             .cine-gallery-item:hover img {
-                transform: scale(1.06);
+                filter: grayscale(0%) brightness(1);
+                transform: scale(1.05);
             }
         }
 
-        /* Lueur sur les bords à l'arrivée */
+        /* ── Halo au moment de la révélation ── */
         .cine-gallery-item::before {
             content: '';
             position: absolute;
             inset: 0;
-            box-shadow: inset 0 0 40px rgba(255,255,255,0.5);
+            box-shadow: inset 0 0 50px rgba(255,255,255,0.4);
             opacity: 0;
             pointer-events: none;
             z-index: 5;
@@ -725,22 +757,23 @@
             100% { opacity: 0; }
         }
 
-        /* Overlay au survol (désactivé sur tactile) */
+        /* ── Overlay ── */
         .cine-gallery-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%);
+            background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.4) 40%, transparent 70%);
             opacity: 0;
             transition: opacity 0.5s ease;
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
-            padding: 26px;
+            padding: 24px;
             z-index: 2;
             pointer-events: none;
         }
         .cine-gallery-info {
             transform: translateY(14px);
             transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+            min-width: 0;
         }
         .cine-gallery-tag {
             font-family: 'Space Mono', monospace;
@@ -753,37 +786,40 @@
         }
         .cine-gallery-name {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 26px;
+            font-size: 22px;
             letter-spacing: 0.02em;
             color: #fff;
             line-height: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .cine-gallery-icon {
             font-size: 14px;
             color: rgba(255,255,255,0.5);
             transform: translateY(14px);
             transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+            flex-shrink: 0;
         }
 
-        /* Survol uniquement sur desktop */
         @media (hover: hover) and (pointer: fine) {
             .cine-gallery-item:hover .cine-gallery-overlay { opacity: 1; }
             .cine-gallery-item:hover .cine-gallery-info { transform: translateY(0); }
             .cine-gallery-item:hover .cine-gallery-icon { transform: translateY(0); }
         }
 
-        /* Sur tactile : overlay toujours léger visible */
         @media (hover: none) {
             .cine-gallery-overlay {
                 opacity: 1;
-                background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%);
+                background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 55%);
             }
             .cine-gallery-info { transform: translateY(0); }
             .cine-gallery-icon { transform: translateY(0); }
         }
 
         .cine-gallery-placeholder {
-            width: 100%; height: 100%;
+            position: absolute;
+            inset: 0;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             gap: 14px;
@@ -806,7 +842,6 @@
             transition: opacity 0.4s ease;
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
         .cine-lightbox.active { opacity: 1; pointer-events: all; }
         .cine-lightbox-wrap {
@@ -995,17 +1030,17 @@
         .scroll-to-top:hover { transform: translateY(-5px); }
 
         /* ═══════════════════════════════════════════════════════
-           RESPONSIVE COMPLET — iPHONE / ANDROID / TABLETTES
+           RESPONSIVE — iPHONE 11 → iPHONE 18 + ANDROID
            ═══════════════════════════════════════════════════════ */
 
-        /* ── TABLETTES LARGES (iPad Pro, tablettes Android 1024px+) ── */
-        @media (max-width: 1100px) {
+        /* ── Petits laptops / tablettes larges ── */
+        @media (max-width: 1024px) {
             .cine-section { padding: 120px 0; }
-            .cine-desc-grid { gap: 70px; }
+            .cine-desc-grid { gap: 60px; }
             .cine-feature { gap: 50px; padding: 60px 0; }
         }
 
-        /* ── TABLETTES (iPad, tablettes Android 768px-1024px) ── */
+        /* ── Tablettes (iPad, iPad Air, iPad Pro 11") ── */
         @media (max-width: 900px) {
             .cine-section { padding: 100px 0; }
             .cine-section-title { margin-bottom: 45px; }
@@ -1024,195 +1059,227 @@
             .cine-lightbox-prev { left: 10px; }
             .cine-lightbox-next { right: 10px; }
 
-            .cine-gallery-grid { grid-template-columns: repeat(6, 1fr); }
-            .cine-gallery-item--a { grid-column: span 6; aspect-ratio: 16/10; }
-            .cine-gallery-item--b { grid-column: span 6; aspect-ratio: 16/10; }
-            .cine-gallery-item--c { grid-column: span 3; }
-            .cine-gallery-item--d { grid-column: span 3; }
-            .cine-gallery-item--e { grid-column: span 6; aspect-ratio: 16/10; }
-            .cine-gallery-item--f { grid-column: span 6; aspect-ratio: 16/10; }
+            /* Galerie iPad : layout 6 colonnes */
+            .cine-gallery-grid {
+                grid-template-columns: repeat(6, 1fr);
+                grid-template-rows: auto auto auto;
+            }
+            .cine-gallery-item--a {
+                grid-column: 1 / 7;
+                grid-row: 1;
+                aspect-ratio: 16 / 10;
+            }
+            .cine-gallery-item--b {
+                grid-column: 1 / 4;
+                grid-row: 2;
+                aspect-ratio: 4 / 5;
+            }
+            .cine-gallery-item--c {
+                grid-column: 4 / 7;
+                grid-row: 2;
+                aspect-ratio: 4 / 5;
+            }
+            .cine-gallery-item--d {
+                grid-column: 1 / 4;
+                grid-row: 3;
+                aspect-ratio: 4 / 5;
+            }
+            .cine-gallery-item--e {
+                grid-column: 4 / 7;
+                grid-row: 3;
+                aspect-ratio: 4 / 5;
+            }
+            .cine-gallery-item--f {
+                grid-column: 1 / 7;
+                grid-row: 4;
+                aspect-ratio: 16 / 9;
+            }
         }
 
-        /* ── MOBILES (iPhone 14 Pro Max, S24 Ultra, etc. 480px-768px) ── */
-        @media (max-width: 768px) {
-            .cine-section { padding: 80px 0; }
-            .cine-section-title { margin-bottom: 40px; }
-            .cine-section-eyebrow { margin-bottom: 24px; }
+        /* ═══════════════════════════════════════════════════
+           iPHONE 11 → iPHONE 18 (375px - 430px)
+           + Android (360px - 430px)
+           ═══════════════════════════════════════════════════ */
 
-            .cine-hero-title {
-                font-size: clamp(56px, 16vw, 120px);
-            }
-            .cine-hero-bottom {
-                gap: 30px;
-                margin-top: 30px;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .cine-hero-desc {
-                font-size: 14px;
-                max-width: 100%;
-            }
-            .cine-hero-actions {
-                width: 100%;
-                gap: 10px;
-            }
-            .cine-btn {
-                flex: 1 1 auto;
-                min-width: 0;
-                padding: 14px 20px;
-                font-size: 11px;
-            }
-            .cine-hero-top {
-                top: calc(80px + env(safe-area-inset-top));
-                gap: 12px;
-            }
-            .cine-hero-top-left,
-            .cine-hero-top-right {
-                font-size: 9px;
-                letter-spacing: 0.3em;
-            }
+        /* ── iPHONE 14 Pro Max / 15 Pro Max / 16 Pro Max / S24 Ultra (430px) ── */
+        @media (max-width: 480px) {
+            .container { width: 92%; }
+            .cine-section { padding: 80px 0; }
+            .cine-section-title { font-size: clamp(38px, 11vw, 62px); margin-bottom: 36px; }
+            .cine-section-eyebrow { margin-bottom: 20px; font-size: 9px; letter-spacing: 0.4em; }
+
+            .cine-hero-title { font-size: clamp(54px, 17vw, 110px); }
+            .cine-hero-bottom { gap: 24px; margin-top: 28px; flex-direction: column; align-items: flex-start; }
+            .cine-hero-desc { font-size: 14px; max-width: 100%; }
+            .cine-hero-actions { width: 100%; gap: 10px; }
+            .cine-btn { flex: 1 1 auto; padding: 14px 18px; font-size: 11px; }
+            .cine-hero-top { top: calc(78px + env(safe-area-inset-top, 0px)); gap: 12px; }
+            .cine-hero-top-left, .cine-hero-top-right { font-size: 9px; letter-spacing: 0.3em; }
+            .cine-hero-top-left::before { display: none; }
             .cine-hero-scroll { display: none; }
 
             .cine-marquee { padding: 18px 0; }
-            .cine-marquee-track { gap: 40px; animation-duration: 30s; }
+            .cine-marquee-track { gap: 40px; animation-duration: 32s; }
             .cine-marquee-item { font-size: 18px; gap: 40px; }
 
-            .cine-quote {
-                font-size: 22px;
-                padding-left: 20px;
-                margin: 40px 0;
-            }
-
+            .cine-quote { font-size: 22px; padding-left: 20px; margin: 40px 0; }
+            .cine-feature { padding: 44px 0; gap: 14px; }
             .cine-feature-num { font-size: 40px; }
-            .cine-feature-title { font-size: clamp(28px, 7vw, 42px); }
+            .cine-feature-title { font-size: clamp(28px, 7.5vw, 44px); }
+            .cine-feature-desc { font-size: 13.5px; }
 
             .cine-gallery { padding: 80px 0; }
-            .cine-gallery-header { margin-bottom: 40px; }
+            .cine-gallery-header { margin-bottom: 40px; gap: 20px; }
             .cine-gallery-counter { font-size: 10px; }
+
+            /* ── Galerie iPhone : layout 2 colonnes stable ── */
+            .cine-gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: auto;
+                gap: 10px;
+            }
+            /* Réinitialiser toutes les positions */
+            .cine-gallery-item--a,
+            .cine-gallery-item--b,
+            .cine-gallery-item--c,
+            .cine-gallery-item--d,
+            .cine-gallery-item--e,
+            .cine-gallery-item--f {
+                grid-column: auto;
+                grid-row: auto;
+                aspect-ratio: 4 / 5;
+            }
+            /* A : pleine largeur */
+            .cine-gallery-item--a {
+                grid-column: 1 / 3;
+                grid-row: 1;
+                aspect-ratio: 16 / 10;
+            }
+            /* B, C : 2 colonnes côte à côte */
+            .cine-gallery-item--b {
+                grid-column: 1 / 2;
+                grid-row: 2;
+                aspect-ratio: 1 / 1;
+            }
+            .cine-gallery-item--c {
+                grid-column: 2 / 3;
+                grid-row: 2;
+                aspect-ratio: 1 / 1;
+            }
+            /* D, E : 2 colonnes côte à côte */
+            .cine-gallery-item--d {
+                grid-column: 1 / 2;
+                grid-row: 3;
+                aspect-ratio: 1 / 1;
+            }
+            .cine-gallery-item--e {
+                grid-column: 2 / 3;
+                grid-row: 3;
+                aspect-ratio: 1 / 1;
+            }
+            /* F : pleine largeur */
+            .cine-gallery-item--f {
+                grid-column: 1 / 3;
+                grid-row: 4;
+                aspect-ratio: 16 / 9;
+            }
+
+            /* Animations adaptées aux petits écrans (déplacements réduits) */
+            .cine-gallery-item--a { transform: translate3d(-60%, 0, 0) rotate(-3deg); }
+            .cine-gallery-item--b { transform: translate3d(-60%, 0, 0) rotate(-3deg); }
+            .cine-gallery-item--c { transform: translate3d(60%, 0, 0) rotate(3deg); }
+            .cine-gallery-item--d { transform: translate3d(-60%, 0, 0) rotate(-3deg); }
+            .cine-gallery-item--e { transform: translate3d(60%, 0, 0) rotate(3deg); }
+            .cine-gallery-item--f { transform: translate3d(0, 60%, 0) rotate(-2deg); }
+
+            .cine-gallery-overlay { padding: 16px; }
+            .cine-gallery-tag { font-size: 8px; letter-spacing: 0.3em; margin-bottom: 6px; }
+            .cine-gallery-name { font-size: 18px; }
+            .cine-gallery-icon { font-size: 12px; }
 
             .cine-newsletter { padding: 90px 0; }
             .cine-newsletter-desc { margin-bottom: 32px; font-size: 14px; }
+            .cine-nl-row { flex-direction: column; background: transparent; border: none; gap: 12px; }
+            .cine-nl-input { border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); padding: 18px 20px; font-size: 16px; }
+            .cine-nl-btn { padding: 18px 24px; width: 100%; }
 
-            .cine-nl-row {
-                flex-direction: column;
-                background: transparent;
-                border: none;
-                gap: 12px;
-            }
-            .cine-nl-input {
-                border: 1px solid rgba(255,255,255,0.15);
-                background: rgba(255,255,255,0.04);
-            }
-            .cine-nl-btn {
-                padding: 18px 24px;
-                width: 100%;
-            }
-
-            .cine-lightbox-wrap { max-width: 94vw; max-height: 80vh; }
-            .cine-lightbox-wrap img { max-width: 94vw; max-height: 80vh; }
+            .cine-lightbox-wrap { max-width: 94vw; max-height: 78vh; }
+            .cine-lightbox-wrap img { max-width: 94vw; max-height: 78vh; }
             .cine-lightbox-close { top: 10px; right: 10px; width: 38px; height: 38px; }
             .cine-lightbox-nav { width: 40px; height: 40px; font-size: 13px; }
             .cine-lightbox-caption { padding: 18px 20px; }
-            .cine-gallery-name { font-size: 20px; }
 
             .scroll-to-top {
                 width: 44px; height: 44px;
-                bottom: calc(20px + env(safe-area-inset-bottom));
+                bottom: calc(20px + env(safe-area-inset-bottom, 0px));
                 right: 20px;
             }
-        }
-
-        /* ── PETITS MOBILES (iPhone SE, mini, Galaxy A bas de gamme 360px-480px) ── */
-        @media (max-width: 480px) {
-            .container { width: 92%; }
-            .cine-section { padding: 70px 0; }
-            .cine-section-title { font-size: clamp(38px, 10vw, 60px); }
-            .cine-section-eyebrow { font-size: 9px; letter-spacing: 0.4em; }
-
-            .cine-hero-title {
-                font-size: clamp(48px, 17vw, 90px);
-                letter-spacing: 0;
-            }
-            .cine-hero-content {
-                padding: 0 5% calc(5vh + env(safe-area-inset-bottom));
-            }
-            .cine-hero-top {
-                top: calc(72px + env(safe-area-inset-top));
-                left: 5%;
-                right: 5%;
-            }
-            .cine-hero-top-left::before { display: none; }
-            .cine-btn {
-                padding: 13px 16px;
-                font-size: 10px;
-                letter-spacing: 0.12em;
-                gap: 8px;
-            }
-            .cine-btn i { font-size: 12px; }
-
-            .cine-desc-body { font-size: 15px; }
-            .cine-desc-body .drop-cap::first-letter { font-size: 3em; }
-            .cine-desc-meta-value { font-size: 22px; }
-
-            .cine-feature { padding: 40px 0; gap: 14px; }
-            .cine-feature-num { font-size: 34px; }
-            .cine-feature-title { font-size: clamp(24px, 8vw, 36px); }
-            .cine-feature-desc { font-size: 13px; line-height: 1.7; }
-
-            .cine-gallery { padding: 70px 0; }
-            .cine-gallery-grid { grid-template-columns: 1fr; gap: 8px; }
-            .cine-gallery-item {
-                grid-column: span 1 !important;
-                aspect-ratio: 16/10 !important;
-            }
-
-            /* Sur très petit écran : animations simplifiées (moins de distance) */
-            .cine-gallery-item--a { transform: translate3d(-60%, 15%, 0) rotate(-4deg) scale(0.94); }
-            .cine-gallery-item--b { transform: translate3d(60%, -10%, 0) rotate(5deg) scale(0.94); }
-            .cine-gallery-item--c { transform: translate3d(-40%, 60%, 0) rotate(-6deg) scale(0.94); }
-            .cine-gallery-item--d { transform: translate3d(40%, -60%, 0) rotate(4deg) scale(0.94); }
-            .cine-gallery-item--e { transform: translate3d(60%, 40%, 0) rotate(7deg) scale(0.94); }
-            .cine-gallery-item--f { transform: translate3d(0%, 60%, 0) rotate(-3deg) scale(0.94); }
-
-            .cine-gallery-name { font-size: 18px; }
-            .cine-gallery-tag { font-size: 8px; letter-spacing: 0.3em; }
-
-            .cine-newsletter { padding: 70px 0; }
-            .cine-newsletter-title { font-size: clamp(38px, 11vw, 60px); }
-            .cine-newsletter-desc { font-size: 13px; margin-bottom: 26px; }
-            .cine-nl-input { padding: 16px 18px; font-size: 16px; /* évite zoom iOS */ }
-            .cine-nl-btn { padding: 16px 20px; font-size: 11px; }
-
-            .cine-lightbox-close { top: 8px; right: 8px; width: 34px; height: 34px; font-size: 13px; }
-            .cine-lightbox-nav { width: 36px; height: 36px; font-size: 12px; }
-            .cine-lightbox-prev { left: 6px; }
-            .cine-lightbox-next { right: 6px; }
 
             footer { padding: 60px 0 30px; }
             .footer-content { gap: 32px; margin-bottom: 40px; }
-            .social-link { width: 38px; height: 38px; }
-            .copyright { font-size: 13px; padding-top: 30px; }
-
-            .scroll-to-top {
-                width: 40px; height: 40px;
-                bottom: calc(16px + env(safe-area-inset-bottom));
-                right: 16px;
-            }
         }
 
-        /* ── TRÈS PETITS (iPhone SE 1ère gen, 320px) ── */
-        @media (max-width: 360px) {
+        /* ── iPHONE 11 / 12 / 13 / 14 (390px) + Pixel / Galaxy (393px) ── */
+        @media (max-width: 400px) {
+            .cine-hero-title { font-size: clamp(48px, 16vw, 90px); }
+            .cine-btn { padding: 13px 16px; font-size: 10px; letter-spacing: 0.1em; gap: 8px; }
+            .cine-btn i { font-size: 12px; }
+            .cine-section-title { font-size: clamp(36px, 10.5vw, 54px); }
+            .cine-feature-num { font-size: 36px; }
+            .cine-gallery-name { font-size: 17px; }
+        }
+
+        /* ── iPHONE 11 Pro / X / XS / 12 mini / 13 mini (375px) ── */
+        @media (max-width: 380px) {
+            .container { width: 94%; }
+            .cine-section { padding: 70px 0; }
+            .cine-hero-title { font-size: clamp(44px, 15vw, 78px); }
+            .cine-hero-content { padding: 0 5% calc(5vh + env(safe-area-inset-bottom, 0px)); }
+            .cine-hero-top { top: calc(72px + env(safe-area-inset-top, 0px)); left: 5%; right: 5%; }
+            .cine-section-title { font-size: clamp(34px, 10vw, 48px); }
+            .cine-desc-body { font-size: 15.5px; }
+            .cine-desc-body .drop-cap::first-letter { font-size: 3.2em; }
+            .cine-feature { padding: 40px 0; }
+            .cine-feature-num { font-size: 34px; }
+            .cine-feature-title { font-size: clamp(24px, 8vw, 36px); }
+            .cine-feature-desc { font-size: 13px; }
+            .cine-gallery { padding: 70px 0; }
+            .cine-gallery-grid { gap: 8px; }
+            .cine-gallery-name { font-size: 16px; }
+            .cine-gallery-tag { font-size: 8px; }
+            .cine-newsletter { padding: 70px 0; }
+            .cine-newsletter-title { font-size: clamp(36px, 11vw, 56px); }
+            .cine-nl-input { padding: 16px 18px; }
+            .cine-nl-btn { padding: 16px 20px; font-size: 11px; }
+        }
+
+        /* ── iPHONE SE 1ère/2ème/3ème gen (320px) — Galaxy A bas de gamme ── */
+        @media (max-width: 340px) {
             .cine-section { padding: 60px 0; }
-            .cine-section-title { font-size: 32px; }
-            .cine-hero-title { font-size: 44px; }
+            .cine-hero-title { font-size: 40px; }
             .cine-btn { padding: 12px 12px; font-size: 9px; }
             .cine-hero-actions { flex-direction: column; }
             .cine-btn { width: 100%; }
+            .cine-section-title { font-size: 30px; }
             .cine-feature-title { font-size: 22px; }
             .cine-feature-num { font-size: 30px; }
+            .cine-gallery-name { font-size: 15px; }
+
+            /* Sur 320px : passer en 1 colonne */
+            .cine-gallery-grid { grid-template-columns: 1fr; }
+            .cine-gallery-item--a,
+            .cine-gallery-item--b,
+            .cine-gallery-item--c,
+            .cine-gallery-item--d,
+            .cine-gallery-item--e,
+            .cine-gallery-item--f {
+                grid-column: 1 / -1;
+                grid-row: auto;
+                aspect-ratio: 16 / 10;
+            }
         }
 
-        /* ── MODE PAYSAGE MOBILE (hauteur < 500px) ── */
+        /* ── Mode paysage mobile (hauteur < 500px) ── */
         @media (max-height: 500px) and (orientation: landscape) {
             .cine-hero { height: auto; min-height: 100dvh; padding: 100px 0 40px; }
             .cine-hero-title { font-size: clamp(40px, 8vw, 72px); }
@@ -1222,7 +1289,12 @@
             .cine-section { padding: 60px 0; }
         }
 
-        /* ── ACCESSIBILITÉ : réduire les animations si demandé ── */
+        /* ── Très grands écrans ── */
+        @media (min-width: 1440px) {
+            .container { max-width: 1320px; }
+        }
+
+        /* ── Accessibilité : animations réduites ── */
         @media (prefers-reduced-motion: reduce) {
             *,
             *::before,
@@ -1259,7 +1331,7 @@
     <div class="cine-lightbox-nav cine-lightbox-next" id="lightboxNext" aria-label="Suivant"><i class="fas fa-chevron-right"></i></div>
 </div>
 
-<!-- ═══════════ HEADER ═══════════ -->
+<!-- HEADER -->
 <header>
     <div class="container nav-container">
         <div class="logo">
@@ -1301,7 +1373,7 @@
     <div class="mobile-nav-actions"></div>
 </nav>
 
-<!-- ═══════════ HERO ═══════════ -->
+<!-- HERO -->
 <section class="cine-hero">
     <div class="cine-hero-bg"></div>
     <div class="cine-hero-vignette"></div>
@@ -1341,7 +1413,7 @@
     </div>
 </section>
 
-<!-- ═══════════ MARQUEE ═══════════ -->
+<!-- MARQUEE -->
 <div class="cine-marquee">
     <div class="cine-marquee-track">
         <div class="cine-marquee-item">Unreal Engine 5.6</div>
@@ -1355,7 +1427,7 @@
     </div>
 </div>
 
-<!-- ═══════════ DESCRIPTION ═══════════ -->
+<!-- DESCRIPTION -->
 <section class="cine-section" id="about">
     <div class="container">
         <div class="cine-desc-grid">
@@ -1406,7 +1478,7 @@
     </div>
 </section>
 
-<!-- ═══════════ FEATURES ═══════════ -->
+<!-- FEATURES -->
 <section class="cine-section cine-features" id="features">
     <div class="container">
         <div class="cine-features-header">
@@ -1441,7 +1513,7 @@
     </div>
 </section>
 
-<!-- ═══════════ GALERIE ═══════════ -->
+<!-- GALERIE -->
 <section class="cine-gallery" id="gallery">
     <div class="container">
         <div class="cine-gallery-header">
@@ -1460,7 +1532,7 @@
         <div class="cine-gallery-grid" id="galleryGrid">
             <div class="cine-gallery-item cine-gallery-item--a" data-src="../images/The_Void_Protocol_In_Game/image_website_6.png" data-tag="Environnement" data-title="Zone d'expérimentation">
                 <img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Zone d'expérimentation" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_01</span></div>
                 <div class="cine-gallery-overlay">
                     <div class="cine-gallery-info">
@@ -1473,7 +1545,7 @@
 
             <div class="cine-gallery-item cine-gallery-item--b" data-src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" data-tag="Niveau" data-title="Couloir 13">
                 <img src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" alt="The Void Protocol - Couloir 13" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_02</span></div>
                 <div class="cine-gallery-overlay">
                     <div class="cine-gallery-info">
@@ -1486,7 +1558,7 @@
 
             <div class="cine-gallery-item cine-gallery-item--c" data-src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" data-tag="Décor" data-title="Salle des machines">
                 <img src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" alt="The Void Protocol - Salle des machines" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>03</span></div>
                 <div class="cine-gallery-overlay">
                     <div class="cine-gallery-info">
@@ -1499,7 +1571,7 @@
 
             <div class="cine-gallery-item cine-gallery-item--d" data-src="../images/The_Void_Protocol_In_Game/image_website_4.png" data-tag="Atmosphère" data-title="Zone intérieur">
                 <img src="../images/The_Void_Protocol_In_Game/image_website_4.png" alt="The Void Protocol - Zone intérieur" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>04</span></div>
                 <div class="cine-gallery-overlay">
                     <div class="cine-gallery-info">
@@ -1512,7 +1584,7 @@
 
             <div class="cine-gallery-item cine-gallery-item--e" data-src="../images/nexa-screen-5.webp" data-tag="Interface" data-title="HUD tactique">
                 <img src="../images/nexa-screen-5.webp" alt="The Void Protocol - HUD tactique" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>05</span></div>
                 <div class="cine-gallery-overlay">
                     <div class="cine-gallery-info">
@@ -1525,7 +1597,7 @@
 
             <div class="cine-gallery-item cine-gallery-item--f" data-src="../images/nexa-screen-6.webp" data-tag="Entité" data-title="Présence">
                 <img src="../images/nexa-screen-6.webp" alt="The Void Protocol - Présence" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>06</span></div>
                 <div class="cine-gallery-overlay">
                     <div class="cine-gallery-info">
@@ -1539,7 +1611,7 @@
     </div>
 </section>
 
-<!-- ═══════════ NEWSLETTER ═══════════ -->
+<!-- NEWSLETTER -->
 <section class="cine-newsletter" id="newsletter">
     <div class="container">
         <div class="cine-newsletter-inner">
@@ -1563,7 +1635,7 @@
     </div>
 </section>
 
-<!-- ═══════════ FOOTER ═══════════ -->
+<!-- FOOTER -->
 <footer>
   <div class="container">
     <div class="footer-content">
@@ -1672,12 +1744,11 @@
 
     document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
 
-    /* ── GALERIE : RÉVÉLATION ULTRA STYLÉE ── */
+    /* ── GALERIE : RÉVÉLATION ── */
     (function() {
         const galleryItems = document.querySelectorAll('.cine-gallery-item');
         if (!galleryItems.length) return;
 
-        // Si l'utilisateur préfère les animations réduites, tout révéler immédiatement
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReducedMotion) {
             galleryItems.forEach(item => item.classList.add('is-visible'));
@@ -1691,7 +1762,7 @@
                     galleryObs.unobserve(e.target);
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
         galleryItems.forEach(item => galleryObs.observe(item));
     })();
@@ -1769,7 +1840,7 @@
             if (e.key === 'ArrowRight') showRelative(1);
         });
 
-        /* Swipe tactile pour la lightbox */
+        /* Swipe tactile */
         let touchStartX = 0;
         let touchEndX = 0;
         lightbox.addEventListener('touchstart', e => {
