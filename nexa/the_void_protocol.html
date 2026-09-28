@@ -56,7 +56,7 @@
     </script>
 
     <style>
-        /* ── Variables ── */
+        /* ═══════════ VARIABLES ═══════════ */
         :root {
             --primary: #0a0a0a;
             --secondary: #111111;
@@ -74,14 +74,18 @@
         body.no-scroll { overflow: hidden; }
         .container { width: 90%; max-width: 1200px; margin: 0 auto; }
 
-        /* ── HEADER ── */
+        /* ═══════════ HEADER ═══════════ */
         header {
             position: fixed; top: 0; width: 100%;
             padding: 20px 0; z-index: 1000;
-            background: rgba(10,10,10,0.95);
+            background: transparent;
+            transition: all 0.5s ease;
+        }
+        header.scrolled {
+            background: rgba(10,10,10,0.9);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
-            transition: var(--transition);
+            padding: 14px 0;
         }
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
@@ -89,15 +93,9 @@
         .logo-text { display: flex; align-items: center; }
         .studio-logo { max-width: 150px; height: auto; object-fit: contain; transition: transform 0.3s ease, filter 0.3s ease; }
         .nav-links { display: flex; list-style: none; gap: 40px; }
-        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 14px; letter-spacing: 0.5px; transition: var(--transition); }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; transition: var(--transition); }
         .nav-links a:hover { color: var(--accent); }
         .nav-actions { display: flex; gap: 15px; align-items: center; }
-
-        .btn { padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 500; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1; }
-        .btn-login { color: var(--text); background: transparent; border: 1px solid var(--border); height: 42px; }
-        .btn-login:hover { background: rgba(255,255,255,0.05); transform: translateY(-2px); }
-        .btn-primary { background: var(--accent); color: var(--primary); border: none; height: 42px; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
         /* ── MOBILE MENU ── */
         .mobile-menu {
@@ -149,770 +147,786 @@
         .mobile-nav-actions .btn { text-align: center; width: 100%; padding: 14px 20px; border-radius: 8px; font-weight: 600; height: auto; }
 
         @media (max-width: 768px) {
-            .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
+            .nav-links { display: none; }
             .mobile-menu { display: flex; }
             .studio-logo { display: none; }
             header { padding: 12px 0; }
             .nav-container { padding: 0 15px; }
         }
 
-        /* ══════════════════════════════════════════
-           REFONTE — DESIGN ÉDITORIAL MINIMALISTE
-           ══════════════════════════════════════════ */
+        /* ═══════════════════════════════════════════════════════
+           REFONTE CINÉMATOGRAPHIQUE — IMMERSIVE FULLSCREEN
+           ═══════════════════════════════════════════════════════ */
 
-        /* ── Typographie ── */
-        .t-label {
+        /* ── HERO PLEIN ÉCRAN IMMERSIF ── */
+        .cine-hero {
+            position: relative;
+            height: 100vh;
+            min-height: 700px;
+            width: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+
+        /* Image de fond plein écran */
+        .cine-hero-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('../images/The_Void_Protocol_In_Game/image_website_6.png');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.55) contrast(1.1) saturate(0.85);
+            transform: scale(1.08);
+            animation: cineZoom 20s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+        @keyframes cineZoom {
+            from { transform: scale(1.08); }
+            to   { transform: scale(1.18); }
+        }
+
+        /* Vignette cinématographique */
+        .cine-hero-vignette {
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 90% 80% at 50% 50%, transparent 0%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.9) 100%),
+                linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 25%, transparent 65%, rgba(10,10,10,1) 100%);
+            z-index: 2;
+        }
+
+        /* Grain / scanlines */
+        .cine-hero-grain {
+            position: absolute; inset: 0;
+            background-image: repeating-linear-gradient(
+                0deg, transparent, transparent 2px,
+                rgba(255,255,255,0.008) 2px, rgba(255,255,255,0.008) 3px
+            );
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* Contenu du hero */
+        .cine-hero-content {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 0 6% 8vh;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Petit label en haut */
+        .cine-hero-top {
+            position: absolute;
+            top: 110px;
+            left: 6%;
+            right: 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 6;
+            opacity: 0;
+            animation: cineFadeIn 1.2s ease 0.4s forwards;
+        }
+        .cine-hero-top-left {
             font-family: 'Space Mono', monospace;
             font-size: 10px;
             letter-spacing: 0.4em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.35);
+            color: rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .t-title {
+        .cine-hero-top-left::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: rgba(255,255,255,0.4);
+        }
+        .cine-hero-top-right {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Titre monstrueux */
+        .cine-hero-title {
             font-family: 'Bebas Neue', sans-serif;
             font-weight: 400;
-            line-height: 0.95;
-            letter-spacing: 0.03em;
-            color: var(--accent);
+            font-size: clamp(90px, 18vw, 280px);
+            line-height: 0.82;
+            letter-spacing: -0.01em;
+            color: #fff;
+            text-transform: uppercase;
+            margin: 0;
+            text-shadow: 0 4px 60px rgba(0,0,0,0.6);
         }
-        .t-body {
-            font-size: 14px;
-            line-height: 1.75;
-            color: rgba(255,255,255,0.55);
-            font-weight: 300;
-        }
-        .t-body strong { color: rgba(255,255,255,0.9); font-weight: 500; }
-        .t-body + .t-body { margin-top: 1.1em; }
-
-        /* ── Section générique ── */
-        .section {
-            position: relative;
-            padding: 140px 0;
-        }
-        .section--tight { padding: 100px 0; }
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-        }
-
-        /* ── Révélation au scroll ── */
-        [data-reveal] {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 1.1s cubic-bezier(0.16,1,0.3,1),
-                        transform 1.1s cubic-bezier(0.16,1,0.3,1);
-        }
-        [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
-        [data-reveal][data-delay="1"] { transition-delay: 0.1s; }
-        [data-reveal][data-delay="2"] { transition-delay: 0.2s; }
-        [data-reveal][data-delay="3"] { transition-delay: 0.3s; }
-        [data-reveal][data-delay="4"] { transition-delay: 0.4s; }
-        [data-reveal][data-delay="5"] { transition-delay: 0.5s; }
-
-        /* ═══════════ HERO ═══════════ */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 120px 0 80px;
+        .cine-hero-title .line {
+            display: block;
             overflow: hidden;
         }
-        .hero-bg {
-            position: absolute; inset: 0;
-            background: #070707;
-            z-index: 0;
+        .cine-hero-title .line span {
+            display: inline-block;
+            transform: translateY(100%);
+            animation: cineRise 1.1s cubic-bezier(0.16,1,0.3,1) forwards;
         }
-        .hero-glow {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 900px; height: 900px;
-            background: radial-gradient(circle, rgba(130,30,30,0.10) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 1;
-            animation: heroGlow 8s ease-in-out infinite;
+        .cine-hero-title .line:nth-child(1) span { animation-delay: 0.5s; }
+        .cine-hero-title .line:nth-child(2) span {
+            animation-delay: 0.65s;
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(255,255,255,0.5);
+            text-stroke: 1.5px rgba(255,255,255,0.5);
         }
-        @keyframes heroGlow {
-            0%,100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
-        }
-        .hero-grid {
-            position: absolute; inset: 0;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
-            background-size: 90px 90px;
-            mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, black 30%, transparent 80%);
-            -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, black 30%, transparent 80%);
-            pointer-events: none; z-index: 1;
-        }
-        .hero-noise {
-            position: absolute; inset: 0;
-            background: repeating-linear-gradient(
-                0deg, transparent, transparent 3px,
-                rgba(255,255,255,0.006) 3px, rgba(255,255,255,0.006) 4px
-            );
-            pointer-events: none; z-index: 2;
-        }
-        .hero-vignette {
-            position: absolute; inset: 0;
-            background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%);
-            pointer-events: none; z-index: 2;
-        }
-        .hero-canvas {
-            position: absolute; inset: 0;
-            width: 100%; height: 100%;
-            pointer-events: none; z-index: 1;
-        }
-        .hero-inner {
-            position: relative;
-            z-index: 5;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 5%;
+        @keyframes cineRise {
+            to { transform: translateY(0); }
         }
 
-        .hero-meta {
+        /* Bas du hero : description + actions */
+        .cine-hero-bottom {
             display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 40px;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 60px;
+            margin-top: 40px;
+            flex-wrap: wrap;
             opacity: 0;
-            animation: heroFadeUp 0.8s ease 0.2s forwards;
+            animation: cineFadeIn 1.2s ease 1.2s forwards;
         }
-        .hero-meta-dot {
-            width: 5px; height: 5px; border-radius: 50%;
-            background: #c0392b;
-            animation: heroBlink 2s ease-in-out infinite;
-        }
-        @keyframes heroBlink { 0%,100%{opacity:1} 50%{opacity:0.2} }
-
-        .hero-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(64px, 10vw, 128px);
-            line-height: 0.9;
-            letter-spacing: 0.02em;
-            color: var(--accent);
-            margin: 0 0 32px;
-            opacity: 0;
-            animation: heroFadeUp 0.9s ease 0.35s forwards;
-        }
-        .hero-title .title-sub {
-            display: block;
-            font-size: 0.55em;
-            letter-spacing: 0.28em;
-            color: rgba(255,255,255,0.15);
-            margin-top: 0.08em;
-        }
-
-        .hero-lead {
-            max-width: 460px;
+        .cine-hero-desc {
+            max-width: 440px;
             font-size: 15px;
-            line-height: 1.8;
-            color: rgba(255,255,255,0.5);
+            line-height: 1.7;
+            color: rgba(255,255,255,0.7);
             font-weight: 300;
-            margin-bottom: 44px;
-            opacity: 0;
-            animation: heroFadeUp 0.8s ease 0.5s forwards;
         }
+        .cine-hero-desc strong { color: #fff; font-weight: 500; }
 
-        .hero-actions {
+        .cine-hero-actions {
             display: flex;
             gap: 14px;
             flex-wrap: wrap;
-            opacity: 0;
-            animation: heroFadeUp 0.8s ease 0.65s forwards;
         }
-        .btn-solid {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 14px 28px;
-            background: var(--accent);
-            color: var(--primary);
+        .cine-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
             font-family: 'Inter', sans-serif;
             font-weight: 500;
             font-size: 12px;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
             text-decoration: none;
-            border: none;
-            border-radius: 2px;
+            border-radius: 0;
             cursor: pointer;
-            transition: all 0.35s ease;
-        }
-        .btn-solid:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,255,255,0.12); }
-        .btn-outline {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 14px 24px;
-            background: transparent;
-            color: rgba(255,255,255,0.55);
-            font-family: 'Inter', sans-serif;
-            font-size: 12px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.12);
-            border-radius: 2px;
-            transition: all 0.35s ease;
-        }
-        .btn-outline:hover { color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.35); }
-
-        /* ── Terminal discret (bas-droite du hero) ── */
-        .hero-terminal {
-            position: absolute;
-            bottom: 60px;
-            right: 5%;
-            width: 320px;
-            background: rgba(13,13,13,0.85);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 4px;
-            overflow: hidden;
-            font-family: 'Space Mono', monospace;
-            font-size: 10.5px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            z-index: 5;
-            opacity: 0;
-            animation: heroFadeUp 0.8s ease 1s forwards;
-        }
-        .hero-terminal-header {
-            display: flex; align-items: center; gap: 6px;
-            padding: 8px 12px;
-            background: rgba(255,255,255,0.03);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .hero-terminal-dot { width: 7px; height: 7px; border-radius: 50%; }
-        .hero-terminal-dot.red { background: #ff5f56; }
-        .hero-terminal-dot.yellow { background: #ffbd2e; }
-        .hero-terminal-dot.green { background: #27c93f; }
-        .hero-terminal-title {
-            margin-left: 8px; font-size: 9px;
-            color: rgba(255,255,255,0.25);
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-        .hero-terminal-body {
-            padding: 12px 14px;
-            color: rgba(255,255,255,0.7);
-            line-height: 1.9;
-            min-height: 130px;
-        }
-        .hero-terminal-line { display: block; white-space: pre-wrap; word-break: break-word; }
-        .hero-terminal-prompt { color: #27c93f; margin-right: 6px; }
-        .hero-terminal-cmd { color: #ffffff; }
-        .hero-terminal-output { color: rgba(255,255,255,0.32); padding-left: 14px; }
-        .hero-terminal-output .hl { color: #ff5f56; }
-        .hero-terminal-cursor {
-            display: inline-block;
-            width: 6px; height: 12px;
-            background: #ffffff;
-            margin-left: 2px;
-            vertical-align: middle;
-            animation: cursorBlink 1s step-end infinite;
-        }
-        @keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-        /* ── Scroll hint ── */
-        .hero-scroll {
-            position: absolute;
-            bottom: 40px;
-            left: 5%;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            z-index: 5;
-            opacity: 0;
-            animation: heroFadeUp 0.8s ease 1.2s forwards;
-        }
-        .hero-scroll-line {
-            width: 40px;
-            height: 1px;
-            background: rgba(255,255,255,0.25);
+            transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+            border: none;
             position: relative;
             overflow: hidden;
         }
-        .hero-scroll-line::after {
+        .cine-btn-primary {
+            background: #fff;
+            color: #0a0a0a;
+        }
+        .cine-btn-primary:hover {
+            background: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(255,255,255,0.15);
+        }
+        .cine-btn-ghost {
+            background: transparent;
+            color: rgba(255,255,255,0.8);
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+        .cine-btn-ghost:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.5);
+            color: #fff;
+        }
+
+        /* Indicateur de scroll en bas à droite */
+        .cine-hero-scroll {
+            position: absolute;
+            bottom: 8vh;
+            right: 6%;
+            z-index: 6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            opacity: 0;
+            animation: cineFadeIn 1s ease 1.6s forwards;
+        }
+        .cine-hero-scroll-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            writing-mode: vertical-rl;
+        }
+        .cine-hero-scroll-line {
+            width: 1px;
+            height: 60px;
+            background: rgba(255,255,255,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        .cine-hero-scroll-line::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(255,255,255,0.8);
-            transform: translateX(-100%);
-            animation: scrollLine 2.4s ease-in-out infinite;
+            background: #fff;
+            transform: translateY(-100%);
+            animation: cineScrollDown 2.2s ease-in-out infinite;
         }
-        @keyframes scrollLine {
-            0% { transform: translateX(-100%); }
-            50% { transform: translateX(0); }
-            100% { transform: translateX(100%); }
-        }
-        .hero-scroll span {
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.3);
+        @keyframes cineScrollDown {
+            0% { transform: translateY(-100%); }
+            60%,100% { transform: translateY(100%); }
         }
 
-        @keyframes heroFadeUp {
+        @keyframes cineFadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ═══════════ ABOUT ═══════════ */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 100px;
-            align-items: center;
-        }
-        .about-visual {
-            position: relative;
-            aspect-ratio: 4/5;
+        /* ═══════════ BANDEAU DÉFILANT (MARQUEE) ═══════════ */
+        .cine-marquee {
+            background: var(--primary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 26px 0;
             overflow: hidden;
-            background: #0d0d0d;
-            border: 1px solid var(--border);
+            position: relative;
         }
-        .about-visual img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            filter: grayscale(50%) brightness(0.65);
-            transition: all 1.2s cubic-bezier(0.16,1,0.3,1);
+        .cine-marquee-track {
+            display: flex;
+            gap: 60px;
+            animation: marqueeScroll 40s linear infinite;
+            white-space: nowrap;
+            width: max-content;
         }
-        .about-visual:hover img {
-            filter: grayscale(0%) brightness(0.95);
-            transform: scale(1.03);
+        .cine-marquee-item {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.35);
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            text-transform: uppercase;
         }
-        .about-visual::after {
+        .cine-marquee-item::after {
+            content: '◆';
+            color: rgba(255,255,255,0.15);
+            font-size: 10px;
+        }
+        @keyframes marqueeScroll {
+            to { transform: translateX(-50%); }
+        }
+
+        /* ═══════════ SECTION DESCRIPTION ═══════════ */
+        .cine-section {
+            padding: 140px 0;
+            position: relative;
+        }
+        .cine-section-eyebrow {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+        .cine-section-eyebrow::before {
             content: '';
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent 50%);
-            pointer-events: none;
+            width: 40px;
+            height: 1px;
+            background: rgba(255,255,255,0.3);
         }
-        .about-visual-caption {
-            position: absolute;
-            bottom: 20px; left: 20px;
-            z-index: 3;
+
+        .cine-section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(56px, 8vw, 120px);
+            line-height: 0.9;
+            letter-spacing: 0.005em;
+            color: #fff;
+            text-transform: uppercase;
+            margin-bottom: 60px;
+        }
+        .cine-section-title .muted {
+            color: rgba(255,255,255,0.15);
+        }
+
+        /* Description : gros paragraphe éditorial */
+        .cine-desc-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 100px;
+            align-items: start;
+        }
+        .cine-desc-meta {
+            position: sticky;
+            top: 120px;
+        }
+        .cine-desc-meta-item {
+            padding: 24px 0;
+            border-top: 1px solid var(--border);
+        }
+        .cine-desc-meta-item:last-child { border-bottom: 1px solid var(--border); }
+        .cine-desc-meta-label {
             font-family: 'Space Mono', monospace;
             font-size: 9px;
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.5);
-        }
-        .about-visual-num {
-            position: absolute;
-            top: 20px; right: 20px;
-            z-index: 3;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 28px;
-            color: rgba(255,255,255,0.25);
-            letter-spacing: 0.05em;
-        }
-
-        .about-content .t-label { display: block; margin-bottom: 24px; }
-        .about-content .t-title {
-            font-size: clamp(40px, 5vw, 64px);
-            margin-bottom: 32px;
-        }
-        .about-content .t-title em {
-            font-style: normal;
-            color: rgba(255,255,255,0.18);
-        }
-        .about-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-top: 48px;
-            padding-top: 40px;
-            border-top: 1px solid var(--border);
-        }
-        .about-stat-num {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 32px;
-            color: var(--accent);
-            letter-spacing: 0.05em;
-            line-height: 1;
+            color: rgba(255,255,255,0.35);
             margin-bottom: 8px;
         }
-        .about-stat-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.35);
-        }
-
-        /* ═══════════ FEATURES ═══════════ */
-        .features-header {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            align-items: end;
-            margin-bottom: 80px;
-        }
-        .features-header .t-title {
-            font-size: clamp(40px, 5vw, 64px);
-        }
-        .features-header .t-title em {
-            font-style: normal;
-            color: rgba(255,255,255,0.18);
-        }
-        .features-header .t-label { display: block; margin-bottom: 20px; }
-
-        .features-list {
-            border-top: 1px solid var(--border);
-        }
-        .feature-row {
-            display: grid;
-            grid-template-columns: 60px 1fr 1.2fr 40px;
-            gap: 40px;
-            align-items: center;
-            padding: 40px 20px;
-            border-bottom: 1px solid var(--border);
-            transition: all 0.4s ease;
-            position: relative;
-            cursor: default;
-        }
-        .feature-row::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 2px;
-            background: var(--accent);
-            transform: scaleY(0);
-            transform-origin: top;
-            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
-        }
-        .feature-row:hover {
-            padding-left: 40px;
-            background: rgba(255,255,255,0.015);
-        }
-        .feature-row:hover::before { transform: scaleY(1); }
-        .feature-num {
-            font-family: 'Space Mono', monospace;
-            font-size: 11px;
-            color: rgba(255,255,255,0.3);
-            letter-spacing: 0.15em;
-        }
-        .feature-title {
+        .cine-desc-meta-value {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 26px;
             letter-spacing: 0.05em;
-            color: var(--accent);
-            line-height: 1;
-        }
-        .feature-desc {
-            font-size: 13.5px;
-            line-height: 1.7;
-            color: rgba(255,255,255,0.5);
-            font-weight: 300;
-        }
-        .feature-arrow {
-            color: rgba(255,255,255,0.2);
-            font-size: 14px;
-            transition: all 0.4s ease;
-            text-align: right;
-        }
-        .feature-row:hover .feature-arrow {
-            color: var(--accent);
-            transform: translateX(6px);
-        }
-        @media (max-width: 800px) {
-            .feature-row {
-                grid-template-columns: 1fr;
-                gap: 12px;
-                padding: 32px 0;
-            }
-            .feature-row:hover { padding-left: 0; }
-            .feature-arrow { display: none; }
-        }
-
-        /* ═══════════ GALLERY ═══════════ */
-        .gallery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: end;
-            margin-bottom: 56px;
-            flex-wrap: wrap;
-            gap: 24px;
-        }
-        .gallery-header .t-title {
-            font-size: clamp(40px, 5vw, 64px);
-        }
-        .gallery-header .t-title em {
-            font-style: normal;
-            color: rgba(255,255,255,0.18);
-        }
-        .gallery-header .t-label { display: block; margin-bottom: 20px; }
-        .gallery-count {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.3);
-        }
-        .gallery-count strong { color: var(--accent); font-weight: 700; }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 14px;
-        }
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            background: #0d0d0d;
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: border-color 0.4s ease;
-        }
-        .gallery-item:hover { border-color: rgba(255,255,255,0.25); }
-
-        .gallery-item--hero  { grid-column: span 7; grid-row: span 2; aspect-ratio: 16/11; }
-        .gallery-item--tall  { grid-column: span 5; grid-row: span 2; aspect-ratio: 5/6; }
-        .gallery-item--wide  { grid-column: span 6; aspect-ratio: 16/10; }
-        .gallery-item--small { grid-column: span 3; aspect-ratio: 1/1; }
-        .gallery-item--mid   { grid-column: span 3; aspect-ratio: 1/1; }
-
-        .gallery-item img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            display: block;
-            filter: grayscale(55%) brightness(0.6);
-            transition: all 1s cubic-bezier(0.16,1,0.3,1);
-        }
-        .gallery-item:hover img {
-            filter: grayscale(0%) brightness(1);
-            transform: scale(1.05);
-        }
-        .gallery-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 55%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            display: flex;
-            align-items: flex-end;
-            padding: 20px;
-            z-index: 2;
-        }
-        .gallery-item:hover .gallery-overlay { opacity: 1; }
-        .gallery-caption { transform: translateY(10px); transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
-        .gallery-item:hover .gallery-caption { transform: translateY(0); }
-        .gallery-tag {
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.5);
-            display: block;
-            margin-bottom: 6px;
-        }
-        .gallery-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 20px;
-            letter-spacing: 0.05em;
             color: #fff;
-            line-height: 1;
         }
-        .gallery-zoom {
-            position: absolute;
-            top: 14px; right: 14px;
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(8px);
-            display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 11px;
-            opacity: 0;
-            transform: scale(0.7);
-            transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
-            z-index: 4;
-        }
-        .gallery-item:hover .gallery-zoom { opacity: 1; transform: scale(1); }
 
-        .gallery-placeholder {
-            width: 100%; height: 100%;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            gap: 12px;
-            background: linear-gradient(135deg, #0d0d0d 0%, #151515 100%);
-            color: rgba(255,255,255,0.15);
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            letter-spacing: 0.25em;
+        .cine-desc-body {
+            font-size: 19px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.75);
+            font-weight: 300;
+            max-width: 720px;
+        }
+        .cine-desc-body p + p { margin-top: 1.4em; }
+        .cine-desc-body .drop-cap::first-letter {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4.5em;
+            line-height: 0.85;
+            float: left;
+            margin: 0.08em 0.12em 0 0;
+            color: #fff;
+        }
+        .cine-desc-body strong { color: #fff; font-weight: 500; }
+
+        /* Citation mise en avant */
+        .cine-quote {
+            margin: 60px 0;
+            padding-left: 32px;
+            border-left: 2px solid #fff;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(28px, 3.5vw, 44px);
+            line-height: 1.15;
+            letter-spacing: 0.02em;
+            color: #fff;
             text-transform: uppercase;
+            max-width: 720px;
         }
-        .gallery-placeholder i { font-size: 22px; color: rgba(255,255,255,0.12); }
+        .cine-quote span { color: rgba(255,255,255,0.4); }
 
-        @media (max-width: 900px) {
-            .gallery-grid { grid-template-columns: repeat(6, 1fr); }
-            .gallery-item--hero  { grid-column: span 6; grid-row: span 1; aspect-ratio: 16/10; }
-            .gallery-item--tall  { grid-column: span 6; grid-row: span 1; aspect-ratio: 16/10; }
-            .gallery-item--wide  { grid-column: span 6; }
-            .gallery-item--small { grid-column: span 3; }
-            .gallery-item--mid   { grid-column: span 3; }
-        }
-        @media (max-width: 600px) {
-            .gallery-grid { grid-template-columns: 1fr; }
-            .gallery-item { grid-column: span 1 !important; aspect-ratio: 16/10 !important; grid-row: span 1 !important; }
-        }
-
-        /* ── Lightbox ── */
-        .lightbox {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.96);
-            z-index: 9000;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.4s ease;
-            backdrop-filter: blur(20px);
-        }
-        .lightbox.active { opacity: 1; pointer-events: all; }
-        .lightbox-wrap {
-            position: relative;
-            max-width: 92vw; max-height: 88vh;
-            border-radius: 4px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.08);
-            transform: scale(0.94);
-            transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.9);
-        }
-        .lightbox.active .lightbox-wrap { transform: scale(1); }
-        .lightbox-wrap img { display: block; max-width: 92vw; max-height: 88vh; object-fit: contain; }
-        .lightbox-close {
-            position: absolute; top: 14px; right: 14px;
-            width: 38px; height: 38px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #fff; font-size: 14px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 2;
-        }
-        .lightbox-close:hover { background: rgba(255,255,255,0.15); transform: rotate(90deg); }
-        .lightbox-caption {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            padding: 22px 26px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            z-index: 1;
-        }
-        .lightbox-nav {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            width: 42px; height: 42px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: #fff; font-size: 14px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 2;
-        }
-        .lightbox-nav:hover { background: rgba(255,255,255,0.15); }
-        .lightbox-prev { left: -60px; }
-        .lightbox-next { right: -60px; }
-        @media (max-width: 900px) {
-            .lightbox-prev { left: 8px; }
-            .lightbox-next { right: 8px; }
-        }
-
-        /* ═══════════ NEWSLETTER ═══════════ */
-        .newsletter {
+        /* ═══════════ SECTION FEATURES — 3 BLOCS IMMERSIFS ═══════════ */
+        .cine-features {
             background: var(--secondary);
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
         }
-        .newsletter-inner {
+        .cine-features-header {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+        .cine-features-header .cine-section-eyebrow {
+            justify-content: center;
+        }
+        .cine-features-header .cine-section-eyebrow::before { display: none; }
+
+        .cine-features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .cine-feature {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 100px;
+            grid-template-columns: 80px 1fr 1fr;
+            gap: 80px;
             align-items: center;
+            padding: 70px 0;
+            border-top: 1px solid var(--border);
+            transition: all 0.5s ease;
+            position: relative;
         }
-        .newsletter .t-label { display: block; margin-bottom: 20px; }
-        .newsletter .t-title {
-            font-size: clamp(36px, 4.5vw, 54px);
-            margin-bottom: 20px;
+        .cine-feature:last-child { border-bottom: 1px solid var(--border); }
+        .cine-feature:hover { padding-left: 30px; padding-right: 30px; }
+        .cine-feature::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 3px;
+            background: #fff;
+            transform: scaleY(0);
+            transform-origin: center;
+            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
         }
-        .newsletter .t-title em {
-            font-style: normal;
+        .cine-feature:hover::before { transform: scaleY(1); }
+
+        .cine-feature-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 64px;
+            color: rgba(255,255,255,0.15);
+            line-height: 1;
+            letter-spacing: 0.02em;
+            transition: color 0.5s ease;
+        }
+        .cine-feature:hover .cine-feature-num { color: #fff; }
+
+        .cine-feature-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(36px, 4.5vw, 60px);
+            line-height: 0.95;
+            letter-spacing: 0.01em;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .cine-feature-desc {
+            font-size: 15px;
+            line-height: 1.75;
+            color: rgba(255,255,255,0.55);
+            font-weight: 300;
+        }
+
+        @media (max-width: 900px) {
+            .cine-feature {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 50px 0;
+            }
+            .cine-feature:hover { padding-left: 0; padding-right: 0; }
+            .cine-feature-num { font-size: 48px; }
+        }
+
+        /* ═══════════ SECTION GALERIE ═══════════ */
+        .cine-gallery {
+            padding: 140px 0;
+        }
+        .cine-gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 40px;
+            margin-bottom: 70px;
+            flex-wrap: wrap;
+        }
+        .cine-gallery-header .cine-section-title { margin-bottom: 0; }
+        .cine-gallery-counter {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+        }
+        .cine-gallery-counter strong { color: #fff; font-weight: 700; }
+
+        .cine-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 10px;
+        }
+        .cine-gallery-item {
+            position: relative;
+            overflow: hidden;
+            background: #0d0d0d;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.97);
+            transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
+                        transform 0.9s cubic-bezier(0.16,1,0.3,1);
+        }
+        .cine-gallery-item.is-visible { opacity: 1; transform: scale(1); }
+        .cine-gallery-item:nth-child(1).is-visible { transition-delay: 0.05s; }
+        .cine-gallery-item:nth-child(2).is-visible { transition-delay: 0.12s; }
+        .cine-gallery-item:nth-child(3).is-visible { transition-delay: 0.19s; }
+        .cine-gallery-item:nth-child(4).is-visible { transition-delay: 0.26s; }
+        .cine-gallery-item:nth-child(5).is-visible { transition-delay: 0.33s; }
+        .cine-gallery-item:nth-child(6).is-visible { transition-delay: 0.4s; }
+
+        /* Layout asymétrique fort */
+        .cine-gallery-item--a { grid-column: span 7; aspect-ratio: 16/10; }
+        .cine-gallery-item--b { grid-column: span 5; aspect-ratio: 5/6; }
+        .cine-gallery-item--c { grid-column: span 4; aspect-ratio: 1/1; }
+        .cine-gallery-item--d { grid-column: span 4; aspect-ratio: 1/1; }
+        .cine-gallery-item--e { grid-column: span 4; aspect-ratio: 1/1; }
+        .cine-gallery-item--f { grid-column: span 12; aspect-ratio: 21/9; }
+
+        .cine-gallery-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(60%) brightness(0.65);
+            transition: all 1.2s cubic-bezier(0.16,1,0.3,1);
+        }
+        .cine-gallery-item:hover img {
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.04);
+        }
+
+        /* Overlay au survol */
+        .cine-gallery-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            padding: 26px;
+            z-index: 2;
+        }
+        .cine-gallery-item:hover .cine-gallery-overlay { opacity: 1; }
+        .cine-gallery-info {
+            transform: translateY(14px);
+            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
+        .cine-gallery-item:hover .cine-gallery-info { transform: translateY(0); }
+        .cine-gallery-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            display: block;
+            margin-bottom: 8px;
+        }
+        .cine-gallery-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 26px;
+            letter-spacing: 0.02em;
+            color: #fff;
+            line-height: 1;
+        }
+        .cine-gallery-icon {
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+            transform: translateY(14px);
+            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
+        .cine-gallery-item:hover .cine-gallery-icon { transform: translateY(0); }
+
+        .cine-gallery-placeholder {
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 14px;
+            background: linear-gradient(135deg, #0d0d0d 0%, #151515 100%);
+            color: rgba(255,255,255,0.15);
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+        .cine-gallery-placeholder i { font-size: 26px; color: rgba(255,255,255,0.15); }
+
+        @media (max-width: 900px) {
+            .cine-gallery-grid { grid-template-columns: repeat(6, 1fr); }
+            .cine-gallery-item--a { grid-column: span 6; aspect-ratio: 16/10; }
+            .cine-gallery-item--b { grid-column: span 6; aspect-ratio: 16/10; }
+            .cine-gallery-item--c { grid-column: span 3; }
+            .cine-gallery-item--d { grid-column: span 3; }
+            .cine-gallery-item--e { grid-column: span 6; aspect-ratio: 16/10; }
+            .cine-gallery-item--f { grid-column: span 6; aspect-ratio: 16/10; }
+        }
+        @media (max-width: 500px) {
+            .cine-gallery-item--c, .cine-gallery-item--d { grid-column: span 6; }
+        }
+
+        /* ═══════════ LIGHTBOX ═══════════ */
+        .cine-lightbox {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.97);
+            z-index: 9000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.4s ease;
+            backdrop-filter: blur(24px);
+        }
+        .cine-lightbox.active { opacity: 1; pointer-events: all; }
+        .cine-lightbox-wrap {
+            position: relative;
+            max-width: 92vw; max-height: 88vh;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transform: scale(0.94);
+            transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: 0 40px 120px rgba(0,0,0,0.9);
+        }
+        .cine-lightbox.active .cine-lightbox-wrap { transform: scale(1); }
+        .cine-lightbox-wrap img { display: block; max-width: 92vw; max-height: 88vh; object-fit: contain; }
+        .cine-lightbox-close {
+            position: absolute; top: 16px; right: 16px;
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff; font-size: 15px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        .cine-lightbox-close:hover { background: #fff; color: #000; transform: rotate(90deg); }
+        .cine-lightbox-caption {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 26px 30px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+            z-index: 1;
+        }
+        .cine-lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 46px; height: 46px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff; font-size: 15px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        .cine-lightbox-nav:hover { background: #fff; color: #000; }
+        .cine-lightbox-prev { left: -70px; }
+        .cine-lightbox-next { right: -70px; }
+        @media (max-width: 900px) {
+            .cine-lightbox-prev { left: 10px; }
+            .cine-lightbox-next { right: 10px; }
+        }
+
+        /* ═══════════ NEWSLETTER — GRAND BLOC FINAL ═══════════ */
+        .cine-newsletter {
+            position: relative;
+            padding: 160px 0;
+            background: #000;
+            overflow: hidden;
+        }
+        .cine-newsletter::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(130,30,30,0.12) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .cine-newsletter-inner {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .cine-newsletter .cine-section-eyebrow {
+            justify-content: center;
+        }
+        .cine-newsletter .cine-section-eyebrow::before { display: none; }
+
+        .cine-newsletter-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(56px, 9vw, 130px);
+            line-height: 0.88;
+            letter-spacing: 0.01em;
+            color: #fff;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .cine-newsletter-title .muted {
             color: rgba(255,255,255,0.18);
         }
-        .newsletter-form { display: flex; flex-direction: column; gap: 14px; }
-        .newsletter-row { display: flex; gap: 10px; }
-        .newsletter-input {
+        .cine-newsletter-desc {
+            font-size: 15px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.5);
+            font-weight: 300;
+            margin-bottom: 48px;
+            max-width: 460px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cine-nl-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+        .cine-nl-row {
+            display: flex;
+            gap: 0;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: border-color 0.3s ease;
+        }
+        .cine-nl-row:focus-within {
+            border-color: rgba(255,255,255,0.5);
+        }
+        .cine-nl-input {
             flex: 1;
-            padding: 14px 18px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border);
-            border-radius: 2px;
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            font-size: 13.5px;
-            transition: all 0.3s ease;
-        }
-        .newsletter-input:focus {
-            outline: none;
-            border-color: rgba(255,255,255,0.3);
-            background: rgba(255,255,255,0.05);
-        }
-        .newsletter-btn {
-            padding: 14px 26px;
-            background: var(--accent);
-            color: var(--primary);
-            font-weight: 500;
-            font-size: 11px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
+            padding: 20px 24px;
+            background: transparent;
             border: none;
-            border-radius: 2px;
-            cursor: pointer;
+            color: #fff;
             font-family: 'Inter', sans-serif;
-            transition: all 0.35s ease;
-            white-space: nowrap;
+            font-size: 14px;
+            outline: none;
         }
-        .newsletter-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(255,255,255,0.12); }
-        .newsletter-note {
-            font-size: 11.5px;
-            color: rgba(255,255,255,0.25);
-            font-family: 'Space Mono', monospace;
+        .cine-nl-input::placeholder {
+            color: rgba(255,255,255,0.3);
             letter-spacing: 0.05em;
         }
-        .form-message {
-            padding: 10px 14px;
-            border-radius: 2px;
-            font-size: 12.5px;
+        .cine-nl-btn {
+            padding: 0 34px;
+            background: #fff;
+            color: #0a0a0a;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .cine-nl-btn:hover { background: #e0e0e0; }
+        .cine-nl-note {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+        }
+        .cine-form-message {
+            padding: 12px 16px;
+            font-size: 13px;
             display: none;
+            border: 1px solid;
+            text-align: left;
         }
-        .form-message.success { background: rgba(76,175,80,0.08); color: #66bb6a; border: 1px solid rgba(76,175,80,0.2); display: block; }
-        .form-message.error   { background: rgba(244,67,54,0.08); color: #ef5350; border: 1px solid rgba(244,67,54,0.2); display: block; }
+        .cine-form-message.success { background: rgba(76,175,80,0.08); color: #66bb6a; border-color: rgba(76,175,80,0.3); display: block; }
+        .cine-form-message.error   { background: rgba(244,67,54,0.08); color: #ef5350; border-color: rgba(244,67,54,0.3); display: block; }
 
-        @media (max-width: 800px) {
-            .newsletter-inner { grid-template-columns: 1fr; gap: 40px; }
-            .newsletter-row { flex-direction: column; }
-            .newsletter-btn { width: 100%; }
-            .about-grid { grid-template-columns: 1fr; gap: 50px; }
-            .about-visual { aspect-ratio: 16/10; }
-            .features-header { grid-template-columns: 1fr; gap: 30px; margin-bottom: 50px; }
-            .section { padding: 90px 0; }
-            .hero-terminal { position: relative; bottom: auto; right: auto; width: 100%; margin-top: 50px; }
+        @media (max-width: 600px) {
+            .cine-nl-row { flex-direction: column; }
+            .cine-nl-btn { padding: 20px; }
         }
 
-        /* ── Barre de progression ── */
-        .progress-bar {
-            position: fixed;
-            top: 0; left: 0;
-            height: 2px;
-            width: 0%;
-            background: linear-gradient(90deg, #c0392b, #ffffff);
-            z-index: 1001;
-            transition: width 0.1s linear;
-            box-shadow: 0 0 8px rgba(255,255,255,0.4);
-        }
-
-        /* ── FOOTER ── */
+        /* ═══════════ FOOTER ═══════════ */
         footer { background: var(--secondary); padding: 80px 0 40px; border-top: 1px solid var(--border); }
         .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px; }
         .footer-brand { max-width: 300px; }
@@ -937,25 +951,22 @@
 </head>
 <body>
 
-<!-- Barre de progression -->
-<div class="progress-bar" id="progressBar"></div>
-
 <!-- Lightbox -->
-<div class="lightbox" id="lightbox">
-    <div class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></div>
-    <div class="lightbox-wrap" id="lightboxWrap">
+<div class="cine-lightbox" id="lightbox">
+    <div class="cine-lightbox-nav cine-lightbox-prev" id="lightboxPrev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></div>
+    <div class="cine-lightbox-wrap" id="lightboxWrap">
         <img src="" alt="" id="lightboxImg">
-        <div class="lightbox-caption">
-            <div class="gallery-tag" id="lightboxTag"></div>
-            <div class="gallery-title" id="lightboxTitle"></div>
+        <div class="cine-lightbox-caption">
+            <span class="cine-gallery-tag" id="lightboxTag"></span>
+            <div class="cine-gallery-name" id="lightboxTitle"></div>
         </div>
-        <div class="lightbox-close" id="lightboxClose"><i class="fas fa-times"></i></div>
+        <div class="cine-lightbox-close" id="lightboxClose"><i class="fas fa-times"></i></div>
     </div>
-    <div class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Suivant"><i class="fas fa-chevron-right"></i></div>
+    <div class="cine-lightbox-nav cine-lightbox-next" id="lightboxNext" aria-label="Suivant"><i class="fas fa-chevron-right"></i></div>
 </div>
 
 <!-- ═══════════ HEADER ═══════════ -->
-<header>
+<header id="siteHeader">
     <div class="container nav-container">
         <div class="logo">
             <div class="logo-icon"><i class="fas fa-temple"></i></div>
@@ -996,243 +1007,264 @@
     <div class="mobile-nav-actions"></div>
 </nav>
 
-<!-- ═══════════ HERO ═══════════ -->
-<section class="hero">
-    <div class="hero-bg"></div>
-    <canvas class="hero-canvas" id="heroCanvas"></canvas>
-    <div class="hero-glow"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-noise"></div>
-    <div class="hero-vignette"></div>
+<!-- ═══════════ HERO CINÉMATOGRAPHIQUE ═══════════ -->
+<section class="cine-hero">
+    <div class="cine-hero-bg"></div>
+    <div class="cine-hero-vignette"></div>
+    <div class="cine-hero-grain"></div>
 
-    <div class="hero-inner">
-        <div class="hero-meta">
-            <span class="hero-meta-dot"></span>
-            <span class="t-label">Unreal Engine 5.6 — PC / Console — 2027</span>
-        </div>
+    <div class="cine-hero-top">
+        <div class="cine-hero-top-left">Unreal Engine 5.6</div>
+        <div class="cine-hero-top-right">Sortie — 2027</div>
+    </div>
 
-        <h1 class="hero-title">
-            The Void
-            <span class="title-sub">Protocol</span>
+    <div class="cine-hero-content">
+        <h1 class="cine-hero-title">
+            <span class="line"><span>The Void</span></span>
+            <span class="line"><span>Protocol</span></span>
         </h1>
 
-        <p class="hero-lead">
-            Une expérience conçue pour désorienter. Lumière globale dynamique, audio immersif, level design impitoyable.
-        </p>
-
-        <div class="hero-actions">
-            <a href="#newsletter" class="btn-solid">
-                <i class="fas fa-bell"></i>
-                Être alerté
-            </a>
-            <a href="https://discord.gg/PE7MS4Sazk" class="btn-outline" target="_blank" rel="noopener">
-                <i class="fab fa-discord"></i>
-                Discord
-            </a>
-        </div>
-    </div>
-
-    <div class="hero-terminal" id="heroTerminal">
-        <div class="hero-terminal-header">
-            <span class="hero-terminal-dot red"></span>
-            <span class="hero-terminal-dot yellow"></span>
-            <span class="hero-terminal-dot green"></span>
-            <span class="hero-terminal-title">void_protocol</span>
-        </div>
-        <div class="hero-terminal-body" id="terminalBody"></div>
-    </div>
-
-    <div class="hero-scroll">
-        <div class="hero-scroll-line"></div>
-        <span>Défiler</span>
-    </div>
-</section>
-
-<!-- ═══════════ ABOUT ═══════════ -->
-<section class="section" id="about">
-    <div class="container">
-        <div class="about-grid">
-            <div class="about-visual" data-reveal>
-                <span class="about-visual-num">01</span>
-                <span class="about-visual-caption">In-game / Zone d'expérimentation</span>
-                <img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Aperçu" loading="lazy"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
-                <div class="gallery-placeholder" style="display:none;">
-                    <i class="fas fa-image"></i>
-                    <span>visuel_01.png</span>
-                </div>
-            </div>
-            <div class="about-content">
-                <span class="t-label" data-reveal data-delay="1">Le jeu</span>
-                <h2 class="t-title" data-reveal data-delay="2">
-                    Entrez dans<br><em>le vide</em>
-                </h2>
-                <p class="t-body" data-reveal data-delay="3">
-                    <strong>The Void Protocol</strong> est une expérience narrative et immersive qui vous plonge dans un complexe abandonné où chaque couloir, chaque salle, chaque silence raconte une histoire. Développé sous <strong>Unreal Engine 5.6</strong>, le jeu exploite la lumière globale dynamique et le ray tracing pour créer une atmosphère d'une densité rare.
-                </p>
-                <p class="t-body" data-reveal data-delay="4">
-                    Prévu pour <strong>2027</strong> sur PC et consoles, The Void Protocol est pensé comme une descente progressive — une désorientation maîtrisée où votre seule arme est votre attention.
-                </p>
-
-                <div class="about-stats" data-reveal data-delay="5">
-                    <div>
-                        <div class="about-stat-num">2027</div>
-                        <div class="about-stat-label">Sortie prévue</div>
-                    </div>
-                    <div>
-                        <div class="about-stat-num">UE 5.6</div>
-                        <div class="about-stat-label">Moteur</div>
-                    </div>
-                    <div>
-                        <div class="about-stat-num">PC/PS/XB</div>
-                        <div class="about-stat-label">Plateformes</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ═══════════ FEATURES ═══════════ -->
-<section class="section" id="features">
-    <div class="container">
-        <div class="features-header">
-            <div>
-                <span class="t-label" data-reveal>Caractéristiques</span>
-                <h2 class="t-title" data-reveal data-delay="1">
-                    Une expérience<br><em>totale</em>
-                </h2>
-            </div>
-            <p class="t-body" data-reveal data-delay="2">
-                Chaque système du jeu a été pensé pour servir l'immersion. Rien n'est décoratif — tout participe à la tension.
+        <div class="cine-hero-bottom">
+            <p class="cine-hero-desc">
+                Une expérience conçue pour <strong>désorienter</strong>. Lumière globale dynamique, audio immersif, level design impitoyable.
             </p>
+            <div class="cine-hero-actions">
+                <a href="#newsletter" class="cine-btn cine-btn-primary">
+                    <i class="fas fa-bell"></i>
+                    Être alerté
+                </a>
+                <a href="https://discord.gg/PE7MS4Sazk" class="cine-btn cine-btn-ghost" target="_blank" rel="noopener">
+                    <i class="fab fa-discord"></i>
+                    Discord
+                </a>
+            </div>
         </div>
+    </div>
 
-        <div class="features-list">
-            <div class="feature-row" data-reveal>
-                <div class="feature-num">01</div>
-                <div class="feature-title">Rendu ultra-réaliste</div>
-                <div class="feature-desc">Lumière globale dynamique, ray tracing et Lumen pour des environnements d'une fidélité sans précédent.</div>
-                <div class="feature-arrow"><i class="fas fa-arrow-right"></i></div>
+    <div class="cine-hero-scroll">
+        <span class="cine-hero-scroll-label">Défiler</span>
+        <div class="cine-hero-scroll-line"></div>
+    </div>
+</section>
+
+<!-- ═══════════ BANDEAU DÉFILANT ═══════════ -->
+<div class="cine-marquee">
+    <div class="cine-marquee-track">
+        <div class="cine-marquee-item">Unreal Engine 5.6</div>
+        <div class="cine-marquee-item">PC · Console</div>
+        <div class="cine-marquee-item">Sortie 2027</div>
+        <div class="cine-marquee-item">UNWARE STUDIO</div>
+        <div class="cine-marquee-item">Unreal Engine 5.6</div>
+        <div class="cine-marquee-item">PC · Console</div>
+        <div class="cine-marquee-item">Sortie 2027</div>
+        <div class="cine-marquee-item">UNWARE STUDIO</div>
+    </div>
+</div>
+
+<!-- ═══════════ SECTION DESCRIPTION ═══════════ -->
+<section class="cine-section" id="about">
+    <div class="container">
+        <div class="cine-desc-grid">
+            <div class="cine-desc-meta" data-reveal>
+                <div class="cine-desc-meta-item">
+                    <div class="cine-desc-meta-label">Titre</div>
+                    <div class="cine-desc-meta-value">The Void Protocol</div>
+                </div>
+                <div class="cine-desc-meta-item">
+                    <div class="cine-desc-meta-label">Studio</div>
+                    <div class="cine-desc-meta-value">UNWARE</div>
+                </div>
+                <div class="cine-desc-meta-item">
+                    <div class="cine-desc-meta-label">Moteur</div>
+                    <div class="cine-desc-meta-value">UE 5.6</div>
+                </div>
+                <div class="cine-desc-meta-item">
+                    <div class="cine-desc-meta-label">Sortie</div>
+                    <div class="cine-desc-meta-value">2027</div>
+                </div>
+                <div class="cine-desc-meta-item">
+                    <div class="cine-desc-meta-label">Plateformes</div>
+                    <div class="cine-desc-meta-value">PC / PS / XB</div>
+                </div>
             </div>
-            <div class="feature-row" data-reveal data-delay="1">
-                <div class="feature-num">02</div>
-                <div class="feature-title">Audio immersif</div>
-                <div class="feature-desc">La menace se fait entendre avant de se voir. Votre ouïe devient votre meilleure arme dans l'obscurité.</div>
-                <div class="feature-arrow"><i class="fas fa-arrow-right"></i></div>
-            </div>
-            <div class="feature-row" data-reveal data-delay="2">
-                <div class="feature-num">03</div>
-                <div class="feature-title">Level design</div>
-                <div class="feature-desc">Des niveaux conçus pour désorienter. Chaque recoin recèle une histoire, chaque trappe une issue — ou un piège.</div>
-                <div class="feature-arrow"><i class="fas fa-arrow-right"></i></div>
-            </div>
-            <div class="feature-row" data-reveal data-delay="3">
-                <div class="feature-num">04</div>
-                <div class="feature-title">Narration environnementale</div>
-                <div class="feature-desc">Aucun dialogue imposé. L'histoire se découvre par fragments, à travers l'espace et les objets oubliés.</div>
-                <div class="feature-arrow"><i class="fas fa-arrow-right"></i></div>
+
+            <div>
+                <div class="cine-section-eyebrow" data-reveal>Le jeu</div>
+                <h2 class="cine-section-title" data-reveal data-delay="1">
+                    Une descente<br>
+                    <span class="muted">sans retour</span>
+                </h2>
+
+                <div class="cine-desc-body" data-reveal data-delay="2">
+                    <p class="drop-cap">
+                        <strong>The Void Protocol</strong> est une expérience narrative et immersive qui vous plonge dans un complexe abandonné où chaque couloir, chaque salle, chaque silence raconte une histoire. Développé sous <strong>Unreal Engine 5.6</strong>, le jeu exploite la lumière globale dynamique et le ray tracing pour créer une atmosphère d'une densité rare.
+                    </p>
+                    <p>
+                        Prévu pour <strong>2027</strong> sur PC et consoles, The Void Protocol est pensé comme une descente progressive — une désorientation maîtrisée où votre seule arme est votre attention.
+                    </p>
+                </div>
+
+                <blockquote class="cine-quote" data-reveal data-delay="3">
+                    « La menace se fait entendre <span>avant de se voir.</span> »
+                </blockquote>
             </div>
         </div>
     </div>
 </section>
 
-<div class="section-divider"></div>
-
-<!-- ═══════════ GALLERY ═══════════ -->
-<section class="section" id="gallery">
+<!-- ═══════════ SECTION FEATURES ═══════════ -->
+<section class="cine-section cine-features" id="features">
     <div class="container">
-        <div class="gallery-header">
+        <div class="cine-features-header">
+            <div class="cine-section-eyebrow" data-reveal>Caractéristiques</div>
+            <h2 class="cine-section-title" data-reveal data-delay="1">
+                Ce qui vous attend
+            </h2>
+        </div>
+
+        <div class="cine-features-list">
+            <div class="cine-feature" data-reveal>
+                <div class="cine-feature-num">01</div>
+                <h3 class="cine-feature-title">Rendu<br>ultra-réaliste</h3>
+                <p class="cine-feature-desc">Lumière globale dynamique, ray tracing et Lumen pour des environnements d'une fidélité sans précédent. Chaque surface réagit à la lumière comme dans la réalité.</p>
+            </div>
+            <div class="cine-feature" data-reveal data-delay="1">
+                <div class="cine-feature-num">02</div>
+                <h3 class="cine-feature-title">Audio<br>immersif</h3>
+                <p class="cine-feature-desc">La menace se fait entendre avant de se voir. Un design sonore spatialisé où votre ouïe devient votre meilleure arme dans l'obscurité.</p>
+            </div>
+            <div class="cine-feature" data-reveal data-delay="2">
+                <div class="cine-feature-num">03</div>
+                <h3 class="cine-feature-title">Level<br>design</h3>
+                <p class="cine-feature-desc">Des niveaux conçus pour désorienter et surprendre. Chaque recoin recèle une histoire, chaque trappe une issue — ou un piège.</p>
+            </div>
+            <div class="cine-feature" data-reveal data-delay="3">
+                <div class="cine-feature-num">04</div>
+                <h3 class="cine-feature-title">Narration<br>environnementale</h3>
+                <p class="cine-feature-desc">Aucun dialogue imposé. L'histoire se découvre par fragments, à travers l'espace, les objets oubliés et les traces laissées derrière.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ SECTION GALERIE ═══════════ -->
+<section class="cine-gallery" id="gallery">
+    <div class="container">
+        <div class="cine-gallery-header">
             <div>
-                <span class="t-label" data-reveal>Aperçu</span>
-                <h2 class="t-title" data-reveal data-delay="1">
-                    Captures<br><em>d'écran</em>
+                <div class="cine-section-eyebrow" data-reveal>Galerie</div>
+                <h2 class="cine-section-title" data-reveal data-delay="1">
+                    Captures<br>
+                    <span class="muted">du vide</span>
                 </h2>
             </div>
-            <div class="gallery-count" data-reveal data-delay="2">
-                <strong>06</strong> visuels — The Void Protocol
+            <div class="cine-gallery-counter" data-reveal data-delay="2">
+                <strong>06</strong> visuels / The Void Protocol
             </div>
         </div>
 
-        <div class="gallery-grid">
-            <div class="gallery-item gallery-item--hero" data-reveal data-src="../images/The_Void_Protocol_In_Game/image_website_6.png" data-tag="Environnement" data-title="Zone d'expérimentation">
-                <img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Environnement principal" loading="lazy"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
-                <div class="gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_01</span></div>
-                <div class="gallery-overlay"><div class="gallery-caption"><span class="gallery-tag">Environnement</span><div class="gallery-title">Zone d'expérimentation</div></div></div>
-                <div class="gallery-zoom"><i class="fas fa-expand-alt"></i></div>
+        <div class="cine-gallery-grid">
+            <div class="cine-gallery-item cine-gallery-item--a" data-src="../images/The_Void_Protocol_In_Game/image_website_6.png" data-tag="Environnement" data-title="Zone d'expérimentation">
+                <img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Zone d'expérimentation" loading="lazy"
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
+                <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_01</span></div>
+                <div class="cine-gallery-overlay">
+                    <div class="cine-gallery-info">
+                        <span class="cine-gallery-tag">Environnement</span>
+                        <div class="cine-gallery-name">Zone d'expérimentation</div>
+                    </div>
+                    <div class="cine-gallery-icon"><i class="fas fa-expand-alt"></i></div>
+                </div>
             </div>
 
-            <div class="gallery-item gallery-item--tall" data-reveal data-delay="1" data-src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" data-tag="Niveau" data-title="Couloir 13">
-                <img src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" alt="The Void Protocol - Couloir" loading="lazy"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
-                <div class="gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_02</span></div>
-                <div class="gallery-overlay"><div class="gallery-caption"><span class="gallery-tag">Niveau</span><div class="gallery-title">Couloir 13</div></div></div>
-                <div class="gallery-zoom"><i class="fas fa-expand-alt"></i></div>
+            <div class="cine-gallery-item cine-gallery-item--b" data-src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" data-tag="Niveau" data-title="Couloir 13">
+                <img src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" alt="The Void Protocol - Couloir 13" loading="lazy"
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
+                <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_02</span></div>
+                <div class="cine-gallery-overlay">
+                    <div class="cine-gallery-info">
+                        <span class="cine-gallery-tag">Niveau</span>
+                        <div class="cine-gallery-name">Couloir 13</div>
+                    </div>
+                    <div class="cine-gallery-icon"><i class="fas fa-expand-alt"></i></div>
+                </div>
             </div>
 
-            <div class="gallery-item gallery-item--small" data-reveal data-delay="2" data-src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" data-tag="Décor" data-title="Salle des machines">
+            <div class="cine-gallery-item cine-gallery-item--c" data-src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" data-tag="Décor" data-title="Salle des machines">
                 <img src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" alt="The Void Protocol - Salle des machines" loading="lazy"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
-                <div class="gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>03</span></div>
-                <div class="gallery-overlay"><div class="gallery-caption"><span class="gallery-tag">Décor</span><div class="gallery-title">Salle des machines</div></div></div>
-                <div class="gallery-zoom"><i class="fas fa-expand-alt"></i></div>
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
+                <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>03</span></div>
+                <div class="cine-gallery-overlay">
+                    <div class="cine-gallery-info">
+                        <span class="cine-gallery-tag">Décor</span>
+                        <div class="cine-gallery-name">Salle des machines</div>
+                    </div>
+                    <div class="cine-gallery-icon"><i class="fas fa-expand-alt"></i></div>
+                </div>
             </div>
 
-            <div class="gallery-item gallery-item--small" data-reveal data-delay="3" data-src="../images/The_Void_Protocol_In_Game/image_website_4.png" data-tag="Atmosphère" data-title="Zone intérieur">
+            <div class="cine-gallery-item cine-gallery-item--d" data-src="../images/The_Void_Protocol_In_Game/image_website_4.png" data-tag="Atmosphère" data-title="Zone intérieur">
                 <img src="../images/The_Void_Protocol_In_Game/image_website_4.png" alt="The Void Protocol - Zone intérieur" loading="lazy"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
-                <div class="gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>04</span></div>
-                <div class="gallery-overlay"><div class="gallery-caption"><span class="gallery-tag">Atmosphère</span><div class="gallery-title">Zone intérieur</div></div></div>
-                <div class="gallery-zoom"><i class="fas fa-expand-alt"></i></div>
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
+                <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>04</span></div>
+                <div class="cine-gallery-overlay">
+                    <div class="cine-gallery-info">
+                        <span class="cine-gallery-tag">Atmosphère</span>
+                        <div class="cine-gallery-name">Zone intérieur</div>
+                    </div>
+                    <div class="cine-gallery-icon"><i class="fas fa-expand-alt"></i></div>
+                </div>
             </div>
 
-            <div class="gallery-item gallery-item--mid" data-reveal data-delay="4" data-src="../images/nexa-screen-5.webp" data-tag="Interface" data-title="HUD tactique">
-                <img src="../images/nexa-screen-5.webp" alt="The Void Protocol - Interface" loading="lazy"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
-                <div class="gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>05</span></div>
-                <div class="gallery-overlay"><div class="gallery-caption"><span class="gallery-tag">Interface</span><div class="gallery-title">HUD tactique</div></div></div>
-                <div class="gallery-zoom"><i class="fas fa-expand-alt"></i></div>
+            <div class="cine-gallery-item cine-gallery-item--e" data-src="../images/nexa-screen-5.webp" data-tag="Interface" data-title="HUD tactique">
+                <img src="../images/nexa-screen-5.webp" alt="The Void Protocol - HUD tactique" loading="lazy"
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
+                <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>05</span></div>
+                <div class="cine-gallery-overlay">
+                    <div class="cine-gallery-info">
+                        <span class="cine-gallery-tag">Interface</span>
+                        <div class="cine-gallery-name">HUD tactique</div>
+                    </div>
+                    <div class="cine-gallery-icon"><i class="fas fa-expand-alt"></i></div>
+                </div>
             </div>
 
-            <div class="gallery-item gallery-item--mid" data-reveal data-delay="5" data-src="../images/nexa-screen-6.webp" data-tag="Entité" data-title="Présence">
-                <img src="../images/nexa-screen-6.webp" alt="The Void Protocol - Créature" loading="lazy"
-                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
-                <div class="gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>06</span></div>
-                <div class="gallery-overlay"><div class="gallery-caption"><span class="gallery-tag">Entité</span><div class="gallery-title">Présence</div></div></div>
-                <div class="gallery-zoom"><i class="fas fa-expand-alt"></i></div>
+            <div class="cine-gallery-item cine-gallery-item--f" data-src="../images/nexa-screen-6.webp" data-tag="Entité" data-title="Présence">
+                <img src="../images/nexa-screen-6.webp" alt="The Void Protocol - Présence" loading="lazy"
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
+                <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>06</span></div>
+                <div class="cine-gallery-overlay">
+                    <div class="cine-gallery-info">
+                        <span class="cine-gallery-tag">Entité</span>
+                        <div class="cine-gallery-name">Présence</div>
+                    </div>
+                    <div class="cine-gallery-icon"><i class="fas fa-expand-alt"></i></div>
+                </div>
             </div>
         </div>
     </div>
 </section>
-
-<div class="section-divider"></div>
 
 <!-- ═══════════ NEWSLETTER ═══════════ -->
-<section class="section newsletter" id="newsletter">
+<section class="cine-newsletter" id="newsletter">
     <div class="container">
-        <div class="newsletter-inner">
-            <div>
-                <span class="t-label" data-reveal>Ne manquez pas</span>
-                <h2 class="t-title" data-reveal data-delay="1">
-                    Soyez alerté<br><em>au lancement</em>
-                </h2>
-                <p class="t-body" data-reveal data-delay="2">
-                    Recevez une notification dès que The Void Protocol sera disponible. Aucun spam — juste l'essentiel.
-                </p>
-            </div>
-            <div data-reveal data-delay="3">
-                <form id="notificationForm" class="newsletter-form">
-                    <div class="newsletter-row">
-                        <input type="email" name="email" class="newsletter-input" placeholder="votre@email.com" required>
-                        <button type="submit" class="newsletter-btn">M'informer</button>
-                    </div>
-                    <p class="newsletter-note">Désinscription à tout moment.</p>
-                    <div id="formMessage" class="form-message"></div>
-                </form>
-            </div>
+        <div class="cine-newsletter-inner">
+            <div class="cine-section-eyebrow" data-reveal>Ne manquez pas</div>
+            <h2 class="cine-newsletter-title" data-reveal data-delay="1">
+                Soyez alerté<br>
+                <span class="muted">au lancement</span>
+            </h2>
+            <p class="cine-newsletter-desc" data-reveal data-delay="2">
+                Recevez une notification dès que The Void Protocol sera disponible. Aucun spam — juste l'essentiel.
+            </p>
+            <form id="notificationForm" class="cine-nl-form" data-reveal data-delay="3">
+                <div class="cine-nl-row">
+                    <input type="email" name="email" class="cine-nl-input" placeholder="votre@email.com" required>
+                    <button type="submit" class="cine-nl-btn">M'informer</button>
+                </div>
+                <p class="cine-nl-note">Désinscription à tout moment</p>
+                <div id="formMessage" class="cine-form-message"></div>
+            </form>
         </div>
     </div>
 </section>
@@ -1334,111 +1366,12 @@
         document.addEventListener('keydown', e => { if(e.key==='Escape'&&mobileNav.classList.contains('active'))closeMenu(); });
     });
 
-    /* ── TERMINAL ANIMÉ ── */
+    /* ── HEADER SCROLLED ── */
     (function() {
-        const body = document.getElementById('terminalBody');
-        if (!body) return;
-
-        const lines = [
-            { type: 'cmd', text: 'system --check' },
-            { type: 'out', text: 'Initializing void protocol...' },
-            { type: 'out', text: 'Loading assets <span class="hl">[OK]</span>' },
-            { type: 'out', text: 'Calibrating sensors <span class="hl">[OK]</span>' },
-            { type: 'cmd', text: 'status --deploy' },
-            { type: 'out', text: 'Target release: <span class="hl">2027</span>' }
-        ];
-
-        let lineIndex = 0;
-        let charIndex = 0;
-        let currentSpan = null;
-
-        function createLine(lineData) {
-            const div = document.createElement('span');
-            div.className = 'hero-terminal-line';
-            const prompt = document.createElement('span');
-            prompt.className = 'hero-terminal-prompt';
-            prompt.textContent = '>';
-            const content = document.createElement('span');
-            content.className = lineData.type === 'cmd' ? 'hero-terminal-cmd' : 'hero-terminal-output';
-            if (lineData.type === 'out') {
-                content.innerHTML = lineData.text;
-                div.appendChild(content);
-                body.appendChild(div);
-                return;
-            }
-            content.textContent = '';
-            div.appendChild(prompt);
-            div.appendChild(content);
-            body.appendChild(div);
-            currentSpan = content;
-        }
-
-        function typeNext() {
-            if (lineIndex >= lines.length) {
-                const cursorLine = document.createElement('span');
-                cursorLine.className = 'hero-terminal-line';
-                cursorLine.innerHTML = '<span class="hero-terminal-prompt">></span><span class="hero-terminal-cursor"></span>';
-                body.appendChild(cursorLine);
-                return;
-            }
-            const lineData = lines[lineIndex];
-            if (lineData.type === 'out') {
-                createLine(lineData);
-                lineIndex++;
-                setTimeout(typeNext, 180);
-                return;
-            }
-            createLine(lineData);
-            charIndex = 0;
-            function typeChar() {
-                if (charIndex < lineData.text.length) {
-                    currentSpan.textContent += lineData.text[charIndex];
-                    charIndex++;
-                    setTimeout(typeChar, 40);
-                } else {
-                    lineIndex++;
-                    setTimeout(typeNext, 300);
-                }
-            }
-            typeChar();
-        }
-        setTimeout(typeNext, 1200);
-    })();
-
-    /* ── CANVAS PARTICULES ── */
-    (function() {
-        const canvas = document.getElementById('heroCanvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        const section = canvas.parentElement;
-
-        function resize() { canvas.width = section.offsetWidth; canvas.height = section.offsetHeight; }
-        resize();
-        window.addEventListener('resize', resize);
-
-        const pts = Array.from({length: 50}, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            r: Math.random() * 1 + 0.2,
-            vy: -(Math.random() * 0.2 + 0.05),
-            vx: (Math.random() - 0.5) * 0.08,
-            o: Math.random() * 0.25 + 0.04,
-            life: Math.random()
-        }));
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            pts.forEach(p => {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255,255,255,' + (p.o * Math.sin(p.life * Math.PI)).toFixed(3) + ')';
-                ctx.fill();
-                p.x += p.vx; p.y += p.vy; p.life += 0.003;
-                if (p.life >= 1) { p.life = 0; p.x = Math.random() * canvas.width; p.y = canvas.height + 10; }
-            });
-            requestAnimationFrame(draw);
-        }
-        draw();
+        const header = document.getElementById('siteHeader');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 60);
+        }, { passive: true });
     })();
 
     /* ── SCROLL REVEAL ── */
@@ -1449,34 +1382,18 @@
                 revealObs.unobserve(e.target);
             }
         });
-    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
     document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
 
-    /* ── BARRE DE PROGRESSION ── */
-    (function() {
-        const bar = document.getElementById('progressBar');
-        let ticking = false;
-        function update() {
-            const h = document.documentElement.scrollHeight - window.innerHeight;
-            const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
-            bar.style.width = pct + '%';
-            ticking = false;
-        }
-        window.addEventListener('scroll', () => {
-            if (!ticking) { requestAnimationFrame(update); ticking = true; }
-        });
-        update();
-    })();
-
     /* ── SCROLL TO TOP ── */
     const scrollToTop = document.getElementById('scrollToTop');
-    window.addEventListener('scroll', () => scrollToTop.classList.toggle('active', window.scrollY > 500));
+    window.addEventListener('scroll', () => scrollToTop.classList.toggle('active', window.scrollY > 600));
     scrollToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
     /* ── LIGHTBOX ── */
     (function() {
-        const items = Array.from(document.querySelectorAll('.gallery-item'));
+        const items = Array.from(document.querySelectorAll('.cine-gallery-item'));
         if (!items.length) return;
 
         const lightbox      = document.getElementById('lightbox');
@@ -1553,8 +1470,8 @@
 
         if (!emailRegex.test(email)) {
             formMessage.textContent = 'Veuillez entrer une adresse email valide.';
-            formMessage.className = 'form-message error';
-            setTimeout(() => formMessage.className = 'form-message', 5000);
+            formMessage.className = 'cine-form-message error';
+            setTimeout(() => formMessage.className = 'cine-form-message', 5000);
             return;
         }
         submitBtn.textContent = 'Inscription...';
@@ -1567,19 +1484,19 @@
             });
             if (response.status === 409) {
                 formMessage.textContent = 'Vous êtes déjà inscrit !';
-                formMessage.className = 'form-message error';
+                formMessage.className = 'cine-form-message error';
             } else if (response.ok) {
                 formMessage.textContent = 'Merci ! Vous serez informé dès le lancement en 2027.';
-                formMessage.className = 'form-message success';
+                formMessage.className = 'cine-form-message success';
                 this.reset();
             } else throw new Error();
         } catch {
             formMessage.textContent = 'Une erreur est survenue. Veuillez réessayer.';
-            formMessage.className = 'form-message error';
+            formMessage.className = 'cine-form-message error';
         } finally {
             submitBtn.textContent = "M'informer";
             submitBtn.disabled = false;
-            setTimeout(() => formMessage.className = 'form-message', 6000);
+            setTimeout(() => formMessage.className = 'cine-form-message', 6000);
         }
     });
 </script>
