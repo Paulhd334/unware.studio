@@ -8,23 +8,23 @@
 
     <title>The Void Protocol | UNWARE STUDIO</title>
 
-    <meta name="description" content="The Void Protocol arrive en 2027 ! Une expérience de jeu sous Unreal Engine 5.6 développé par UNWARE STUDIO. Inscrivez-vous pour être informé du lancement.">
-    <meta name="keywords" content="The Void Protocol, jeu vidéo 2027, Unreal Engine 5, sortie 2027">
+    <meta name="description" content="The Void Protocol arrive en 2027 ! Une expérience de jeu PC sous Unreal Engine 5.6 développé par UNWARE STUDIO. Inscrivez-vous pour être informé du lancement.">
+    <meta name="keywords" content="The Void Protocol, jeu vidéo 2027, Unreal Engine 5, sortie 2027, jeu PC">
     <meta name="author" content="UNWARE STUDIO">
     <meta name="robots" content="index, follow">
 
     <link rel="canonical" href="https://unware.studio/nexa/the_void_protocol.html">
 
     <meta property="og:url" content="https://unware.studio/nexa/the_void_protocol.html">
-    <meta property="og:title" content="The Void Protocol - Disponible en 2027 | UNWARE STUDIO">
-    <meta property="og:description" content="The Void Protocol arrive en 2027 ! Jeu développé avec Unreal Engine 5.6. Inscrivez-vous pour être informé du lancement.">
+    <meta property="og:title" content="The Void Protocol - Disponible en 2027 sur PC | UNWARE STUDIO">
+    <meta property="og:description" content="The Void Protocol arrive en 2027 sur PC ! Jeu développé avec Unreal Engine 5.6. Inscrivez-vous pour être informé du lancement.">
     <meta property="og:image" content="https://unware.studio/images/nexa-screen.webp">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="UNWARE STUDIO">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="The Void Protocol - Disponible en 2027">
-    <meta name="twitter:description" content="The Void Protocol arrive en 2027 ! Jeu développé avec Unreal Engine 5.6.">
+    <meta name="twitter:title" content="The Void Protocol - Disponible en 2027 sur PC">
+    <meta name="twitter:description" content="The Void Protocol arrive en 2027 sur PC ! Jeu développé avec Unreal Engine 5.6.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -169,9 +169,7 @@
             .nav-container { padding: 0 15px; }
         }
 
-        /* ═══════════════════════════════════════════════════════
-           HERO
-           ═══════════════════════════════════════════════════════ */
+        /* ═══════════ HERO ═══════════ */
         .cine-hero {
             position: relative;
             height: 100vh;
@@ -612,11 +610,7 @@
             font-weight: 300;
         }
 
-        /* ═══════════════════════════════════════════════════════
-           GALERIE — REFONTE COMPLÈTE
-           Grille CSS explicite avec zones nommées
-           Chaque image a son aspect-ratio fixe
-           ═══════════════════════════════════════════════════════ */
+        /* ═══════════ GALERIE ═══════════ */
         .cine-gallery {
             padding: 140px 0;
             overflow-x: clip;
@@ -639,7 +633,6 @@
         }
         .cine-gallery-counter strong { color: #fff; font-weight: 700; }
 
-        /* ── Grille desktop : 12 colonnes / 2 rangées fixes ── */
         .cine-gallery-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
@@ -647,7 +640,6 @@
             gap: 12px;
         }
 
-        /* ── Cellules avec positions explicites ── */
         .cine-gallery-item {
             position: relative;
             overflow: hidden;
@@ -662,7 +654,6 @@
             border-radius: 2px;
         }
 
-        /* Position explicite dans la grille */
         .cine-gallery-item--a {
             grid-column: 1 / 8;
             grid-row: 1 / 2;
@@ -694,7 +685,6 @@
             aspect-ratio: 21 / 7;
         }
 
-        /* ── États de départ (arrivent de tous les côtés) ── */
         .cine-gallery-item--a { transform: translate3d(-100%, 0, 0) rotate(-5deg); }
         .cine-gallery-item--b { transform: translate3d(100%, -20%, 0) rotate(6deg); }
         .cine-gallery-item--c { transform: translate3d(-50%, 100%, 0) rotate(-8deg); }
@@ -702,13 +692,11 @@
         .cine-gallery-item--e { transform: translate3d(50%, 100%, 0) rotate(7deg); }
         .cine-gallery-item--f { transform: translate3d(0, 100%, 0) rotate(-4deg); }
 
-        /* ── État final ── */
         .cine-gallery-item.is-visible {
             opacity: 1;
             transform: translate3d(0, 0, 0) rotate(0deg);
         }
 
-        /* ── Cascade des délais ── */
         .cine-gallery-item--a.is-visible { transition-delay: 0.05s; }
         .cine-gallery-item--b.is-visible { transition-delay: 0.15s; }
         .cine-gallery-item--c.is-visible { transition-delay: 0.25s; }
@@ -716,7 +704,6 @@
         .cine-gallery-item--e.is-visible { transition-delay: 0.45s; }
         .cine-gallery-item--f.is-visible { transition-delay: 0.55s; }
 
-        /* ── Image interne parfaitement calée ── */
         .cine-gallery-item img {
             position: absolute;
             inset: 0;
@@ -739,7 +726,6 @@
             }
         }
 
-        /* ── Halo au moment de la révélation ── */
         .cine-gallery-item::before {
             content: '';
             position: absolute;
@@ -757,7 +743,6 @@
             100% { opacity: 0; }
         }
 
-        /* ── Overlay ── */
         .cine-gallery-overlay {
             position: absolute; inset: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.4) 40%, transparent 70%);
@@ -1097,9 +1082,14 @@
         }
 
         /* ═══════════════════════════════════════════════════
-           iPHONE 11 → iPHONE 18 (375px - 430px)
-           + Android (360px - 430px)
+           MOBILE — iPHONE 11 → iPHONE 18 + ANDROID
+           Flèches lightbox masquées sur mobile
            ═══════════════════════════════════════════════════ */
+
+        /* ── Masquer les flèches de lightbox sur tous les mobiles ── */
+        @media (max-width: 768px) {
+            .cine-lightbox-nav { display: none !important; }
+        }
 
         /* ── iPHONE 14 Pro Max / 15 Pro Max / 16 Pro Max / S24 Ultra (430px) ── */
         @media (max-width: 480px) {
@@ -1132,13 +1122,11 @@
             .cine-gallery-header { margin-bottom: 40px; gap: 20px; }
             .cine-gallery-counter { font-size: 10px; }
 
-            /* ── Galerie iPhone : layout 2 colonnes stable ── */
             .cine-gallery-grid {
                 grid-template-columns: repeat(2, 1fr);
                 grid-template-rows: auto;
                 gap: 10px;
             }
-            /* Réinitialiser toutes les positions */
             .cine-gallery-item--a,
             .cine-gallery-item--b,
             .cine-gallery-item--c,
@@ -1149,13 +1137,11 @@
                 grid-row: auto;
                 aspect-ratio: 4 / 5;
             }
-            /* A : pleine largeur */
             .cine-gallery-item--a {
                 grid-column: 1 / 3;
                 grid-row: 1;
                 aspect-ratio: 16 / 10;
             }
-            /* B, C : 2 colonnes côte à côte */
             .cine-gallery-item--b {
                 grid-column: 1 / 2;
                 grid-row: 2;
@@ -1166,7 +1152,6 @@
                 grid-row: 2;
                 aspect-ratio: 1 / 1;
             }
-            /* D, E : 2 colonnes côte à côte */
             .cine-gallery-item--d {
                 grid-column: 1 / 2;
                 grid-row: 3;
@@ -1177,14 +1162,12 @@
                 grid-row: 3;
                 aspect-ratio: 1 / 1;
             }
-            /* F : pleine largeur */
             .cine-gallery-item--f {
                 grid-column: 1 / 3;
                 grid-row: 4;
                 aspect-ratio: 16 / 9;
             }
 
-            /* Animations adaptées aux petits écrans (déplacements réduits) */
             .cine-gallery-item--a { transform: translate3d(-60%, 0, 0) rotate(-3deg); }
             .cine-gallery-item--b { transform: translate3d(-60%, 0, 0) rotate(-3deg); }
             .cine-gallery-item--c { transform: translate3d(60%, 0, 0) rotate(3deg); }
@@ -1205,8 +1188,7 @@
 
             .cine-lightbox-wrap { max-width: 94vw; max-height: 78vh; }
             .cine-lightbox-wrap img { max-width: 94vw; max-height: 78vh; }
-            .cine-lightbox-close { top: 10px; right: 10px; width: 38px; height: 38px; }
-            .cine-lightbox-nav { width: 40px; height: 40px; font-size: 13px; }
+            .cine-lightbox-close { top: 10px; right: 10px; width: 40px; height: 40px; }
             .cine-lightbox-caption { padding: 18px 20px; }
 
             .scroll-to-top {
@@ -1253,7 +1235,7 @@
             .cine-nl-btn { padding: 16px 20px; font-size: 11px; }
         }
 
-        /* ── iPHONE SE 1ère/2ème/3ème gen (320px) — Galaxy A bas de gamme ── */
+        /* ── iPHONE SE / Galaxy A bas de gamme (320px) ── */
         @media (max-width: 340px) {
             .cine-section { padding: 60px 0; }
             .cine-hero-title { font-size: 40px; }
@@ -1265,7 +1247,6 @@
             .cine-feature-num { font-size: 30px; }
             .cine-gallery-name { font-size: 15px; }
 
-            /* Sur 320px : passer en 1 colonne */
             .cine-gallery-grid { grid-template-columns: 1fr; }
             .cine-gallery-item--a,
             .cine-gallery-item--b,
@@ -1279,7 +1260,7 @@
             }
         }
 
-        /* ── Mode paysage mobile (hauteur < 500px) ── */
+        /* ── Mode paysage mobile ── */
         @media (max-height: 500px) and (orientation: landscape) {
             .cine-hero { height: auto; min-height: 100dvh; padding: 100px 0 40px; }
             .cine-hero-title { font-size: clamp(40px, 8vw, 72px); }
@@ -1381,7 +1362,7 @@
 
     <div class="cine-hero-top">
         <div class="cine-hero-top-left">Unreal Engine 5.6</div>
-        <div class="cine-hero-top-right">Sortie — 2027</div>
+        <div class="cine-hero-top-right">Sortie — 2027 sur PC</div>
     </div>
 
     <div class="cine-hero-content">
@@ -1392,7 +1373,7 @@
 
         <div class="cine-hero-bottom">
             <p class="cine-hero-desc">
-                Une expérience conçue pour <strong>désorienter</strong>. Lumière globale dynamique, audio immersif, level design impitoyable.
+                Une expérience conçue pour <strong>désorienter</strong>. Lumière globale dynamique, audio immersif, level design impitoyable. <strong>Sur PC uniquement.</strong>
             </p>
             <div class="cine-hero-actions">
                 <a href="#newsletter" class="cine-btn cine-btn-primary">
@@ -1417,11 +1398,11 @@
 <div class="cine-marquee">
     <div class="cine-marquee-track">
         <div class="cine-marquee-item">Unreal Engine 5.6</div>
-        <div class="cine-marquee-item">PC · Console</div>
+        <div class="cine-marquee-item">PC uniquement</div>
         <div class="cine-marquee-item">Sortie 2027</div>
         <div class="cine-marquee-item">UNWARE STUDIO</div>
         <div class="cine-marquee-item">Unreal Engine 5.6</div>
-        <div class="cine-marquee-item">PC · Console</div>
+        <div class="cine-marquee-item">PC uniquement</div>
         <div class="cine-marquee-item">Sortie 2027</div>
         <div class="cine-marquee-item">UNWARE STUDIO</div>
     </div>
@@ -1449,8 +1430,8 @@
                     <div class="cine-desc-meta-value">2027</div>
                 </div>
                 <div class="cine-desc-meta-item">
-                    <div class="cine-desc-meta-label">Plateformes</div>
-                    <div class="cine-desc-meta-value">PC / PS / XB</div>
+                    <div class="cine-desc-meta-label">Plateforme</div>
+                    <div class="cine-desc-meta-value">PC uniquement</div>
                 </div>
             </div>
 
@@ -1466,7 +1447,7 @@
                         <strong>The Void Protocol</strong> est une expérience narrative et immersive qui vous plonge dans un complexe abandonné où chaque couloir, chaque salle, chaque silence raconte une histoire. Développé sous <strong>Unreal Engine 5.6</strong>, le jeu exploite la lumière globale dynamique et le ray tracing pour créer une atmosphère d'une densité rare.
                     </p>
                     <p>
-                        Prévu pour <strong>2027</strong> sur PC et consoles, The Void Protocol est pensé comme une descente progressive — une désorientation maîtrisée où votre seule arme est votre attention.
+                        Prévu pour <strong>2027</strong> sur <strong>PC uniquement</strong>, The Void Protocol est pensé comme une descente progressive — une désorientation maîtrisée où votre seule arme est votre attention.
                     </p>
                 </div>
 
@@ -1621,7 +1602,7 @@
                 <span class="muted">au lancement</span>
             </h2>
             <p class="cine-newsletter-desc" data-reveal data-delay="2">
-                Recevez une notification dès que The Void Protocol sera disponible. Aucun spam — juste l'essentiel.
+                Recevez une notification dès que The Void Protocol sera disponible sur PC. Aucun spam — juste l'essentiel.
             </p>
             <form id="notificationForm" class="cine-nl-form" data-reveal data-delay="3">
                 <div class="cine-nl-row">
@@ -1643,7 +1624,7 @@
         <div class="footer-logo">
           <span class="footer-logo-text">The void protocol</span>
         </div>
-        <p class="footer-desc">Un jeu développé par UNWARE STUDIO.</p>
+        <p class="footer-desc">Un jeu PC développé par UNWARE STUDIO.</p>
         <div class="social-links">
           <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer">
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -1882,7 +1863,7 @@
                 formMessage.textContent = 'Vous êtes déjà inscrit !';
                 formMessage.className = 'cine-form-message error';
             } else if (response.ok) {
-                formMessage.textContent = 'Merci ! Vous serez informé dès le lancement en 2027.';
+                formMessage.textContent = 'Merci ! Vous serez informé dès le lancement en 2027 sur PC.';
                 formMessage.className = 'cine-form-message success';
                 this.reset();
             } else throw new Error();
