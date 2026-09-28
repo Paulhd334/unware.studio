@@ -74,18 +74,14 @@
         body.no-scroll { overflow: hidden; }
         .container { width: 90%; max-width: 1200px; margin: 0 auto; }
 
-        /* ═══════════ HEADER ═══════════ */
+        /* ═══════════ HEADER (identique index.html) ═══════════ */
         header {
             position: fixed; top: 0; width: 100%;
             padding: 20px 0; z-index: 1000;
-            background: transparent;
-            transition: all 0.5s ease;
-        }
-        header.scrolled {
-            background: rgba(10,10,10,0.9);
+            background: rgba(10,10,10,0.95);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
-            padding: 14px 0;
+            transition: var(--transition);
         }
         .nav-container { display: flex; justify-content: space-between; align-items: center; }
         .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
@@ -93,11 +89,17 @@
         .logo-text { display: flex; align-items: center; }
         .studio-logo { max-width: 150px; height: auto; object-fit: contain; transition: transform 0.3s ease, filter 0.3s ease; }
         .nav-links { display: flex; list-style: none; gap: 40px; }
-        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; transition: var(--transition); }
+        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 14px; letter-spacing: 0.5px; transition: var(--transition); }
         .nav-links a:hover { color: var(--accent); }
         .nav-actions { display: flex; gap: 15px; align-items: center; }
 
-        /* ── MOBILE MENU ── */
+        .btn { padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 500; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1; }
+        .btn-login { color: var(--text); background: transparent; border: 1px solid var(--border); height: 42px; }
+        .btn-login:hover { background: rgba(255,255,255,0.05); transform: translateY(-2px); }
+        .btn-primary { background: var(--accent); color: var(--primary); border: none; height: 42px; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+        /* ═══════════ MOBILE MENU (identique index.html) ═══════════ */
         .mobile-menu {
             display: none; font-size: 24px; cursor: pointer; color: var(--accent);
             z-index: 1001; transition: var(--transition); padding: 8px; border-radius: 4px;
@@ -147,7 +149,7 @@
         .mobile-nav-actions .btn { text-align: center; width: 100%; padding: 14px 20px; border-radius: 8px; font-weight: 600; height: auto; }
 
         @media (max-width: 768px) {
-            .nav-links { display: none; }
+            .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
             .mobile-menu { display: flex; }
             .studio-logo { display: none; }
             header { padding: 12px 0; }
@@ -155,7 +157,7 @@
         }
 
         /* ═══════════════════════════════════════════════════════
-           REFONTE CINÉMATOGRAPHIQUE — IMMERSIVE FULLSCREEN
+           REFONTE CINÉMATOGRAPHIQUE + EFFETS IMAGES ULTRA STYLÉS
            ═══════════════════════════════════════════════════════ */
 
         /* ── HERO PLEIN ÉCRAN IMMERSIF ── */
@@ -168,7 +170,6 @@
             background: #000;
         }
 
-        /* Image de fond plein écran */
         .cine-hero-bg {
             position: absolute;
             inset: 0;
@@ -185,7 +186,6 @@
             to   { transform: scale(1.18); }
         }
 
-        /* Vignette cinématographique */
         .cine-hero-vignette {
             position: absolute; inset: 0;
             background:
@@ -194,7 +194,6 @@
             z-index: 2;
         }
 
-        /* Grain / scanlines */
         .cine-hero-grain {
             position: absolute; inset: 0;
             background-image: repeating-linear-gradient(
@@ -205,7 +204,6 @@
             pointer-events: none;
         }
 
-        /* Contenu du hero */
         .cine-hero-content {
             position: absolute;
             inset: 0;
@@ -219,7 +217,6 @@
             width: 100%;
         }
 
-        /* Petit label en haut */
         .cine-hero-top {
             position: absolute;
             top: 110px;
@@ -256,7 +253,6 @@
             color: rgba(255,255,255,0.5);
         }
 
-        /* Titre monstrueux */
         .cine-hero-title {
             font-family: 'Bebas Neue', sans-serif;
             font-weight: 400;
@@ -288,7 +284,6 @@
             to { transform: translateY(0); }
         }
 
-        /* Bas du hero : description + actions */
         .cine-hero-bottom {
             display: flex;
             justify-content: space-between;
@@ -336,7 +331,6 @@
             color: #0a0a0a;
         }
         .cine-btn-primary:hover {
-            background: #fff;
             transform: translateY(-3px);
             box-shadow: 0 20px 40px rgba(255,255,255,0.15);
         }
@@ -351,7 +345,6 @@
             color: #fff;
         }
 
-        /* Indicateur de scroll en bas à droite */
         .cine-hero-scroll {
             position: absolute;
             bottom: 8vh;
@@ -397,7 +390,7 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* ═══════════ BANDEAU DÉFILANT (MARQUEE) ═══════════ */
+        /* ═══════════ BANDEAU DÉFILANT ═══════════ */
         .cine-marquee {
             background: var(--primary);
             border-top: 1px solid var(--border);
@@ -468,7 +461,6 @@
             color: rgba(255,255,255,0.15);
         }
 
-        /* Description : gros paragraphe éditorial */
         .cine-desc-grid {
             display: grid;
             grid-template-columns: 1fr 2fr;
@@ -517,7 +509,6 @@
         }
         .cine-desc-body strong { color: #fff; font-weight: 500; }
 
-        /* Citation mise en avant */
         .cine-quote {
             margin: 60px 0;
             padding-left: 32px;
@@ -532,7 +523,7 @@
         }
         .cine-quote span { color: rgba(255,255,255,0.4); }
 
-        /* ═══════════ SECTION FEATURES — 3 BLOCS IMMERSIFS ═══════════ */
+        /* ═══════════ FEATURES ═══════════ */
         .cine-features {
             background: var(--secondary);
             border-top: 1px solid var(--border);
@@ -550,7 +541,6 @@
         .cine-features-list {
             display: flex;
             flex-direction: column;
-            gap: 0;
         }
         .cine-feature {
             display: grid;
@@ -612,9 +602,12 @@
             .cine-feature-num { font-size: 48px; }
         }
 
-        /* ═══════════ SECTION GALERIE ═══════════ */
+        /* ═══════════════════════════════════════════════════════
+           GALERIE — EFFET ULTRA STYLÉ : IMAGES DE TOUS LES CÔTÉS
+           ═══════════════════════════════════════════════════════ */
         .cine-gallery {
             padding: 140px 0;
+            overflow: hidden;
         }
         .cine-gallery-header {
             display: flex;
@@ -638,26 +631,49 @@
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             gap: 10px;
+            perspective: 1600px;
         }
+
+        /* ── ÉTAT INITIAL : chaque image part d'un côté différent ── */
         .cine-gallery-item {
             position: relative;
             overflow: hidden;
             background: #0d0d0d;
             cursor: pointer;
             opacity: 0;
-            transform: scale(0.97);
-            transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
-                        transform 0.9s cubic-bezier(0.16,1,0.3,1);
+            filter: blur(14px) brightness(1.4);
+            transform-style: preserve-3d;
+            will-change: transform, opacity, filter;
+            transition:
+                opacity 1.2s cubic-bezier(0.16,1,0.3,1),
+                transform 1.4s cubic-bezier(0.16,1,0.3,1),
+                filter 1s cubic-bezier(0.16,1,0.3,1);
         }
-        .cine-gallery-item.is-visible { opacity: 1; transform: scale(1); }
-        .cine-gallery-item:nth-child(1).is-visible { transition-delay: 0.05s; }
-        .cine-gallery-item:nth-child(2).is-visible { transition-delay: 0.12s; }
-        .cine-gallery-item:nth-child(3).is-visible { transition-delay: 0.19s; }
-        .cine-gallery-item:nth-child(4).is-visible { transition-delay: 0.26s; }
-        .cine-gallery-item:nth-child(5).is-visible { transition-delay: 0.33s; }
-        .cine-gallery-item:nth-child(6).is-visible { transition-delay: 0.4s; }
 
-        /* Layout asymétrique fort */
+        /* Position de départ — de TOUS les côtés */
+        .cine-gallery-item--a { transform: translate3d(-140%, -40%, 0) rotateZ(-8deg) scale(0.85); }
+        .cine-gallery-item--b { transform: translate3d(140%, -20%, 0) rotateZ(10deg) scale(0.85); }
+        .cine-gallery-item--c { transform: translate3d(-80%, 120%, 0) rotateZ(-12deg) scale(0.85); }
+        .cine-gallery-item--d { transform: translate3d(60%, -120%, 0) rotateZ(8deg) scale(0.85); }
+        .cine-gallery-item--e { transform: translate3d(120%, 80%, 0) rotateZ(15deg) scale(0.85); }
+        .cine-gallery-item--f { transform: translate3d(0%, 140%, 0) rotateZ(-6deg) scale(0.85); }
+
+        /* État final — centré, net, droit */
+        .cine-gallery-item.is-visible {
+            opacity: 1;
+            filter: blur(0) brightness(1);
+            transform: translate3d(0, 0, 0) rotateZ(0deg) scale(1);
+        }
+
+        /* Délais échelonnés pour un effet cascade */
+        .cine-gallery-item--a.is-visible { transition-delay: 0.05s; }
+        .cine-gallery-item--b.is-visible { transition-delay: 0.15s; }
+        .cine-gallery-item--c.is-visible { transition-delay: 0.25s; }
+        .cine-gallery-item--d.is-visible { transition-delay: 0.35s; }
+        .cine-gallery-item--e.is-visible { transition-delay: 0.45s; }
+        .cine-gallery-item--f.is-visible { transition-delay: 0.55s; }
+
+        /* Layout asymétrique */
         .cine-gallery-item--a { grid-column: span 7; aspect-ratio: 16/10; }
         .cine-gallery-item--b { grid-column: span 5; aspect-ratio: 5/6; }
         .cine-gallery-item--c { grid-column: span 4; aspect-ratio: 1/1; }
@@ -674,7 +690,27 @@
         }
         .cine-gallery-item:hover img {
             filter: grayscale(0%) brightness(1);
-            transform: scale(1.04);
+            transform: scale(1.06);
+        }
+
+        /* Lueur sur les bords à l'arrivée */
+        .cine-gallery-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            box-shadow: inset 0 0 60px rgba(255,255,255,0.4);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 5;
+            transition: opacity 0.8s ease;
+        }
+        .cine-gallery-item.is-visible::before {
+            opacity: 0;
+            animation: cineFlash 1.4s ease-out forwards;
+        }
+        @keyframes cineFlash {
+            0% { opacity: 0.9; }
+            100% { opacity: 0; }
         }
 
         /* Overlay au survol */
@@ -807,7 +843,7 @@
             .cine-lightbox-next { right: 10px; }
         }
 
-        /* ═══════════ NEWSLETTER — GRAND BLOC FINAL ═══════════ */
+        /* ═══════════ NEWSLETTER ═══════════ */
         .cine-newsletter {
             position: relative;
             padding: 160px 0;
@@ -926,7 +962,7 @@
             .cine-nl-btn { padding: 20px; }
         }
 
-        /* ═══════════ FOOTER ═══════════ */
+        /* ═══════════ FOOTER (identique index.html) ═══════════ */
         footer { background: var(--secondary); padding: 80px 0 40px; border-top: 1px solid var(--border); }
         .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px; }
         .footer-brand { max-width: 300px; }
@@ -965,8 +1001,8 @@
     <div class="cine-lightbox-nav cine-lightbox-next" id="lightboxNext" aria-label="Suivant"><i class="fas fa-chevron-right"></i></div>
 </div>
 
-<!-- ═══════════ HEADER ═══════════ -->
-<header id="siteHeader">
+<!-- ═══════════ HEADER (identique index.html) ═══════════ -->
+<header>
     <div class="container nav-container">
         <div class="logo">
             <div class="logo-icon"><i class="fas fa-temple"></i></div>
@@ -1061,7 +1097,7 @@
     </div>
 </div>
 
-<!-- ═══════════ SECTION DESCRIPTION ═══════════ -->
+<!-- ═══════════ DESCRIPTION ═══════════ -->
 <section class="cine-section" id="about">
     <div class="container">
         <div class="cine-desc-grid">
@@ -1112,7 +1148,7 @@
     </div>
 </section>
 
-<!-- ═══════════ SECTION FEATURES ═══════════ -->
+<!-- ═══════════ FEATURES ═══════════ -->
 <section class="cine-section cine-features" id="features">
     <div class="container">
         <div class="cine-features-header">
@@ -1147,7 +1183,7 @@
     </div>
 </section>
 
-<!-- ═══════════ SECTION GALERIE ═══════════ -->
+<!-- ═══════════ GALERIE — EFFET ULTRA STYLÉ ═══════════ -->
 <section class="cine-gallery" id="gallery">
     <div class="container">
         <div class="cine-gallery-header">
@@ -1163,7 +1199,7 @@
             </div>
         </div>
 
-        <div class="cine-gallery-grid">
+        <div class="cine-gallery-grid" id="galleryGrid">
             <div class="cine-gallery-item cine-gallery-item--a" data-src="../images/The_Void_Protocol_In_Game/image_website_6.png" data-tag="Environnement" data-title="Zone d'expérimentation">
                 <img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Zone d'expérimentation" loading="lazy"
                      onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
@@ -1269,7 +1305,7 @@
     </div>
 </section>
 
-<!-- ═══════════ FOOTER ═══════════ -->
+<!-- ═══════════ FOOTER (identique index.html) ═══════════ -->
 <footer>
   <div class="container">
     <div class="footer-content">
@@ -1366,14 +1402,6 @@
         document.addEventListener('keydown', e => { if(e.key==='Escape'&&mobileNav.classList.contains('active'))closeMenu(); });
     });
 
-    /* ── HEADER SCROLLED ── */
-    (function() {
-        const header = document.getElementById('siteHeader');
-        window.addEventListener('scroll', () => {
-            header.classList.toggle('scrolled', window.scrollY > 60);
-        }, { passive: true });
-    })();
-
     /* ── SCROLL REVEAL ── */
     const revealObs = new IntersectionObserver((entries) => {
         entries.forEach(e => {
@@ -1385,6 +1413,46 @@
     }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
     document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
+
+    /* ── GALERIE : RÉVÉLATION ULTRA STYLÉE (les images arrivent de tous les côtés) ── */
+    (function() {
+        const galleryItems = document.querySelectorAll('.cine-gallery-item');
+        if (!galleryItems.length) return;
+
+        /* Observer avec seuil bas pour déclencher dès qu'une image entre à l'écran */
+        const galleryObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('is-visible');
+                    galleryObs.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
+
+        galleryItems.forEach(item => galleryObs.observe(item));
+
+        /* ── Effet parallaxe subtil au scroll (les images "respirent" une fois révélées) ── */
+        let ticking = false;
+        function parallax() {
+            const items = document.querySelectorAll('.cine-gallery-item.is-visible');
+            items.forEach((item, i) => {
+                const rect = item.getBoundingClientRect();
+                const centerOffset = (rect.top + rect.height / 2 - window.innerHeight / 2) / window.innerHeight;
+                // Décalage léger selon la position + direction selon index pair/impair
+                const dir = i % 2 === 0 ? 1 : -1;
+                const translateY = centerOffset * 14 * dir;
+                // On n'applique le parallaxe que si l'item n'est pas en cours de révélation
+                if (!item.dataset.animating) {
+                    item.style.setProperty('--parallax-y', translateY + 'px');
+                }
+            });
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) { requestAnimationFrame(parallax); ticking = true; }
+        }, { passive: true });
+    })();
 
     /* ── SCROLL TO TOP ── */
     const scrollToTop = document.getElementById('scrollToTop');
