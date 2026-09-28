@@ -2,7 +2,8 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
 
     <title>The Void Protocol | UNWARE STUDIO</title>
 
@@ -68,18 +69,29 @@
             --transition: all 0.3s ease;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { background-color: var(--primary); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
         body.no-scroll { overflow: hidden; }
         .container { width: 90%; max-width: 1200px; margin: 0 auto; }
 
-        /* ═══════════ HEADER (identique index.html) ═══════════ */
+        /* ═══════════ HEADER ═══════════ */
         header {
             position: fixed; top: 0; width: 100%;
             padding: 20px 0; z-index: 1000;
             background: rgba(10,10,10,0.95);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             transition: var(--transition);
         }
@@ -99,7 +111,7 @@
         .btn-primary { background: var(--accent); color: var(--primary); border: none; height: 42px; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-        /* ═══════════ MOBILE MENU (identique index.html) ═══════════ */
+        /* ═══════════ MOBILE MENU ═══════════ */
         .mobile-menu {
             display: none; font-size: 24px; cursor: pointer; color: var(--accent);
             z-index: 1001; transition: var(--transition); padding: 8px; border-radius: 4px;
@@ -108,18 +120,19 @@
         }
         .mobile-menu:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
         .mobile-nav {
-            position: fixed; top: 0; right: -100%; width: 320px; height: 100vh;
+            position: fixed; top: 0; right: -100%; width: 320px; max-width: 85vw; height: 100vh;
             background: var(--primary); z-index: 1000;
             transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
             border-left: 1px solid var(--border); display: flex; flex-direction: column;
             padding: 80px 25px 25px; overflow-y: auto;
             box-shadow: -5px 0 30px rgba(0,0,0,0.3); box-sizing: border-box;
+            padding-bottom: calc(25px + env(safe-area-inset-bottom));
         }
         .mobile-nav.active { right: 0; transform: translateZ(0); }
         .overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden;
-            transition: all 0.4s ease; backdrop-filter: blur(5px); pointer-events: none;
+            transition: all 0.4s ease; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); pointer-events: none;
         }
         .overlay.active { opacity: 1; visibility: visible; pointer-events: all; }
         .mobile-close {
@@ -157,14 +170,13 @@
         }
 
         /* ═══════════════════════════════════════════════════════
-           REFONTE CINÉMATOGRAPHIQUE + EFFETS IMAGES ULTRA STYLÉS
+           HERO CINÉMATOGRAPHIQUE
            ═══════════════════════════════════════════════════════ */
-
-        /* ── HERO PLEIN ÉCRAN IMMERSIF ── */
         .cine-hero {
             position: relative;
             height: 100vh;
-            min-height: 700px;
+            height: 100dvh; /* Dynamic vh pour mobile */
+            min-height: 560px;
             width: 100%;
             overflow: hidden;
             background: #000;
@@ -178,19 +190,20 @@
             background-position: center;
             filter: brightness(0.55) contrast(1.1) saturate(0.85);
             transform: scale(1.08);
-            animation: cineZoom 20s ease-in-out infinite alternate;
+            animation: cineZoom 22s ease-in-out infinite alternate;
             z-index: 1;
+            will-change: transform;
         }
         @keyframes cineZoom {
             from { transform: scale(1.08); }
-            to   { transform: scale(1.18); }
+            to   { transform: scale(1.16); }
         }
 
         .cine-hero-vignette {
             position: absolute; inset: 0;
             background:
                 radial-gradient(ellipse 90% 80% at 50% 50%, transparent 0%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.9) 100%),
-                linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 25%, transparent 65%, rgba(10,10,10,1) 100%);
+                linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 25%, transparent 55%, rgba(10,10,10,1) 100%);
             z-index: 2;
         }
 
@@ -211,7 +224,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding: 0 6% 8vh;
+            padding: 0 6% calc(6vh + env(safe-area-inset-bottom));
             max-width: 1600px;
             margin: 0 auto;
             width: 100%;
@@ -219,12 +232,13 @@
 
         .cine-hero-top {
             position: absolute;
-            top: 110px;
+            top: calc(90px + env(safe-area-inset-top));
             left: 6%;
             right: 6%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 20px;
             z-index: 6;
             opacity: 0;
             animation: cineFadeIn 1.2s ease 0.4s forwards;
@@ -256,7 +270,7 @@
         .cine-hero-title {
             font-family: 'Bebas Neue', sans-serif;
             font-weight: 400;
-            font-size: clamp(90px, 18vw, 280px);
+            font-size: clamp(64px, 18vw, 280px);
             line-height: 0.82;
             letter-spacing: -0.01em;
             color: #fff;
@@ -267,10 +281,11 @@
         .cine-hero-title .line {
             display: block;
             overflow: hidden;
+            padding-bottom: 0.05em;
         }
         .cine-hero-title .line span {
             display: inline-block;
-            transform: translateY(100%);
+            transform: translateY(105%);
             animation: cineRise 1.1s cubic-bezier(0.16,1,0.3,1) forwards;
         }
         .cine-hero-title .line:nth-child(1) span { animation-delay: 0.5s; }
@@ -311,6 +326,7 @@
         .cine-btn {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 12px;
             padding: 16px 32px;
             font-family: 'Inter', sans-serif;
@@ -325,6 +341,8 @@
             border: none;
             position: relative;
             overflow: hidden;
+            min-height: 48px;
+            -webkit-tap-highlight-color: transparent;
         }
         .cine-btn-primary {
             background: #fff;
@@ -347,7 +365,7 @@
 
         .cine-hero-scroll {
             position: absolute;
-            bottom: 8vh;
+            bottom: calc(6vh + env(safe-area-inset-bottom));
             right: 6%;
             z-index: 6;
             display: flex;
@@ -425,7 +443,7 @@
             to { transform: translateX(-50%); }
         }
 
-        /* ═══════════ SECTION DESCRIPTION ═══════════ */
+        /* ═══════════ SECTIONS COMMUNES ═══════════ */
         .cine-section {
             padding: 140px 0;
             position: relative;
@@ -450,7 +468,7 @@
 
         .cine-section-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(56px, 8vw, 120px);
+            font-size: clamp(44px, 8vw, 120px);
             line-height: 0.9;
             letter-spacing: 0.005em;
             color: #fff;
@@ -461,6 +479,7 @@
             color: rgba(255,255,255,0.15);
         }
 
+        /* ═══════════ DESCRIPTION ═══════════ */
         .cine-desc-grid {
             display: grid;
             grid-template-columns: 1fr 2fr;
@@ -514,7 +533,7 @@
             padding-left: 32px;
             border-left: 2px solid #fff;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(28px, 3.5vw, 44px);
+            font-size: clamp(24px, 3.5vw, 44px);
             line-height: 1.15;
             letter-spacing: 0.02em;
             color: #fff;
@@ -553,7 +572,6 @@
             position: relative;
         }
         .cine-feature:last-child { border-bottom: 1px solid var(--border); }
-        .cine-feature:hover { padding-left: 30px; padding-right: 30px; }
         .cine-feature::before {
             content: '';
             position: absolute;
@@ -564,7 +582,11 @@
             transform-origin: center;
             transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
         }
-        .cine-feature:hover::before { transform: scaleY(1); }
+        @media (min-width: 901px) {
+            .cine-feature:hover { padding-left: 30px; padding-right: 30px; }
+            .cine-feature:hover::before { transform: scaleY(1); }
+            .cine-feature:hover .cine-feature-num { color: #fff; }
+        }
 
         .cine-feature-num {
             font-family: 'Bebas Neue', sans-serif;
@@ -574,11 +596,10 @@
             letter-spacing: 0.02em;
             transition: color 0.5s ease;
         }
-        .cine-feature:hover .cine-feature-num { color: #fff; }
 
         .cine-feature-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(36px, 4.5vw, 60px);
+            font-size: clamp(30px, 4.5vw, 60px);
             line-height: 0.95;
             letter-spacing: 0.01em;
             color: #fff;
@@ -592,22 +613,13 @@
             font-weight: 300;
         }
 
-        @media (max-width: 900px) {
-            .cine-feature {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 50px 0;
-            }
-            .cine-feature:hover { padding-left: 0; padding-right: 0; }
-            .cine-feature-num { font-size: 48px; }
-        }
-
         /* ═══════════════════════════════════════════════════════
-           GALERIE — EFFET ULTRA STYLÉ : IMAGES DE TOUS LES CÔTÉS
+           GALERIE — EFFET ULTRA STYLÉ (VERSION STABLE)
+           Les images arrivent de tous les côtés SANS blur (bug mobile)
            ═══════════════════════════════════════════════════════ */
         .cine-gallery {
             padding: 140px 0;
-            overflow: hidden;
+            overflow-x: clip; /* clip au lieu de hidden pour éviter les bugs mobile */
         }
         .cine-gallery-header {
             display: flex;
@@ -631,7 +643,6 @@
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             gap: 10px;
-            perspective: 1600px;
         }
 
         /* ── ÉTAT INITIAL : chaque image part d'un côté différent ── */
@@ -641,28 +652,25 @@
             background: #0d0d0d;
             cursor: pointer;
             opacity: 0;
-            filter: blur(14px) brightness(1.4);
-            transform-style: preserve-3d;
-            will-change: transform, opacity, filter;
+            transform-style: flat;
+            will-change: transform, opacity;
             transition:
-                opacity 1.2s cubic-bezier(0.16,1,0.3,1),
-                transform 1.4s cubic-bezier(0.16,1,0.3,1),
-                filter 1s cubic-bezier(0.16,1,0.3,1);
+                opacity 1s cubic-bezier(0.16,1,0.3,1),
+                transform 1.2s cubic-bezier(0.16,1,0.3,1);
         }
 
-        /* Position de départ — de TOUS les côtés */
-        .cine-gallery-item--a { transform: translate3d(-140%, -40%, 0) rotateZ(-8deg) scale(0.85); }
-        .cine-gallery-item--b { transform: translate3d(140%, -20%, 0) rotateZ(10deg) scale(0.85); }
-        .cine-gallery-item--c { transform: translate3d(-80%, 120%, 0) rotateZ(-12deg) scale(0.85); }
-        .cine-gallery-item--d { transform: translate3d(60%, -120%, 0) rotateZ(8deg) scale(0.85); }
-        .cine-gallery-item--e { transform: translate3d(120%, 80%, 0) rotateZ(15deg) scale(0.85); }
-        .cine-gallery-item--f { transform: translate3d(0%, 140%, 0) rotateZ(-6deg) scale(0.85); }
+        /* Position de départ — de TOUS les côtés (SANS blur) */
+        .cine-gallery-item--a { transform: translate3d(-100%, 20%, 0) rotate(-6deg) scale(0.9); }
+        .cine-gallery-item--b { transform: translate3d(100%, -15%, 0) rotate(8deg) scale(0.9); }
+        .cine-gallery-item--c { transform: translate3d(-60%, 100%, 0) rotate(-10deg) scale(0.9); }
+        .cine-gallery-item--d { transform: translate3d(50%, -100%, 0) rotate(6deg) scale(0.9); }
+        .cine-gallery-item--e { transform: translate3d(100%, 60%, 0) rotate(12deg) scale(0.9); }
+        .cine-gallery-item--f { transform: translate3d(0%, 100%, 0) rotate(-5deg) scale(0.9); }
 
         /* État final — centré, net, droit */
         .cine-gallery-item.is-visible {
             opacity: 1;
-            filter: blur(0) brightness(1);
-            transform: translate3d(0, 0, 0) rotateZ(0deg) scale(1);
+            transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
         }
 
         /* Délais échelonnés pour un effet cascade */
@@ -686,11 +694,17 @@
             object-fit: cover;
             display: block;
             filter: grayscale(60%) brightness(0.65);
-            transition: all 1.2s cubic-bezier(0.16,1,0.3,1);
+            transition: filter 0.8s ease, transform 1s cubic-bezier(0.16,1,0.3,1);
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
         }
         .cine-gallery-item:hover img {
             filter: grayscale(0%) brightness(1);
-            transform: scale(1.06);
+        }
+        @media (hover: hover) and (pointer: fine) {
+            .cine-gallery-item:hover img {
+                transform: scale(1.06);
+            }
         }
 
         /* Lueur sur les bords à l'arrivée */
@@ -698,22 +712,20 @@
             content: '';
             position: absolute;
             inset: 0;
-            box-shadow: inset 0 0 60px rgba(255,255,255,0.4);
+            box-shadow: inset 0 0 40px rgba(255,255,255,0.5);
             opacity: 0;
             pointer-events: none;
             z-index: 5;
-            transition: opacity 0.8s ease;
         }
         .cine-gallery-item.is-visible::before {
-            opacity: 0;
-            animation: cineFlash 1.4s ease-out forwards;
+            animation: cineFlash 1.2s ease-out forwards;
         }
         @keyframes cineFlash {
-            0% { opacity: 0.9; }
+            0% { opacity: 0.85; }
             100% { opacity: 0; }
         }
 
-        /* Overlay au survol */
+        /* Overlay au survol (désactivé sur tactile) */
         .cine-gallery-overlay {
             position: absolute; inset: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%);
@@ -724,13 +736,12 @@
             justify-content: space-between;
             padding: 26px;
             z-index: 2;
+            pointer-events: none;
         }
-        .cine-gallery-item:hover .cine-gallery-overlay { opacity: 1; }
         .cine-gallery-info {
             transform: translateY(14px);
             transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
         }
-        .cine-gallery-item:hover .cine-gallery-info { transform: translateY(0); }
         .cine-gallery-tag {
             font-family: 'Space Mono', monospace;
             font-size: 9px;
@@ -753,7 +764,23 @@
             transform: translateY(14px);
             transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
         }
-        .cine-gallery-item:hover .cine-gallery-icon { transform: translateY(0); }
+
+        /* Survol uniquement sur desktop */
+        @media (hover: hover) and (pointer: fine) {
+            .cine-gallery-item:hover .cine-gallery-overlay { opacity: 1; }
+            .cine-gallery-item:hover .cine-gallery-info { transform: translateY(0); }
+            .cine-gallery-item:hover .cine-gallery-icon { transform: translateY(0); }
+        }
+
+        /* Sur tactile : overlay toujours léger visible */
+        @media (hover: none) {
+            .cine-gallery-overlay {
+                opacity: 1;
+                background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 55%);
+            }
+            .cine-gallery-info { transform: translateY(0); }
+            .cine-gallery-icon { transform: translateY(0); }
+        }
 
         .cine-gallery-placeholder {
             width: 100%; height: 100%;
@@ -769,19 +796,6 @@
         }
         .cine-gallery-placeholder i { font-size: 26px; color: rgba(255,255,255,0.15); }
 
-        @media (max-width: 900px) {
-            .cine-gallery-grid { grid-template-columns: repeat(6, 1fr); }
-            .cine-gallery-item--a { grid-column: span 6; aspect-ratio: 16/10; }
-            .cine-gallery-item--b { grid-column: span 6; aspect-ratio: 16/10; }
-            .cine-gallery-item--c { grid-column: span 3; }
-            .cine-gallery-item--d { grid-column: span 3; }
-            .cine-gallery-item--e { grid-column: span 6; aspect-ratio: 16/10; }
-            .cine-gallery-item--f { grid-column: span 6; aspect-ratio: 16/10; }
-        }
-        @media (max-width: 500px) {
-            .cine-gallery-item--c, .cine-gallery-item--d { grid-column: span 6; }
-        }
-
         /* ═══════════ LIGHTBOX ═══════════ */
         .cine-lightbox {
             position: fixed; inset: 0;
@@ -791,6 +805,8 @@
             opacity: 0; pointer-events: none;
             transition: opacity 0.4s ease;
             backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
         .cine-lightbox.active { opacity: 1; pointer-events: all; }
         .cine-lightbox-wrap {
@@ -838,10 +854,6 @@
         .cine-lightbox-nav:hover { background: #fff; color: #000; }
         .cine-lightbox-prev { left: -70px; }
         .cine-lightbox-next { right: -70px; }
-        @media (max-width: 900px) {
-            .cine-lightbox-prev { left: 10px; }
-            .cine-lightbox-next { right: 10px; }
-        }
 
         /* ═══════════ NEWSLETTER ═══════════ */
         .cine-newsletter {
@@ -856,6 +868,7 @@
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: 800px; height: 800px;
+            max-width: 100%;
             background: radial-gradient(circle, rgba(130,30,30,0.12) 0%, transparent 60%);
             pointer-events: none;
         }
@@ -873,7 +886,7 @@
 
         .cine-newsletter-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(56px, 9vw, 130px);
+            font-size: clamp(44px, 9vw, 130px);
             line-height: 0.88;
             letter-spacing: 0.01em;
             color: #fff;
@@ -920,6 +933,7 @@
             font-family: 'Inter', sans-serif;
             font-size: 14px;
             outline: none;
+            min-width: 0;
         }
         .cine-nl-input::placeholder {
             color: rgba(255,255,255,0.3);
@@ -938,6 +952,7 @@
             font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
             white-space: nowrap;
+            min-height: 60px;
         }
         .cine-nl-btn:hover { background: #e0e0e0; }
         .cine-nl-note {
@@ -957,12 +972,7 @@
         .cine-form-message.success { background: rgba(76,175,80,0.08); color: #66bb6a; border-color: rgba(76,175,80,0.3); display: block; }
         .cine-form-message.error   { background: rgba(244,67,54,0.08); color: #ef5350; border-color: rgba(244,67,54,0.3); display: block; }
 
-        @media (max-width: 600px) {
-            .cine-nl-row { flex-direction: column; }
-            .cine-nl-btn { padding: 20px; }
-        }
-
-        /* ═══════════ FOOTER (identique index.html) ═══════════ */
+        /* ═══════════ FOOTER ═══════════ */
         footer { background: var(--secondary); padding: 80px 0 40px; border-top: 1px solid var(--border); }
         .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px; }
         .footer-brand { max-width: 300px; }
@@ -983,6 +993,254 @@
         .scroll-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--accent); color: var(--primary); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; opacity: 0; visibility: hidden; transition: var(--transition); z-index: 100; border: none; }
         .scroll-to-top.active { opacity: 1; visibility: visible; }
         .scroll-to-top:hover { transform: translateY(-5px); }
+
+        /* ═══════════════════════════════════════════════════════
+           RESPONSIVE COMPLET — iPHONE / ANDROID / TABLETTES
+           ═══════════════════════════════════════════════════════ */
+
+        /* ── TABLETTES LARGES (iPad Pro, tablettes Android 1024px+) ── */
+        @media (max-width: 1100px) {
+            .cine-section { padding: 120px 0; }
+            .cine-desc-grid { gap: 70px; }
+            .cine-feature { gap: 50px; padding: 60px 0; }
+        }
+
+        /* ── TABLETTES (iPad, tablettes Android 768px-1024px) ── */
+        @media (max-width: 900px) {
+            .cine-section { padding: 100px 0; }
+            .cine-section-title { margin-bottom: 45px; }
+            .cine-desc-grid { grid-template-columns: 1fr; gap: 50px; }
+            .cine-desc-meta { position: static; }
+            .cine-desc-body { font-size: 17px; }
+            .cine-desc-body .drop-cap::first-letter { font-size: 3.5em; }
+            .cine-feature {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 50px 0;
+            }
+            .cine-feature-num { font-size: 48px; }
+            .cine-feature-desc { font-size: 14px; }
+            .cine-newsletter { padding: 120px 0; }
+            .cine-lightbox-prev { left: 10px; }
+            .cine-lightbox-next { right: 10px; }
+
+            .cine-gallery-grid { grid-template-columns: repeat(6, 1fr); }
+            .cine-gallery-item--a { grid-column: span 6; aspect-ratio: 16/10; }
+            .cine-gallery-item--b { grid-column: span 6; aspect-ratio: 16/10; }
+            .cine-gallery-item--c { grid-column: span 3; }
+            .cine-gallery-item--d { grid-column: span 3; }
+            .cine-gallery-item--e { grid-column: span 6; aspect-ratio: 16/10; }
+            .cine-gallery-item--f { grid-column: span 6; aspect-ratio: 16/10; }
+        }
+
+        /* ── MOBILES (iPhone 14 Pro Max, S24 Ultra, etc. 480px-768px) ── */
+        @media (max-width: 768px) {
+            .cine-section { padding: 80px 0; }
+            .cine-section-title { margin-bottom: 40px; }
+            .cine-section-eyebrow { margin-bottom: 24px; }
+
+            .cine-hero-title {
+                font-size: clamp(56px, 16vw, 120px);
+            }
+            .cine-hero-bottom {
+                gap: 30px;
+                margin-top: 30px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .cine-hero-desc {
+                font-size: 14px;
+                max-width: 100%;
+            }
+            .cine-hero-actions {
+                width: 100%;
+                gap: 10px;
+            }
+            .cine-btn {
+                flex: 1 1 auto;
+                min-width: 0;
+                padding: 14px 20px;
+                font-size: 11px;
+            }
+            .cine-hero-top {
+                top: calc(80px + env(safe-area-inset-top));
+                gap: 12px;
+            }
+            .cine-hero-top-left,
+            .cine-hero-top-right {
+                font-size: 9px;
+                letter-spacing: 0.3em;
+            }
+            .cine-hero-scroll { display: none; }
+
+            .cine-marquee { padding: 18px 0; }
+            .cine-marquee-track { gap: 40px; animation-duration: 30s; }
+            .cine-marquee-item { font-size: 18px; gap: 40px; }
+
+            .cine-quote {
+                font-size: 22px;
+                padding-left: 20px;
+                margin: 40px 0;
+            }
+
+            .cine-feature-num { font-size: 40px; }
+            .cine-feature-title { font-size: clamp(28px, 7vw, 42px); }
+
+            .cine-gallery { padding: 80px 0; }
+            .cine-gallery-header { margin-bottom: 40px; }
+            .cine-gallery-counter { font-size: 10px; }
+
+            .cine-newsletter { padding: 90px 0; }
+            .cine-newsletter-desc { margin-bottom: 32px; font-size: 14px; }
+
+            .cine-nl-row {
+                flex-direction: column;
+                background: transparent;
+                border: none;
+                gap: 12px;
+            }
+            .cine-nl-input {
+                border: 1px solid rgba(255,255,255,0.15);
+                background: rgba(255,255,255,0.04);
+            }
+            .cine-nl-btn {
+                padding: 18px 24px;
+                width: 100%;
+            }
+
+            .cine-lightbox-wrap { max-width: 94vw; max-height: 80vh; }
+            .cine-lightbox-wrap img { max-width: 94vw; max-height: 80vh; }
+            .cine-lightbox-close { top: 10px; right: 10px; width: 38px; height: 38px; }
+            .cine-lightbox-nav { width: 40px; height: 40px; font-size: 13px; }
+            .cine-lightbox-caption { padding: 18px 20px; }
+            .cine-gallery-name { font-size: 20px; }
+
+            .scroll-to-top {
+                width: 44px; height: 44px;
+                bottom: calc(20px + env(safe-area-inset-bottom));
+                right: 20px;
+            }
+        }
+
+        /* ── PETITS MOBILES (iPhone SE, mini, Galaxy A bas de gamme 360px-480px) ── */
+        @media (max-width: 480px) {
+            .container { width: 92%; }
+            .cine-section { padding: 70px 0; }
+            .cine-section-title { font-size: clamp(38px, 10vw, 60px); }
+            .cine-section-eyebrow { font-size: 9px; letter-spacing: 0.4em; }
+
+            .cine-hero-title {
+                font-size: clamp(48px, 17vw, 90px);
+                letter-spacing: 0;
+            }
+            .cine-hero-content {
+                padding: 0 5% calc(5vh + env(safe-area-inset-bottom));
+            }
+            .cine-hero-top {
+                top: calc(72px + env(safe-area-inset-top));
+                left: 5%;
+                right: 5%;
+            }
+            .cine-hero-top-left::before { display: none; }
+            .cine-btn {
+                padding: 13px 16px;
+                font-size: 10px;
+                letter-spacing: 0.12em;
+                gap: 8px;
+            }
+            .cine-btn i { font-size: 12px; }
+
+            .cine-desc-body { font-size: 15px; }
+            .cine-desc-body .drop-cap::first-letter { font-size: 3em; }
+            .cine-desc-meta-value { font-size: 22px; }
+
+            .cine-feature { padding: 40px 0; gap: 14px; }
+            .cine-feature-num { font-size: 34px; }
+            .cine-feature-title { font-size: clamp(24px, 8vw, 36px); }
+            .cine-feature-desc { font-size: 13px; line-height: 1.7; }
+
+            .cine-gallery { padding: 70px 0; }
+            .cine-gallery-grid { grid-template-columns: 1fr; gap: 8px; }
+            .cine-gallery-item {
+                grid-column: span 1 !important;
+                aspect-ratio: 16/10 !important;
+            }
+
+            /* Sur très petit écran : animations simplifiées (moins de distance) */
+            .cine-gallery-item--a { transform: translate3d(-60%, 15%, 0) rotate(-4deg) scale(0.94); }
+            .cine-gallery-item--b { transform: translate3d(60%, -10%, 0) rotate(5deg) scale(0.94); }
+            .cine-gallery-item--c { transform: translate3d(-40%, 60%, 0) rotate(-6deg) scale(0.94); }
+            .cine-gallery-item--d { transform: translate3d(40%, -60%, 0) rotate(4deg) scale(0.94); }
+            .cine-gallery-item--e { transform: translate3d(60%, 40%, 0) rotate(7deg) scale(0.94); }
+            .cine-gallery-item--f { transform: translate3d(0%, 60%, 0) rotate(-3deg) scale(0.94); }
+
+            .cine-gallery-name { font-size: 18px; }
+            .cine-gallery-tag { font-size: 8px; letter-spacing: 0.3em; }
+
+            .cine-newsletter { padding: 70px 0; }
+            .cine-newsletter-title { font-size: clamp(38px, 11vw, 60px); }
+            .cine-newsletter-desc { font-size: 13px; margin-bottom: 26px; }
+            .cine-nl-input { padding: 16px 18px; font-size: 16px; /* évite zoom iOS */ }
+            .cine-nl-btn { padding: 16px 20px; font-size: 11px; }
+
+            .cine-lightbox-close { top: 8px; right: 8px; width: 34px; height: 34px; font-size: 13px; }
+            .cine-lightbox-nav { width: 36px; height: 36px; font-size: 12px; }
+            .cine-lightbox-prev { left: 6px; }
+            .cine-lightbox-next { right: 6px; }
+
+            footer { padding: 60px 0 30px; }
+            .footer-content { gap: 32px; margin-bottom: 40px; }
+            .social-link { width: 38px; height: 38px; }
+            .copyright { font-size: 13px; padding-top: 30px; }
+
+            .scroll-to-top {
+                width: 40px; height: 40px;
+                bottom: calc(16px + env(safe-area-inset-bottom));
+                right: 16px;
+            }
+        }
+
+        /* ── TRÈS PETITS (iPhone SE 1ère gen, 320px) ── */
+        @media (max-width: 360px) {
+            .cine-section { padding: 60px 0; }
+            .cine-section-title { font-size: 32px; }
+            .cine-hero-title { font-size: 44px; }
+            .cine-btn { padding: 12px 12px; font-size: 9px; }
+            .cine-hero-actions { flex-direction: column; }
+            .cine-btn { width: 100%; }
+            .cine-feature-title { font-size: 22px; }
+            .cine-feature-num { font-size: 30px; }
+        }
+
+        /* ── MODE PAYSAGE MOBILE (hauteur < 500px) ── */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .cine-hero { height: auto; min-height: 100dvh; padding: 100px 0 40px; }
+            .cine-hero-title { font-size: clamp(40px, 8vw, 72px); }
+            .cine-hero-top { display: none; }
+            .cine-hero-scroll { display: none; }
+            .cine-hero-content { justify-content: center; padding: 0 6% 30px; }
+            .cine-section { padding: 60px 0; }
+        }
+
+        /* ── ACCESSIBILITÉ : réduire les animations si demandé ── */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .cine-gallery-item {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            .cine-hero-title .line span {
+                transform: translateY(0) !important;
+            }
+            .cine-hero-bg { animation: none !important; }
+            .cine-marquee-track { animation: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -1001,7 +1259,7 @@
     <div class="cine-lightbox-nav cine-lightbox-next" id="lightboxNext" aria-label="Suivant"><i class="fas fa-chevron-right"></i></div>
 </div>
 
-<!-- ═══════════ HEADER (identique index.html) ═══════════ -->
+<!-- ═══════════ HEADER ═══════════ -->
 <header>
     <div class="container nav-container">
         <div class="logo">
@@ -1043,7 +1301,7 @@
     <div class="mobile-nav-actions"></div>
 </nav>
 
-<!-- ═══════════ HERO CINÉMATOGRAPHIQUE ═══════════ -->
+<!-- ═══════════ HERO ═══════════ -->
 <section class="cine-hero">
     <div class="cine-hero-bg"></div>
     <div class="cine-hero-vignette"></div>
@@ -1083,7 +1341,7 @@
     </div>
 </section>
 
-<!-- ═══════════ BANDEAU DÉFILANT ═══════════ -->
+<!-- ═══════════ MARQUEE ═══════════ -->
 <div class="cine-marquee">
     <div class="cine-marquee-track">
         <div class="cine-marquee-item">Unreal Engine 5.6</div>
@@ -1183,7 +1441,7 @@
     </div>
 </section>
 
-<!-- ═══════════ GALERIE — EFFET ULTRA STYLÉ ═══════════ -->
+<!-- ═══════════ GALERIE ═══════════ -->
 <section class="cine-gallery" id="gallery">
     <div class="container">
         <div class="cine-gallery-header">
@@ -1201,7 +1459,7 @@
 
         <div class="cine-gallery-grid" id="galleryGrid">
             <div class="cine-gallery-item cine-gallery-item--a" data-src="../images/The_Void_Protocol_In_Game/image_website_6.png" data-tag="Environnement" data-title="Zone d'expérimentation">
-                <img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Zone d'expérimentation" loading="lazy"
+                <img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Zone d'expérimentation" loading="lazy" decoding="async"
                      onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
                 <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_01</span></div>
                 <div class="cine-gallery-overlay">
@@ -1214,7 +1472,7 @@
             </div>
 
             <div class="cine-gallery-item cine-gallery-item--b" data-src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" data-tag="Niveau" data-title="Couloir 13">
-                <img src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" alt="The Void Protocol - Couloir 13" loading="lazy"
+                <img src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" alt="The Void Protocol - Couloir 13" loading="lazy" decoding="async"
                      onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
                 <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_02</span></div>
                 <div class="cine-gallery-overlay">
@@ -1227,7 +1485,7 @@
             </div>
 
             <div class="cine-gallery-item cine-gallery-item--c" data-src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" data-tag="Décor" data-title="Salle des machines">
-                <img src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" alt="The Void Protocol - Salle des machines" loading="lazy"
+                <img src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" alt="The Void Protocol - Salle des machines" loading="lazy" decoding="async"
                      onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
                 <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>03</span></div>
                 <div class="cine-gallery-overlay">
@@ -1240,7 +1498,7 @@
             </div>
 
             <div class="cine-gallery-item cine-gallery-item--d" data-src="../images/The_Void_Protocol_In_Game/image_website_4.png" data-tag="Atmosphère" data-title="Zone intérieur">
-                <img src="../images/The_Void_Protocol_In_Game/image_website_4.png" alt="The Void Protocol - Zone intérieur" loading="lazy"
+                <img src="../images/The_Void_Protocol_In_Game/image_website_4.png" alt="The Void Protocol - Zone intérieur" loading="lazy" decoding="async"
                      onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
                 <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>04</span></div>
                 <div class="cine-gallery-overlay">
@@ -1253,7 +1511,7 @@
             </div>
 
             <div class="cine-gallery-item cine-gallery-item--e" data-src="../images/nexa-screen-5.webp" data-tag="Interface" data-title="HUD tactique">
-                <img src="../images/nexa-screen-5.webp" alt="The Void Protocol - HUD tactique" loading="lazy"
+                <img src="../images/nexa-screen-5.webp" alt="The Void Protocol - HUD tactique" loading="lazy" decoding="async"
                      onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
                 <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>05</span></div>
                 <div class="cine-gallery-overlay">
@@ -1266,7 +1524,7 @@
             </div>
 
             <div class="cine-gallery-item cine-gallery-item--f" data-src="../images/nexa-screen-6.webp" data-tag="Entité" data-title="Présence">
-                <img src="../images/nexa-screen-6.webp" alt="The Void Protocol - Présence" loading="lazy"
+                <img src="../images/nexa-screen-6.webp" alt="The Void Protocol - Présence" loading="lazy" decoding="async"
                      onerror="this.style.display='none'; this.parentElement.querySelector('.cine-gallery-placeholder').style.display='flex';">
                 <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>06</span></div>
                 <div class="cine-gallery-overlay">
@@ -1305,7 +1563,7 @@
     </div>
 </section>
 
-<!-- ═══════════ FOOTER (identique index.html) ═══════════ -->
+<!-- ═══════════ FOOTER ═══════════ -->
 <footer>
   <div class="container">
     <div class="footer-content">
@@ -1414,12 +1672,18 @@
 
     document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
 
-    /* ── GALERIE : RÉVÉLATION ULTRA STYLÉE (les images arrivent de tous les côtés) ── */
+    /* ── GALERIE : RÉVÉLATION ULTRA STYLÉE ── */
     (function() {
         const galleryItems = document.querySelectorAll('.cine-gallery-item');
         if (!galleryItems.length) return;
 
-        /* Observer avec seuil bas pour déclencher dès qu'une image entre à l'écran */
+        // Si l'utilisateur préfère les animations réduites, tout révéler immédiatement
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+            galleryItems.forEach(item => item.classList.add('is-visible'));
+            return;
+        }
+
         const galleryObs = new IntersectionObserver((entries) => {
             entries.forEach(e => {
                 if (e.isIntersecting) {
@@ -1427,36 +1691,14 @@
                     galleryObs.unobserve(e.target);
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -80px 0px' });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
         galleryItems.forEach(item => galleryObs.observe(item));
-
-        /* ── Effet parallaxe subtil au scroll (les images "respirent" une fois révélées) ── */
-        let ticking = false;
-        function parallax() {
-            const items = document.querySelectorAll('.cine-gallery-item.is-visible');
-            items.forEach((item, i) => {
-                const rect = item.getBoundingClientRect();
-                const centerOffset = (rect.top + rect.height / 2 - window.innerHeight / 2) / window.innerHeight;
-                // Décalage léger selon la position + direction selon index pair/impair
-                const dir = i % 2 === 0 ? 1 : -1;
-                const translateY = centerOffset * 14 * dir;
-                // On n'applique le parallaxe que si l'item n'est pas en cours de révélation
-                if (!item.dataset.animating) {
-                    item.style.setProperty('--parallax-y', translateY + 'px');
-                }
-            });
-            ticking = false;
-        }
-
-        window.addEventListener('scroll', () => {
-            if (!ticking) { requestAnimationFrame(parallax); ticking = true; }
-        }, { passive: true });
     })();
 
     /* ── SCROLL TO TOP ── */
     const scrollToTop = document.getElementById('scrollToTop');
-    window.addEventListener('scroll', () => scrollToTop.classList.toggle('active', window.scrollY > 600));
+    window.addEventListener('scroll', () => scrollToTop.classList.toggle('active', window.scrollY > 600), { passive: true });
     scrollToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
     /* ── LIGHTBOX ── */
@@ -1526,6 +1768,21 @@
             if (e.key === 'ArrowLeft') showRelative(-1);
             if (e.key === 'ArrowRight') showRelative(1);
         });
+
+        /* Swipe tactile pour la lightbox */
+        let touchStartX = 0;
+        let touchEndX = 0;
+        lightbox.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        lightbox.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchEndX - touchStartX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) showRelative(-1);
+                else showRelative(1);
+            }
+        }, { passive: true });
     })();
 
     /* ── NEWSLETTER ── */
