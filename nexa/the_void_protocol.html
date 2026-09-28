@@ -56,7 +56,7 @@
     </script>
 
     <style>
-        /* ── Variables identiques à index.html ── */
+        /* ── Variables ── */
         :root {
             --primary: #0a0a0a;
             --secondary: #111111;
@@ -74,7 +74,7 @@
         body.no-scroll { overflow: hidden; }
         .container { width: 90%; max-width: 1200px; margin: 0 auto; }
 
-        /* ── HEADER (identique index.html) ── */
+        /* ── HEADER ── */
         header {
             position: fixed; top: 0; width: 100%;
             padding: 20px 0; z-index: 1000;
@@ -99,7 +99,7 @@
         .btn-primary { background: var(--accent); color: var(--primary); border: none; height: 42px; }
         .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-        /* ── MOBILE MENU (identique index.html) ── */
+        /* ── MOBILE MENU ── */
         .mobile-menu {
             display: none; font-size: 24px; cursor: pointer; color: var(--accent);
             z-index: 1001; transition: var(--transition); padding: 8px; border-radius: 4px;
@@ -157,161 +157,97 @@
         }
 
         /* ══════════════════════════════════════════
-           NOUVEAU DESIGN — DIAPORAMA VERTICAL
+           REFONTE — DESIGN ÉDITORIAL MINIMALISTE
            ══════════════════════════════════════════ */
 
-        /* ── Progression de scroll (barre latérale) ── */
-        .vp-progress {
-            position: fixed;
-            left: 0; top: 0;
-            width: 3px; height: 0%;
-            background: linear-gradient(to bottom, #c0392b, #ffffff);
-            z-index: 1001;
-            transition: height 0.1s linear;
-            box-shadow: 0 0 12px rgba(255,255,255,0.3);
-        }
-
-        /* ── Indicateur de sections (dots) ── */
-        .vp-dots {
-            position: fixed;
-            right: 28px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            z-index: 1000;
-        }
-        .vp-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.2);
-            cursor: pointer;
-            transition: all 0.4s ease;
-            position: relative;
-        }
-        .vp-dot:hover { background: rgba(255,255,255,0.4); transform: scale(1.3); }
-        .vp-dot.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            transform: scale(1.5);
-            box-shadow: 0 0 12px rgba(255,255,255,0.4);
-        }
-        .vp-dot::after {
-            content: attr(data-label);
-            position: absolute;
-            right: 22px; top: 50%;
-            transform: translateY(-50%) translateX(6px);
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.5);
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
-        .vp-dot:hover::after { opacity: 1; transform: translateY(-50%) translateX(0); }
-        @media (max-width: 900px) { .vp-dots { display: none; } }
-
-        /* ── Section diaporama de base ── */
-        .vp-slide {
-            min-height: 100vh;
-            position: relative;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            padding: 120px 0 80px;
-        }
-        .vp-slide-inner {
-            position: relative;
-            z-index: 5;
-            width: 100%;
-        }
-
-        /* ── Effet de révélation au scroll ── */
-        .vp-reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
-        }
-        .vp-reveal.visible { opacity: 1; transform: translateY(0); }
-
-        .vp-reveal-delay-1 { transition-delay: 0.15s; }
-        .vp-reveal-delay-2 { transition-delay: 0.3s; }
-        .vp-reveal-delay-3 { transition-delay: 0.45s; }
-        .vp-reveal-delay-4 { transition-delay: 0.6s; }
-
-        /* ── Typographie commune ── */
-        .vp-eyebrow {
+        /* ── Typographie ── */
+        .t-label {
             font-family: 'Space Mono', monospace;
             font-size: 10px;
-            letter-spacing: 5px;
+            letter-spacing: 0.4em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.3);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
+            color: rgba(255,255,255,0.35);
         }
-        .vp-eyebrow::before {
-            content: '';
-            width: 40px; height: 1px;
-            background: rgba(255,255,255,0.2);
-        }
-        .vp-heading {
+        .t-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(48px, 8vw, 100px);
-            line-height: 0.9;
-            letter-spacing: 3px;
+            font-weight: 400;
+            line-height: 0.95;
+            letter-spacing: 0.03em;
             color: var(--accent);
-            margin-bottom: 24px;
         }
-        .vp-heading-sub {
-            display: block;
-            font-size: 0.55em;
-            letter-spacing: 8px;
-            color: rgba(255,255,255,0.12);
-            margin-top: 6px;
+        .t-body {
+            font-size: 14px;
+            line-height: 1.75;
+            color: rgba(255,255,255,0.55);
+            font-weight: 300;
         }
-        .vp-text {
-            font-size: 15px;
-            line-height: 1.9;
-            color: rgba(255,255,255,0.5);
-            max-width: 520px;
-        }
-        .vp-text strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+        .t-body strong { color: rgba(255,255,255,0.9); font-weight: 500; }
+        .t-body + .t-body { margin-top: 1.1em; }
 
-        /* ── Section 1 : HERO plein écran ── */
-        .vp-hero {
+        /* ── Section générique ── */
+        .section {
+            position: relative;
+            padding: 140px 0;
+        }
+        .section--tight { padding: 100px 0; }
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        }
+
+        /* ── Révélation au scroll ── */
+        [data-reveal] {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 1.1s cubic-bezier(0.16,1,0.3,1),
+                        transform 1.1s cubic-bezier(0.16,1,0.3,1);
+        }
+        [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+        [data-reveal][data-delay="1"] { transition-delay: 0.1s; }
+        [data-reveal][data-delay="2"] { transition-delay: 0.2s; }
+        [data-reveal][data-delay="3"] { transition-delay: 0.3s; }
+        [data-reveal][data-delay="4"] { transition-delay: 0.4s; }
+        [data-reveal][data-delay="5"] { transition-delay: 0.5s; }
+
+        /* ═══════════ HERO ═══════════ */
+        .hero {
+            position: relative;
             min-height: 100vh;
             display: flex;
             align-items: center;
-            position: relative;
+            padding: 120px 0 80px;
             overflow: hidden;
-            padding-top: 100px;
         }
-        .vp-hero-bg {
+        .hero-bg {
             position: absolute; inset: 0;
-            background:
-                radial-gradient(ellipse 70% 50% at 20% 50%, rgba(130,30,30,0.15) 0%, transparent 60%),
-                radial-gradient(ellipse 60% 50% at 85% 70%, rgba(30,30,120,0.12) 0%, transparent 60%),
-                #070707;
+            background: #070707;
             z-index: 0;
         }
-        .vp-hero-grid {
+        .hero-glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 900px; height: 900px;
+            background: radial-gradient(circle, rgba(130,30,30,0.10) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+            animation: heroGlow 8s ease-in-out infinite;
+        }
+        @keyframes heroGlow {
+            0%,100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.08); }
+        }
+        .hero-grid {
             position: absolute; inset: 0;
             background-image:
-                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-            background-size: 70px 70px;
-            mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 75%);
-            -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 20%, transparent 75%);
+                linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+            background-size: 90px 90px;
+            mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse 60% 55% at 50% 50%, black 30%, transparent 80%);
             pointer-events: none; z-index: 1;
         }
-        .vp-hero-scan {
+        .hero-noise {
             position: absolute; inset: 0;
             background: repeating-linear-gradient(
                 0deg, transparent, transparent 3px,
@@ -319,361 +255,482 @@
             );
             pointer-events: none; z-index: 2;
         }
-        .vp-hero-vignette {
+        .hero-vignette {
             position: absolute; inset: 0;
-            background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.8) 100%);
-            pointer-events: none; z-index: 3;
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%);
+            pointer-events: none; z-index: 2;
         }
-        .vp-hero-fade {
-            position: absolute; bottom: 0; left: 0; right: 0; height: 200px;
-            background: linear-gradient(to bottom, transparent, var(--primary));
-            pointer-events: none; z-index: 3;
-        }
-        .vp-canvas {
+        .hero-canvas {
             position: absolute; inset: 0;
             width: 100%; height: 100%;
             pointer-events: none; z-index: 1;
         }
-        .vp-hero-content {
-            position: relative; z-index: 10;
+        .hero-inner {
+            position: relative;
+            z-index: 5;
             width: 100%;
-            padding: 0 5%;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 0 5%;
         }
-        .vp-hero-flex {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-        .vp-hero-left { flex: 1 1 500px; }
 
-        .vp-hero-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(80px, 14vw, 180px);
-            line-height: 0.85;
-            letter-spacing: 5px;
-            color: var(--accent);
-            margin-bottom: 0;
-        }
-        .vp-hero-title span {
-            display: block;
-            color: rgba(255,255,255,0.08);
-            font-size: 0.5em;
-            letter-spacing: 12px;
-            margin-top: 8px;
-        }
-        .vp-hero-desc {
-            font-size: 14px;
-            color: rgba(255,255,255,0.35);
-            letter-spacing: 0.4px;
-            line-height: 1.9;
-            max-width: 400px;
-            margin: 32px 0 40px;
-        }
-        .vp-hero-actions {
+        .hero-meta {
             display: flex;
+            align-items: center;
             gap: 16px;
-            flex-wrap: wrap;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: heroFadeUp 0.8s ease 0.2s forwards;
         }
-        .vp-btn-primary {
-            display: inline-flex; align-items: center; gap: 10px;
-            padding: 16px 34px;
-            background: var(--accent); color: var(--primary);
-            font-family: 'Inter', sans-serif; font-weight: 700;
-            font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
-            text-decoration: none; border: none; border-radius: 3px;
-            cursor: pointer; transition: var(--transition);
+        .hero-meta-dot {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: #c0392b;
+            animation: heroBlink 2s ease-in-out infinite;
         }
-        .vp-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(255,255,255,0.15); }
-        .vp-btn-ghost {
-            display: inline-flex; align-items: center; gap: 9px;
-            padding: 16px 26px;
-            background: transparent; color: rgba(255,255,255,0.45);
-            font-family: 'Inter', sans-serif; font-size: 11px;
-            letter-spacing: 2px; text-transform: uppercase;
-            text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.12); border-radius: 3px;
-            transition: var(--transition);
-        }
-        .vp-btn-ghost:hover { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.3); }
+        @keyframes heroBlink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 
-        /* ── Terminal dans le hero ── */
-        .vp-terminal {
-            flex: 0 1 380px;
-            background: #0d0d0d;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 6px;
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(64px, 10vw, 128px);
+            line-height: 0.9;
+            letter-spacing: 0.02em;
+            color: var(--accent);
+            margin: 0 0 32px;
+            opacity: 0;
+            animation: heroFadeUp 0.9s ease 0.35s forwards;
+        }
+        .hero-title .title-sub {
+            display: block;
+            font-size: 0.55em;
+            letter-spacing: 0.28em;
+            color: rgba(255,255,255,0.15);
+            margin-top: 0.08em;
+        }
+
+        .hero-lead {
+            max-width: 460px;
+            font-size: 15px;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.5);
+            font-weight: 300;
+            margin-bottom: 44px;
+            opacity: 0;
+            animation: heroFadeUp 0.8s ease 0.5s forwards;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: heroFadeUp 0.8s ease 0.65s forwards;
+        }
+        .btn-solid {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 14px 28px;
+            background: var(--accent);
+            color: var(--primary);
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.35s ease;
+        }
+        .btn-solid:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,255,255,0.12); }
+        .btn-outline {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 14px 24px;
+            background: transparent;
+            color: rgba(255,255,255,0.55);
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 2px;
+            transition: all 0.35s ease;
+        }
+        .btn-outline:hover { color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.35); }
+
+        /* ── Terminal discret (bas-droite du hero) ── */
+        .hero-terminal {
+            position: absolute;
+            bottom: 60px;
+            right: 5%;
+            width: 320px;
+            background: rgba(13,13,13,0.85);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 4px;
             overflow: hidden;
             font-family: 'Space Mono', monospace;
-            font-size: 11px;
-            box-shadow: 0 0 60px rgba(255,255,255,0.03), 0 24px 60px rgba(0,0,0,0.7);
-            position: relative;
-            min-height: 220px;
+            font-size: 10.5px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            z-index: 5;
+            opacity: 0;
+            animation: heroFadeUp 0.8s ease 1s forwards;
         }
-        .vp-terminal::before {
-            content: '';
-            position: absolute; inset: 0;
-            background: repeating-linear-gradient(
-                0deg, transparent, transparent 2px,
-                rgba(255,255,255,0.012) 2px, rgba(255,255,255,0.012) 3px
-            );
-            pointer-events: none; z-index: 2;
-        }
-        .vp-terminal-header {
-            display: flex; align-items: center; gap: 8px;
-            padding: 10px 14px;
+        .hero-terminal-header {
+            display: flex; align-items: center; gap: 6px;
+            padding: 8px 12px;
             background: rgba(255,255,255,0.03);
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-        .vp-terminal-dot { width: 9px; height: 9px; border-radius: 50%; }
-        .vp-terminal-dot.red { background: #ff5f56; }
-        .vp-terminal-dot.yellow { background: #ffbd2e; }
-        .vp-terminal-dot.green { background: #27c93f; }
-        .vp-terminal-title {
-            margin-left: 10px; font-size: 9px;
+        .hero-terminal-dot { width: 7px; height: 7px; border-radius: 50%; }
+        .hero-terminal-dot.red { background: #ff5f56; }
+        .hero-terminal-dot.yellow { background: #ffbd2e; }
+        .hero-terminal-dot.green { background: #27c93f; }
+        .hero-terminal-title {
+            margin-left: 8px; font-size: 9px;
             color: rgba(255,255,255,0.25);
-            letter-spacing: 1px; text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
         }
-        .vp-terminal-body {
-            padding: 16px 18px;
-            color: #e0e0e0;
-            line-height: 2;
-            position: relative; z-index: 1;
-            min-height: 160px;
+        .hero-terminal-body {
+            padding: 12px 14px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.9;
+            min-height: 130px;
         }
-        .vp-terminal-line { display: block; white-space: pre-wrap; word-break: break-word; }
-        .vp-terminal-prompt { color: #27c93f; margin-right: 8px; }
-        .vp-terminal-cmd { color: #ffffff; }
-        .vp-terminal-output { color: rgba(255,255,255,0.35); padding-left: 18px; }
-        .vp-terminal-output .highlight { color: #ff5f56; }
-        .vp-terminal-cursor {
-            display: inline-block; width: 7px; height: 13px;
-            background: #ffffff; margin-left: 2px;
+        .hero-terminal-line { display: block; white-space: pre-wrap; word-break: break-word; }
+        .hero-terminal-prompt { color: #27c93f; margin-right: 6px; }
+        .hero-terminal-cmd { color: #ffffff; }
+        .hero-terminal-output { color: rgba(255,255,255,0.32); padding-left: 14px; }
+        .hero-terminal-output .hl { color: #ff5f56; }
+        .hero-terminal-cursor {
+            display: inline-block;
+            width: 6px; height: 12px;
+            background: #ffffff;
+            margin-left: 2px;
             vertical-align: middle;
-            animation: vpCursorBlink 1s step-end infinite;
+            animation: cursorBlink 1s step-end infinite;
         }
-        @keyframes vpCursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
+        @keyframes cursorBlink { 0%,100%{opacity:1} 50%{opacity:0} }
 
-        /* ── Flèche scroll indicator ── */
-        .vp-scroll-hint {
+        /* ── Scroll hint ── */
+        .hero-scroll {
             position: absolute;
-            bottom: 36px; left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-            color: rgba(255,255,255,0.2);
-            font-family: 'Space Mono', monospace;
-            font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
-            animation: vpFloat 2.5s ease-in-out infinite;
+            bottom: 40px;
+            left: 5%;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 5;
+            opacity: 0;
+            animation: heroFadeUp 0.8s ease 1.2s forwards;
         }
-        .vp-scroll-hint i { font-size: 14px; }
-        @keyframes vpFloat {
-            0%,100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
-            50% { transform: translateX(-50%) translateY(8px); opacity: 0.8; }
+        .hero-scroll-line {
+            width: 40px;
+            height: 1px;
+            background: rgba(255,255,255,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-scroll-line::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.8);
+            transform: translateX(-100%);
+            animation: scrollLine 2.4s ease-in-out infinite;
+        }
+        @keyframes scrollLine {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(0); }
+            100% { transform: translateX(100%); }
+        }
+        .hero-scroll span {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
         }
 
-        /* ── Section : À propos (split) ── */
-        .vp-about {
-            background: var(--secondary);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
+        @keyframes heroFadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-        .vp-about-grid {
+
+        /* ═══════════ ABOUT ═══════════ */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 100px;
+            align-items: center;
+        }
+        .about-visual {
+            position: relative;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            background: #0d0d0d;
+            border: 1px solid var(--border);
+        }
+        .about-visual img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: grayscale(50%) brightness(0.65);
+            transition: all 1.2s cubic-bezier(0.16,1,0.3,1);
+        }
+        .about-visual:hover img {
+            filter: grayscale(0%) brightness(0.95);
+            transform: scale(1.03);
+        }
+        .about-visual::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent 50%);
+            pointer-events: none;
+        }
+        .about-visual-caption {
+            position: absolute;
+            bottom: 20px; left: 20px;
+            z-index: 3;
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+        }
+        .about-visual-num {
+            position: absolute;
+            top: 20px; right: 20px;
+            z-index: 3;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 0.05em;
+        }
+
+        .about-content .t-label { display: block; margin-bottom: 24px; }
+        .about-content .t-title {
+            font-size: clamp(40px, 5vw, 64px);
+            margin-bottom: 32px;
+        }
+        .about-content .t-title em {
+            font-style: normal;
+            color: rgba(255,255,255,0.18);
+        }
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+        }
+        .about-stat-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            color: var(--accent);
+            letter-spacing: 0.05em;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .about-stat-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+        }
+
+        /* ═══════════ FEATURES ═══════════ */
+        .features-header {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 80px;
-            align-items: center;
+            align-items: end;
+            margin-bottom: 80px;
         }
-        .vp-about-visual {
-            position: relative;
-            aspect-ratio: 4/3;
-            border-radius: 4px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            background: #0d0d0d;
+        .features-header .t-title {
+            font-size: clamp(40px, 5vw, 64px);
         }
-        .vp-about-visual img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            filter: grayscale(40%) brightness(0.7);
-            transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
+        .features-header .t-title em {
+            font-style: normal;
+            color: rgba(255,255,255,0.18);
         }
-        .vp-about-visual:hover img {
-            filter: grayscale(0%) brightness(1);
-            transform: scale(1.04);
-        }
-        .vp-about-visual::after {
-            content: '';
-            position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(192,57,43,0.1), transparent 50%);
-            pointer-events: none;
-        }
-        .vp-about-visual-tag {
-            position: absolute; top: 16px; left: 16px;
-            font-family: 'Space Mono', monospace;
-            font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
-            color: rgba(255,255,255,0.5);
-            background: rgba(0,0,0,0.5);
-            padding: 6px 12px; border-radius: 2px;
-            backdrop-filter: blur(6px);
-            z-index: 3;
-        }
+        .features-header .t-label { display: block; margin-bottom: 20px; }
 
-        /* ── Section : Caractéristiques (grille) ── */
-        .vp-features {
-            background: var(--primary);
-        }
-        .vp-features-header {
-            text-align: center;
-            margin-bottom: 70px;
-        }
-        .vp-features-header .vp-eyebrow { justify-content: center; }
-        .vp-features-header .vp-eyebrow::before { display: none; }
-        .vp-features-header .vp-heading { font-size: clamp(40px, 6vw, 72px); }
-        .vp-features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-        }
-        .vp-feature-card {
-            background: var(--primary);
-            padding: 48px 36px;
-            position: relative;
-            overflow: hidden;
-            transition: background 0.4s ease;
-        }
-        .vp-feature-card:hover { background: rgba(255,255,255,0.03); }
-        .vp-feature-card::before {
-            content: '';
-            position: absolute; top: 0; left: 0;
-            width: 2px; height: 0;
-            background: var(--accent);
-            transition: height 0.5s ease;
-        }
-        .vp-feature-card:hover::before { height: 100%; }
-        .vp-feature-num {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 72px;
-            color: rgba(255,255,255,0.04);
-            line-height: 1;
-            margin-bottom: -12px;
-        }
-        .vp-feature-icon {
-            font-size: 24px;
-            color: var(--accent);
-            margin-bottom: 22px;
-        }
-        .vp-feature-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 28px;
-            letter-spacing: 2px;
-            color: var(--accent);
-            margin-bottom: 14px;
-        }
-        .vp-feature-desc {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.8;
-        }
-
-        /* ── Section : Galerie (mosaïque) ── */
-        .vp-gallery {
-            background: var(--secondary);
+        .features-list {
             border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
         }
-        .vp-gallery-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        .vp-gallery-header .vp-eyebrow { justify-content: center; }
-        .vp-gallery-header .vp-eyebrow::before { display: none; }
-        .vp-gallery-header .vp-heading { font-size: clamp(40px, 6vw, 72px); }
-        .vp-gallery-header .vp-text { margin: 0 auto; text-align: center; }
-
-        .vp-gallery-grid {
+        .feature-row {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-auto-rows: 220px;
-            gap: 12px;
+            grid-template-columns: 60px 1fr 1.2fr 40px;
+            gap: 40px;
+            align-items: center;
+            padding: 40px 20px;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.4s ease;
+            position: relative;
+            cursor: default;
         }
-        .vp-gallery-item {
+        .feature-row::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 2px;
+            background: var(--accent);
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
+        .feature-row:hover {
+            padding-left: 40px;
+            background: rgba(255,255,255,0.015);
+        }
+        .feature-row:hover::before { transform: scaleY(1); }
+        .feature-num {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 0.15em;
+        }
+        .feature-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 26px;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            line-height: 1;
+        }
+        .feature-desc {
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.5);
+            font-weight: 300;
+        }
+        .feature-arrow {
+            color: rgba(255,255,255,0.2);
+            font-size: 14px;
+            transition: all 0.4s ease;
+            text-align: right;
+        }
+        .feature-row:hover .feature-arrow {
+            color: var(--accent);
+            transform: translateX(6px);
+        }
+        @media (max-width: 800px) {
+            .feature-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 32px 0;
+            }
+            .feature-row:hover { padding-left: 0; }
+            .feature-arrow { display: none; }
+        }
+
+        /* ═══════════ GALLERY ═══════════ */
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            margin-bottom: 56px;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .gallery-header .t-title {
+            font-size: clamp(40px, 5vw, 64px);
+        }
+        .gallery-header .t-title em {
+            font-style: normal;
+            color: rgba(255,255,255,0.18);
+        }
+        .gallery-header .t-label { display: block; margin-bottom: 20px; }
+        .gallery-count {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+        }
+        .gallery-count strong { color: var(--accent); font-weight: 700; }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 14px;
+        }
+        .gallery-item {
             position: relative;
             overflow: hidden;
-            border-radius: 4px;
-            cursor: pointer;
             background: #0d0d0d;
             border: 1px solid var(--border);
-            opacity: 0;
-            transform: scale(0.96);
-            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1);
+            cursor: pointer;
+            transition: border-color 0.4s ease;
         }
-        .vp-gallery-item.visible { opacity: 1; transform: scale(1); }
-        .vp-gallery-item:nth-child(1) { transition-delay: 0.05s; }
-        .vp-gallery-item:nth-child(2) { transition-delay: 0.1s; }
-        .vp-gallery-item:nth-child(3) { transition-delay: 0.15s; }
-        .vp-gallery-item:nth-child(4) { transition-delay: 0.2s; }
-        .vp-gallery-item:nth-child(5) { transition-delay: 0.25s; }
-        .vp-gallery-item:nth-child(6) { transition-delay: 0.3s; }
+        .gallery-item:hover { border-color: rgba(255,255,255,0.25); }
 
-        .vp-gallery-item.span-2 { grid-column: span 2; grid-row: span 2; }
-        .vp-gallery-item.span-2-v { grid-row: span 2; }
-        .vp-gallery-item.span-2-h { grid-column: span 2; }
+        .gallery-item--hero  { grid-column: span 7; grid-row: span 2; aspect-ratio: 16/11; }
+        .gallery-item--tall  { grid-column: span 5; grid-row: span 2; aspect-ratio: 5/6; }
+        .gallery-item--wide  { grid-column: span 6; aspect-ratio: 16/10; }
+        .gallery-item--small { grid-column: span 3; aspect-ratio: 1/1; }
+        .gallery-item--mid   { grid-column: span 3; aspect-ratio: 1/1; }
 
-        .vp-gallery-item img {
+        .gallery-item img {
             width: 100%; height: 100%;
             object-fit: cover;
-            filter: grayscale(40%) brightness(0.6);
-            transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
             display: block;
+            filter: grayscale(55%) brightness(0.6);
+            transition: all 1s cubic-bezier(0.16,1,0.3,1);
         }
-        .vp-gallery-item:hover img {
+        .gallery-item:hover img {
             filter: grayscale(0%) brightness(1);
-            transform: scale(1.08);
+            transform: scale(1.05);
         }
-        .vp-gallery-overlay {
+        .gallery-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 55%);
+            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 55%);
             opacity: 0;
             transition: opacity 0.4s ease;
             display: flex;
             align-items: flex-end;
-            padding: 22px;
+            padding: 20px;
             z-index: 2;
         }
-        .vp-gallery-item:hover .vp-gallery-overlay { opacity: 1; }
-        .vp-gallery-caption { transform: translateY(14px); transition: transform 0.4s ease; }
-        .vp-gallery-item:hover .vp-gallery-caption { transform: translateY(0); }
-        .vp-gallery-tag {
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-caption { transform: translateY(10px); transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); }
+        .gallery-item:hover .gallery-caption { transform: translateY(0); }
+        .gallery-tag {
             font-family: 'Space Mono', monospace;
-            font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
             color: rgba(255,255,255,0.5);
-            margin-bottom: 6px; display: block;
+            display: block;
+            margin-bottom: 6px;
         }
-        .vp-gallery-title {
+        .gallery-title {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 22px; letter-spacing: 1.5px;
-            color: #fff; line-height: 1;
+            font-size: 20px;
+            letter-spacing: 0.05em;
+            color: #fff;
+            line-height: 1;
         }
-        .vp-gallery-zoom {
-            position: absolute; top: 14px; right: 14px;
-            width: 36px; height: 36px; border-radius: 50%;
-            background: rgba(255,255,255,0.1);
+        .gallery-zoom {
+            position: absolute;
+            top: 14px; right: 14px;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.2);
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
             display: flex; align-items: center; justify-content: center;
-            color: #fff; font-size: 12px;
-            opacity: 0; transform: scale(0.5);
-            transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+            color: #fff; font-size: 11px;
+            opacity: 0;
+            transform: scale(0.7);
+            transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
             z-index: 4;
         }
-        .vp-gallery-item:hover .vp-gallery-zoom { opacity: 1; transform: scale(1); }
-        .vp-gallery-placeholder {
+        .gallery-item:hover .gallery-zoom { opacity: 1; transform: scale(1); }
+
+        .gallery-placeholder {
             width: 100%; height: 100%;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
@@ -681,130 +738,181 @@
             background: linear-gradient(135deg, #0d0d0d 0%, #151515 100%);
             color: rgba(255,255,255,0.15);
             font-family: 'Space Mono', monospace;
-            font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+            font-size: 9px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
         }
-        .vp-gallery-placeholder i { font-size: 28px; color: rgba(255,255,255,0.12); }
+        .gallery-placeholder i { font-size: 22px; color: rgba(255,255,255,0.12); }
 
         @media (max-width: 900px) {
-            .vp-gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
-            .vp-gallery-item.span-2 { grid-column: span 2; grid-row: span 1; }
-            .vp-about-grid { grid-template-columns: 1fr; gap: 40px; }
-            .vp-hero-flex { flex-direction: column; align-items: flex-start; }
-            .vp-terminal { flex: 1 1 100%; width: 100%; }
+            .gallery-grid { grid-template-columns: repeat(6, 1fr); }
+            .gallery-item--hero  { grid-column: span 6; grid-row: span 1; aspect-ratio: 16/10; }
+            .gallery-item--tall  { grid-column: span 6; grid-row: span 1; aspect-ratio: 16/10; }
+            .gallery-item--wide  { grid-column: span 6; }
+            .gallery-item--small { grid-column: span 3; }
+            .gallery-item--mid   { grid-column: span 3; }
         }
         @media (max-width: 600px) {
-            .vp-gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 220px; }
-            .vp-gallery-item.span-2, .vp-gallery-item.span-2-v, .vp-gallery-item.span-2-h { grid-column: span 1; grid-row: span 1; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .gallery-item { grid-column: span 1 !important; aspect-ratio: 16/10 !important; grid-row: span 1 !important; }
         }
 
         /* ── Lightbox ── */
-        .vp-lightbox {
+        .lightbox {
             position: fixed; inset: 0;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.96);
             z-index: 9000;
             display: flex; align-items: center; justify-content: center;
             opacity: 0; pointer-events: none;
-            transition: opacity 0.35s ease;
-            backdrop-filter: blur(16px);
+            transition: opacity 0.4s ease;
+            backdrop-filter: blur(20px);
         }
-        .vp-lightbox.active { opacity: 1; pointer-events: all; }
-        .vp-lightbox-img-wrap {
+        .lightbox.active { opacity: 1; pointer-events: all; }
+        .lightbox-wrap {
             position: relative;
             max-width: 92vw; max-height: 88vh;
-            border-radius: 8px;
+            border-radius: 4px;
             overflow: hidden;
             border: 1px solid rgba(255,255,255,0.08);
-            transform: scale(0.9);
-            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            transform: scale(0.94);
+            transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
             box-shadow: 0 40px 100px rgba(0,0,0,0.9);
         }
-        .vp-lightbox.active .vp-lightbox-img-wrap { transform: scale(1); }
-        .vp-lightbox-img-wrap img { display: block; max-width: 92vw; max-height: 88vh; object-fit: contain; }
-        .vp-lightbox-close {
+        .lightbox.active .lightbox-wrap { transform: scale(1); }
+        .lightbox-wrap img { display: block; max-width: 92vw; max-height: 88vh; object-fit: contain; }
+        .lightbox-close {
             position: absolute; top: 14px; right: 14px;
-            width: 40px; height: 40px; border-radius: 50%;
+            width: 38px; height: 38px;
+            border-radius: 50%;
             background: rgba(0,0,0,0.6);
             border: 1px solid rgba(255,255,255,0.2);
-            color: #fff; font-size: 16px;
+            color: #fff; font-size: 14px;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.25s ease; z-index: 2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
         }
-        .vp-lightbox-close:hover { background: rgba(255,255,255,0.15); transform: rotate(90deg); }
-        .vp-lightbox-caption {
+        .lightbox-close:hover { background: rgba(255,255,255,0.15); transform: rotate(90deg); }
+        .lightbox-caption {
             position: absolute; bottom: 0; left: 0; right: 0;
-            padding: 20px 24px;
+            padding: 22px 26px;
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
             z-index: 1;
         }
-        .vp-lightbox-nav {
+        .lightbox-nav {
             position: absolute; top: 50%; transform: translateY(-50%);
-            width: 44px; height: 44px; border-radius: 50%;
+            width: 42px; height: 42px;
+            border-radius: 50%;
             background: rgba(0,0,0,0.5);
             border: 1px solid rgba(255,255,255,0.15);
-            color: #fff; font-size: 16px;
+            color: #fff; font-size: 14px;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.25s ease; z-index: 2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
         }
-        .vp-lightbox-nav:hover { background: rgba(255,255,255,0.15); }
-        .vp-lightbox-prev { left: -60px; }
-        .vp-lightbox-next { right: -60px; }
+        .lightbox-nav:hover { background: rgba(255,255,255,0.15); }
+        .lightbox-prev { left: -60px; }
+        .lightbox-next { right: -60px; }
         @media (max-width: 900px) {
-            .vp-lightbox-prev { left: 8px; }
-            .vp-lightbox-next { right: 8px; }
+            .lightbox-prev { left: 8px; }
+            .lightbox-next { right: 8px; }
         }
 
-        /* ── Section : Newsletter ── */
-        .vp-newsletter {
-            background: var(--primary);
-            text-align: center;
+        /* ═══════════ NEWSLETTER ═══════════ */
+        .newsletter {
+            background: var(--secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
-        .vp-newsletter-inner {
-            max-width: 640px;
-            margin: 0 auto;
+        .newsletter-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
         }
-        .vp-newsletter .vp-eyebrow { justify-content: center; }
-        .vp-newsletter .vp-eyebrow::before { display: none; }
-        .vp-newsletter .vp-heading { font-size: clamp(40px, 6vw, 72px); }
-        .vp-nl-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-top: 40px;
+        .newsletter .t-label { display: block; margin-bottom: 20px; }
+        .newsletter .t-title {
+            font-size: clamp(36px, 4.5vw, 54px);
+            margin-bottom: 20px;
         }
-        .vp-nl-input-row { display: flex; gap: 12px; }
-        .vp-nl-input {
+        .newsletter .t-title em {
+            font-style: normal;
+            color: rgba(255,255,255,0.18);
+        }
+        .newsletter-form { display: flex; flex-direction: column; gap: 14px; }
+        .newsletter-row { display: flex; gap: 10px; }
+        .newsletter-input {
             flex: 1;
-            padding: 16px 20px;
-            background: rgba(255,255,255,0.04);
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.03);
             border: 1px solid var(--border);
-            border-radius: 3px;
+            border-radius: 2px;
             color: var(--text);
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
+            font-size: 13.5px;
+            transition: all 0.3s ease;
         }
-        .vp-nl-input:focus { outline: none; border-color: rgba(255,255,255,0.3); }
-        .vp-nl-btn {
-            padding: 16px 32px;
-            background: var(--accent); color: var(--primary);
-            font-weight: 700; font-size: 12px;
-            letter-spacing: 2px; text-transform: uppercase;
-            border: none; border-radius: 3px;
-            cursor: pointer; font-family: 'Inter', sans-serif;
-            transition: var(--transition);
+        .newsletter-input:focus {
+            outline: none;
+            border-color: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.05);
+        }
+        .newsletter-btn {
+            padding: 14px 26px;
+            background: var(--accent);
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.35s ease;
             white-space: nowrap;
         }
-        .vp-nl-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(255,255,255,0.12); }
-        .vp-nl-note { font-size: 12px; color: rgba(255,255,255,0.25); }
-        .form-message { padding: 10px 14px; border-radius: 3px; font-size: 13px; display: none; }
-        .form-message.success { background: rgba(76,175,80,0.1); color: #4CAF50; border: 1px solid rgba(76,175,80,0.2); display: block; }
-        .form-message.error { background: rgba(244,67,54,0.1); color: #f44336; border: 1px solid rgba(244,67,54,0.2); display: block; }
-        @media (max-width: 600px) {
-            .vp-nl-input-row { flex-direction: column; }
-            .vp-nl-btn { width: 100%; }
+        .newsletter-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(255,255,255,0.12); }
+        .newsletter-note {
+            font-size: 11.5px;
+            color: rgba(255,255,255,0.25);
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 0.05em;
+        }
+        .form-message {
+            padding: 10px 14px;
+            border-radius: 2px;
+            font-size: 12.5px;
+            display: none;
+        }
+        .form-message.success { background: rgba(76,175,80,0.08); color: #66bb6a; border: 1px solid rgba(76,175,80,0.2); display: block; }
+        .form-message.error   { background: rgba(244,67,54,0.08); color: #ef5350; border: 1px solid rgba(244,67,54,0.2); display: block; }
+
+        @media (max-width: 800px) {
+            .newsletter-inner { grid-template-columns: 1fr; gap: 40px; }
+            .newsletter-row { flex-direction: column; }
+            .newsletter-btn { width: 100%; }
+            .about-grid { grid-template-columns: 1fr; gap: 50px; }
+            .about-visual { aspect-ratio: 16/10; }
+            .features-header { grid-template-columns: 1fr; gap: 30px; margin-bottom: 50px; }
+            .section { padding: 90px 0; }
+            .hero-terminal { position: relative; bottom: auto; right: auto; width: 100%; margin-top: 50px; }
         }
 
-        /* ── FOOTER (identique index.html) ── */
+        /* ── Barre de progression ── */
+        .progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 2px;
+            width: 0%;
+            background: linear-gradient(90deg, #c0392b, #ffffff);
+            z-index: 1001;
+            transition: width 0.1s linear;
+            box-shadow: 0 0 8px rgba(255,255,255,0.4);
+        }
+
+        /* ── FOOTER ── */
         footer { background: var(--secondary); padding: 80px 0 40px; border-top: 1px solid var(--border); }
         .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px; }
         .footer-brand { max-width: 300px; }
@@ -829,30 +937,21 @@
 </head>
 <body>
 
-<!-- Barre de progression scroll -->
-<div class="vp-progress" id="vpProgress"></div>
-
-<!-- Indicateur de sections -->
-<div class="vp-dots" id="vpDots">
-    <div class="vp-dot active" data-target="vp-hero" data-label="Intro"></div>
-    <div class="vp-dot" data-target="vp-about" data-label="Le jeu"></div>
-    <div class="vp-dot" data-target="vp-features" data-label="Caractéristiques"></div>
-    <div class="vp-dot" data-target="vp-gallery" data-label="Galerie"></div>
-    <div class="vp-dot" data-target="vp-newsletter" data-label="Newsletter"></div>
-</div>
+<!-- Barre de progression -->
+<div class="progress-bar" id="progressBar"></div>
 
 <!-- Lightbox -->
-<div class="vp-lightbox" id="vpLightbox">
-    <div class="vp-lightbox-nav vp-lightbox-prev" id="vpLightboxPrev" aria-label="Image précédente"><i class="fas fa-chevron-left"></i></div>
-    <div class="vp-lightbox-img-wrap" id="vpLightboxWrap">
-        <img src="" alt="" id="vpLightboxImg">
-        <div class="vp-lightbox-caption">
-            <div class="vp-gallery-tag" id="vpLightboxTag"></div>
-            <div class="vp-gallery-title" id="vpLightboxTitle"></div>
+<div class="lightbox" id="lightbox">
+    <div class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></div>
+    <div class="lightbox-wrap" id="lightboxWrap">
+        <img src="" alt="" id="lightboxImg">
+        <div class="lightbox-caption">
+            <div class="gallery-tag" id="lightboxTag"></div>
+            <div class="gallery-title" id="lightboxTitle"></div>
         </div>
-        <div class="vp-lightbox-close" id="vpLightboxClose"><i class="fas fa-times"></i></div>
+        <div class="lightbox-close" id="lightboxClose"><i class="fas fa-times"></i></div>
     </div>
-    <div class="vp-lightbox-nav vp-lightbox-next" id="vpLightboxNext" aria-label="Image suivante"><i class="fas fa-chevron-right"></i></div>
+    <div class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Suivant"><i class="fas fa-chevron-right"></i></div>
 </div>
 
 <!-- ═══════════ HEADER ═══════════ -->
@@ -897,208 +996,240 @@
     <div class="mobile-nav-actions"></div>
 </nav>
 
-<!-- ═══════════════════════════════════════════
-     SECTION 1 — HERO PLEIN ÉCRAN
-     ═══════════════════════════════════════════ -->
-<section class="vp-hero" id="vp-hero">
-    <div class="vp-hero-bg"></div>
-    <canvas class="vp-canvas" id="vpCanvas"></canvas>
-    <div class="vp-hero-grid"></div>
-    <div class="vp-hero-scan"></div>
-    <div class="vp-hero-vignette"></div>
-    <div class="vp-hero-fade"></div>
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+    <div class="hero-glow"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-noise"></div>
+    <div class="hero-vignette"></div>
 
-    <div class="vp-hero-content">
-        <div class="vp-hero-flex">
-            <div class="vp-hero-left">
-                <div class="vp-eyebrow vp-reveal">Unreal Engine 5.6 &nbsp;/&nbsp; PC &nbsp;/&nbsp; Console</div>
-                <h1 class="vp-hero-title vp-reveal vp-reveal-delay-1">
-                    The Void
-                    <span>Protocol</span>
-                </h1>
-                <p class="vp-hero-desc vp-reveal vp-reveal-delay-2">
-                    Une expérience conçue pour désorienter. Lumière globale dynamique, audio immersif, level design impitoyable.
-                </p>
-                <div class="vp-hero-actions vp-reveal vp-reveal-delay-3">
-                    <a href="#vp-newsletter" class="vp-btn-primary">
-                        <i class="fas fa-bell"></i>
-                        Être alerté au lancement
-                    </a>
-                    <a href="https://discord.gg/PE7MS4Sazk" class="vp-btn-ghost" target="_blank" rel="noopener">
-                        <i class="fab fa-discord"></i>
-                        Discord
-                    </a>
-                </div>
-            </div>
+    <div class="hero-inner">
+        <div class="hero-meta">
+            <span class="hero-meta-dot"></span>
+            <span class="t-label">Unreal Engine 5.6 — PC / Console — 2027</span>
+        </div>
 
-            <div class="vp-terminal vp-reveal vp-reveal-delay-4" id="vpTerminal">
-                <div class="vp-terminal-header">
-                    <span class="vp-terminal-dot red"></span>
-                    <span class="vp-terminal-dot yellow"></span>
-                    <span class="vp-terminal-dot green"></span>
-                    <span class="vp-terminal-title">void_protocol — bash</span>
-                </div>
-                <div class="vp-terminal-body" id="terminalBody"></div>
-            </div>
+        <h1 class="hero-title">
+            The Void
+            <span class="title-sub">Protocol</span>
+        </h1>
+
+        <p class="hero-lead">
+            Une expérience conçue pour désorienter. Lumière globale dynamique, audio immersif, level design impitoyable.
+        </p>
+
+        <div class="hero-actions">
+            <a href="#newsletter" class="btn-solid">
+                <i class="fas fa-bell"></i>
+                Être alerté
+            </a>
+            <a href="https://discord.gg/PE7MS4Sazk" class="btn-outline" target="_blank" rel="noopener">
+                <i class="fab fa-discord"></i>
+                Discord
+            </a>
         </div>
     </div>
 
-    <div class="vp-scroll-hint">
-        <span>Scroll</span>
-        <i class="fas fa-chevron-down"></i>
-    </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-     SECTION 2 — À PROPOS DU JEU
-     ═══════════════════════════════════════════ -->
-<section class="vp-slide vp-about" id="vp-about">
-    <div class="vp-slide-inner">
-        <div class="container">
-            <div class="vp-about-grid">
-                <div class="vp-about-visual vp-reveal">
-                    <span class="vp-about-visual-tag">In-game</span>
-                    <img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Aperçu" loading="lazy"
-                         onerror="this.style.display='none'; this.parentElement.querySelector('.vp-gallery-placeholder').style.display='flex';">
-                    <div class="vp-gallery-placeholder" style="display:none;">
-                        <i class="fas fa-image"></i>
-                        <span>visuel.png</span>
-                    </div>
-                </div>
-                <div>
-                    <div class="vp-eyebrow vp-reveal">Le jeu</div>
-                    <h2 class="vp-heading vp-reveal vp-reveal-delay-1">
-                        Entrez dans
-                        <span class="vp-heading-sub">le vide</span>
-                    </h2>
-                    <p class="vp-text vp-reveal vp-reveal-delay-2">
-                        <strong>The Void Protocol</strong> est une expérience narrative et immersive qui vous plonge dans un complexe abandonné où chaque couloir, chaque salle, chaque silence raconte une histoire. Développé sous <strong>Unreal Engine 5.6</strong>, le jeu exploite la lumière globale dynamique et le ray tracing pour créer une atmosphère d'une densité rare.
-                    </p>
-                    <p class="vp-text vp-reveal vp-reveal-delay-3" style="margin-top: 20px;">
-                        Prévu pour <strong>2027</strong> sur PC et consoles, The Void Protocol est pensé comme une descente progressive — une désorientation maîtrisée où votre seule arme est votre attention.
-                    </p>
-                </div>
-            </div>
+    <div class="hero-terminal" id="heroTerminal">
+        <div class="hero-terminal-header">
+            <span class="hero-terminal-dot red"></span>
+            <span class="hero-terminal-dot yellow"></span>
+            <span class="hero-terminal-dot green"></span>
+            <span class="hero-terminal-title">void_protocol</span>
         </div>
+        <div class="hero-terminal-body" id="terminalBody"></div>
+    </div>
+
+    <div class="hero-scroll">
+        <div class="hero-scroll-line"></div>
+        <span>Défiler</span>
     </div>
 </section>
 
-<!-- ═══════════════════════════════════════════
-     SECTION 3 — CARACTÉRISTIQUES
-     ═══════════════════════════════════════════ -->
-<section class="vp-slide vp-features" id="vp-features">
-    <div class="vp-slide-inner">
-        <div class="container">
-            <div class="vp-features-header">
-                <div class="vp-eyebrow vp-reveal">Caractéristiques</div>
-                <h2 class="vp-heading vp-reveal vp-reveal-delay-1">Ce qui vous attend</h2>
-            </div>
-            <div class="vp-features-grid">
-                <div class="vp-feature-card vp-reveal vp-reveal-delay-1">
-                    <div class="vp-feature-num">01</div>
-                    <div class="vp-feature-icon"><i class="fas fa-eye"></i></div>
-                    <div class="vp-feature-title">Rendu ultra-réaliste</div>
-                    <p class="vp-feature-desc">Lumière globale dynamique, ray tracing et Lumen pour des environnements d'une fidélité sans précédent sous Unreal Engine 5.6.</p>
-                </div>
-                <div class="vp-feature-card vp-reveal vp-reveal-delay-2">
-                    <div class="vp-feature-num">02</div>
-                    <div class="vp-feature-icon"><i class="fas fa-ear-listen"></i></div>
-                    <div class="vp-feature-title">Audio immersif</div>
-                    <p class="vp-feature-desc">La menace se fait entendre avant de se voir — votre ouïe est votre meilleure arme dans l'obscurité.</p>
-                </div>
-                <div class="vp-feature-card vp-reveal vp-reveal-delay-3">
-                    <div class="vp-feature-num">03</div>
-                    <div class="vp-feature-icon"><i class="fas fa-map"></i></div>
-                    <div class="vp-feature-title">Level design</div>
-                    <p class="vp-feature-desc">Des niveaux conçus pour désorienter et surprendre. Chaque recoin recèle une histoire, chaque trappe une issue — ou un piège.</p>
+<!-- ═══════════ ABOUT ═══════════ -->
+<section class="section" id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-visual" data-reveal>
+                <span class="about-visual-num">01</span>
+                <span class="about-visual-caption">In-game / Zone d'expérimentation</span>
+                <img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Aperçu" loading="lazy"
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;">
+                    <i class="fas fa-image"></i>
+                    <span>visuel_01.png</span>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-     SECTION 4 — GALERIE
-     ═══════════════════════════════════════════ -->
-<section class="vp-slide vp-gallery" id="vp-gallery">
-    <div class="vp-slide-inner">
-        <div class="container">
-            <div class="vp-gallery-header">
-                <div class="vp-eyebrow vp-reveal">Aperçu</div>
-                <h2 class="vp-heading vp-reveal vp-reveal-delay-1">Captures d'écran</h2>
-                <p class="vp-text vp-reveal vp-reveal-delay-2" style="margin-top: 16px;">
-                    Plongez dans l'atmosphère oppressante de The Void Protocol à travers une sélection de visuels exclusifs.
-                </p>
-            </div>
-            <div class="vp-gallery-grid">
-                <div class="vp-gallery-item span-2 span-2-v" data-src="../images/The_Void_Protocol_In_Game/image_website_6.png" data-tag="Environnement" data-title="Zone d'expérimentation">
-                    <img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Environnement principal" loading="lazy"
-                         onerror="this.style.display='none'; this.parentElement.querySelector('.vp-gallery-placeholder').style.display='flex';">
-                    <div class="vp-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_06.png</span></div>
-                    <div class="vp-gallery-overlay"><div class="vp-gallery-caption"><span class="vp-gallery-tag">Environnement</span><div class="vp-gallery-title">Zone d'expérimentation</div></div></div>
-                    <div class="vp-gallery-zoom"><i class="fas fa-expand-alt"></i></div>
-                </div>
-                <div class="vp-gallery-item" data-src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" data-tag="Niveau" data-title="Couloir 13">
-                    <img src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" alt="The Void Protocol - Couloir" loading="lazy"
-                         onerror="this.style.display='none'; this.parentElement.querySelector('.vp-gallery-placeholder').style.display='flex';">
-                    <div class="vp-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_02.png</span></div>
-                    <div class="vp-gallery-overlay"><div class="vp-gallery-caption"><span class="vp-gallery-tag">Niveau</span><div class="vp-gallery-title">Couloir 13</div></div></div>
-                    <div class="vp-gallery-zoom"><i class="fas fa-expand-alt"></i></div>
-                </div>
-                <div class="vp-gallery-item" data-src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" data-tag="Décor" data-title="Salle des machines">
-                    <img src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" alt="The Void Protocol - Salle des machines" loading="lazy"
-                         onerror="this.style.display='none'; this.parentElement.querySelector('.vp-gallery-placeholder').style.display='flex';">
-                    <div class="vp-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_03.png</span></div>
-                    <div class="vp-gallery-overlay"><div class="vp-gallery-caption"><span class="vp-gallery-tag">Décor</span><div class="vp-gallery-title">Salle des machines</div></div></div>
-                    <div class="vp-gallery-zoom"><i class="fas fa-expand-alt"></i></div>
-                </div>
-                <div class="vp-gallery-item span-2-h" data-src="../images/The_Void_Protocol_In_Game/image_website_4.png" data-tag="Atmosphère" data-title="Zone intérieur">
-                    <img src="../images/The_Void_Protocol_In_Game/image_website_4.png" alt="The Void Protocol - Zone intérieur" loading="lazy"
-                         onerror="this.style.display='none'; this.parentElement.querySelector('.vp-gallery-placeholder').style.display='flex';">
-                    <div class="vp-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_04.png</span></div>
-                    <div class="vp-gallery-overlay"><div class="vp-gallery-caption"><span class="vp-gallery-tag">Atmosphère</span><div class="vp-gallery-title">Zone intérieur</div></div></div>
-                    <div class="vp-gallery-zoom"><i class="fas fa-expand-alt"></i></div>
-                </div>
-                <div class="vp-gallery-item" data-src="../images/nexa-screen-5.webp" data-tag="Interface" data-title="HUD tactique">
-                    <img src="../images/nexa-screen-5.webp" alt="The Void Protocol - Interface" loading="lazy"
-                         onerror="this.style.display='none'; this.parentElement.querySelector('.vp-gallery-placeholder').style.display='flex';">
-                    <div class="vp-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_05.png</span></div>
-                    <div class="vp-gallery-overlay"><div class="vp-gallery-caption"><span class="vp-gallery-tag">Interface</span><div class="vp-gallery-title">HUD tactique</div></div></div>
-                    <div class="vp-gallery-zoom"><i class="fas fa-expand-alt"></i></div>
-                </div>
-                <div class="vp-gallery-item" data-src="../images/nexa-screen-6.webp" data-tag="Entité" data-title="Présence">
-                    <img src="../images/nexa-screen-6.webp" alt="The Void Protocol - Créature" loading="lazy"
-                         onerror="this.style.display='none'; this.parentElement.querySelector('.vp-gallery-placeholder').style.display='flex';">
-                    <div class="vp-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_06.png</span></div>
-                    <div class="vp-gallery-overlay"><div class="vp-gallery-caption"><span class="vp-gallery-tag">Entité</span><div class="vp-gallery-title">Présence</div></div></div>
-                    <div class="vp-gallery-zoom"><i class="fas fa-expand-alt"></i></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ═══════════════════════════════════════════
-     SECTION 5 — NEWSLETTER
-     ═══════════════════════════════════════════ -->
-<section class="vp-slide vp-newsletter" id="vp-newsletter">
-    <div class="vp-slide-inner">
-        <div class="container">
-            <div class="vp-newsletter-inner">
-                <div class="vp-eyebrow vp-reveal">Ne manquez pas</div>
-                <h2 class="vp-heading vp-reveal vp-reveal-delay-1">
-                    Soyez alerté
-                    <span class="vp-heading-sub">au lancement</span>
+            <div class="about-content">
+                <span class="t-label" data-reveal data-delay="1">Le jeu</span>
+                <h2 class="t-title" data-reveal data-delay="2">
+                    Entrez dans<br><em>le vide</em>
                 </h2>
-                <p class="vp-text vp-reveal vp-reveal-delay-2" style="margin: 0 auto;">
-                    Recevez une notification dès que The Void Protocol sera disponible. Nous respectons votre vie privée — désinscription à tout moment.
+                <p class="t-body" data-reveal data-delay="3">
+                    <strong>The Void Protocol</strong> est une expérience narrative et immersive qui vous plonge dans un complexe abandonné où chaque couloir, chaque salle, chaque silence raconte une histoire. Développé sous <strong>Unreal Engine 5.6</strong>, le jeu exploite la lumière globale dynamique et le ray tracing pour créer une atmosphère d'une densité rare.
                 </p>
-                <form id="notificationForm" class="vp-nl-form vp-reveal vp-reveal-delay-3">
-                    <div class="vp-nl-input-row">
-                        <input type="email" name="email" class="vp-nl-input" placeholder="votre@email.com" required>
-                        <button type="submit" class="vp-nl-btn">M'informer</button>
+                <p class="t-body" data-reveal data-delay="4">
+                    Prévu pour <strong>2027</strong> sur PC et consoles, The Void Protocol est pensé comme une descente progressive — une désorientation maîtrisée où votre seule arme est votre attention.
+                </p>
+
+                <div class="about-stats" data-reveal data-delay="5">
+                    <div>
+                        <div class="about-stat-num">2027</div>
+                        <div class="about-stat-label">Sortie prévue</div>
                     </div>
-                    <p class="vp-nl-note">Aucun spam. Juste le lancement.</p>
+                    <div>
+                        <div class="about-stat-num">UE 5.6</div>
+                        <div class="about-stat-label">Moteur</div>
+                    </div>
+                    <div>
+                        <div class="about-stat-num">PC/PS/XB</div>
+                        <div class="about-stat-label">Plateformes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════ FEATURES ═══════════ -->
+<section class="section" id="features">
+    <div class="container">
+        <div class="features-header">
+            <div>
+                <span class="t-label" data-reveal>Caractéristiques</span>
+                <h2 class="t-title" data-reveal data-delay="1">
+                    Une expérience<br><em>totale</em>
+                </h2>
+            </div>
+            <p class="t-body" data-reveal data-delay="2">
+                Chaque système du jeu a été pensé pour servir l'immersion. Rien n'est décoratif — tout participe à la tension.
+            </p>
+        </div>
+
+        <div class="features-list">
+            <div class="feature-row" data-reveal>
+                <div class="feature-num">01</div>
+                <div class="feature-title">Rendu ultra-réaliste</div>
+                <div class="feature-desc">Lumière globale dynamique, ray tracing et Lumen pour des environnements d'une fidélité sans précédent.</div>
+                <div class="feature-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+            <div class="feature-row" data-reveal data-delay="1">
+                <div class="feature-num">02</div>
+                <div class="feature-title">Audio immersif</div>
+                <div class="feature-desc">La menace se fait entendre avant de se voir. Votre ouïe devient votre meilleure arme dans l'obscurité.</div>
+                <div class="feature-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+            <div class="feature-row" data-reveal data-delay="2">
+                <div class="feature-num">03</div>
+                <div class="feature-title">Level design</div>
+                <div class="feature-desc">Des niveaux conçus pour désorienter. Chaque recoin recèle une histoire, chaque trappe une issue — ou un piège.</div>
+                <div class="feature-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+            <div class="feature-row" data-reveal data-delay="3">
+                <div class="feature-num">04</div>
+                <div class="feature-title">Narration environnementale</div>
+                <div class="feature-desc">Aucun dialogue imposé. L'histoire se découvre par fragments, à travers l'espace et les objets oubliés.</div>
+                <div class="feature-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════ GALLERY ═══════════ -->
+<section class="section" id="gallery">
+    <div class="container">
+        <div class="gallery-header">
+            <div>
+                <span class="t-label" data-reveal>Aperçu</span>
+                <h2 class="t-title" data-reveal data-delay="1">
+                    Captures<br><em>d'écran</em>
+                </h2>
+            </div>
+            <div class="gallery-count" data-reveal data-delay="2">
+                <strong>06</strong> visuels — The Void Protocol
+            </div>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item gallery-item--hero" data-reveal data-src="../images/The_Void_Protocol_In_Game/image_website_6.png" data-tag="Environnement" data-title="Zone d'expérimentation">
+                <img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Environnement principal" loading="lazy"
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_01</span></div>
+                <div class="gallery-overlay"><div class="gallery-caption"><span class="gallery-tag">Environnement</span><div class="gallery-title">Zone d'expérimentation</div></div></div>
+                <div class="gallery-zoom"><i class="fas fa-expand-alt"></i></div>
+            </div>
+
+            <div class="gallery-item gallery-item--tall" data-reveal data-delay="1" data-src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" data-tag="Niveau" data-title="Couloir 13">
+                <img src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" alt="The Void Protocol - Couloir" loading="lazy"
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_02</span></div>
+                <div class="gallery-overlay"><div class="gallery-caption"><span class="gallery-tag">Niveau</span><div class="gallery-title">Couloir 13</div></div></div>
+                <div class="gallery-zoom"><i class="fas fa-expand-alt"></i></div>
+            </div>
+
+            <div class="gallery-item gallery-item--small" data-reveal data-delay="2" data-src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" data-tag="Décor" data-title="Salle des machines">
+                <img src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" alt="The Void Protocol - Salle des machines" loading="lazy"
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>03</span></div>
+                <div class="gallery-overlay"><div class="gallery-caption"><span class="gallery-tag">Décor</span><div class="gallery-title">Salle des machines</div></div></div>
+                <div class="gallery-zoom"><i class="fas fa-expand-alt"></i></div>
+            </div>
+
+            <div class="gallery-item gallery-item--small" data-reveal data-delay="3" data-src="../images/The_Void_Protocol_In_Game/image_website_4.png" data-tag="Atmosphère" data-title="Zone intérieur">
+                <img src="../images/The_Void_Protocol_In_Game/image_website_4.png" alt="The Void Protocol - Zone intérieur" loading="lazy"
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>04</span></div>
+                <div class="gallery-overlay"><div class="gallery-caption"><span class="gallery-tag">Atmosphère</span><div class="gallery-title">Zone intérieur</div></div></div>
+                <div class="gallery-zoom"><i class="fas fa-expand-alt"></i></div>
+            </div>
+
+            <div class="gallery-item gallery-item--mid" data-reveal data-delay="4" data-src="../images/nexa-screen-5.webp" data-tag="Interface" data-title="HUD tactique">
+                <img src="../images/nexa-screen-5.webp" alt="The Void Protocol - Interface" loading="lazy"
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>05</span></div>
+                <div class="gallery-overlay"><div class="gallery-caption"><span class="gallery-tag">Interface</span><div class="gallery-title">HUD tactique</div></div></div>
+                <div class="gallery-zoom"><i class="fas fa-expand-alt"></i></div>
+            </div>
+
+            <div class="gallery-item gallery-item--mid" data-reveal data-delay="5" data-src="../images/nexa-screen-6.webp" data-tag="Entité" data-title="Présence">
+                <img src="../images/nexa-screen-6.webp" alt="The Void Protocol - Créature" loading="lazy"
+                     onerror="this.style.display='none'; this.parentElement.querySelector('.gallery-placeholder').style.display='flex';">
+                <div class="gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>06</span></div>
+                <div class="gallery-overlay"><div class="gallery-caption"><span class="gallery-tag">Entité</span><div class="gallery-title">Présence</div></div></div>
+                <div class="gallery-zoom"><i class="fas fa-expand-alt"></i></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════ NEWSLETTER ═══════════ -->
+<section class="section newsletter" id="newsletter">
+    <div class="container">
+        <div class="newsletter-inner">
+            <div>
+                <span class="t-label" data-reveal>Ne manquez pas</span>
+                <h2 class="t-title" data-reveal data-delay="1">
+                    Soyez alerté<br><em>au lancement</em>
+                </h2>
+                <p class="t-body" data-reveal data-delay="2">
+                    Recevez une notification dès que The Void Protocol sera disponible. Aucun spam — juste l'essentiel.
+                </p>
+            </div>
+            <div data-reveal data-delay="3">
+                <form id="notificationForm" class="newsletter-form">
+                    <div class="newsletter-row">
+                        <input type="email" name="email" class="newsletter-input" placeholder="votre@email.com" required>
+                        <button type="submit" class="newsletter-btn">M'informer</button>
+                    </div>
+                    <p class="newsletter-note">Désinscription à tout moment.</p>
                     <div id="formMessage" class="form-message"></div>
                 </form>
             </div>
@@ -1211,12 +1342,10 @@
         const lines = [
             { type: 'cmd', text: 'system --check' },
             { type: 'out', text: 'Initializing void protocol...' },
-            { type: 'out', text: 'Loading assets <span class="highlight">[OK]</span>' },
-            { type: 'out', text: 'Calibrating sensors <span class="highlight">[OK]</span>' },
-            { type: 'out', text: 'Establishing link <span class="highlight">[OK]</span>' },
+            { type: 'out', text: 'Loading assets <span class="hl">[OK]</span>' },
+            { type: 'out', text: 'Calibrating sensors <span class="hl">[OK]</span>' },
             { type: 'cmd', text: 'status --deploy' },
-            { type: 'out', text: 'Target release: <span class="highlight">2027</span>' },
-            { type: 'out', text: 'Awaiting launch sequence...' }
+            { type: 'out', text: 'Target release: <span class="hl">2027</span>' }
         ];
 
         let lineIndex = 0;
@@ -1225,30 +1354,30 @@
 
         function createLine(lineData) {
             const div = document.createElement('span');
-            div.className = 'vp-terminal-line';
+            div.className = 'hero-terminal-line';
             const prompt = document.createElement('span');
-            prompt.className = 'vp-terminal-prompt';
+            prompt.className = 'hero-terminal-prompt';
             prompt.textContent = '>';
             const content = document.createElement('span');
-            content.className = lineData.type === 'cmd' ? 'vp-terminal-cmd' : 'vp-terminal-output';
+            content.className = lineData.type === 'cmd' ? 'hero-terminal-cmd' : 'hero-terminal-output';
             if (lineData.type === 'out') {
                 content.innerHTML = lineData.text;
                 div.appendChild(content);
                 body.appendChild(div);
-                return { div, content, finished: true };
+                return;
             }
             content.textContent = '';
             div.appendChild(prompt);
             div.appendChild(content);
             body.appendChild(div);
-            return { div, content, finished: false };
+            currentSpan = content;
         }
 
         function typeNext() {
             if (lineIndex >= lines.length) {
                 const cursorLine = document.createElement('span');
-                cursorLine.className = 'vp-terminal-line';
-                cursorLine.innerHTML = '<span class="vp-terminal-prompt">></span><span class="vp-terminal-cursor"></span>';
+                cursorLine.className = 'hero-terminal-line';
+                cursorLine.innerHTML = '<span class="hero-terminal-prompt">></span><span class="hero-terminal-cursor"></span>';
                 body.appendChild(cursorLine);
                 return;
             }
@@ -1256,30 +1385,29 @@
             if (lineData.type === 'out') {
                 createLine(lineData);
                 lineIndex++;
-                setTimeout(typeNext, 200);
+                setTimeout(typeNext, 180);
                 return;
             }
-            const { content } = createLine(lineData);
-            currentSpan = content;
+            createLine(lineData);
             charIndex = 0;
             function typeChar() {
                 if (charIndex < lineData.text.length) {
                     currentSpan.textContent += lineData.text[charIndex];
                     charIndex++;
-                    setTimeout(typeChar, 45);
+                    setTimeout(typeChar, 40);
                 } else {
                     lineIndex++;
-                    setTimeout(typeNext, 350);
+                    setTimeout(typeNext, 300);
                 }
             }
             typeChar();
         }
-        setTimeout(typeNext, 600);
+        setTimeout(typeNext, 1200);
     })();
 
     /* ── CANVAS PARTICULES ── */
     (function() {
-        const canvas = document.getElementById('vpCanvas');
+        const canvas = document.getElementById('heroCanvas');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
         const section = canvas.parentElement;
@@ -1288,13 +1416,13 @@
         resize();
         window.addEventListener('resize', resize);
 
-        const pts = Array.from({length: 70}, () => ({
+        const pts = Array.from({length: 50}, () => ({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            r: Math.random() * 1.2 + 0.2,
-            vy: -(Math.random() * 0.28 + 0.06),
-            vx: (Math.random() - 0.5) * 0.12,
-            o: Math.random() * 0.3 + 0.04,
+            r: Math.random() * 1 + 0.2,
+            vy: -(Math.random() * 0.2 + 0.05),
+            vx: (Math.random() - 0.5) * 0.08,
+            o: Math.random() * 0.25 + 0.04,
             life: Math.random()
         }));
 
@@ -1305,7 +1433,7 @@
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
                 ctx.fillStyle = 'rgba(255,255,255,' + (p.o * Math.sin(p.life * Math.PI)).toFixed(3) + ')';
                 ctx.fill();
-                p.x += p.vx; p.y += p.vy; p.life += 0.004;
+                p.x += p.vx; p.y += p.vy; p.life += 0.003;
                 if (p.life >= 1) { p.life = 0; p.x = Math.random() * canvas.width; p.y = canvas.height + 10; }
             });
             requestAnimationFrame(draw);
@@ -1313,106 +1441,69 @@
         draw();
     })();
 
-    /* ── SCROLL REVEAL (IntersectionObserver) ── */
+    /* ── SCROLL REVEAL ── */
     const revealObs = new IntersectionObserver((entries) => {
         entries.forEach(e => {
             if (e.isIntersecting) {
-                e.target.classList.add('visible');
-                // Ne plus observer une fois révélé
+                e.target.classList.add('is-visible');
                 revealObs.unobserve(e.target);
             }
         });
-    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
 
-    document.querySelectorAll('.vp-reveal, .vp-gallery-item').forEach(el => revealObs.observe(el));
+    document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
 
-    /* ── BARRE DE PROGRESSION + DOTS ACTIFS ── */
+    /* ── BARRE DE PROGRESSION ── */
     (function() {
-        const progress = document.getElementById('vpProgress');
-        const dots = document.querySelectorAll('.vp-dot');
-        const sections = Array.from(dots).map(d => document.getElementById(d.dataset.target)).filter(Boolean);
-
-        function updateProgress() {
-            const scrollTop = window.scrollY;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-            progress.style.height = pct + '%';
-        }
-
-        function updateActiveDot() {
-            const scrollMid = window.scrollY + window.innerHeight * 0.4;
-            let activeIndex = 0;
-            sections.forEach((sec, i) => {
-                if (sec.offsetTop <= scrollMid) activeIndex = i;
-            });
-            dots.forEach((d, i) => d.classList.toggle('active', i === activeIndex));
-        }
-
+        const bar = document.getElementById('progressBar');
         let ticking = false;
+        function update() {
+            const h = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+            bar.style.width = pct + '%';
+            ticking = false;
+        }
         window.addEventListener('scroll', () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    updateProgress();
-                    updateActiveDot();
-                    ticking = false;
-                });
-                ticking = true;
-            }
+            if (!ticking) { requestAnimationFrame(update); ticking = true; }
         });
-        updateProgress();
-        updateActiveDot();
-
-        // Clic sur les dots → scroll vers la section
-        dots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                const target = document.getElementById(dot.dataset.target);
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        });
+        update();
     })();
 
     /* ── SCROLL TO TOP ── */
     const scrollToTop = document.getElementById('scrollToTop');
-    window.addEventListener('scroll', () => scrollToTop.classList.toggle('active', window.scrollY > 400));
+    window.addEventListener('scroll', () => scrollToTop.classList.toggle('active', window.scrollY > 500));
     scrollToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    /* ── GALERIE : LIGHTBOX + TRACKING ── */
+    /* ── LIGHTBOX ── */
     (function() {
-        const items = Array.from(document.querySelectorAll('.vp-gallery-item'));
+        const items = Array.from(document.querySelectorAll('.gallery-item'));
         if (!items.length) return;
 
-        const lightbox      = document.getElementById('vpLightbox');
-        const lightboxImg   = document.getElementById('vpLightboxImg');
-        const lightboxTag   = document.getElementById('vpLightboxTag');
-        const lightboxTitle = document.getElementById('vpLightboxTitle');
-        const lightboxClose = document.getElementById('vpLightboxClose');
-        const lightboxPrev  = document.getElementById('vpLightboxPrev');
-        const lightboxNext  = document.getElementById('vpLightboxNext');
+        const lightbox      = document.getElementById('lightbox');
+        const lightboxImg   = document.getElementById('lightboxImg');
+        const lightboxTag   = document.getElementById('lightboxTag');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxPrev  = document.getElementById('lightboxPrev');
+        const lightboxNext  = document.getElementById('lightboxNext');
         const body = document.body;
 
         let currentIndex = 0;
         const TRACK_KEY = 'void_gallery_views';
-
-        function readTrackData() {
-            try { return JSON.parse(localStorage.getItem(TRACK_KEY)) || {}; }
-            catch (e) { return {}; }
-        }
 
         function trackImageView(item, index) {
             const src = item.dataset.src;
             const title = item.dataset.title || src;
             const tag = item.dataset.tag || '';
             try {
-                const data = readTrackData();
+                const data = JSON.parse(localStorage.getItem(TRACK_KEY)) || {};
                 const entry = data[src] || { title, tag, views: 0 };
                 entry.views += 1;
-                entry.title = title;
-                entry.tag = tag;
+                entry.title = title; entry.tag = tag;
                 entry.lastViewed = new Date().toISOString();
                 data[src] = entry;
                 localStorage.setItem(TRACK_KEY, JSON.stringify(data));
             } catch (e) {}
-
             const payload = { event: 'gallery_image_view', image_src: src, image_title: title, image_tag: tag, image_index: index };
             if (window.dataLayer && typeof window.dataLayer.push === 'function') window.dataLayer.push(payload);
             if (typeof window.gtag === 'function') window.gtag('event', 'gallery_image_view', { image_src: src, image_title: title, image_tag: tag, image_index: index });
@@ -1430,23 +1521,20 @@
             body.classList.add('no-scroll');
             trackImageView(item, currentIndex);
         }
-
         function closeLightbox() {
             lightbox.classList.remove('active');
             body.classList.remove('no-scroll');
         }
-
         function showRelative(offset) {
             currentIndex = (currentIndex + offset + items.length) % items.length;
             openLightbox(currentIndex);
         }
 
-        items.forEach((item, index) => item.addEventListener('click', () => openLightbox(index)));
+        items.forEach((item, i) => item.addEventListener('click', () => openLightbox(i)));
         lightboxClose.addEventListener('click', closeLightbox);
         lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
         lightboxPrev.addEventListener('click', e => { e.stopPropagation(); showRelative(-1); });
         lightboxNext.addEventListener('click', e => { e.stopPropagation(); showRelative(1); });
-
         document.addEventListener('keydown', e => {
             if (!lightbox.classList.contains('active')) return;
             if (e.key === 'Escape') closeLightbox();
