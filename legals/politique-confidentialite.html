@@ -40,28 +40,10 @@
     <link rel="stylesheet" href="../css/styles.css">
 
 
-     <!-- ANALYTICS LOADER — UN SEUL BLOC, pages dans /nexa/ /Support/ /legals/ -->
-    <script>
-    (function() {
-        function getCookie(n) {
-            var eq=n+"=", ca=document.cookie.split(';');
-            for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
-            return null;
-        }
-        function load(src) { var s=document.createElement('script');s.src=src;document.head.appendChild(s); }
-
-        // cookie-banner.js TOUJOURS en premier — gère la bannière + consentement sur toutes les pages
-        load('../js/cookie-banner.js');
-
-        // analytics uniquement si pas refusé
-        if (getCookie('cookieConsent') !== 'rejected') {
-            load('../js/analytics.js');
-            load('../js/analytics-clarify.js');
-        } else {
-            console.log('⛔ Cookies refusés — analytics non chargés');
-        }
-    })();
-    </script>
+    <!-- Cookies / Analytics -->
+    <script src="../js/cookie-banner.js"></script>
+    <script src="../js/analytics.js"></script>
+    <script src="../js/analytics-clarify.js"></script>
 
     <style>
     /* Styles CSS existants inchangés */
@@ -863,7 +845,7 @@
                 </div>
 
                 <div class="last-update">
-                    <p><strong>Dernière mise à jour :</strong> 29 Juillet 2026</p>
+                    <p><strong>Dernière mise à jour :</strong> 29 septembre 2026</p>
                     <p><em>Cette politique sera mise à jour régulièrement à mesure que les fonctionnalités du site  seront déployées.</em></p>
                 </div>
             </div>
