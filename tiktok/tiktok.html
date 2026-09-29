@@ -428,6 +428,77 @@
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation: none !important; transition: none !important; }
         }
+
+        /* ===== APPAREILS PLIANTS, PETITS ÉCRANS, PAYSAGE, DOUBLE ÉCRAN ===== */
+
+        /* Encoches / coins arrondis (iPhone, Android, pliants en paysage) */
+        header .nav-container, .product-section, footer .container {
+            padding-left: max(clamp(16px, 4vw, 5%), env(safe-area-inset-left));
+            padding-right: max(clamp(16px, 4vw, 5%), env(safe-area-inset-right));
+        }
+        footer { padding-bottom: env(safe-area-inset-bottom); }
+        body { overflow-x: clip; }
+        .split-columns > * { min-width: 0; }
+
+        /* Écran de couverture Z Fold (~280–360px) et Z Flip (cover / plié) */
+        @media (max-width: 380px) {
+            .product-section { padding-left: 12px; padding-right: 12px; }
+            .column-card { padding: 16px; border-radius: 8px; }
+            .column-eyebrow { font-size: 12px; }
+            .column-card h2 { font-size: 24px; }
+            .lspdfr-callout { flex-wrap: wrap; }
+            .lspdfr-callout-icon { width: 46px; height: 46px; }
+            .lspdfr-callout-title { font-size: 15px; }
+            .mobile-nav { padding-left: 16px; padding-right: 16px; }
+            .mobile-nav-links a { font-size: 16px; padding: 12px; }
+            .footer-links a, .footer-desc { font-size: 13px; }
+        }
+        @media (max-width: 300px) {
+            .nav-container { padding: 0 10px; }
+            .logo-icon { font-size: 18px; }
+            .btn { padding: 10px 12px; font-size: 13px; }
+            .social-card span { font-size: 11px; }
+        }
+
+        /* Z Fold déplié / tablettes pliées (~600–900px) : deux colonnes plus tôt */
+        @media (min-width: 700px) and (max-width: 860px) and (min-aspect-ratio: 1/1) {
+            .split-columns { grid-template-columns: 1fr 1fr; }
+            .product-section { max-width: none; }
+            .column-card { height: 100%; }
+        }
+
+        /* Z Flip déplié (écran très allongé) et téléphones en paysage */
+        @media (max-height: 500px) and (orientation: landscape) {
+            main { padding-top: 76px; }
+            .mobile-nav { padding-top: 64px; }
+            .mobile-nav-links li { margin-bottom: 2px; }
+            .mobile-nav-links a { padding: 8px 14px; font-size: 16px; }
+            .mobile-nav-actions { margin-bottom: 12px; padding-top: 8px; }
+            .mobile-close { top: 12px; right: 16px; }
+        }
+        @media (max-width: 860px) and (orientation: landscape) and (max-height: 500px) {
+            .split-columns { grid-template-columns: 1fr 1fr; }
+            .product-section { max-width: none; }
+            .column-card { height: 100%; }
+        }
+
+        /* Surface Duo & doubles écrans : une carte par écran, pli respecté */
+        @media (horizontal-viewport-segments: 2) {
+            .split-columns {
+                grid-template-columns: env(viewport-segment-width 0 0) env(viewport-segment-width 1 0);
+                column-gap: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0));
+            }
+            .product-section { max-width: none; padding-left: 0; padding-right: 0; }
+            .column-card { height: 100%; border-radius: 0; }
+        }
+        @media (vertical-viewport-segments: 2) {
+            .split-columns { grid-template-columns: 1fr; }
+        }
+
+        /* Grand texte système / zoom accessibilité */
+        @media (max-width: 480px) {
+            .column-card > p, .feature-list li { hyphens: auto; }
+        }
     </style>
 </head>
 <body>
