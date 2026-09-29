@@ -2,51 +2,70 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
 
+    <!-- ====== SEO ESSENTIELS ====== -->
     <title>Politique de Confidentialité | The Void Protocol</title>
     <meta name="description" content="Découvrez la Politique de Confidentialité de The Void Protocol et comment nous respectons vos données personnelles conformément au RGPD.">
-    <meta name="keywords" content="The Void Protocol, politique de confidentialité, RGPD, protection des données, vie privée, données personnelles">
+    <meta name="keywords" content="The Void Protocol, politique de confidentialité, RGPD, protection des données, vie privée, données personnelles, UNWARE STUDIO">
     <meta name="author" content="UNWARE STUDIO">
     <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://unware.studio/legals/politique-confidentialite.html">
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Politique de Confidentialité | The Void Protocol">
-    <meta property="og:description" content="Découvrez la Politique de Confidentialité de The Void Protocol et comment nous respectons vos données personnelles conformément au RGPD.">
+    <!-- ====== OPEN GRAPH ====== -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://unware.studio/legals/politique-confidentialite.html">
+    <meta property="og:title" content="Politique de Confidentialité | The Void Protocol">
+    <meta property="og:description" content="Découvrez la Politique de Confidentialité de The Void Protocol et comment nous respectons vos données personnelles conformément au RGPD.">
     <meta property="og:image" content="https://unware.studio/images/og-image.png">
+    <meta property="og:site_name" content="UNWARE STUDIO">
+    <meta property="og:locale" content="fr_FR">
 
-    <!-- Twitter Card -->
+    <!-- ====== TWITTER / X CARD ====== -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Politique de Confidentialité | The Void Protocol">
     <meta name="twitter:description" content="Découvrez la Politique de Confidentialité de The Void Protocol et comment nous respectons vos données personnelles conformément au RGPD.">
     <meta name="twitter:image" content="https://unware.studio/images/og-image.png">
 
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <!-- ====== FAVICON ====== -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/images/favicons/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
 
-    <!-- Fonts et CSS -->
+    <!-- ====== PERFORMANCE ====== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    <!-- ====== RESSOURCES ====== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
-
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://unware.studio/legals/politique-confidentialite.html">
-
-
-        
-    <!-- CSS principal -->
-    <link rel="stylesheet" href="../css/styles.css">
-
-
-    <!-- Cookies / Analytics -->
-    <script src="../js/cookie-banner.js"></script>
-    <script src="../js/analytics.js"></script>
-    <script src="../js/analytics-clarify.js"></script>
 
     <style>
-    /* Styles CSS existants inchangés */
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    img, video, iframe {
+        max-width: 100%;
+        height: auto;
+    }
+
+    body {
+        overflow-x: clip;
+    }
+
+    body.no-scroll {
+        overflow: hidden;
+    }
+
+    /* ====== BASE HEADER / NAV ====== */
     .btn {
         padding: 12px 24px;
         border-radius: 6px;
@@ -57,7 +76,8 @@
         align-items: center;
         justify-content: center;
         font-size: 14px;
-        line-height: 1;
+        line-height: 1.2;
+        min-height: 44px;
     }
 
     .btn-login {
@@ -84,7 +104,7 @@
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
 
-    /* Style pour le menu burger */
+    /* ====== MENU BURGER ====== */
     .mobile-menu {
         display: none;
         font-size: 24px;
@@ -108,27 +128,30 @@
         transform: scale(1.05);
     }
 
-    /* Styles spécifiques pour corriger le menu mobile */
-    body.no-scroll {
-        overflow: hidden;
+    .mobile-menu.active i {
+        transform: rotate(90deg);
     }
-    
+
     .mobile-nav {
         position: fixed;
         top: 0;
         right: -100%;
-        width: 320px;
+        width: min(320px, 88vw);
         height: 100vh;
+        height: 100dvh;
         background: var(--primary);
         z-index: 1000;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         border-left: 1px solid var(--border);
         display: flex;
         flex-direction: column;
-        padding: 80px 25px 25px;
+        padding: 80px 25px max(25px, env(safe-area-inset-bottom));
         overflow-y: auto;
         box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
         box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        user-select: none;
     }
 
     .mobile-nav.active {
@@ -194,7 +217,20 @@
 
     .mobile-nav-links li {
         margin-bottom: 8px;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: all 0.3s ease;
     }
+
+    .mobile-nav.active .mobile-nav-links li {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .mobile-nav.active .mobile-nav-links li:nth-child(1) { transition-delay: 0.1s; }
+    .mobile-nav.active .mobile-nav-links li:nth-child(2) { transition-delay: 0.15s; }
+    .mobile-nav.active .mobile-nav-links li:nth-child(3) { transition-delay: 0.2s; }
+    .mobile-nav.active .mobile-nav-links li:nth-child(4) { transition-delay: 0.25s; }
 
     .mobile-nav-links a {
         color: var(--text);
@@ -236,71 +272,20 @@
         flex-direction: column;
         gap: 12px;
         order: 2;
-        margin-bottom: 150px;
+        margin-bottom: 40px;
         padding-top: 20px;
         border-top: 1px solid var(--border);
-        position: relative;
-        top: 0;
-    }
-
-    .mobile-nav-actions .btn {
-        text-align: center;
-        width: 100%;
-        padding: 14px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        height: auto;
-    }
-
-    .mobile-nav-actions .btn-login {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--border);
-    }
-
-    .mobile-nav-actions .btn-login:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-2px);
-    }
-
-    .mobile-nav-actions .btn-primary {
-        background: var(--accent);
-        color: var(--primary);
-    }
-
-    .mobile-nav-actions .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .mobile-nav-links li {
-        opacity: 0;
-        transform: translateX(20px);
-        transition: all 0.3s ease;
-    }
-
-    .mobile-nav.active .mobile-nav-links li {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    .mobile-nav.active .mobile-nav-links li:nth-child(1) { transition-delay: 0.1s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(2) { transition-delay: 0.15s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(3) { transition-delay: 0.2s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(4) { transition-delay: 0.25s; }
-    
-    .mobile-nav-actions {
         opacity: 0;
         transform: translateX(20px);
         transition: all 0.3s ease 0.3s;
     }
-    
+
     .mobile-nav.active .mobile-nav-actions {
         opacity: 1;
         transform: translateX(0);
     }
 
-    /* RGPD Section */
+    /* ====== SECTION RGPD ====== */
     .rgpd-section {
         padding: 120px 0 60px;
         background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
@@ -309,6 +294,8 @@
     .rgpd-container {
         max-width: 900px;
         margin: 0 auto;
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
     }
 
     .rgpd-header {
@@ -355,20 +342,6 @@
         border: 1px solid var(--border);
     }
 
-    .rgpd-warning {
-        background: rgba(255, 193, 7, 0.1);
-        border: 1px solid rgba(255, 193, 7, 0.3);
-        border-radius: 6px;
-        padding: 20px;
-        margin-bottom: 30px;
-    }
-
-    .warning-icon {
-        color: #ffc107;
-        font-size: 24px;
-        margin-bottom: 10px;
-    }
-
     .rgpd-card {
         background: rgba(255, 255, 255, 0.02);
         border-radius: 6px;
@@ -397,6 +370,10 @@
         line-height: 1.6;
     }
 
+    .rgpd-card p strong {
+        color: var(--text);
+    }
+
     .rgpd-list {
         list-style: none;
         margin: 20px 0;
@@ -406,6 +383,7 @@
         padding: 8px 0;
         color: var(--text-secondary);
         font-size: 14px;
+        line-height: 1.6;
         display: flex;
         align-items: flex-start;
         gap: 10px;
@@ -413,8 +391,9 @@
 
     .rgpd-list li i {
         color: var(--accent);
-        margin-top: 3px;
+        margin-top: 4px;
         font-size: 12px;
+        flex-shrink: 0;
     }
 
     .data-categories {
@@ -454,37 +433,6 @@
         color: var(--accent);
         font-size: 10px;
         margin-top: 5px;
-    }
-
-    .consent-options {
-        margin: 30px 0;
-    }
-
-    .consent-option {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        margin-bottom: 15px;
-        padding: 15px;
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 6px;
-        border: 1px solid var(--border);
-    }
-
-    .consent-option input {
-        margin-top: 3px;
-    }
-
-    .consent-label {
-        color: var(--text);
-        font-size: 14px;
-        line-height: 1.5;
-    }
-
-    .consent-required {
-        color: #ff6b6b;
-        font-size: 12px;
-        margin-left: 5px;
     }
 
     .user-rights {
@@ -544,6 +492,7 @@
         color: var(--accent);
         font-weight: 600;
         text-decoration: none;
+        overflow-wrap: anywhere;
     }
 
     .dpo-email:hover {
@@ -559,50 +508,71 @@
         padding-top: 20px;
     }
 
-    /* Responsive */
+    /* ====== RESPONSIVE ====== */
+    header .nav-container,
+    footer .container {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+    }
+
+    footer {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
     @media (max-width: 768px) {
-        .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary {
+        .nav-links,
+        .nav-actions .btn-login,
+        .nav-actions .btn-primary {
             display: none;
         }
-        
+
         .mobile-menu {
             display: flex;
         }
-        
+
         .studio-logo {
             display: none;
         }
-        
+
         header {
             padding: 12px 0;
         }
-        
+
         .nav-container {
             padding: 0 15px;
         }
-        
+
         .logo {
             gap: 8px;
         }
-        
+
         .logo-icon {
             font-size: 20px;
         }
-        
+
         .nav-actions {
             height: auto;
         }
-        
+
         .rgpd-title {
             font-size: 32px;
         }
-        
+
         .rgpd-content {
             padding: 25px;
         }
-        
+
         .rgpd-section {
             padding: 100px 0 40px;
+        }
+
+        .footer-content {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 28px !important;
+        }
+
+        .footer-brand {
+            grid-column: 1 / -1;
         }
     }
 
@@ -610,13 +580,36 @@
         .rgpd-title {
             font-size: 28px;
         }
-        
-        .data-categories, .user-rights {
+
+        .rgpd-content {
+            padding: 18px;
+        }
+
+        .rgpd-card {
+            padding: 18px;
+        }
+
+        .data-categories,
+        .user-rights {
             grid-template-columns: 1fr;
         }
-        
-        header {
-            padding: 12px 0;
+    }
+
+    @media (max-width: 480px) {
+        .footer-content {
+            grid-template-columns: 1fr !important;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .mobile-nav {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        .mobile-nav-links a {
+            font-size: 16px;
+            padding: 12px;
         }
     }
 
@@ -624,369 +617,379 @@
         .mobile-nav {
             padding: 70px 20px 20px;
         }
-        
+
         .mobile-close {
             top: 20px;
             right: 20px;
         }
-        
+
         .mobile-nav-actions {
             gap: 10px;
             margin-bottom: 20px;
         }
-        
-        .mobile-nav-actions .btn {
-            padding: 12px 15px;
-        }
-        
+
         .mobile-nav-links li {
             margin-bottom: 6px;
         }
-        
+
         .mobile-nav-links a {
             padding: 12px 16px;
             font-size: 16px;
         }
     }
+
+    @media (max-height: 500px) and (orientation: landscape) {
+        .mobile-nav {
+            padding-top: 64px;
+        }
+
+        .mobile-nav-links li {
+            margin-bottom: 2px;
+        }
+
+        .mobile-nav-links a {
+            padding: 8px 14px;
+            font-size: 16px;
+        }
+
+        .mobile-close {
+            top: 12px;
+            right: 16px;
+        }
+
+        .rgpd-section {
+            padding-top: 90px;
+        }
+    }
+
+    @media (hover: none) {
+        .btn:hover {
+            transform: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation: none !important;
+            transition: none !important;
+        }
+    }
     </style>
 </head>
+
 <body>
-<br>
-    <!-- Header -->
-    <header>
-        <div class="container nav-container">
-            <div class="logo">
-                <div class="logo-icon"><i class="fas fa-temple"></i></div>
-                <div class="logo-text">
-                  <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
-                </div>
-            </div>
-            <ul class="nav-links">
-                <li><a href="../index.html">Accueil</a></li>
-                <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-                <li><a href="../nexa/galerie.html">Galeries</a></li>
-                <li><a href="../nexa/nexa.html">The Void Protocol</a></li>
-            </ul>
-            <div class="nav-actions">
-                <div class="mobile-menu" id="mobileMenu">
-                    <i class="fas fa-bars"></i>
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <!-- Menu Mobile -->
-    <div class="overlay" id="overlay"></div>
-    <nav class="mobile-nav" id="mobileNav">
-        <div class="mobile-close" id="mobileClose">
-            <i class="fas fa-times"></i>
+ <br> <br>    <br>      
+<!-- Header -->
+<header>
+    <div class="container nav-container">
+        <div class="logo">
+            <div class="logo-icon"><i class="fas fa-temple"></i></div>
+            <div class="logo-text">
+                <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
+            </div>
         </div>
-        
-        <ul class="mobile-nav-links">
-            <li><a href="../index.html" class="mobile-nav-link">Accueil</a></li>
-            <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
-            <li><a href="../nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
-            <li><a href="../nexa/nexa.html" class="mobile-nav-link">The Void Protocol</a></li>
+        <ul class="nav-links">
+            <li><a href="../index.html">Accueil</a></li>
+            <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
+            <li><a href="../nexa/galerie.html">Galeries</a></li>
+            <li><a href="../nexa/the_void_protocol.html">The Void Protocol</a></li>
         </ul>
-        <div class="mobile-nav-actions">
-        </div>
-    </nav>
-
-    <!-- RGPD Section -->
-    <section class="rgpd-section">
-        <div class="container rgpd-container">
-            <div class="rgpd-header">
-                <span class="rgpd-badge">INFORMATION RGPD</span>
-                <h1 class="rgpd-title">Politique de Confidentialité</h1>
-                <p class="rgpd-subtitle">Notre engagement concernant la protection de vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD)</p>
+        <div class="nav-actions">
+            <div class="mobile-menu" id="mobileMenu" role="button" tabindex="0" aria-label="Ouvrir le menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
             </div>
-            
-    
+        </div>
+    </div>
+</header>
 
-                <div class="rgpd-card">
-                     <h3><i class="fas fa-user-cog"></i> Responsable du traitement </h3>
-                    <p>Responsable du traitement des données : <br><br>
-                     -  Paul V. (développeur indépendant)   <br>
-                     -  Projet : UNWARE STUDIO             <br>
-                     -  Email : contact.unwarestudio@gmail.com
-                    </p>
-                 
-                </div>
+<!-- Menu Mobile -->
+<div class="overlay" id="overlay"></div>
+<nav class="mobile-nav" id="mobileNav" aria-label="Menu mobile">
+    <div class="mobile-close" id="mobileClose" role="button" tabindex="0" aria-label="Fermer le menu">
+        <i class="fas fa-times"></i>
+    </div>
 
-                <div class="rgpd-card">
-                    <h3><i class="fas fa-database"></i> Données susceptibles d'être collectées</h3>
-                    <p>Les catégories de données suivantes peuvent être collectées selon votre consentement :</p>
-                    
-                    <div class="data-categories">
-                        <div class="data-category">
-                            <h4>Données de navigation</h4>
-                            <ul>
-                                <li><i class="fas fa-circle"></i> Type de navigateur</li>
-                                <li><i class="fas fa-circle"></i> Pages visitées</li>
-                                <li><i class="fas fa-circle"></i> Durée des sessions</li>
-                                <li><i class="fas fa-circle"></i> Cookies fonctionnels et analytiques</li>
-                            </ul>
-                        </div>
-                       
-                    
-                        <div class="data-category">
-                            <h4>Données de newsletter</h4>
-                            <ul>
-                                <li><i class="fas fa-circle"></i> Adresse email</li>
-                                <li><i class="fas fa-circle"></i> Date d'inscription</li>
-                                <li><i class="fas fa-circle"></i> Statut d'abonnement</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                </div>
+    <ul class="mobile-nav-links">
+        <li><a href="../index.html" class="mobile-nav-link">Accueil</a></li>
+        <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
+        <li><a href="../nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
+        <li><a href="../nexa/the_void_protocol.html" class="mobile-nav-link">The Void Protocol</a></li>
+    </ul>
+    <div class="mobile-nav-actions"></div>
+</nav>
 
+<main>
+<!-- Section RGPD -->
+<section class="rgpd-section">
+    <div class="container rgpd-container">
+        <div class="rgpd-header">
+            <span class="rgpd-badge">INFORMATION RGPD</span>
+            <h1 class="rgpd-title">Politique de Confidentialité</h1>
+            <p class="rgpd-subtitle">Notre engagement concernant la protection de vos données personnelles conformément au Règlement Général sur la Protection des Données (RGPD)</p>
+        </div>
 
-
-
-                <div class="rgpd-card">
-                    <h3><i class="fas fa-user-check"></i> Base légale du traitement</h3>
-                    <p>Le traitement de vos données reposera sur :</p>
-                    <ul class="rgpd-list">
-                    
-                        <li><i class="fas fa-thumbs-up"></i> <strong>Consentement :</strong> Pour les cookies non-essentiels et les communications marketing</li>
-                        <li><i class="fas fa-balance-scale"></i> <strong>Intérêt légitime :</strong> Pour l'analyse et l'amélioration des services</li>
-                        <li><i class="fas fa-gavel"></i> <strong>Obligation légale :</strong> Pour répondre aux exigences légales et réglementaires</li>
-                    </ul>
-                </div>
-
-                <div class="rgpd-card">
-                    <h3><i class="fas fa-user-shield"></i> Vos droits</h3>
-                    <p>Conformément au RGPD, vous disposez des droits suivants sur vos données personnelles :</p>
-                    
-                    <div class="user-rights">
-                        <div class="right-item">
-                            <div class="right-icon"><i class="fas fa-eye"></i></div>
-                            <div class="right-title">Droit d'accès</div>
-                            <div class="right-desc">Consulter vos données personnelles</div>
-                        </div>
-                        <div class="right-item">
-                            <div class="right-icon"><i class="fas fa-edit"></i></div>
-                            <div class="right-title">Droit de rectification</div>
-                            <div class="right-desc">Corriger des données inexactes</div>
-                        </div>
-                        <div class="right-item">
-                            <div class="right-icon"><i class="fas fa-trash-alt"></i></div>
-                            <div class="right-title">Droit à l'effacement</div>
-                            <div class="right-desc">Supprimer vos données</div>
-                        </div>
-                        <div class="right-item">
-                            <div class="right-icon"><i class="fas fa-pause-circle"></i></div>
-                            <div class="right-title">Droit à la limitation</div>
-                            <div class="right-desc">Limiter le traitement</div>
-                        </div>
-                        <div class="right-item">
-                            <div class="right-icon"><i class="fas fa-download"></i></div>
-                            <div class="right-title">Droit à la portabilité</div>
-                            <div class="right-desc">Récupérer vos données</div>
-                        </div>
-                        <div class="right-item">
-                            <div class="right-icon"><i class="fas fa-times-circle"></i></div>
-                            <div class="right-title">Droit d'opposition</div>
-                            <div class="right-desc">Vous opposer au traitement</div>
-                        </div>
-                        <div class="right-item">
-    <div class="right-icon"><i class="fas fa-landmark"></i></div>
-    <div class="right-title">Réclamation</div>
-    <div class="right-desc">Vous pouvez introduire une réclamation auprès de la CNIL concernant le traitement de vos données personnelles.</div>
-</div>
-                    </div>
-                    
-                    <p>Pour exercer vos droits, contactez l'adresse : <strong>contact.unwarestudio@gmail.com</strong></p>
-                    
-                </div>
-
-
-
-
-                <div class="rgpd-card">
-                    <h3><i class="fas fa-globe"></i> Transfert de données hors EEE</h3>
-                    <p>Les données collectées via Google peuvent être traitées en dehors de l'Espace Économique Européen (EEE). Google met en place des garanties conformes au RGPD pour la protection de vos données, notamment :</p>
-                    <ul class="rgpd-list">
-                        <li><i class="fas fa-shield-alt"></i> Clauses contractuelles types de la Commission européenne</li>
-                        <li><i class="fas fa-shield-alt"></i> Pays reconnus comme offrant un niveau de protection adéquat</li>
-                        <li><i class="fas fa-shield-alt"></i> Règles d'entreprise contraignantes le cas échéant</li>
-                    </ul>
-                </div>
-
-                <div class="rgpd-card">
-                    <h3><i class="fas fa-server"></i> Sous-traitants</h3>
-                    <p>Nous utilisons les services tiers suivants pour traiter vos données :</p>
-                    <ul class="rgpd-list">
-                        <li><i class="fas fa-envelope"></i> <strong>Resend</strong> — Envoi d'emails et stockage des adresses email des inscrits. Données hébergées en Irlande (UE).</li>
-                        <li><i class="fas fa-chart-bar"></i> <strong>Google Analytics</strong> — Analyse du trafic du site. Données susceptibles d'être traitées hors EEE.</li>
-                        <li><i class="fas fa-eye"></i> <strong>Microsoft Clarity</strong> — Analyse du comportement des utilisateurs. Données susceptibles d'être traitées hors EEE.</li>
-                        <li><i class="fas fa-cloud"></i> <strong>Vercel</strong> — Hébergement du site. Données hébergées aux États-Unis avec garanties RGPD.</li>
-                    </ul>
-                </div>
+        <div class="rgpd-content">
 
             <div class="rgpd-card">
-       <h3><i class="fas fa-clock"></i> Durée de conservation</h3>
-      <p>Les données personnelles sont conservées uniquement pendant la durée nécessaire aux finalités pour lesquelles elles sont collectées :</p>
-        <ul class="rgpd-list">
-        <li><i class="fas fa-envelope"></i> <strong>Données de newsletter</strong> — Jusqu'au désabonnement de l'utilisateur ou pendant une durée maximale de 3 ans après le dernier contact.</li>
-        <li><i class="fas fa-chart-bar"></i> <strong>Données analytiques</strong> — Selon les paramètres de conservation configurés dans Google Analytics et Microsoft Clarity.</li>
-        <li><i class="fas fa-server"></i> <strong>Données techniques</strong> — Pendant une durée limitée nécessaire au fonctionnement, à la sécurité et à la maintenance du site.</li>
-       </ul>
-      </div>
+                <h3><i class="fas fa-user-cog"></i> Responsable du traitement</h3>
+                <p>Responsable du traitement des données :</p>
+                <ul class="rgpd-list">
+                    <li><i class="fas fa-user"></i> <span><strong>Paul V.</strong> (développeur indépendant)</span></li>
+                    <li><i class="fas fa-folder-open"></i> <span>Projet : UNWARE STUDIO</span></li>
+                    <li><i class="fas fa-envelope"></i> <span>Email : contact.unwarestudio@gmail.com</span></li>
+                </ul>
+            </div>
 
-           
+            <div class="rgpd-card">
+                <h3><i class="fas fa-database"></i> Données susceptibles d'être collectées</h3>
+                <p>Les catégories de données suivantes peuvent être collectées selon votre consentement :</p>
 
-                <div class="contact-dpo">
-                    <h3><i class="fas fa-headset"></i> Contact</h3>
-                    <p>Pour toute question relative à la protection de vos données, contactez-nous :</p>
-                    <p><a href="mailto:contact.unwarestudio@gmail.com" class="dpo-email">contact.unwarestudio@gmail.com</a></p>
-                    <p>Délai de réponse : 30 jours maximum</p>
-                </div>
+                <div class="data-categories">
+                    <div class="data-category">
+                        <h4>Données de navigation</h4>
+                        <ul>
+                            <li><i class="fas fa-circle"></i> Type de navigateur</li>
+                            <li><i class="fas fa-circle"></i> Pages visitées</li>
+                            <li><i class="fas fa-circle"></i> Durée des sessions</li>
+                            <li><i class="fas fa-circle"></i> Cookies fonctionnels et analytiques</li>
+                        </ul>
+                    </div>
 
-                <div class="last-update">
-                    <p><strong>Dernière mise à jour :</strong> 29 septembre 2026</p>
-                    <p><em>Cette politique sera mise à jour régulièrement à mesure que les fonctionnalités du site  seront déployées.</em></p>
+                    <div class="data-category">
+                        <h4>Données de newsletter</h4>
+                        <ul>
+                            <li><i class="fas fa-circle"></i> Adresse email</li>
+                            <li><i class="fas fa-circle"></i> Date d'inscription</li>
+                            <li><i class="fas fa-circle"></i> Statut d'abonnement</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
 
+            <div class="rgpd-card">
+                <h3><i class="fas fa-user-check"></i> Base légale du traitement</h3>
+                <p>Le traitement de vos données reposera sur :</p>
+                <ul class="rgpd-list">
+                    <li><i class="fas fa-thumbs-up"></i> <span><strong>Consentement :</strong> Pour les cookies non-essentiels et les communications marketing</span></li>
+                    <li><i class="fas fa-balance-scale"></i> <span><strong>Intérêt légitime :</strong> Pour l'analyse et l'amélioration des services</span></li>
+                    <li><i class="fas fa-gavel"></i> <span><strong>Obligation légale :</strong> Pour répondre aux exigences légales et réglementaires</span></li>
+                </ul>
+            </div>
+
+            <div class="rgpd-card">
+                <h3><i class="fas fa-user-shield"></i> Vos droits</h3>
+                <p>Conformément au RGPD, vous disposez des droits suivants sur vos données personnelles :</p>
+
+                <div class="user-rights">
+                    <div class="right-item">
+                        <div class="right-icon"><i class="fas fa-eye"></i></div>
+                        <div class="right-title">Droit d'accès</div>
+                        <div class="right-desc">Consulter vos données personnelles</div>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon"><i class="fas fa-edit"></i></div>
+                        <div class="right-title">Droit de rectification</div>
+                        <div class="right-desc">Corriger des données inexactes</div>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon"><i class="fas fa-trash-alt"></i></div>
+                        <div class="right-title">Droit à l'effacement</div>
+                        <div class="right-desc">Supprimer vos données</div>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon"><i class="fas fa-pause-circle"></i></div>
+                        <div class="right-title">Droit à la limitation</div>
+                        <div class="right-desc">Limiter le traitement</div>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon"><i class="fas fa-download"></i></div>
+                        <div class="right-title">Droit à la portabilité</div>
+                        <div class="right-desc">Récupérer vos données</div>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon"><i class="fas fa-times-circle"></i></div>
+                        <div class="right-title">Droit d'opposition</div>
+                        <div class="right-desc">Vous opposer au traitement</div>
+                    </div>
+                    <div class="right-item">
+                        <div class="right-icon"><i class="fas fa-landmark"></i></div>
+                        <div class="right-title">Réclamation</div>
+                        <div class="right-desc">Vous pouvez introduire une réclamation auprès de la CNIL concernant le traitement de vos données personnelles.</div>
+                    </div>
+                </div>
+
+                <p>Pour exercer vos droits, contactez l'adresse : <strong>contact.unwarestudio@gmail.com</strong></p>
+            </div>
+
+            <div class="rgpd-card">
+                <h3><i class="fas fa-globe"></i> Transfert de données hors EEE</h3>
+                <p>Les données collectées via Google et Microsoft peuvent être traitées en dehors de l'Espace Économique Européen (EEE). Ces prestataires mettent en place des garanties conformes au RGPD pour la protection de vos données, notamment :</p>
+                <ul class="rgpd-list">
+                    <li><i class="fas fa-shield-alt"></i> <span>Clauses contractuelles types de la Commission européenne</span></li>
+                    <li><i class="fas fa-shield-alt"></i> <span>Pays reconnus comme offrant un niveau de protection adéquat</span></li>
+                    <li><i class="fas fa-shield-alt"></i> <span>Règles d'entreprise contraignantes le cas échéant</span></li>
+                </ul>
+            </div>
+
+            <div class="rgpd-card">
+                <h3><i class="fas fa-server"></i> Sous-traitants</h3>
+                <p>Nous utilisons les services tiers suivants pour traiter vos données :</p>
+                <ul class="rgpd-list">
+                    <li><i class="fas fa-envelope"></i> <span><strong>Resend</strong> — Envoi d'emails et stockage des adresses email des inscrits. Données hébergées en Irlande (UE).</span></li>
+                    <li><i class="fas fa-chart-bar"></i> <span><strong>Google Analytics</strong> — Analyse du trafic du site. Données susceptibles d'être traitées hors EEE.</span></li>
+                    <li><i class="fas fa-eye"></i> <span><strong>Microsoft Clarity</strong> — Analyse du comportement des utilisateurs. Données susceptibles d'être traitées hors EEE.</span></li>
+                    <li><i class="fas fa-cloud"></i> <span><strong>Vercel</strong> — Hébergement du site. Données hébergées aux États-Unis avec garanties RGPD.</span></li>
+                </ul>
+            </div>
+
+            <div class="rgpd-card">
+                <h3><i class="fas fa-clock"></i> Durée de conservation</h3>
+                <p>Les données personnelles sont conservées uniquement pendant la durée nécessaire aux finalités pour lesquelles elles sont collectées :</p>
+                <ul class="rgpd-list">
+                    <li><i class="fas fa-envelope"></i> <span><strong>Données de newsletter</strong> — Jusqu'au désabonnement de l'utilisateur ou pendant une durée maximale de 3 ans après le dernier contact.</span></li>
+                    <li><i class="fas fa-chart-bar"></i> <span><strong>Données analytiques</strong> — Selon les paramètres de conservation configurés dans Google Analytics et Microsoft Clarity.</span></li>
+                    <li><i class="fas fa-server"></i> <span><strong>Données techniques</strong> — Pendant une durée limitée nécessaire au fonctionnement, à la sécurité et à la maintenance du site.</span></li>
+                </ul>
+            </div>
+
+            <div class="contact-dpo">
+                <h3><i class="fas fa-headset"></i> Contact</h3>
+                <p>Pour toute question relative à la protection de vos données, contactez-nous :</p>
+                <p><a href="mailto:contact.unwarestudio@gmail.com" class="dpo-email">contact.unwarestudio@gmail.com</a></p>
+                <p>Délai de réponse : 30 jours maximum</p>
+            </div>
+
+            <div class="last-update">
+                <p><strong>Dernière mise à jour :</strong> 29 septembre 2026</p>
+                <p><em>Cette politique sera mise à jour régulièrement à mesure que les fonctionnalités du site seront déployées.</em></p>
+            </div>
+
+        </div>
+    </div>
+</section>
+</main>
 
 <!-- Footer -->
 <footer>
-  <div class="container">
-    <div class="footer-content">
-      <!-- Brand / Studio -->
-      <div class="footer-brand">
-        <div class="footer-logo">
-          <span class="footer-logo-text">The void protocol</span>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo"><div class="footer-logo-text">The void protocol</div></div>
+                <p class="footer-desc">Un jeu développé par UNWARE STUDIO.</p>
+                <div class="social-links">
+                    <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitch"></i></a>
+                    <a href="https://discord.gg/PE7MS4Sazk" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i></a>
+                    <a href="https://www.youtube.com/@unware.studio" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.instagram.com/unware.studio?igsh=bXcyaWVlMG96cXhl" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h3>Navigation</h3>
+                <ul class="footer-links">
+                    <li><a href="../index.html">Accueil</a></li>
+                    <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
+                    <li><a href="../nexa/galerie.html">Galeries</a></li>
+                    <li><a href="../nexa/the_void_protocol.html">The Void Protocol</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="../Support/centre-aide.html">Centre d'aide</a></li>
+                    <li><a href="../Support/FAQ.html">FAQ</a></li>
+                    <li><a href="../Support/contact.html">Contact</a></li>
+                    <li><a href="../Support/statut.html">Statut des services</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Légal</h3>
+                <ul class="footer-links">
+                    <li><a href="conditions-utilisation.html">Conditions d'utilisation</a></li>
+                    <li><a href="politique-confidentialite.html">Politique de confidentialité</a></li>
+                    <li><a href="mentions-legales.html">Mentions légales</a></li>
+                    <li><a href="politique-cookies.html">Politique de cookies</a></li>
+                </ul>
+            </div>
         </div>
-        <p class="footer-desc">Un jeu développé par UNWARE STUDIO.</p>
-        <div class="social-links">
-          <!-- Twitch (remplace Twitter) -->
-          <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer">
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/>
-            </svg>
-          </a>
 
-          <!-- Discord -->
-          <a href="https://discord.gg/PE7MS4Sazk" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer">
-            <svg width="21" height="21" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
-            </svg>
-          </a>
-
-          <!-- YouTube -->
-          <a href="https://www.youtube.com/@unware.studio" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-          </a>
-
-          <!-- Instagram -->
-          <a href="https://www.instagram.com/unware.studio?igsh=bXcyaWVlMG96cXhl" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </a>
+        <div class="copyright">
+            <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
         </div>
-      </div>
-
-      <!-- Navigation -->
-      <div class="footer-column">
-        <h3>Navigation</h3>
-        <ul class="footer-links">
-          <li><a href="/#accueil" target="_blank" rel="noopener noreferrer">Accueil</a></li>
-          <li><a href="/nexa/fonctionnalites.html" target="_blank" rel="noopener noreferrer">Fonctionnalités</a></li>
-          <li><a href="/nexa/galerie.html" target="_blank" rel="noopener noreferrer">Galeries</a></li>
-          <li><a href="/nexa/nexa.html" target="_blank" rel="noopener noreferrer">The Void Protocol</a></li>
-        </ul>
-      </div>
-
-      <!-- Support -->
-      <div class="footer-column">
-        <h3>Support</h3>
-        <ul class="footer-links">
-          <li><a href="/Support/centre-aide.html" target="_blank" rel="noopener noreferrer">Centre d'aide</a></li>
-          <li><a href="/Support/FAQ.html" target="_blank" rel="noopener noreferrer">FAQ</a></li>
-          <li><a href="/Support/contact.html" target="_blank" rel="noopener noreferrer">Contact</a></li>
-          <li><a href="/Support/statut.html" target="_blank" rel="noopener noreferrer">Statut des services</a></li>
-        </ul>
-      </div>
-
-      <!-- Légal -->
-      <div class="footer-column">
-        <h3>Légal</h3>
-        <ul class="footer-links">
-          <li><a href="/legals/conditions-utilisation.html" target="_blank" rel="noopener noreferrer">Conditions d'utilisation</a></li>
-          <li><a href="/legals/politique-confidentialite.html" target="_blank" rel="noopener noreferrer">Politique de confidentialité</a></li>
-          <li><a href="/legals/mentions-legales.html" target="_blank" rel="noopener noreferrer">Mentions légales</a></li>
-          <li><a href="/legals/politique-cookies.html" target="_blank" rel="noopener noreferrer">Politique de cookies</a></li>
-        </ul>
-      </div>
     </div>
-
-    <!-- Copyright -->
-    <div class="copyright">
-      <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
-    </div>
-  </div>
 </footer>
 
-    
-    <script>
-        // Menu Burger Functionality
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileNav = document.getElementById('mobileNav');
-        const overlay = document.getElementById('overlay');
-        const mobileClose = document.getElementById('mobileClose');
-        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-        const body = document.body;
+<script>
+    /* ==================== MENU BURGER ==================== */
+    (function () {
+        var mobileMenu = document.getElementById('mobileMenu');
+        var mobileNav = document.getElementById('mobileNav');
+        var overlay = document.getElementById('overlay');
+        var mobileClose = document.getElementById('mobileClose');
+        var body = document.body;
+        if (!mobileMenu || !mobileNav || !overlay || !mobileClose) return;
 
-        function openMobileMenu() {
+        function openMenu() {
             mobileNav.classList.add('active');
             overlay.classList.add('active');
             mobileMenu.classList.add('active');
             body.classList.add('no-scroll');
-            void mobileNav.offsetWidth;
+            mobileMenu.setAttribute('aria-expanded', 'true');
         }
 
-        function closeMobileMenu() {
+        function closeMenu() {
             mobileNav.classList.remove('active');
             overlay.classList.remove('active');
             mobileMenu.classList.remove('active');
             body.classList.remove('no-scroll');
+            mobileMenu.setAttribute('aria-expanded', 'false');
         }
 
-        function toggleMobileMenu() {
-            if (mobileNav.classList.contains('active')) {
-                closeMobileMenu();
-            } else {
-                openMobileMenu();
-            }
+        function toggleMenu() {
+            mobileNav.classList.contains('active') ? closeMenu() : openMenu();
         }
 
-        mobileMenu.addEventListener('click', toggleMobileMenu);
-        overlay.addEventListener('click', closeMobileMenu);
-        mobileClose.addEventListener('click', closeMobileMenu);
+        function onKey(fn) {
+            return function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    fn();
+                }
+            };
+        }
 
-        mobileNavLinks.forEach(link => {
-            link.addEventListener('click', closeMobileMenu);
+        mobileMenu.addEventListener('click', toggleMenu);
+        mobileMenu.addEventListener('keydown', onKey(toggleMenu));
+        overlay.addEventListener('click', closeMenu);
+        mobileClose.addEventListener('click', closeMenu);
+        mobileClose.addEventListener('keydown', onKey(closeMenu));
+        document.querySelectorAll('.mobile-nav-link').forEach(function (l) {
+            l.addEventListener('click', closeMenu);
         });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && mobileNav.classList.contains('active')) closeMenu();
+        });
+    })();
 
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-                closeMobileMenu();
-            }
-        });
+    window.addEventListener('load', function () {
+        if (window.location.hash) {
+            history.replaceState(null, null, window.location.pathname + window.location.search);
+        }
+    });
+</script>
 
-        window.addEventListener('load', function() {
-            if (window.location.hash) {
-                history.replaceState(null, null, window.location.pathname + window.location.search);
-            }
-        });
-    </script>   
+<!-- Cookies / Analytics : bannière injectée par cookie-banner.js, GA4 démarre après consentement -->
+<script src="/js/cookie-banner.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/analytics-clarify.js"></script>
+
+<!-- Vercel Speed Insights -->
+<script>
+window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
