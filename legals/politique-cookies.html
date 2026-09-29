@@ -2,52 +2,70 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
 
-    <title>Politique de Cookies </title>
+    <!-- ====== SEO ESSENTIELS ====== -->
+    <title>Politique de Cookies | UNWARE STUDIO</title>
     <meta name="description" content="Découvrez la Politique de Cookies de UNWARE STUDIO et comment nous utilisons les cookies pour améliorer votre expérience sur notre site.">
-    <meta name="keywords" content=", politique de cookies, cookies, RGPD, vie privée, données personnelles">
+    <meta name="keywords" content="politique de cookies, cookies, RGPD, vie privée, données personnelles, UNWARE STUDIO">
     <meta name="author" content="UNWARE STUDIO">
     <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://unware.studio/legals/politique-cookies.html">
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Politique de Cookies | UNWARE STUDIO">
-    <meta property="og:description" content="Découvrez la Politique de Cookies de UNWARE STUDIO et comment nous utilisons les cookies pour améliorer votre expérience sur notre site.">
+    <!-- ====== OPEN GRAPH ====== -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://unware.studio/legals/politique-cookies.html">
+    <meta property="og:title" content="Politique de Cookies | UNWARE STUDIO">
+    <meta property="og:description" content="Découvrez la Politique de Cookies de UNWARE STUDIO et comment nous utilisons les cookies pour améliorer votre expérience sur notre site.">
     <meta property="og:image" content="https://unware.studio/images/og-image.png">
+    <meta property="og:site_name" content="UNWARE STUDIO">
+    <meta property="og:locale" content="fr_FR">
 
-    <!-- Twitter Card -->
+    <!-- ====== TWITTER / X CARD ====== -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Politique de Cookies | UNWARE STUDIO">
     <meta name="twitter:description" content="Découvrez la Politique de Cookies de UNWARE STUDIO et comment nous utilisons les cookies pour améliorer votre expérience sur notre site.">
     <meta name="twitter:image" content="https://unware.studio/images/og-image.png">
 
-    <!-- Favicons -->
-    <link rel="icon" href="../favicon.ico" sizes="any">
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
-    <link rel="icon" href="../images/favicons/favicon.svg" type="image/svg+xml">
-    <link rel="shortcut icon" href="../images/favicons/favicon.ico" type="image/x-icon">
+    <!-- ====== FAVICON ====== -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="/images/favicons/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
 
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://unware.studio/legals/politique-cookies.html">
+    <!-- ====== PERFORMANCE ====== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
-    <!-- Fonts et CSS -->
+    <!-- ====== RESSOURCES ====== -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-
-
-    <!-- CSS principal -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
 
-
-    <!-- Cookies / Analytics -->
-    <script src="../js/cookie-banner.js"></script>
-    <script src="../js/analytics.js"></script>
-    <script src="../js/analytics-clarify.js"></script>
-
     <style>
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    img, video, iframe {
+        max-width: 100%;
+        height: auto;
+    }
+
+    body {
+        overflow-x: clip;
+    }
+
+    body.no-scroll {
+        overflow: hidden;
+    }
+
+    /* ====== BASE HEADER / NAV ====== */
     .btn {
         padding: 12px 24px;
         border-radius: 6px;
@@ -58,7 +76,8 @@
         align-items: center;
         justify-content: center;
         font-size: 14px;
-        line-height: 1;
+        line-height: 1.2;
+        min-height: 44px;
     }
 
     .btn-login {
@@ -85,7 +104,7 @@
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
 
-    /* Style pour le menu burger */
+    /* ====== MENU BURGER ====== */
     .mobile-menu {
         display: none;
         font-size: 24px;
@@ -109,27 +128,30 @@
         transform: scale(1.05);
     }
 
-    /* Styles spécifiques pour corriger le menu mobile */
-    body.no-scroll {
-        overflow: hidden;
+    .mobile-menu.active i {
+        transform: rotate(90deg);
     }
-    
+
     .mobile-nav {
         position: fixed;
         top: 0;
         right: -100%;
-        width: 320px;
+        width: min(320px, 88vw);
         height: 100vh;
+        height: 100dvh;
         background: var(--primary);
         z-index: 1000;
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         border-left: 1px solid var(--border);
         display: flex;
         flex-direction: column;
-        padding: 80px 25px 25px;
+        padding: 80px 25px max(25px, env(safe-area-inset-bottom));
         overflow-y: auto;
         box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
         box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        user-select: none;
     }
 
     .mobile-nav.active {
@@ -195,7 +217,20 @@
 
     .mobile-nav-links li {
         margin-bottom: 8px;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: all 0.3s ease;
     }
+
+    .mobile-nav.active .mobile-nav-links li {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .mobile-nav.active .mobile-nav-links li:nth-child(1) { transition-delay: 0.1s; }
+    .mobile-nav.active .mobile-nav-links li:nth-child(2) { transition-delay: 0.15s; }
+    .mobile-nav.active .mobile-nav-links li:nth-child(3) { transition-delay: 0.2s; }
+    .mobile-nav.active .mobile-nav-links li:nth-child(4) { transition-delay: 0.25s; }
 
     .mobile-nav-links a {
         color: var(--text);
@@ -237,71 +272,20 @@
         flex-direction: column;
         gap: 12px;
         order: 2;
-        margin-bottom: 150px;
+        margin-bottom: 40px;
         padding-top: 20px;
         border-top: 1px solid var(--border);
-        position: relative;
-        top: 0;
-    }
-
-    .mobile-nav-actions .btn {
-        text-align: center;
-        width: 100%;
-        padding: 14px 20px;
-        border-radius: 8px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        height: auto;
-    }
-
-    .mobile-nav-actions .btn-login {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--border);
-    }
-
-    .mobile-nav-actions .btn-login:hover {
-        background: rgba(255, 255, 255, 0.1);
-        transform: translateY(-2px);
-    }
-
-    .mobile-nav-actions .btn-primary {
-        background: var(--accent);
-        color: var(--primary);
-    }
-
-    .mobile-nav-actions .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .mobile-nav-links li {
-        opacity: 0;
-        transform: translateX(20px);
-        transition: all 0.3s ease;
-    }
-
-    .mobile-nav.active .mobile-nav-links li {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    .mobile-nav.active .mobile-nav-links li:nth-child(1) { transition-delay: 0.1s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(2) { transition-delay: 0.15s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(3) { transition-delay: 0.2s; }
-    .mobile-nav.active .mobile-nav-links li:nth-child(4) { transition-delay: 0.25s; }
-    
-    .mobile-nav-actions {
         opacity: 0;
         transform: translateX(20px);
         transition: all 0.3s ease 0.3s;
     }
-    
+
     .mobile-nav.active .mobile-nav-actions {
         opacity: 1;
         transform: translateX(0);
     }
 
-    /* Legal Section */
+    /* ====== SECTION LÉGALE ====== */
     .legal-section {
         padding: 120px 0 60px;
         background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
@@ -310,6 +294,8 @@
     .legal-container {
         max-width: 900px;
         margin: 0 auto;
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
     }
 
     .legal-header {
@@ -393,6 +379,7 @@
         padding: 8px 0;
         color: var(--text-secondary);
         font-size: 14px;
+        line-height: 1.6;
         display: flex;
         align-items: flex-start;
         gap: 10px;
@@ -402,6 +389,13 @@
         color: var(--accent);
         margin-top: 3px;
         font-size: 12px;
+    }
+
+    .legal-list li small,
+    .legal-list li .li-detail {
+        display: block;
+        color: var(--text-secondary);
+        opacity: 0.85;
     }
 
     .developer-info {
@@ -503,6 +497,7 @@
         color: var(--accent);
         font-weight: 600;
         text-decoration: none;
+        overflow-wrap: anywhere;
     }
 
     .legal-email:hover {
@@ -518,25 +513,7 @@
         padding-top: 20px;
     }
 
-    /* NEXA Cookie Manager Integration */
-    .nexa-cookie-section {
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 6px;
-        padding: 25px;
-        margin: 25px 0;
-        border: 1px solid var(--border);
-    }
-
-    .nexa-cookie-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(255, 255, 255, 0.05);
-        padding: 8px 12px;
-        border-radius: 4px;
-        margin-bottom: 15px;
-    }
-
+    /* ====== SUPPRESSION DES DONNÉES ====== */
     .nexa-cookie-actions {
         display: flex;
         gap: 10px;
@@ -545,8 +522,11 @@
     }
 
     .btn-nexa-cookie {
-        padding: 8px 16px;
-        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: 6px;
         border: 1px solid var(--border);
         background: transparent;
         color: var(--text);
@@ -554,80 +534,136 @@
         font-size: 13px;
         transition: var(--transition);
         font-family: 'Inter', sans-serif;
-    }
-
-    .btn-nexa-cookie.primary {
-        background: var(--accent);
-        color: var(--primary);
-        border-color: var(--accent);
+        min-height: 44px;
     }
 
     .btn-nexa-cookie:hover {
         background: rgba(255, 255, 255, 0.1);
     }
 
-    .btn-nexa-cookie.primary:hover {
-        background: var(--accent);
-        opacity: 0.9;
+    .cookie-status {
+        display: none;
+        margin-top: 15px;
+        padding: 12px 16px;
+        border-radius: 6px;
+        background: rgba(76, 175, 80, 0.12);
+        border: 1px solid rgba(76, 175, 80, 0.35);
     }
 
-    /* Responsive */
+    .cookie-status.visible {
+        display: block;
+    }
+
+    .cookie-status p {
+        margin: 0;
+        font-size: 13px;
+        color: var(--text);
+    }
+
+    .cookie-note {
+        margin-top: 15px;
+        font-size: 13px;
+        color: var(--text-secondary);
+    }
+
+    .cookie-details {
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--text-secondary);
+    }
+
+    .cookie-details summary {
+        cursor: pointer;
+    }
+
+    .cookie-details ul {
+        padding-left: 20px;
+        margin-top: 5px;
+    }
+
+    /* ====== RESPONSIVE ====== */
+    header .nav-container,
+    footer .container {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+    }
+
+    footer {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
     @media (max-width: 768px) {
-        .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary {
+        .nav-links,
+        .nav-actions .btn-login,
+        .nav-actions .btn-primary {
             display: none;
         }
-        
+
         .mobile-menu {
             display: flex;
         }
-        
+
         .studio-logo {
             display: none;
         }
-        
+
         header {
             padding: 12px 0;
         }
-        
+
         .nav-container {
             padding: 0 15px;
         }
-        
+
         .logo {
             gap: 8px;
         }
-        
+
         .logo-icon {
             font-size: 20px;
         }
-        
+
         .nav-actions {
             height: auto;
         }
-        
+
         .legal-title {
             font-size: 32px;
         }
-        
+
         .legal-content {
             padding: 25px;
         }
-        
+
         .legal-section {
             padding: 100px 0 40px;
         }
-        
+
         .developer-info {
             grid-template-columns: 1fr;
         }
-        
+
         .legal-table {
             display: block;
             overflow-x: auto;
         }
-        
+
         .nexa-cookie-actions {
             flex-direction: column;
+        }
+
+        .btn-nexa-cookie {
+            justify-content: center;
+            width: 100%;
+        }
+
+        .footer-content {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 28px !important;
+        }
+
+        .footer-brand {
+            grid-column: 1 / -1;
         }
     }
 
@@ -635,9 +671,31 @@
         .legal-title {
             font-size: 28px;
         }
-        
-        header {
-            padding: 12px 0;
+
+        .legal-content {
+            padding: 18px;
+        }
+
+        .legal-card {
+            padding: 18px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .footer-content {
+            grid-template-columns: 1fr !important;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .mobile-nav {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        .mobile-nav-links a {
+            font-size: 16px;
+            padding: 12px;
         }
     }
 
@@ -645,806 +703,524 @@
         .mobile-nav {
             padding: 70px 20px 20px;
         }
-        
+
         .mobile-close {
             top: 20px;
             right: 20px;
         }
-        
+
         .mobile-nav-actions {
             gap: 10px;
             margin-bottom: 20px;
         }
-        
-        .mobile-nav-actions .btn {
-            padding: 12px 15px;
-        }
-        
+
         .mobile-nav-links li {
             margin-bottom: 6px;
         }
-        
+
         .mobile-nav-links a {
             padding: 12px 16px;
             font-size: 16px;
         }
-
-           /* === COOKIES === */
-    #custom-cookie-banner {
-        position: fixed; bottom: 30px; right: 30px; max-width: 420px;
-        background: #000000; color: #ffffff;
-        padding: 28px; border-radius: 16px; z-index: 10000;
-        display: none; font-family: 'Inter', sans-serif;
-        border: 1px solid #333333;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-    }
-    #custom-cookie-banner.show { display: block; animation: cookieSlideIn 0.5s ease; }
-
-    @keyframes cookieSlideIn {
-        from { opacity: 0; transform: translateY(30px); }
-        to   { opacity: 1; transform: translateY(0); }
     }
 
-    .cookie-banner-content { display: flex; flex-direction: column; gap: 20px; }
-    .cookie-text h3 { margin: 0 0 12px 0; font-size: 18px; font-weight: 600; color: #ffffff; }
-    .cookie-text p { margin: 0; font-size: 14px; color: #cccccc; line-height: 1.5; }
-    .cookie-actions { display: flex; gap: 10px; justify-content: flex-end; }
-
-    .cookie-btn {
-        padding: 10px 20px; border: 1px solid #444444; border-radius: 8px;
-        background: transparent; color: #ffffff; font-size: 13px; font-weight: 500;
-        cursor: pointer; transition: all 0.3s ease; min-width: 90px;
-    }
-    .cookie-btn:hover { transform: translateY(-1px); }
-    .cookie-btn.reject { background: rgba(255,255,255,0.05); }
-    .cookie-btn.reject:hover { background: rgba(255,255,255,0.1); }
-    .cookie-btn.settings { background: rgba(255,255,255,0.08); }
-    .cookie-btn.settings:hover { background: rgba(255,255,255,0.15); }
-    .cookie-btn.accept { background: #ffffff; color: #000000; font-weight: 600; }
-    .cookie-btn.accept:hover { background: #e0e0e0; }
-
-    /* Modal cookies */
-    .cookie-modal {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.8); z-index: 10001;
-        display: none; align-items: center; justify-content: center; padding: 20px;
-    }
-    .cookie-modal.show { display: flex; }
-
-    .modal-content {
-        background: #000000; padding: 30px; border-radius: 16px;
-        max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto;
-        border: 1px solid #333333; box-shadow: 0 25px 50px rgba(0,0,0,0.6); color: #ffffff;
-    }
-    .modal-header {
-        display: flex; justify-content: space-between; align-items: center;
-        margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #333333;
-    }
-    .modal-header h3 { margin: 0; font-size: 18px; font-weight: 600; color: #ffffff; }
-
-    .close-modal {
-        background: rgba(255,255,255,0.1); border: 1px solid #444444;
-        color: #ffffff; font-size: 18px; cursor: pointer;
-        padding: 6px; border-radius: 6px;
-        width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-        transition: all 0.3s ease;
-    }
-    .close-modal:hover { background: rgba(255,255,255,0.2); transform: rotate(90deg); }
-
-    .cookie-options { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
-    .cookie-option {
-        display: flex; align-items: center; justify-content: space-between;
-        padding: 20px; background: rgba(255,255,255,0.05);
-        border-radius: 12px; border: 1px solid #333333; transition: all 0.3s ease;
-    }
-    .cookie-option:hover { background: rgba(255,255,255,0.08); border-color: #444444; }
-    .cookie-option-info { flex: 1; margin-right: 20px; }
-    .cookie-option-title { display: block; color: #ffffff; font-weight: 600; font-size: 15px; margin-bottom: 6px; }
-    .cookie-option-description { font-size: 13px; color: #999999; line-height: 1.4; }
-
-    /* Toggles */
-    .cookie-slide-container { position: relative; display: inline-block; width: 54px; height: 28px; flex-shrink: 0; }
-    .cookie-slide { opacity: 0; width: 0; height: 0; position: absolute; }
-    .cookie-slide-label {
-        position: relative; display: block; width: 100%; height: 100%;
-        background: #333333; border-radius: 20px; cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 2px solid transparent;
-    }
-    .cookie-slide-label:before {
-        content: ''; position: absolute; top: 2px; left: 2px;
-        width: 20px; height: 20px; background: #666666; border-radius: 50%;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-    .cookie-slide:checked + .cookie-slide-label { background: #ffffff; border-color: #ffffff; }
-    .cookie-slide:checked + .cookie-slide-label:before { transform: translateX(26px); background: #000000; }
-    .cookie-slide-label:hover:before { transform: scale(1.1); }
-    .cookie-slide:checked + .cookie-slide-label:hover:before { transform: translateX(26px) scale(1.1); }
-    .cookie-slide:disabled + .cookie-slide-label { opacity: 0.4; cursor: not-allowed; }
-    .cookie-slide:disabled + .cookie-slide-label:hover:before { transform: none; }
-
-    .modal-actions {
-        display: flex; gap: 12px; justify-content: flex-end;
-        margin-top: 25px; padding-top: 20px; border-top: 1px solid #333333;
-    }
-    .modal-btn {
-        padding: 12px 24px; border: 1px solid #444444; border-radius: 10px;
-        background: transparent; color: #ffffff; font-size: 14px; font-weight: 500;
-        cursor: pointer; transition: all 0.3s ease; min-width: 100px;
-    }
-    .modal-btn.save { background: #ffffff; color: #000000; font-weight: 600; border-color: #ffffff; }
-    .modal-btn.save:hover { background: #e0e0e0; transform: translateY(-1px); }
-    .modal-btn.cancel { background: rgba(255,255,255,0.05); }
-    .modal-btn.cancel:hover { background: rgba(255,255,255,0.1); transform: translateY(-1px); }
-
-    /* === RESPONSIVE === */
-    @media (max-width: 1024px) {
-        .hero-content { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-        .hero-subtitle { margin: 0 auto 40px; }
-        .hero-actions { justify-content: center; }
-        .footer-content { grid-template-columns: 1fr 1fr; gap: 30px; }
-    }
-
-    @media (max-width: 768px) {
-        .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
-        .mobile-menu { display: flex; }
-        .studio-logo { display: none !important; visibility: hidden !important; position: absolute !important; width: 0 !important; height: 0 !important; opacity: 0 !important; pointer-events: none !important; }
-        .hero-title { font-size: 3.5rem; }
-        .hero-actions { flex-direction: column; align-items: center; }
-        .footer-content { grid-template-columns: 1fr; gap: 30px; }
-
-        #custom-cookie-banner {
-            bottom: 0; right: 0; left: 0; max-width: none;
-            border-radius: 16px 16px 0 0; padding: 24px 20px; margin: 0;
-            animation: cookieSlideUp 0.5s ease;
+    @media (max-height: 500px) and (orientation: landscape) {
+        .mobile-nav {
+            padding-top: 64px;
         }
-        @keyframes cookieSlideUp {
-            from { opacity: 0; transform: translateY(100%); }
-            to   { opacity: 1; transform: translateY(0); }
+
+        .mobile-nav-links li {
+            margin-bottom: 2px;
         }
-        .cookie-banner-content { gap: 16px; }
-        .cookie-text h3 { font-size: 16px; margin-bottom: 8px; }
-        .cookie-text p { font-size: 13px; }
-        .cookie-actions { flex-direction: column; gap: 8px; }
-        .cookie-btn { width: 100%; padding: 12px 16px; font-size: 14px; min-width: auto; }
-        .cookie-modal { padding: 10px; align-items: flex-end; }
-        .modal-content { max-width: none; border-radius: 16px 16px 0 0; padding: 24px 20px; max-height: 85vh; }
-        .cookie-option { padding: 16px; flex-direction: column; align-items: flex-start; gap: 12px; }
-        .cookie-option-info { margin-right: 0; }
-        .cookie-option-title { font-size: 14px; }
-        .cookie-option-description { font-size: 12px; }
-        .cookie-slide-container { align-self: flex-end; }
-        .modal-actions { flex-direction: column; gap: 10px; margin-top: 20px; padding-top: 16px; }
-        .modal-btn { width: 100%; padding: 14px 16px; font-size: 14px; min-width: auto; }
+
+        .mobile-nav-links a {
+            padding: 8px 14px;
+            font-size: 16px;
+        }
+
+        .mobile-close {
+            top: 12px;
+            right: 16px;
+        }
+
+        .legal-section {
+            padding-top: 90px;
+        }
     }
 
-    @media (max-width: 480px) {
-        .hero-title { font-size: 2.8rem; }
-        #custom-cookie-banner { padding: 20px 16px; }
-        .modal-content { padding: 20px 16px; }
-        .cookie-option { padding: 14px; }
+    @media (hover: none) {
+        .btn:hover {
+            transform: none;
+        }
     }
 
-    @media (max-height: 600px) {
-        .mobile-nav { padding: 70px 20px 20px; }
-        .mobile-close { top: 20px; right: 20px; }
-        .mobile-nav-actions { gap: 10px; margin-bottom: 20px; }
-        .mobile-nav-actions .btn { padding: 12px 15px; }
-        .mobile-nav-links li { margin-bottom: 6px; }
-        .mobile-nav-links a { padding: 12px 16px; font-size: 16px; }
-    }
-
-    #custom-cookie-banner.hiding { animation: cookieSlideOut 0.4s ease forwards; }
-    @keyframes cookieSlideOut {
-        to { opacity: 0; transform: translateY(30px); }
-    }
-    @media (max-width: 768px) {
-        #custom-cookie-banner.hiding { animation: cookieSlideDown 0.4s ease forwards; }
-        @keyframes cookieSlideDown {
-            to { opacity: 0; transform: translateY(100%); }
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation: none !important;
+            transition: none !important;
         }
     }
     </style>
 </head>
+
 <body>
-<br>
-    <!-- Header -->
-    <header>
-        <div class="container nav-container">
-            <div class="logo">
-                <div class="logo-icon"><i class="fas fa-temple"></i></div>
-                <div class="logo-text">
-                    <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
-                </div>
-            </div>
-            <ul class="nav-links">
-                <li><a href="../index.html">Accueil</a></li>
-                <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
-                <li><a href="../nexa/galerie.html">Galeries</a></li>
-                <li><a href="../nexa/nexa.html">The void protocol</a></li>
-            </ul>
-            <div class="nav-actions">
-
-                <div class="mobile-menu" id="mobileMenu">
-                    <i class="fas fa-bars"></i>
-                </div>
+<!-- Header -->
+<header>
+    <div class="container nav-container">
+        <div class="logo">
+            <div class="logo-icon"><i class="fas fa-temple"></i></div>
+            <div class="logo-text">
+                <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
             </div>
         </div>
-    </header>
-
-    <!-- Menu Mobile -->
-    <div class="overlay" id="overlay"></div>
-    <nav class="mobile-nav" id="mobileNav">
-        <div class="mobile-close" id="mobileClose">
-            <i class="fas fa-times"></i>
-        </div>
-        
-        <ul class="mobile-nav-links">
-            <li><a href="../index.html" class="mobile-nav-link">Accueil</a></li>
-            <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
-            <li><a href="../nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
-            <li><a href="../nexa/nexa.html" class="mobile-nav-link">The void protocol</a></li>
+        <ul class="nav-links">
+            <li><a href="../index.html">Accueil</a></li>
+            <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
+            <li><a href="../nexa/galerie.html">Galeries</a></li>
+            <li><a href="../nexa/the_void_protocol.html">The void protocol</a></li>
         </ul>
-        <div class="mobile-nav-actions">
-
-        </div>
-    </nav>
-
-    <!-- Legal Section -->
-    <section class="legal-section">
-        <div class="container legal-container">
-            <div class="legal-header">
-                <span class="legal-badge">POLITIQUE DE COOKIES</span>
-                <h1 class="legal-title">Politique de Cookies</h1>
-                <p class="legal-subtitle">Informations sur l'utilisation des cookies sur le site UNWARE STUDIO</p>
+        <div class="nav-actions">
+            <div class="mobile-menu" id="mobileMenu" role="button" tabindex="0" aria-label="Ouvrir le menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
             </div>
-            
-            <div class="legal-content">
-                <div class="legal-card">
-                    <h3><i class="fas fa-cookie"></i> Qu'est-ce qu'un cookie ?</h3>
-                    <p>Un cookie est un petit fichier texte stocké sur votre appareil lorsque vous visitez un site web. Il permet au site de mémoriser vos actions et préférences sur une période de temps.</p>
-                </div>
+        </div>
+    </div>
+</header>
 
-                <div class="legal-card">
-                    <h3><i class="fas fa-shield-alt"></i>Gestion du consentement</h3>
-                    <p>Afin de respecter les exigences du RGPD et de la directive ePrivacy, nous utilisons un système de gestion du consentement permettant de gérer vos choix concernant les cookies.</p>
-                    
-                    <ul class="legal-list">
-                        <li><i class="fas fa-check"></i> <strong>Transparence totale :</strong> Vous savez quels cookies sont utilisés</li>
-                        <li><i class="fas fa-check"></i> <strong>Contrôle personnalisé :</strong> Vous choisissez les cookies que vous acceptez</li>
-                        <li><i class="fas fa-check"></i> <strong>Conformité légale :</strong> Respect strict du RGPD et ePrivacy</li>
-                        <li><i class="fas fa-check"></i> <strong>Solution de gestion du consentement :</strong>Utilisée pour gérer vos préférences concernant les cookies sur UNWARE STUDIO.</li>
-                    </ul>
-                </div>
+<!-- Menu Mobile -->
+<div class="overlay" id="overlay"></div>
+<nav class="mobile-nav" id="mobileNav" aria-label="Menu mobile">
+    <div class="mobile-close" id="mobileClose" role="button" tabindex="0" aria-label="Fermer le menu">
+        <i class="fas fa-times"></i>
+    </div>
 
-               
-                <div class="legal-card">
-                    <h3><i class="fas fa-list"></i> Catégories de Cookies</h3>
-                    
-                    <table class="legal-table">
-                        <thead>
-                            <tr>
-                                <th>Catégorie</th>
-                                <th>Finalité</th>
-                                <th>Géré par</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>Cookies Essentiels</strong></td>
-                                <td>Fonctionnement du site, sécurité</td>
-                                <td>Site internet</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Cookies Analytics</strong></td>
-                                <td>Analyse d'audience, statistiques</td>
-                                <td>Google Analytics</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="legal-card">
-                    <h3><i class="fas fa-cookie-bite"></i> Cookies Spécifiques Utilisés</h3>
-                    
-                    <div class="developer-info">
-                        <div class="info-item">
-                            <h4><i class="fas fa-chart-bar"></i> Google Analytics</h4>
-                            <p>Analyse du trafic et comportements</p>
-                            <small>Durée : 14 mois</small>
-                        </div>
-                        <div class="info-item">
-                            <h4><i class="fas fa-chart-bar"></i>Microsoft Clarity</h4>
-                            <p>Analyse du trafic et comportements</p>
-                            <small>Durée : selon les paramètres du service</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="legal-card">
-                    <h3><i class="fas fa-database"></i> Données Collectées</h3>
-                    <p>Conformément au RGPD, nous collectons uniquement les données nécessaires :</p>
-                    
-                    <ul class="legal-list">
-                        <li><i class="fas fa-desktop"></i> Type de navigateur et appareil</li>
-                        <li><i class="fas fa-globe"></i> Pages visitées et durée de session</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Données géographiques approximatives</li>
-                        <li><i class="fas fa-mouse-pointer"></i> Interactions avec le site</li>
-                    </ul>
-                    
-                    <div class="warning-note">
-                        <h4><i class="fas fa-info-circle"></i> Protection des Données</h4>
-                        <p><strong>Des données personnelles (telles que l’adresse IP anonymisée, les pages consultées et les interactions) peuvent être collectées via des cookies analytiques, 
-                            uniquement après obtention de votre consentement explicite.</strong></p>
-                    </div>
-                </div>
-
-                <div class="legal-card">
-                    <h3><i class="fas fa-users"></i> Partage des Données</h3>
-                    <p>Vos données sont traitées avec la plus grande confidentialité :</p>
-                    
-                    <ul class="legal-list">
-                        <li><i class="fas fa-ban"></i> <strong>Aucune vente :</strong> Nous ne vendons pas vos données</li>
-                        <li><i class="fas fa-shield-alt"></i> <strong>Services tiers :  <br><br>
-                            - Google Analytics : pour l'analyse du trafic et des comportements sur le site.
-                            <br>
-                            - Microsoft Clarity : pour l'analyse d'audience.
-                        </strong> </li>
-                        <li><i class="fas fa-lock"></i> <strong>Mesures de sécurité :</strong>Des mesures techniques et organisationnelles sont mises en œuvre afin de protéger les données traitées.</li>
-                 
-                    </ul>
-                </div>
-
-                <div class="legal-card">
-                    <h3><i class="fas fa-gavel"></i> Base Légale</h3>
-                    <p>Notre utilisation des cookies repose sur différentes bases légales :</p>
-                    
-                    <table class="legal-table">
-                        <thead>
-                            <tr>
-                                <th>Type de Cookie</th>
-                                <th>Base Légale</th>
-                                <th>Consentement</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Cookies Essentiels</td>
-                                <td>Fonctionnement du site</td>
-                                <td>Non requis</td>
-                            </tr>
-                            <tr>
-                                <td>Cookies Analytics</td>
-                                <td>Consentement explicite</td>
-                                <td>Requis</td>
-                            </tr>
-                               <tr>                             
-                        </tbody>
-                    </table>
-                </div>
-
-<div class="legal-card">
-    <h3><i class="fas fa-sync-alt"></i> Durée de Conservation</h3>
-    <p>Les durées de conservation des cookies et des données associées sont limitées à ce qui est nécessaire aux finalités pour lesquelles ils sont utilisés :</p>
-
-    <ul class="legal-list">
-        <li>
-            <strong>Google Analytics</strong><br>
-            Durée du cookie : selon la configuration du service.<br>
-            Conservation des données : selon les paramètres de conservation configurés dans Google Analytics.
-        </li>
-        <li>
-            <strong>Microsoft Clarity</strong><br>
-            Durée de conservation : selon les paramètres du service.
-        </li>
-        <li>
-            <strong>Consentement</strong><br>
-            Le choix concernant les cookies est conservé afin de mémoriser vos préférences.
-        </li>
+    <ul class="mobile-nav-links">
+        <li><a href="../index.html" class="mobile-nav-link">Accueil</a></li>
+        <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
+        <li><a href="../nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
+        <li><a href="../nexa/the_void_protocol.html" class="mobile-nav-link">The void protocol</a></li>
     </ul>
-</div>
+    <div class="mobile-nav-actions"></div>
+</nav>
 
+<main>
+<!-- Section légale -->
+<section class="legal-section">
+    <div class="container legal-container">
+        <div class="legal-header">
+            <span class="legal-badge">POLITIQUE DE COOKIES</span>
+            <h1 class="legal-title">Politique de Cookies</h1>
+            <p class="legal-subtitle">Informations sur l'utilisation des cookies sur le site UNWARE STUDIO</p>
+        </div>
 
-                <div class="legal-card">
-    <h3><i class="fas fa-download"></i> Suppression des données</h3>
-    <p>Vous disposez de droits étendus sur vos données :</p>
-    
-    <div class="nexa-cookie-actions">
-        <button class="btn-nexa-cookie" onclick="deleteGoogleAnalyticsData()">
-            <i class="fas fa-trash"></i>Supprimer les cookies Google Analytics
-        </button>
+        <div class="legal-content">
 
-    </div>
-    
-    <div id="cookie-status" style="margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 5px; display: none;">
-        <p id="cookie-status-text" style="margin: 0; font-size: 13px;"></p>
-    </div>
-    
-    <p style="margin-top: 15px; font-size: 13px; color: var(--text-secondary);">
-        <i class="fas fa-info-circle"></i> Cette action supprime les cookies de Google Analytics  de votre navigateur.
-    </p>
-    
-    <details style="margin-top: 10px; font-size: 12px; color: var(--text-secondary);">
-        <summary>Qu'est-ce qui sera supprimé ?</summary>
-        <ul style="padding-left: 20px; margin-top: 5px;">
-            <li>Tous les cookies Google Analytics (_ga, _gid, etc.)</li>
-            <li>Les données de stockage local liées à GA</li>
-            <li>Les données de session</li>
-            <li>Votre consentement enregistré localement</li>
-        </ul>
-    </details>
-</div>
+            <div class="legal-card">
+                <h3><i class="fas fa-cookie"></i> Qu'est-ce qu'un cookie ?</h3>
+                <p>Un cookie est un petit fichier texte stocké sur votre appareil lorsque vous visitez un site web. Il permet au site de mémoriser vos actions et préférences sur une période de temps.</p>
+            </div>
 
+            <div class="legal-card">
+                <h3><i class="fas fa-shield-alt"></i> Gestion du consentement</h3>
+                <p>Afin de respecter les exigences du RGPD et de la directive ePrivacy, nous utilisons un système de gestion du consentement permettant de gérer vos choix concernant les cookies.</p>
 
+                <ul class="legal-list">
+                    <li><i class="fas fa-check"></i> <span><strong>Transparence totale :</strong> Vous savez quels cookies sont utilisés</span></li>
+                    <li><i class="fas fa-check"></i> <span><strong>Contrôle personnalisé :</strong> Vous choisissez les cookies que vous acceptez</span></li>
+                    <li><i class="fas fa-check"></i> <span><strong>Conformité légale :</strong> Respect strict du RGPD et ePrivacy</span></li>
+                    <li><i class="fas fa-check"></i> <span><strong>Solution de gestion du consentement :</strong> Utilisée pour gérer vos préférences concernant les cookies sur UNWARE STUDIO.</span></li>
+                </ul>
+            </div>
 
+            <div class="legal-card">
+                <h3><i class="fas fa-list"></i> Catégories de Cookies</h3>
 
-         
+                <table class="legal-table">
+                    <thead>
+                        <tr>
+                            <th>Catégorie</th>
+                            <th>Finalité</th>
+                            <th>Géré par</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Cookies Essentiels</strong></td>
+                            <td>Fonctionnement du site, sécurité</td>
+                            <td>Site internet</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cookies Analytics</strong></td>
+                            <td>Analyse d'audience, statistiques</td>
+                            <td>Google Analytics, Microsoft Clarity</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="contact-legal">
-                    <h3><i class="fas fa-question-circle"></i> Questions sur les Cookies</h3>
-                    <p>Pour toute question concernant notre politique de cookies ou la gestion de vos données :</p>
-                    <p><a href="mailto:contact.unwarestudio@gmail.com" class="legal-email">contact.unwarestudio@gmail.com</a></p>
-                    <p style="margin-top: 10px; font-size: 13px;">Réponse sous 72 heures maximum</p>
-                </div>
+            <div class="legal-card">
+                <h3><i class="fas fa-cookie-bite"></i> Cookies Spécifiques Utilisés</h3>
 
-                <div class="last-update">
-                    <p><strong>Dernière mise à jour :</strong> 29 septembre 2026</p>
-                
+                <div class="developer-info">
+                    <div class="info-item">
+                        <h4><i class="fas fa-chart-bar"></i> Google Analytics</h4>
+                        <p>Analyse du trafic et comportements</p>
+                        <small>Durée : 14 mois</small>
+                    </div>
+                    <div class="info-item">
+                        <h4><i class="fas fa-chart-bar"></i> Microsoft Clarity</h4>
+                        <p>Analyse du trafic et comportements</p>
+                        <small>Durée : selon les paramètres du service</small>
+                    </div>
                 </div>
             </div>
+
+            <div class="legal-card">
+                <h3><i class="fas fa-database"></i> Données Collectées</h3>
+                <p>Conformément au RGPD, nous collectons uniquement les données nécessaires :</p>
+
+                <ul class="legal-list">
+                    <li><i class="fas fa-desktop"></i> Type de navigateur et appareil</li>
+                    <li><i class="fas fa-globe"></i> Pages visitées et durée de session</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Données géographiques approximatives</li>
+                    <li><i class="fas fa-mouse-pointer"></i> Interactions avec le site</li>
+                </ul>
+
+                <div class="warning-note">
+                    <h4><i class="fas fa-info-circle"></i> Protection des Données</h4>
+                    <p><strong>Des données personnelles (telles que l'adresse IP anonymisée, les pages consultées et les interactions) peuvent être collectées via des cookies analytiques, uniquement après obtention de votre consentement explicite.</strong></p>
+                </div>
+            </div>
+
+            <div class="legal-card">
+                <h3><i class="fas fa-users"></i> Partage des Données</h3>
+                <p>Vos données sont traitées avec la plus grande confidentialité :</p>
+
+                <ul class="legal-list">
+                    <li><i class="fas fa-ban"></i> <span><strong>Aucune vente :</strong> Nous ne vendons pas vos données</span></li>
+                    <li>
+                        <i class="fas fa-shield-alt"></i>
+                        <span>
+                            <strong>Services tiers :</strong>
+                            <span class="li-detail">Google Analytics : pour l'analyse du trafic et des comportements sur le site.</span>
+                            <span class="li-detail">Microsoft Clarity : pour l'analyse d'audience.</span>
+                        </span>
+                    </li>
+                    <li><i class="fas fa-lock"></i> <span><strong>Mesures de sécurité :</strong> Des mesures techniques et organisationnelles sont mises en œuvre afin de protéger les données traitées.</span></li>
+                </ul>
+            </div>
+
+            <div class="legal-card">
+                <h3><i class="fas fa-gavel"></i> Base Légale</h3>
+                <p>Notre utilisation des cookies repose sur différentes bases légales :</p>
+
+                <table class="legal-table">
+                    <thead>
+                        <tr>
+                            <th>Type de Cookie</th>
+                            <th>Base Légale</th>
+                            <th>Consentement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Cookies Essentiels</td>
+                            <td>Fonctionnement du site</td>
+                            <td>Non requis</td>
+                        </tr>
+                        <tr>
+                            <td>Cookies Analytics</td>
+                            <td>Consentement explicite</td>
+                            <td>Requis</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="legal-card">
+                <h3><i class="fas fa-sync-alt"></i> Durée de Conservation</h3>
+                <p>Les durées de conservation des cookies et des données associées sont limitées à ce qui est nécessaire aux finalités pour lesquelles ils sont utilisés :</p>
+
+                <ul class="legal-list">
+                    <li>
+                        <span>
+                            <strong>Google Analytics</strong>
+                            <span class="li-detail">Durée du cookie : 14 mois.</span>
+                            <span class="li-detail">Conservation des données : selon les paramètres de conservation configurés dans Google Analytics.</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span>
+                            <strong>Microsoft Clarity</strong>
+                            <span class="li-detail">Durée de conservation : selon les paramètres du service.</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span>
+                            <strong>Consentement</strong>
+                            <span class="li-detail">Le choix concernant les cookies est conservé afin de mémoriser vos préférences.</span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="legal-card">
+                <h3><i class="fas fa-trash"></i> Suppression des données</h3>
+                <p>Vous pouvez à tout moment supprimer les cookies d'analyse stockés par votre navigateur :</p>
+
+                <div class="nexa-cookie-actions">
+                    <button type="button" class="btn-nexa-cookie" id="deleteAnalyticsBtn">
+                        <i class="fas fa-trash"></i> Supprimer les cookies d'analyse
+                    </button>
+                </div>
+
+                <div class="cookie-status" id="cookieStatus" role="status" aria-live="polite">
+                    <p id="cookieStatusText"></p>
+                </div>
+
+                <p class="cookie-note">
+                    <i class="fas fa-info-circle"></i> Cette action supprime les cookies Google Analytics et Microsoft Clarity de votre navigateur. Elle est locale à votre appareil.
+                </p>
+
+                <details class="cookie-details">
+                    <summary>Qu'est-ce qui sera supprimé ?</summary>
+                    <ul>
+                        <li>Les cookies Google Analytics (_ga, _ga_*, _gid, etc.)</li>
+                        <li>Les cookies Microsoft Clarity (_clck, _clsk, etc.)</li>
+                        <li>Les données de stockage local liées à l'analyse</li>
+                        <li>Votre consentement enregistré localement : la bannière s'affichera de nouveau à votre prochaine visite</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="contact-legal">
+                <h3><i class="fas fa-question-circle"></i> Questions sur les Cookies</h3>
+                <p>Pour toute question concernant notre politique de cookies ou la gestion de vos données :</p>
+                <p><a href="mailto:contact.unwarestudio@gmail.com" class="legal-email">contact.unwarestudio@gmail.com</a></p>
+                <p style="margin-top: 10px; font-size: 13px;">Réponse sous 72 heures maximum</p>
+            </div>
+
+            <div class="last-update">
+                <p><strong>Dernière mise à jour :</strong> 29 septembre 2026</p>
+            </div>
+
         </div>
-    </section>
+    </div>
+</section>
+</main>
 
 <!-- Footer -->
 <footer>
-  <div class="container">
-    <div class="footer-content">
-      <!-- Brand / Studio -->
-      <div class="footer-brand">
-        <div class="footer-logo">
-          <span class="footer-logo-text">The void protocol</span>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo"><div class="footer-logo-text">The void protocol</div></div>
+                <p class="footer-desc">Un jeu développé par UNWARE STUDIO.</p>
+                <div class="social-links">
+                    <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitch"></i></a>
+                    <a href="https://discord.gg/PE7MS4Sazk" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i></a>
+                    <a href="https://www.youtube.com/@unware.studio" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.instagram.com/unware.studio?igsh=bXcyaWVlMG96cXhl" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-column">
+                <h3>Navigation</h3>
+                <ul class="footer-links">
+                    <li><a href="../index.html">Accueil</a></li>
+                    <li><a href="../nexa/fonctionnalites.html">Fonctionnalités</a></li>
+                    <li><a href="../nexa/galerie.html">Galeries</a></li>
+                    <li><a href="../nexa/the_void_protocol.html">The Void Protocol</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="../Support/centre-aide.html">Centre d'aide</a></li>
+                    <li><a href="../Support/FAQ.html">FAQ</a></li>
+                    <li><a href="../Support/contact.html">Contact</a></li>
+                    <li><a href="../Support/statut.html">Statut des services</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Légal</h3>
+                <ul class="footer-links">
+                    <li><a href="conditions-utilisation.html">Conditions d'utilisation</a></li>
+                    <li><a href="politique-confidentialite.html">Politique de confidentialité</a></li>
+                    <li><a href="mentions-legales.html">Mentions légales</a></li>
+                    <li><a href="politique-cookies.html">Politique de cookies</a></li>
+                </ul>
+            </div>
         </div>
-        <p class="footer-desc">Un jeu développé par UNWARE STUDIO.</p>
-        <div class="social-links">
-          <!-- Twitch (remplace Twitter) -->
-          <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer">
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/>
-            </svg>
-          </a>
 
-          <!-- Discord -->
-          <a href="https://discord.gg/PE7MS4Sazk" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer">
-            <svg width="21" height="21" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
-            </svg>
-          </a>
-
-          <!-- YouTube -->
-          <a href="https://www.youtube.com/@unware.studio" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-          </a>
-
-          <!-- Instagram -->
-          <a href="https://www.instagram.com/unware.studio?igsh=bXcyaWVlMG96cXhl" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </a>
+        <div class="copyright">
+            <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
         </div>
-      </div>
-
-      <!-- Navigation -->
-      <div class="footer-column">
-        <h3>Navigation</h3>
-        <ul class="footer-links">
-          <li><a href="/#accueil" target="_blank" rel="noopener noreferrer">Accueil</a></li>
-          <li><a href="/nexa/fonctionnalites.html" target="_blank" rel="noopener noreferrer">Fonctionnalités</a></li>
-          <li><a href="/nexa/galerie.html" target="_blank" rel="noopener noreferrer">Galeries</a></li>
-          <li><a href="/nexa/nexa.html" target="_blank" rel="noopener noreferrer">The Void Protocol</a></li>
-        </ul>
-      </div>
-
-      <!-- Support -->
-      <div class="footer-column">
-        <h3>Support</h3>
-        <ul class="footer-links">
-          <li><a href="/Support/centre-aide.html" target="_blank" rel="noopener noreferrer">Centre d'aide</a></li>
-          <li><a href="/Support/FAQ.html" target="_blank" rel="noopener noreferrer">FAQ</a></li>
-          <li><a href="/Support/contact.html" target="_blank" rel="noopener noreferrer">Contact</a></li>
-          <li><a href="/Support/statut.html" target="_blank" rel="noopener noreferrer">Statut des services</a></li>
-        </ul>
-      </div>
-
-      <!-- Légal -->
-      <div class="footer-column">
-        <h3>Légal</h3>
-        <ul class="footer-links">
-          <li><a href="/legals/conditions-utilisation.html" target="_blank" rel="noopener noreferrer">Conditions d'utilisation</a></li>
-          <li><a href="/legals/politique-confidentialite.html" target="_blank" rel="noopener noreferrer">Politique de confidentialité</a></li>
-          <li><a href="/legals/mentions-legales.html" target="_blank" rel="noopener noreferrer">Mentions légales</a></li>
-          <li><a href="/legals/politique-cookies.html" target="_blank" rel="noopener noreferrer">Politique de cookies</a></li>
-        </ul>
-      </div>
     </div>
-
-    <!-- Copyright -->
-    <div class="copyright">
-      <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
-    </div>
-  </div>
 </footer>
-    
+
 <script>
-    // Menu Burger Functionality
-    const mobileMenu = document.getElementById('mobileMenu');
-    const mobileNav = document.getElementById('mobileNav');
-    const overlay = document.getElementById('overlay');
-    const mobileClose = document.getElementById('mobileClose');
-    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-    const body = document.body;
+    /* ==================== MENU BURGER ==================== */
+    (function () {
+        var mobileMenu = document.getElementById('mobileMenu');
+        var mobileNav = document.getElementById('mobileNav');
+        var overlay = document.getElementById('overlay');
+        var mobileClose = document.getElementById('mobileClose');
+        var body = document.body;
+        if (!mobileMenu || !mobileNav || !overlay || !mobileClose) return;
 
-    function openMobileMenu() {
-        mobileNav.classList.add('active');
-        overlay.classList.add('active');
-        mobileMenu.classList.add('active');
-        body.classList.add('no-scroll');
-        void mobileNav.offsetWidth;
-    }
-
-    function closeMobileMenu() {
-        mobileNav.classList.remove('active');
-        overlay.classList.remove('active');
-        mobileMenu.classList.remove('active');
-        body.classList.remove('no-scroll');
-    }
-
-    function toggleMobileMenu() {
-        if (mobileNav.classList.contains('active')) {
-            closeMobileMenu();
-        } else {
-            openMobileMenu();
+        function openMenu() {
+            mobileNav.classList.add('active');
+            overlay.classList.add('active');
+            mobileMenu.classList.add('active');
+            body.classList.add('no-scroll');
+            mobileMenu.setAttribute('aria-expanded', 'true');
         }
-    }
 
-    mobileMenu.addEventListener('click', toggleMobileMenu);
-    overlay.addEventListener('click', closeMobileMenu);
-    mobileClose.addEventListener('click', closeMobileMenu);
-
-    mobileNavLinks.forEach(link => {
-        link.addEventListener('click', closeMobileMenu);
-    });
-
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && mobileNav.classList.contains('active')) {
-            closeMobileMenu();
+        function closeMenu() {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            body.classList.remove('no-scroll');
+            mobileMenu.setAttribute('aria-expanded', 'false');
         }
-    });
 
-    window.addEventListener('load', function() {
+        function toggleMenu() {
+            mobileNav.classList.contains('active') ? closeMenu() : openMenu();
+        }
+
+        function onKey(fn) {
+            return function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    fn();
+                }
+            };
+        }
+
+        mobileMenu.addEventListener('click', toggleMenu);
+        mobileMenu.addEventListener('keydown', onKey(toggleMenu));
+        overlay.addEventListener('click', closeMenu);
+        mobileClose.addEventListener('click', closeMenu);
+        mobileClose.addEventListener('keydown', onKey(closeMenu));
+        document.querySelectorAll('.mobile-nav-link').forEach(function (l) {
+            l.addEventListener('click', closeMenu);
+        });
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && mobileNav.classList.contains('active')) closeMenu();
+        });
+    })();
+
+    window.addEventListener('load', function () {
         if (window.location.hash) {
             history.replaceState(null, null, window.location.pathname + window.location.search);
         }
     });
 
-    // Système de suppression des données Google Analytics G-NJLCB6G0G8
-    function deleteGoogleAnalyticsData() {
-        if (confirm('🗑️ Êtes-vous sûr de vouloir supprimer toutes vos données Google Analytics ?\n\nCette action supprimera :\n• Vos cookies de suivi Google Analytics\n• Vos données de session\n• Vos préférences de consentement\n\nNote : Cette action est locale à votre navigateur.')) {
-            
-            // 1. Supprimer tous les cookies Google Analytics
-            deleteAllGoogleAnalyticsCookies();
-            
-            // 2. Supprimer le stockage local
-            deleteLocalStorageData();
-            
-            // 3. Supprimer le stockage de session
-            deleteSessionStorageData();
-            
-            // 4. Désactiver Google Analytics pour cette session
-            disableGoogleAnalytics();
-            
-            // 5. Confirmation à l'utilisateur
-            showDeletionConfirmation();
-            
-            console.log(' Données Google Analytics supprimées');
-        }
-    }
+    /* ==================== SUPPRESSION DES COOKIES D'ANALYSE ==================== */
+    (function () {
+        var GA_ID = 'G-NJLCB6G0G8';
 
-    function deleteAllGoogleAnalyticsCookies() {
-        // Liste des cookies Google Analytics à supprimer
-        const gaCookies = [
-            '_ga',           // Cookie principal GA4
-            '_ga_',          // Tous les cookies _ga_*
-            '_gid',          // Cookie d'ID utilisateur
-            '_gat',          // Cookie de limitation du débit
-            '_gat_gtag_',    // Cookies gtag
-            '_gac_',         // Cookies publicitaires
-            '_dc_gtm_',      // Google Tag Manager
-            '_fbp',          // Facebook pixel (souvent utilisé avec GA)
-            '_fbc',          // Facebook click ID
-            'AMP_TOKEN',     // Token AMP
-            '_gaexp',        // Expérimentations Google
-            '_opt_',         // Optimize
-            '_gcl_au'        // Google Ads
-        ];
+        /* Noms (ou préfixes) des cookies à supprimer : Google Analytics + Microsoft Clarity */
+        var COOKIE_PREFIXES = ['_ga', '_gid', '_gat', '_gac_', '_gcl_', '_clck', '_clsk', 'CLID', 'ANONID', 'MUID', 'SM'];
 
-        // Supprimer tous les cookies du domaine actuel
-        const hostname = window.location.hostname;
-        const domainParts = hostname.split('.');
-        
-        // Essayer différents domaines pour la suppression
-        const domainsToClear = [
-            hostname,
-            '.' + hostname,
-            '.' + domainParts.slice(-2).join('.')  // domaine de second niveau
-        ];
+        /* Clés de stockage local liées à l'analyse et au consentement */
+        var STORAGE_PATTERN = /(^_?ga|gtm|gtag|analytics|consent|clarity|^_cl)/i;
 
-        gaCookies.forEach(cookieName => {
-            domainsToClear.forEach(domain => {
-                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
-                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        function isTargetCookie(name) {
+            return COOKIE_PREFIXES.some(function (prefix) {
+                return name === prefix || name.indexOf(prefix) === 0;
             });
-        });
+        }
 
-        // Supprimer aussi les cookies avec pattern (comme _ga_*)
-        const allCookies = document.cookie.split(';');
-        allCookies.forEach(cookie => {
-            const cookieName = cookie.split('=')[0].trim();
-            gaCookies.forEach(gaPattern => {
-                if (cookieName.includes(gaPattern.replace('*', ''))) {
-                    domainsToClear.forEach(domain => {
-                        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain};`;
-                        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-                    });
+        function expireCookie(name) {
+            var host = window.location.hostname;
+            var parts = host.split('.');
+            var domains = [host, '.' + host];
+            if (parts.length > 2) domains.push('.' + parts.slice(-2).join('.'));
+
+            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            domains.forEach(function (domain) {
+                document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + domain + ';';
+            });
+        }
+
+        function deleteAnalyticsCookies() {
+            document.cookie.split(';').forEach(function (cookie) {
+                var name = cookie.split('=')[0].trim();
+                if (name && isTargetCookie(name)) expireCookie(name);
+            });
+        }
+
+        function deleteStorageData(storage) {
+            try {
+                var keys = [];
+                for (var i = 0; i < storage.length; i++) {
+                    keys.push(storage.key(i));
                 }
-            });
-        });
-    }
-
-    function deleteLocalStorageData() {
-        // Supprimer les clés liées à Google Analytics
-        const gaKeys = [
-            'ga:clientId',
-            'ga_cookie_consent',
-            'google_analytics',
-            'gtm',
-            'gtag',
-            '_ga',
-            'analytics',
-            'cookie_consent'
-        ];
-
-        gaKeys.forEach(key => {
-            localStorage.removeItem(key);
-            // Supprimer aussi avec préfixes
-            for (let i = 0; i < localStorage.length; i++) {
-                const storageKey = localStorage.key(i);
-                if (storageKey.includes(key) || key.includes(storageKey)) {
-                    localStorage.removeItem(storageKey);
-                }
-            }
-        });
-
-        // Optionnel : vider tout le localStorage
-        // localStorage.clear();
-    }
-
-    function deleteSessionStorageData() {
-        // Supprimer les données de session liées à GA
-        const sessionKeys = [
-            'ga_session',
-            'analytics_session',
-            'gtm_session'
-        ];
-
-        sessionKeys.forEach(key => {
-            sessionStorage.removeItem(key);
-        });
-    }
-
-    function disableGoogleAnalytics() {
-        // Désactiver Google Analytics pour cette session
-        window['ga-disable-G-NJLCB6G0G8'] = true;
-        
-        // Désactiver le dataLayer
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-            'event': 'analytics_opt_out',
-            'analytics_storage': 'denied'
-        });
-        
-        // Bloquer future collecte
-        if (window.gtag) {
-            gtag('consent', 'update', {
-                'analytics_storage': 'denied',
-                'ad_storage': 'denied',
-                'personalization_storage': 'denied'
-            });
+                keys.forEach(function (key) {
+                    if (STORAGE_PATTERN.test(key)) storage.removeItem(key);
+                });
+            } catch (e) { /* stockage indisponible */ }
         }
-    }
 
-    function showDeletionConfirmation() {
-        // Créer une notification de confirmation
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #4CAF50;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 5px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 10000;
-            animation: slideIn 0.3s ease;
-            max-width: 400px;
-        `;
-        
-        // Ajouter une animation CSS
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
+        function disableAnalytics() {
+            window['ga-disable-' + GA_ID] = true;
+            window.dataLayer = window.dataLayer || [];
+            if (typeof window.gtag === 'function') {
+                window.gtag('consent', 'update', {
+                    analytics_storage: 'denied',
+                    ad_storage: 'denied',
+                    ad_user_data: 'denied',
+                    ad_personalization: 'denied'
+                });
             }
-            @keyframes fadeOut {
-                from { opacity: 1; }
-                to { opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-        
-        notification.innerHTML = `
-            <strong> Suppression réussie !</strong>
-            <p style="margin: 8px 0 0 0; font-size: 14px;">
-                Vos données Google Analytics  ont été supprimées.<br>
-                <small>Les cookies et la session ont été effacés.</small>
-            </p>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        // Auto-suppression après 5 secondes
-        setTimeout(() => {
-            notification.style.animation = 'fadeOut 0.5s ease';
-            setTimeout(() => notification.remove(), 500);
-        }, 5000);
-    }
-
-    // Fonction pour vérifier les cookies GA actifs
-    function checkGoogleAnalyticsCookies() {
-        const cookies = document.cookie.split(';');
-        const gaCookies = cookies.filter(cookie => 
-            cookie.includes('_ga') || 
-            cookie.includes('_gid') || 
-            cookie.includes('gtm') ||
-            cookie.includes('gtag')
-        );
-        
-        if (gaCookies.length > 0) {
-            console.log('Cookies Google Analytics détectés:', gaCookies);
-            return true;
         }
-        return false;
-    }
 
-    // Initialisation
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('Système de suppression Google Analytics G-NJLCB6G0G8 initialisé');
-        
-        // Vérifier les cookies au chargement
-        if (checkGoogleAnalyticsCookies()) {
-            console.log('Google Analytics est actif sur cette page');
+        function showConfirmation() {
+            var box = document.getElementById('cookieStatus');
+            var text = document.getElementById('cookieStatusText');
+            if (!box || !text) return;
+            text.innerHTML = '<i class="fas fa-check-circle"></i> Suppression réussie : vos cookies d\'analyse et votre consentement enregistré ont été effacés.';
+            box.classList.add('visible');
         }
-    });
 
-    // Exposer la fonction globalement
-    window.deleteGoogleAnalyticsData = deleteGoogleAnalyticsData;
-    window.checkGoogleAnalyticsCookies = checkGoogleAnalyticsCookies;
-   </script>
- </body>
+        function deleteAnalyticsData() {
+            var ok = window.confirm(
+                'Supprimer vos cookies d\'analyse ?\n\n' +
+                '• Cookies Google Analytics et Microsoft Clarity\n' +
+                '• Données de session liées à l\'analyse\n' +
+                '• Votre consentement enregistré\n\n' +
+                'Cette action est locale à votre navigateur.'
+            );
+            if (!ok) return;
+
+            deleteAnalyticsCookies();
+            deleteStorageData(window.localStorage);
+            deleteStorageData(window.sessionStorage);
+            disableAnalytics();
+            showConfirmation();
+        }
+
+        var btn = document.getElementById('deleteAnalyticsBtn');
+        if (btn) btn.addEventListener('click', deleteAnalyticsData);
+
+        /* Exposé au cas où cookie-banner.js ou un autre script en aurait besoin */
+        window.deleteAnalyticsData = deleteAnalyticsData;
+    })();
+</script>
+
+<!-- Cookies / Analytics : bannière injectée par cookie-banner.js, GA4 démarre après consentement -->
+<script src="/js/cookie-banner.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/analytics-clarify.js"></script>
+
+<!-- Vercel Speed Insights -->
+<script>
+window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
+</body>
 </html>
