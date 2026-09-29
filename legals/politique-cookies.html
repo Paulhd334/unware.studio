@@ -42,22 +42,10 @@
     <link rel="stylesheet" href="../css/styles.css">
 
 
-    <!-- Cookies script RGPD / 2026 -->   
-       <script>
-    (function() {
-        function getCookie(n) {
-            var eq=n+"=", ca=document.cookie.split(';');
-            for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
-            return null;
-        }
-        function load(src) { var s=document.createElement('script');s.src=src;document.head.appendChild(s); }
-        load('../js/cookie-banner.js');
-        if (getCookie('cookieConsent') !== 'rejected') {
-            load('../js/analytics.js');
-            load('../js/analytics-clarify.js');
-        }
-    })();
-    </script>
+    <!-- Cookies / Analytics -->
+    <script src="../js/cookie-banner.js"></script>
+    <script src="../js/analytics.js"></script>
+    <script src="../js/analytics-clarify.js"></script>
 
     <style>
     .btn {
@@ -1102,7 +1090,7 @@
                 </div>
 
                 <div class="last-update">
-                    <p><strong>Dernière mise à jour :</strong> 29 Juillet 2026</p>
+                    <p><strong>Dernière mise à jour :</strong> 29 septembre 2026</p>
                 
                 </div>
             </div>
@@ -1460,5 +1448,3 @@
    </script>
  </body>
 </html>
-
-
