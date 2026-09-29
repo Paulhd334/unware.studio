@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0a0a0a">
     <meta name="format-detection" content="telephone=no">
 
@@ -90,6 +90,9 @@
     <script src="../js/analytics-clarify.js"></script>
 
     <style>
+        html { -webkit-text-size-adjust: 100%; }
+        img, video, iframe { max-width: 100%; height: auto; }
+
         .btn {
             padding: 12px 24px;
             border-radius: 6px;
@@ -100,7 +103,9 @@
             align-items: center;
             justify-content: center;
             font-size: 14px;
-            line-height: 1;
+            line-height: 1.2;
+            min-height: 44px;
+            text-align: center;
         }
         .btn-login {
             color: var(--text);
@@ -132,13 +137,14 @@
 
         .mobile-nav {
             position: fixed; top: 0; right: -100%;
-            width: 320px; height: 100vh;
+            width: min(320px, 88vw);
+            height: 100vh; height: 100dvh;
             background: var(--primary);
             z-index: 1000;
             transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
             border-left: 1px solid var(--border);
             display: flex; flex-direction: column;
-            padding: 80px 25px 25px;
+            padding: 80px 25px max(25px, env(safe-area-inset-bottom));
             overflow-y: auto;
             box-shadow: -5px 0 30px rgba(0,0,0,0.3);
             box-sizing: border-box;
@@ -180,7 +186,7 @@
         .mobile-nav-links a:hover { color: var(--accent); background: rgba(255,255,255,0.05); padding-left: 20px; }
         .mobile-nav-actions {
             display: flex; flex-direction: column; gap: 12px;
-            order: 2; margin-bottom: 150px; padding-top: 20px;
+            order: 2; margin-bottom: 40px; padding-top: 20px;
             border-top: 1px solid var(--border);
             opacity: 0; transform: translateX(20px);
             transition: all 0.3s ease 0.3s;
@@ -198,71 +204,19 @@
             .nav-actions { height: auto; }
         }
 
-        /* ===== HERO PRODUIT ===== */
-        .product-hero {
-            min-height: 60vh;
-            display: flex;
-            align-items: flex-end;
-            position: relative;
-            overflow: hidden;
-            padding-top: 80px;
-        }
-        .product-hero-bg {
-            position: absolute; inset: 0;
-            background-image: url('cover.png');
-            background-size: cover;
-            background-position: center;
-            transform: scale(1.06);
-            transition: transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94);
-        }
-        .product-hero-bg.loaded { transform: scale(1); }
-        .product-hero-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, var(--primary) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.15) 100%);
-        }
-        .product-hero-content {
-            position: relative; z-index: 2;
-            padding: 60px 5%;
-            width: 100%; max-width: 1400px; margin: 0 auto;
-        }
-        .product-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--accent);
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-size: 12px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            opacity: 0; animation: fadeUp 0.7s ease 0.2s forwards;
-        }
-        .product-hero-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(48px, 8vw, 96px);
-            line-height: 0.95; letter-spacing: 2px;
-            color: var(--text); margin-bottom: 14px;
-            opacity: 0; animation: fadeUp 0.7s ease 0.35s forwards;
-        }
-        .product-hero-sub {
-            font-size: 15px; color: rgba(255,255,255,0.5);
-            font-weight: 400; letter-spacing: 0.5px;
-            max-width: 620px; line-height: 1.6;
-            opacity: 0; animation: fadeUp 0.7s ease 0.5s forwards;
-        }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
         /* ===== SECTION CONTENU ===== */
-        .product-section { padding: 60px 5% 100px; max-width: 1200px; margin: 0 auto; }
+        main { padding-top: clamp(90px, 14vw, 140px); }
+        .product-section {
+            padding: clamp(24px, 5vw, 60px) clamp(16px, 4vw, 5%) clamp(48px, 8vw, 100px);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
         .video-card {
             position: relative;
             display: block;
             width: 100%;
+            aspect-ratio: 16 / 9;
             border-radius: 8px;
             overflow: hidden;
             margin-bottom: 40px;
@@ -271,21 +225,19 @@
         }
         .video-card img {
             width: 100%;
+            height: 100%;
+            object-fit: cover;
             display: block;
             transition: transform 0.6s ease, filter 0.3s ease;
             filter: brightness(0.85);
         }
-        .video-card:hover img {
-            transform: scale(1.03);
-            filter: brightness(1);
-        }
+        .video-card:hover img { transform: scale(1.03); filter: brightness(1); }
         .video-play-icon {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 64px;
-            height: 64px;
+            width: clamp(46px, 9vw, 64px);
+            height: clamp(46px, 9vw, 64px);
             background-color: rgba(255,255,255,0.95);
             border-radius: 50%;
             display: flex;
@@ -293,16 +245,13 @@
             align-items: center;
             transition: transform 0.25s ease;
         }
-        .video-card:hover .video-play-icon {
-            transform: translate(-50%, -50%) scale(1.08);
-        }
+        .video-card:hover .video-play-icon { transform: translate(-50%, -50%) scale(1.08); }
         .video-play-icon::after {
             content: "";
-            width: 0;
-            height: 0;
-            border-top: 11px solid transparent;
-            border-bottom: 11px solid transparent;
-            border-left: 18px solid var(--primary);
+            width: 0; height: 0;
+            border-top: clamp(8px, 1.6vw, 11px) solid transparent;
+            border-bottom: clamp(8px, 1.6vw, 11px) solid transparent;
+            border-left: clamp(13px, 2.6vw, 18px) solid var(--primary);
             margin-left: 5px;
         }
 
@@ -312,69 +261,37 @@
             gap: 16px;
             justify-content: center;
         }
-        .download-actions .btn {
-            min-width: 220px;
-        }
-        .btn-primary {
-            background: var(--accent);
-            color: var(--primary);
-            font-weight: 600;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
-        }
-        .btn-discord {
-            background: transparent;
-            color: #5865F2;
-            border: 1px solid #5865F2;
-        }
-        .btn-discord:hover {
-            background: #5865F2;
-            color: #ffffff;
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 540px) {
-            .download-actions { flex-direction: column; align-items: stretch; }
-        }
+        .download-actions .btn { min-width: 220px; }
+        .btn-primary { background: var(--accent); color: var(--primary); font-weight: 600; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
+        .btn-discord { background: transparent; color: #5865F2; border: 1px solid #5865F2; }
+        .btn-discord:hover { background: #5865F2; color: #ffffff; transform: translateY(-2px); }
 
         /* ===== CALLOUT LSPDFR ===== */
         .lspdfr-callout {
             display: flex;
             align-items: center;
-            gap: 18px;
-            margin-top: 40px;
-            padding: 20px 24px;
+            gap: clamp(12px, 2.5vw, 18px);
+            margin: 0 0 24px;
+            padding: clamp(14px, 3vw, 20px) clamp(14px, 3vw, 24px);
             border: 1px solid var(--border);
             border-radius: 8px;
             background: var(--card-bg);
             text-decoration: none;
             transition: all 0.3s ease;
         }
-        .lspdfr-callout:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
+        .lspdfr-callout:hover { border-color: var(--accent); transform: translateY(-2px); }
         .lspdfr-callout-icon {
             flex-shrink: 0;
-            width: 64px;
-            height: 64px;
+            width: 64px; height: 64px;
             border-radius: 6px;
             background: rgba(255,255,255,0.05);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             font-size: 20px;
             color: var(--accent);
             overflow: hidden;
         }
-        .lspdfr-callout-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+        .lspdfr-callout-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .lspdfr-callout-body { flex: 1; min-width: 0; }
         .lspdfr-callout-label {
             font-size: 11px;
@@ -383,11 +300,7 @@
             color: var(--accent);
             margin-bottom: 4px;
         }
-        .lspdfr-callout-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text);
-        }
+        .lspdfr-callout-title { font-size: 16px; font-weight: 600; color: var(--text); overflow-wrap: anywhere; }
         .lspdfr-callout-arrow {
             flex-shrink: 0;
             color: var(--text);
@@ -395,27 +308,26 @@
             font-size: 16px;
             transition: transform 0.3s ease;
         }
-        .lspdfr-callout:hover .lspdfr-callout-arrow {
-            transform: translateX(4px);
-            opacity: 1;
-        }
+        .lspdfr-callout:hover .lspdfr-callout-arrow { transform: translateX(4px); opacity: 1; }
 
         /* ===== DEUX COLONNES ===== */
         .split-columns {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 28px;
+            gap: clamp(16px, 2.5vw, 28px);
             align-items: start;
         }
         .column-card {
             border: 1px solid var(--border);
             border-radius: 10px;
             background: var(--card-bg);
-            padding: 32px;
+            padding: clamp(18px, 3.5vw, 32px);
             display: flex;
             flex-direction: column;
             height: 100%;
             box-sizing: border-box;
+            min-width: 0;
+            overflow-wrap: anywhere;
         }
         .column-eyebrow {
             display: inline-flex;
@@ -428,19 +340,18 @@
         }
         .column-card h2 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 30px;
+            font-size: clamp(24px, 4.5vw, 30px);
             letter-spacing: 1px;
             color: var(--text);
             margin-bottom: 12px;
         }
         .column-card > p {
-            font-size: 14px;
+            font-size: clamp(13.5px, 2vw, 14px);
             line-height: 1.65;
             color: rgba(255,255,255,0.55);
             margin-bottom: 24px;
         }
         .column-card .video-card { margin-bottom: 24px; }
-        .column-card .download-actions { flex-wrap: wrap; }
         .column-card .download-actions .btn { flex: 1; min-width: 140px; }
 
         .feature-list {
@@ -463,13 +374,7 @@
 
         .column-footer { margin-top: auto; }
 
-        .lspdfr-callout { margin-top: 0; margin-bottom: 24px; }
-
-        .social-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 14px;
-        }
+        .social-row { display: flex; flex-wrap: wrap; gap: 14px; }
         .social-card {
             flex: 1;
             min-width: 110px;
@@ -486,19 +391,46 @@
         }
         .social-card i { font-size: 22px; color: var(--social-color, var(--accent)); }
         .social-card span { font-size: 12.5px; font-weight: 600; color: var(--text); }
-        .social-card:hover {
-            border-color: var(--social-color, var(--accent));
-            transform: translateY(-3px);
-        }
+        .social-card:hover { border-color: var(--social-color, var(--accent)); transform: translateY(-3px); }
 
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 860px) {
             .split-columns { grid-template-columns: 1fr; }
+            .column-card { height: auto; }
+            .product-section { max-width: 640px; }
+        }
+        @media (max-width: 540px) {
+            .download-actions { flex-direction: column; align-items: stretch; }
+            .download-actions .btn,
+            .column-card .download-actions .btn { min-width: 0; width: 100%; }
+            .social-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .social-card { min-width: 0; padding: 16px 8px; }
+            .social-card span { font-size: 12px; }
+            .feature-list li { font-size: 13px; }
+            .lspdfr-callout-icon { width: 52px; height: 52px; }
+            .lspdfr-callout-arrow { display: none; }
+        }
+        @media (max-width: 360px) {
+            .social-row { grid-template-columns: 1fr; }
+            .social-card { flex-direction: row; justify-content: center; }
+        }
+        @media (max-width: 768px) {
+            .footer-content { grid-template-columns: 1fr 1fr !important; gap: 28px !important; }
+            .footer-brand { grid-column: 1 / -1; }
+        }
+        @media (max-width: 480px) {
+            .footer-content { grid-template-columns: 1fr !important; }
+        }
+        @media (hover: none) {
+            .video-card:hover img { transform: none; filter: brightness(0.85); }
+            .social-card:hover, .lspdfr-callout:hover, .btn:hover { transform: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
         }
     </style>
-
+</head>
 <body>
-
-    
 
     <header>
         <div class="container nav-container">
@@ -520,9 +452,6 @@
         </div>
     </header>
 
-
-    
-
     <div class="overlay" id="overlay"></div>
     <nav class="mobile-nav" id="mobileNav">
         <div class="mobile-close" id="mobileClose"><i class="fas fa-times"></i></div>
@@ -530,25 +459,21 @@
             <li><a href="../index.html#accueil" class="mobile-nav-link" data-track-name="mobile_nav_accueil">Accueil</a></li>
             <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link" data-track-name="mobile_nav_fonctionnalites">Fonctionnalités</a></li>
             <li><a href="../nexa/galerie.html" class="mobile-nav-link" data-track-name="mobile_nav_galeries">Galeries</a></li>
-            <li><a href="../nexa/nexa.html" class="mobile-nav-link" data-track-name="mobile_nav_void_protocol">The void protocol</a></li>
+            <li><a href="../nexa/the_void_protocol.html" class="mobile-nav-link" data-track-name="mobile_nav_void_protocol">The void protocol</a></li>
         </ul>
         <div class="mobile-nav-actions"></div>
     </nav>
 
     <main>
-
-        <br>  <br>  <br>  <br>  <br>
-
         <section class="product-section">
             <div class="split-columns">
                 <div class="column-card">
                     <div class="column-eyebrow"><i class="fas fa-flag"></i> Pack France</div>
                     <h2>Pack France 2026</h2>
-                     <p>Vidéo créée par Multierot, présentant des véhicules de la police, de la gendarmerie, des pompiers et du SAMU, prêts à être déployés en jeu. Cette vidéo n'a pas été créée par UNWARE STUDIO.</p>
-
+                    <p>Vidéo créée par Multierot, présentant des véhicules de la police, de la gendarmerie, des pompiers et du SAMU, prêts à être déployés en jeu. Cette vidéo n'a pas été créée par UNWARE STUDIO.</p>
 
                     <a class="video-card" href="https://www.youtube.com/watch?v=oXKjN61I0F4&t=78s" target="_blank" rel="noopener" data-track-name="video_preview_youtube">
-                        <img src="https://img.youtube.com/vi/oXKjN61I0F4/maxresdefault.jpg" alt="Aperçu vidéo">
+                        <img src="https://img.youtube.com/vi/oXKjN61I0F4/maxresdefault.jpg" alt="Aperçu vidéo" loading="lazy">
                         <div class="video-play-icon"></div>
                     </a>
 
@@ -560,7 +485,7 @@
 
                     <div class="column-footer download-actions">
                         <a href="https://drive.google.com/drive/folders/1mlHde0CX6JvZ3ey8qMhdK9p-wOLDGgOV?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener" data-track-name="cta_access_digital_files">
-                           Google Drive 
+                            Google Drive
                         </a>
                     </div>
                 </div>
@@ -571,7 +496,7 @@
                     <p>Des scripts d'interventions inédits développés par UNWARE STUDIO pour enrichir vos patrouilles avec de nouvelles situations et poursuites.</p>
 
                     <a href="https://www.lcpdfr.com/downloads/gta4mods/scripts/55465-superpoursuitecallout/" class="lspdfr-callout" target="_blank" rel="noopener" data-track-name="callout_superpoursuitecallout">
-                        <div class="lspdfr-callout-icon"><img src="https://s3-screenshots.int-cdn.lcpdfrusercontent.com/monthly_2026_09/SUPERPOUSSUITECALLOUT.thumb.png.9fbd86a634e754f53a8d401d0e981658.png" alt="SuperPoursuiteCallout"></div>
+                        <div class="lspdfr-callout-icon"><img src="https://s3-screenshots.int-cdn.lcpdfrusercontent.com/monthly_2026_09/SUPERPOUSSUITECALLOUT.thumb.png.9fbd86a634e754f53a8d401d0e981658.png" alt="SuperPoursuiteCallout" loading="lazy"></div>
                         <div class="lspdfr-callout-body">
                             <div class="lspdfr-callout-label">Callout LSPDFR</div>
                             <div class="lspdfr-callout-title">SuperPoursuiteCallout</div>
@@ -693,11 +618,6 @@
         }
         mobileNavLinks.forEach(l => l.addEventListener('click', closeMobileMenu));
         document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
-
-        window.addEventListener('load', () => {
-            const heroBg = document.querySelector('.product-hero-bg');
-            if (heroBg) heroBg.classList.add('loaded');
-        });
     </script>
 
 </body>
