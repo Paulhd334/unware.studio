@@ -41,28 +41,10 @@
 
 
   
-     <!-- ANALYTICS LOADER — UN SEUL BLOC, pages dans /nexa/ /Support/ /legals/ -->
-    <script>
-    (function() {
-        function getCookie(n) {
-            var eq=n+"=", ca=document.cookie.split(';');
-            for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
-            return null;
-        }
-        function load(src) { var s=document.createElement('script');s.src=src;document.head.appendChild(s); }
-
-        // cookie-banner.js TOUJOURS en premier — gère la bannière + consentement sur toutes les pages
-        load('../js/cookie-banner.js');
-
-        // analytics uniquement si pas refusé
-        if (getCookie('cookieConsent') !== 'rejected') {
-            load('../js/analytics.js');
-            load('../js/analytics-clarify.js');
-        } else {
-            console.log('⛔ Cookies refusés — analytics non chargés');
-        }
-    })();
-    </script>
+     <!-- Cookies / Analytics -->
+    <script src="../js/cookie-banner.js"></script>
+    <script src="../js/analytics.js"></script>
+    <script src="../js/analytics-clarify.js"></script>
 
     <style>
     .btn {
@@ -878,7 +860,7 @@
 </div>
 
 <div class="last-update">
-    <p><strong>Dernière mise à jour :</strong> 29  Juillet 2026</p>
+    <p><strong>Dernière mise à jour :</strong> 29 septembre 2026</p>
     <p><em>Ces mentions légales peuvent être modifiées à tout moment.</em></p>
 </div>
     </section>
@@ -1019,13 +1001,13 @@
 
         // Script pour la conformité légale
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Mentions légales NEXA - Projet personnel');
+            console.log('UNWARE STUDIO — Mentions légales chargées');
             
             // Message de statut du projet
             const projectStatus = localStorage.getItem('projectStatusSeen');
             if (!projectStatus) {
                 setTimeout(() => {
-                    console.log('NEXA - Projet en développement par un développeur indépendant');
+                    console.log('UNWARE STUDIO — Projet développé par un développeur indépendant');
                     localStorage.setItem('projectStatusSeen', 'true');
                 }, 1000);
             }
@@ -1033,5 +1015,3 @@
     </script>
   </body>
 </html>
-
-
