@@ -1,1063 +1,811 @@
-// =============== GOOGLE ANALYTICS 4 - Version MAX DATA v4 (CORRIGÉE) ===============
-// ✅ FIX SESSIONS (voir commentaires marqués "FIX SESSION")
-// ✅ FIX v4 (voir commentaires marqués "FIX v4") :
-//    1. new URL(document.referrer) protégé par try/catch (pouvait bloquer TOUT le
-//       tracking en silence si le referrer avait un format non standard)
-//    2. Suppression du double envoi de page_view (gtag('config', ...) en envoie
-//       déjà un automatiquement, l'event manuel gtag('event','page_view', ...)
-//       était redondant et faussait les statistiques)
-//    3. Variable isClarityLoaded (inutilisée ici, le vrai flag partagé est
-//       window._isClarityLoaded défini dans analytics-clarify.js) supprimée
-//       pour éviter la confusion
-const GA_MEASUREMENT_ID = 'G-NJLCB6G0G8';
-let isGALoaded = false;
-let deviceType = 'desktop';
-let clientId = null;
-let cookiesRejected = false;
-let pageCountIncremented = false; // ✅ FIX: évite double-incrément
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="format-detection" content="telephone=no">
 
-// =============== DÉTECTION DU DEVICE ===============
-function detectDeviceType() {
-    const width = window.innerWidth;
-    const ua = navigator.userAgent.toLowerCase();
-    if (/mobile|android|iphone|ipad|ipod/i.test(ua) || width <= 768) {
-        return width <= 480 ? 'mobile' : 'tablet';
-    }
-    return 'desktop';
-}
+    <title>TikTok | UNWARE STUDIO</title>
+    <meta name="description" content="Découvrez le contenu TikTok de UNWARE STUDIO : développement de jeux vidéo, Unreal Engine, création 3D et actualités du studio.">
+    <meta name="keywords" content="UNWARE STUDIO TikTok, TikTok jeu vidéo, Unreal Engine, développement jeu vidéo, création 3D, The Void Protocol">
+    <meta name="author" content="UNWARE STUDIO">
+    <meta name="robots" content="index, follow">
 
-// =============== MAPPING DES PAGES ===============
-function getPageTitle() {
-    const path = window.location.pathname;
-    const pageMap = {
-        '/': 'UNWARE STUDIO',
-        '/index.html': 'UNWARE STUDIO',
-        '/nexa/fonctionnalites.html': 'Fonctionnalités NEXA',
-        '/nexa/galerie.html': 'Galerie NEXA',
-        '/nexa/the_void_protocol.html': 'The Void Protocol',
-        '/Support/FAQ.html': 'FAQ Support',
-        '/Support/centre-aide.html': 'Centre aide',
-        '/Support/contact.html': 'Contact',
-        '/Support/statut.html': 'Statut services',
-        '/legals/mentions-legales.html': 'Mentions légales',
-        '/legals/conditions-utilisation.html': 'Conditions utilisation',
-        '/legals/politique-confidentialite.html': 'Politique confidentialité',
-        '/Support/Articles/article.configuration.html': 'Article de configuration',
-        '/Support/Articles/feuille.route.nexa.html': 'Feuille de Routes',
-        '/legals/politique-cookies.html': 'Politique cookies',
-        '/tiktok/tiktok.html': 'Pack France 2026 & Callouts LSPDFR'
-    };
-    return pageMap[path] || document.title || 'UNWARE STUDIO';
-}
+    <link rel="canonical" href="https://unware.studio/tiktok/tiktok.html">
 
-function getPagePath() {
-    return window.location.pathname + window.location.search;
-}
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://unware.studio/tiktok/tiktok.html">
+    <meta property="og:title" content="TikTok | UNWARE STUDIO">
+    <meta property="og:description" content="Découvrez le contenu TikTok de UNWARE STUDIO : développement de jeux vidéo, Unreal Engine, création 3D et actualités du studio.">
+    <meta property="og:site_name" content="UNWARE STUDIO">
+    <meta property="og:locale" content="fr_FR">
 
-// =============== CLIENT ID PERSISTANT ===============
-function getClientId() {
-    if (!clientId) {
-        clientId = localStorage.getItem('ga_client_id');
-        if (!clientId) {
-            clientId = 'cid_' + Math.random().toString(36).substr(2, 12) + '_' + Math.floor(Date.now() / 1000);
-            localStorage.setItem('ga_client_id', clientId);
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TikTok | UNWARE STUDIO">
+    <meta name="twitter:description" content="Découvrez le contenu TikTok de UNWARE STUDIO : développement de jeux vidéo, Unreal Engine, création 3D et actualités du studio.">
+
+    <!-- Données structurées -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://unware.studio/#organization",
+          "name": "UNWARE STUDIO",
+          "alternateName": "Unware Studio",
+          "url": "https://unware.studio/",
+          "description": "UNWARE STUDIO est le nom sous lequel je développe mes jeux vidéo en indépendant.",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://unware.studio/images/unware-studio-logo.png"
+          },
+          "sameAs": [
+            "https://discord.gg/PE7MS4Sazk",
+            "https://unware-studio.itch.io/",
+            "https://www.youtube.com/@unware.studio",
+            "https://www.tiktok.com/@unware.studio",
+            "https://linktr.ee/UNWARE.STUDIO"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://unware.studio/tiktok/tiktok.html#website",
+          "name": "TikTok | UNWARE STUDIO",
+          "url": "https://unware.studio/tiktok/tiktok.html",
+          "publisher": {
+            "@id": "https://unware.studio/#organization"
+          },
+          "inLanguage": "fr-FR"
         }
+      ]
     }
-    return clientId;
-}
+    </script>
 
-// =============== SESSION ID PERSISTANT (résiste au F5) ===============
-// ✅ FIX SESSION 1/4 : GA4 Measurement Protocol attend un session_id NUMÉRIQUE
-// (convention : timestamp Unix en secondes du début de session). Une chaîne du type
-// "session_ab3x9d2" n'est pas reconnue comme un identifiant de session valide par GA4,
-// ce qui empêche le calcul de durée moyenne / taux d'engagement / taux de rebond.
-// On garde aussi un flag `is_new` pour savoir si on doit envoyer un event `session_start`.
-let sessionJustCreated = false;
+    <!-- Favicon -->
+    <link rel="icon" href="../favicon.ico" sizes="any">
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="../images/favicons/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
 
-function getSessionId() {
-    const SESSION_DURATION = 30 * 60 * 1000;
-    const now = Date.now();
-    let sessionData = null;
-    try {
-        const raw = sessionStorage.getItem('ga_session');
-        if (raw) sessionData = JSON.parse(raw);
-    } catch(e) {}
+    <!-- Préconnexions -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
-    if (sessionData && (now - sessionData.last_activity) < SESSION_DURATION) {
-        sessionData.last_activity = now;
-        sessionStorage.setItem('ga_session', JSON.stringify(sessionData));
-        sessionJustCreated = false;
-        return sessionData.id;
-    }
+    <!-- Ressources -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
 
-    const newSession = {
-        id: String(Math.floor(now / 1000)), // ✅ FIX SESSION : timestamp en secondes, format attendu par GA4
-        started_at: now,
-        last_activity: now,
-        page_count: 0
-    };
-    sessionStorage.setItem('ga_session', JSON.stringify(newSession));
-    sessionJustCreated = true;
-    console.log('🆕 Nouvelle session:', newSession.id);
-    return newSession.id;
-}
+    <style>
+        html { -webkit-text-size-adjust: 100%; }
+        img, video, iframe { max-width: 100%; height: auto; }
 
-// ✅ FIX: incrément appelé une seule fois par page via pageCountIncremented
-function incrementSessionPageCount() {
-    if (pageCountIncremented) {
-        try {
-            const raw = sessionStorage.getItem('ga_session');
-            if (raw) return JSON.parse(raw).page_count || 1;
-        } catch(e) {}
-        return 1;
-    }
-    pageCountIncremented = true;
-    try {
-        const raw = sessionStorage.getItem('ga_session');
-        if (raw) {
-            const s = JSON.parse(raw);
-            s.page_count = (s.page_count || 0) + 1;
-            sessionStorage.setItem('ga_session', JSON.stringify(s));
-            return s.page_count;
+        .btn {
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            line-height: 1.2;
+            min-height: 44px;
+            text-align: center;
         }
-    } catch(e) {}
-    return 1;
-}
-
-// =============== GESTION DES COOKIES ===============
-function getCookie(name) {
-    const nameEQ = name + "=";
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
-    }
-    return null;
-}
-
-function setCookie(name, value, days) {
-    const date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    document.cookie = name + "=" + value + ";expires=" + date.toUTCString() + ";path=/;SameSite=Lax;Secure";
-}
-
-function shouldLoadGA() {
-    const consent = getCookie('cookieConsent');
-    if (consent === 'rejected') { cookiesRejected = true; return false; }
-    const analytics = getCookie('analyticsCookies');
-    return consent && (consent === 'all' || (consent === 'custom' && analytics === 'true'));
-}
-
-function areCookiesRejected() {
-    const consent = getCookie('cookieConsent');
-    cookiesRejected = consent === 'rejected';
-    return cookiesRejected;
-}
-
-// =============== RESET COMPLET DE L'ÉTAT ANALYTICS ===============
-function resetAnalyticsState() {
-    isGALoaded = false;
-    cookiesRejected = true;
-    console.log('🔴 Analytics désactivé — consentement refusé');
-}
-
-// =============== DEBUG CONSOLE : ÉTAT DU CONSENTEMENT ===============
-function logConsentStatus() {
-    const consent = getCookie('cookieConsent');
-    const analytics = getCookie('analyticsCookies');
-    const performance = getCookie('performanceCookies');
-
-    console.groupCollapsed('🍪 Analytics — État du consentement');
-    if (!consent) {
-        console.log('%c⏳ En attente de consentement cookies', 'color: orange; font-weight: bold;');
-        console.log('   → GA non chargé, aucun tracker actif');
-        console.log('   → La bannière cookies va s\'afficher');
-    } else if (consent === 'rejected') {
-        console.log('%c🔴 Cookies refusés', 'color: red; font-weight: bold;');
-        console.log('   → GA bloqué, isGALoaded =', isGALoaded, '(doit être false)');
-    } else if (consent === 'all') {
-        console.log('%c✅ Tous les cookies acceptés', 'color: green; font-weight: bold;');
-        console.log('   → GA actif, isGALoaded =', isGALoaded);
-    } else if (consent === 'custom') {
-        console.log('%c🟡 Consentement personnalisé', 'color: gold; font-weight: bold;');
-        console.log('   → Analytics:', analytics === 'true' ? '✅ activé' : '❌ désactivé');
-        console.log('   → Performance:', performance === 'true' ? '✅ activé' : '❌ désactivé');
-    }
-    console.log('   Page:', getPageTitle(), '|', getPagePath());
-    console.groupEnd();
-}
-
-// ✅ FIX v4 : extraction sécurisée du hostname d'un referrer, jamais d'exception
-function safeReferrerHostname() {
-    if (!document.referrer) return 'direct';
-    try {
-        return new URL(document.referrer).hostname;
-    } catch (e) {
-        console.warn('⚠️ Referrer non parsable, ignoré:', document.referrer);
-        return 'unknown';
-    }
-}
-
-// =============== DONNÉES ENRICHIES ===============
-function getEnrichedUserData() {
-    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {};
-    const perf = performance.getEntriesByType('navigation')[0] || {};
-    const params = new URLSearchParams(window.location.search);
-
-    return {
-        screen_width:        window.screen.width,
-        screen_height:       window.screen.height,
-        viewport_width:      window.innerWidth,
-        viewport_height:     window.innerHeight,
-        pixel_ratio:         window.devicePixelRatio || 1,
-        color_depth:         window.screen.colorDepth,
-        orientation:         screen.orientation?.type || (window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'),
-        connection_type:     conn.effectiveType || 'unknown',
-        connection_downlink: conn.downlink || null,
-        connection_rtt:      conn.rtt || null,
-        save_data:           conn.saveData || false,
-        language:            navigator.language || 'unknown',
-        languages:           (navigator.languages || []).join(','),
-        platform:            navigator.platform || 'unknown',
-        do_not_track:        navigator.doNotTrack === '1',
-        online:              navigator.onLine,
-        load_time_dns:       Math.round(perf.domainLookupEnd - perf.domainLookupStart) || 0,
-        load_time_connect:   Math.round(perf.connectEnd - perf.connectStart) || 0,
-        load_time_ttfb:      Math.round(perf.responseStart - perf.requestStart) || 0,
-        load_time_dom:       Math.round(perf.domContentLoadedEventEnd - perf.startTime) || 0,
-        load_time_total:     Math.round(perf.loadEventEnd - perf.startTime) || 0,
-        session_page_count:  incrementSessionPageCount(),
-        is_returning:        !!localStorage.getItem('ga_has_visited'),
-        // ✅ FIX SESSION 2/4 : GA4 attend le nom exact "page_referrer" pour calculer
-        // la provenance (sessionSourceMedium). "referrer"/"referrer_full" ne sont pas
-        // reconnus et laissaient la section Provenance vide.
-        page_referrer:       document.referrer || '',
-        // ✅ FIX v4 : appel sécurisé (voir safeReferrerHostname) au lieu de
-        // `new URL(document.referrer).hostname` non protégé, qui pouvait lever
-        // une exception et interrompre TOUT initializeGoogleAnalytics() en silence.
-        referrer:            safeReferrerHostname(),
-        referrer_full:       document.referrer || 'direct',
-        utm_source:          params.get('utm_source') || null,
-        utm_medium:          params.get('utm_medium') || null,
-        utm_campaign:        params.get('utm_campaign') || null,
-        utm_content:         params.get('utm_content') || null,
-        utm_term:            params.get('utm_term') || null,
-    };
-}
-
-function markVisit() {
-    localStorage.setItem('ga_has_visited', '1');
-}
-
-// =============== API SÉCURISÉE VERCEL ===============
-// ✅ FIX SESSION 3/4 : on force engagement_time_msec sur CHAQUE event (pas seulement
-// page_view). Sans ça, GA4 ne compte pas le hit comme "engagé" et le taux
-// d'engagement/rebond/durée moyenne restent à 0 même si des sessions existent.
-async function sendToSecureAPI(eventName, params = {}) {
-    if (areCookiesRejected() || cookiesRejected) return false;
-    if (!shouldLoadGA()) return false;
-
-    try {
-        const payload = {
-            client_id: getClientId(),
-            user_id: getCookie('user_id') || null,
-            timestamp_micros: Math.floor(Date.now() * 1000),
-            events: [{
-                name: eventName,
-                params: {
-                    page_title:            getPageTitle(),
-                    page_location:         window.location.href,
-                    page_path:             getPagePath(),
-                    page_referrer:         document.referrer || '',
-                    device_type:           deviceType,
-                    session_id:            getSessionId(),
-                    engagement_time_msec:  '1', // valeur par défaut, écrasée ci-dessous si fournie
-                    ...params
-                }
-            }]
-        };
-
-        const response = await fetch('/api/ga-event', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-            keepalive: true,
-            mode: 'cors',
-            credentials: 'omit'
-        });
-
-        if (response.ok) { console.log(`📡 [API] ${eventName}`); return true; }
-        console.warn(`⚠️ [API] ${eventName} — statut HTTP ${response.status}`);
-        return false;
-    } catch (error) {
-        console.warn('⚠️ [API]', error);
-        return false;
-    }
-}
-
-// =============== INITIALISATION GA4 ===============
-function initializeGoogleAnalytics() {
-    if (areCookiesRejected() || !shouldLoadGA()) return;
-    if (isGALoaded) return;
-
-    console.log('🚀 Init GA4 MAX DATA v4...');
-    console.log('📊 Analytics MAX DATA prêt — 16 trackers actifs');
-
-    // ✅ FIX v4 : getEnrichedUserData() peut désormais échouer sans planter cette
-    // fonction (le try/catch reste ici en filet de sécurité supplémentaire au cas
-    // où une future donnée enrichie lèverait une exception).
-    let enriched;
-    try {
-        enriched = getEnrichedUserData();
-    } catch (e) {
-        console.warn('⚠️ getEnrichedUserData a échoué, valeurs par défaut utilisées:', e);
-        enriched = {};
-    }
-
-    const startingNewSession = sessionJustCreated; // capturé avant d'appeler getSessionId() à nouveau
-    markVisit();
-
-    // ✅ FIX SESSION 4/4 : on envoie un event `session_start` explicite au début
-    // d'une nouvelle session, avec les paramètres de provenance (source/medium/campaign)
-    // dans le format que GA4 Measurement Protocol attend pour l'acquisition de session.
-    if (startingNewSession) {
-        sendToSecureAPI('session_start', {
-            engagement_time_msec: '1',
-            source:   enriched.utm_source   || undefined,
-            medium:   enriched.utm_medium   || undefined,
-            campaign: enriched.utm_campaign || undefined,
-            term:     enriched.utm_term     || undefined,
-            content:  enriched.utm_content  || undefined,
-            ...enriched
-        });
-    }
-
-    sendToSecureAPI('page_view', { engagement_time_msec: '100', ...enriched });
-
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){ dataLayer.push(arguments); }
-    window.gtag = gtag;
-
-    gtag('js', new Date());
-    gtag('config', GA_MEASUREMENT_ID, {
-        page_title:           getPageTitle(),
-        page_location:        window.location.href,
-        page_path:            getPagePath(),
-        device_type:          deviceType,
-        anonymize_ip:         true,
-        allow_google_signals: false,
-        client_id:            getClientId(),
-        session_id:           getSessionId(),
-        // ✅ FIX v4 : gtag('config', ...) envoie déjà automatiquement un page_view.
-        // On le laisse faire ce travail (send_page_view reste true par défaut) et
-        // on supprime l'appel manuel gtag('event','page_view', ...) plus bas qui
-        // créait un DOUBLE comptage de pages vues dans GA4.
-        user_properties: {
-            device_type:       deviceType,
-            screen_resolution: `${window.screen.width}x${window.screen.height}`,
-            language:          navigator.language,
-            connection_type:   (navigator.connection || {}).effectiveType || 'unknown',
-            is_returning:      enriched.is_returning ? 'returning' : 'new'
+        .btn-login {
+            color: var(--text);
+            background: transparent;
+            border: 1px solid var(--border);
+            height: 42px;
         }
-    });
+        .btn-login:hover { background: rgba(255,255,255,0.05); transform: translateY(-2px); }
 
-    // ✅ FIX v4 : l'ancien second appel gtag('event', 'page_view', {...}) a été
-    // supprimé ici — il dupliquait le page_view déjà envoyé par gtag('config', ...)
-    // ci-dessus et gonflait artificiellement le nombre de pages vues dans GA4.
-
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
-    script.onload = () => { isGALoaded = true; initEventTracking(); };
-    script.onerror = () => { isGALoaded = true; initEventTracking(); console.warn('⚠️ gtag.js n\'a pas pu être chargé (bloqueur de pub probable)'); };
-    document.head.appendChild(script);
-}
-
-// =============== TRACKING ÉVÉNEMENTS ===============
-function initEventTracking() {
-    if (areCookiesRejected()) return;
-    console.log('🎯 Tracking MAX v4 activé...');
-
-    document.addEventListener('click', (e) => {
-        if (areCookiesRejected()) return;
-        const clickedLink = e.target.closest('a[href]');
-        if (clickedLink && clickedLink.href) {
-            try { sessionStorage.setItem(NEXT_PAGE_KEY, clickedLink.href); } catch(err) {}
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--accent);
+            z-index: 1001;
+            transition: var(--transition);
+            padding: 8px;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.05);
+            height: 42px;
+            width: 42px;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            outline: none;
         }
-        setTimeout(() => { trackClick(e.target); trackClickSecure(e.target); }, 50);
-    }, { passive: true });
+        .mobile-menu:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+        body.no-scroll { overflow: hidden; }
 
-    document.addEventListener('submit', (e) => {
-        if (areCookiesRejected()) return;
-        trackFormSubmit(e.target);
-        trackFormSubmitSecure(e.target);
-    });
+        .mobile-nav {
+            position: fixed; top: 0; right: -100%;
+            width: min(320px, 88vw);
+            height: 100vh; height: 100dvh;
+            background: var(--primary);
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+            border-left: 1px solid var(--border);
+            display: flex; flex-direction: column;
+            padding: 80px 25px max(25px, env(safe-area-inset-bottom));
+            overflow-y: auto;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+        }
+        .mobile-nav.active { right: 0; transform: translateZ(0); }
+        .overlay {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 999; opacity: 0; visibility: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+            pointer-events: none;
+        }
+        .overlay.active { opacity: 1; visibility: visible; pointer-events: all; }
+        .mobile-close {
+            position: absolute; top: 25px; right: 25px;
+            font-size: 22px; cursor: pointer; color: var(--text);
+            transition: var(--transition); padding: 8px; border-radius: 4px;
+            background: rgba(255,255,255,0.05); z-index: 1001;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+            border: none; outline: none;
+        }
+        .mobile-close:hover { color: var(--accent); background: rgba(255,255,255,0.1); transform: rotate(90deg); }
+        .mobile-nav-links { list-style: none; order: 1; margin-bottom: 20px; flex: 1; overflow-y: auto; }
+        .mobile-nav-links li { margin-bottom: 8px; opacity: 0; transform: translateX(20px); transition: all 0.3s ease; }
+        .mobile-nav.active .mobile-nav-links li { opacity: 1; transform: translateX(0); }
+        .mobile-nav.active .mobile-nav-links li:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-nav.active .mobile-nav-links li:nth-child(2) { transition-delay: 0.15s; }
+        .mobile-nav.active .mobile-nav-links li:nth-child(3) { transition-delay: 0.2s; }
+        .mobile-nav.active .mobile-nav-links li:nth-child(4) { transition-delay: 0.25s; }
+        .mobile-nav-links a {
+            color: var(--text); text-decoration: none;
+            font-size: 18px; font-weight: 500;
+            display: block; padding: 14px 16px;
+            border-radius: 8px; transition: all 0.3s ease;
+        }
+        .mobile-nav-links a:hover { color: var(--accent); background: rgba(255,255,255,0.05); padding-left: 20px; }
+        .mobile-nav-actions {
+            display: flex; flex-direction: column; gap: 12px;
+            order: 2; margin-bottom: 40px; padding-top: 20px;
+            border-top: 1px solid var(--border);
+            opacity: 0; transform: translateX(20px);
+            transition: all 0.3s ease 0.3s;
+        }
+        .mobile-nav.active .mobile-nav-actions { opacity: 1; transform: translateX(0); }
 
-    trackScrollDepth();
-    trackTimeOnPage();
-    trackPageVisibility();
-    trackRageClicks();
-    trackCopyPaste();
-    trackExternalLinks();
-    trackJSErrors();
-    trackWebVitals();
-    trackInactivity();
-    trackFirstEngagement();
-    trackHover();
-    trackPageNavigation();
-}
+        @media (max-width: 768px) {
+            .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
+            .mobile-menu { display: flex; }
+            .studio-logo { display: none; }
+            header { padding: 12px 0; }
+            .nav-container { padding: 0 15px; }
+            .logo { gap: 8px; }
+            .logo-icon { font-size: 20px; }
+            .nav-actions { height: auto; }
+        }
 
-// ── SCROLL DEPTH ──
-function trackScrollDepth() {
-    const milestones = [10, 25, 50, 75, 90, 100];
-    const reached = new Set();
-    window.addEventListener('scroll', () => {
-        if (areCookiesRejected()) return;
-        const total = document.documentElement.scrollHeight - window.innerHeight;
-        if (total <= 0) return;
-        const pct = Math.round((window.scrollY / total) * 100);
-        milestones.forEach(m => {
-            if (pct >= m && !reached.has(m)) {
-                reached.add(m);
-                const eventName = `scroll_${m}`;
-                const d = { scroll_depth_pct: m, page_title: getPageTitle(), engagement_time_msec: '1000' };
-                if (window.gtag) gtag('event', eventName, d);
-                sendToSecureAPI(eventName, d);
-                console.log(`📜 Scroll ${m}%`);
+        /* ===== SECTION CONTENU ===== */
+        main { padding-top: clamp(90px, 14vw, 140px); }
+        .product-section {
+            padding: clamp(24px, 5vw, 60px) clamp(16px, 4vw, 5%) clamp(48px, 8vw, 100px);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            position: relative;
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 40px;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+        }
+        .video-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease, filter 0.3s ease;
+            filter: brightness(0.85);
+        }
+        .video-card:hover img { transform: scale(1.03); filter: brightness(1); }
+        .video-play-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: clamp(46px, 9vw, 64px);
+            height: clamp(46px, 9vw, 64px);
+            background-color: rgba(255,255,255,0.95);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.25s ease;
+        }
+        .video-card:hover .video-play-icon { transform: translate(-50%, -50%) scale(1.08); }
+        .video-play-icon::after {
+            content: "";
+            width: 0; height: 0;
+            border-top: clamp(8px, 1.6vw, 11px) solid transparent;
+            border-bottom: clamp(8px, 1.6vw, 11px) solid transparent;
+            border-left: clamp(13px, 2.6vw, 18px) solid var(--primary);
+            margin-left: 5px;
+        }
+
+        .download-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+        }
+        .download-actions .btn { min-width: 220px; }
+        .btn-primary { background: var(--accent); color: var(--primary); font-weight: 600; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,255,255,0.1); }
+        .btn-discord { background: transparent; color: #5865F2; border: 1px solid #5865F2; }
+        .btn-discord:hover { background: #5865F2; color: #ffffff; transform: translateY(-2px); }
+
+        /* ===== CALLOUT LSPDFR ===== */
+        .lspdfr-callout {
+            display: flex;
+            align-items: center;
+            gap: clamp(12px, 2.5vw, 18px);
+            margin: 0 0 24px;
+            padding: clamp(14px, 3vw, 20px) clamp(14px, 3vw, 24px);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card-bg);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .lspdfr-callout:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .lspdfr-callout-icon {
+            flex-shrink: 0;
+            width: 64px; height: 64px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+            color: var(--accent);
+            overflow: hidden;
+        }
+        .lspdfr-callout-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .lspdfr-callout-body { flex: 1; min-width: 0; }
+        .lspdfr-callout-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            margin-bottom: 4px;
+        }
+        .lspdfr-callout-title { font-size: 16px; font-weight: 600; color: var(--text); overflow-wrap: anywhere; }
+        .lspdfr-callout-arrow {
+            flex-shrink: 0;
+            color: var(--text);
+            opacity: 0.5;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+        .lspdfr-callout:hover .lspdfr-callout-arrow { transform: translateX(4px); opacity: 1; }
+
+        /* ===== DEUX COLONNES ===== */
+        .split-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(16px, 2.5vw, 28px);
+            align-items: start;
+        }
+        .column-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--card-bg);
+            padding: clamp(18px, 3.5vw, 32px);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-sizing: border-box;
+            min-width: 0;
+            overflow-wrap: anywhere;
+        }
+        .column-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+        .column-card h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(24px, 4.5vw, 30px);
+            letter-spacing: 1px;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+        .column-card > p {
+            font-size: clamp(13.5px, 2vw, 14px);
+            line-height: 1.65;
+            color: rgba(255,255,255,0.55);
+            margin-bottom: 24px;
+        }
+        .column-card .video-card { margin-bottom: 24px; }
+        .column-card .download-actions .btn { flex: 1; min-width: 140px; }
+
+        .feature-list {
+            list-style: none;
+            margin: 0 0 24px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 13.5px;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.5;
+        }
+        .feature-list i { color: var(--accent); font-size: 12px; margin-top: 3px; }
+
+        .column-footer { margin-top: auto; }
+
+        .social-row { display: flex; flex-wrap: wrap; gap: 14px; }
+        .social-card {
+            flex: 1;
+            min-width: 110px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.02);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-card i { font-size: 22px; color: var(--social-color, var(--accent)); }
+        .social-card span { font-size: 12.5px; font-weight: 600; color: var(--text); }
+        .social-card:hover { border-color: var(--social-color, var(--accent)); transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 860px) {
+            .split-columns { grid-template-columns: 1fr; }
+            .column-card { height: auto; }
+            .product-section { max-width: 640px; }
+        }
+        @media (max-width: 540px) {
+            .download-actions { flex-direction: column; align-items: stretch; }
+            .download-actions .btn,
+            .column-card .download-actions .btn { min-width: 0; width: 100%; }
+            .social-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .social-card { min-width: 0; padding: 16px 8px; }
+            .social-card span { font-size: 12px; }
+            .feature-list li { font-size: 13px; }
+            .lspdfr-callout-icon { width: 52px; height: 52px; }
+            .lspdfr-callout-arrow { display: none; }
+        }
+        @media (max-width: 360px) {
+            .social-row { grid-template-columns: 1fr; }
+            .social-card { flex-direction: row; justify-content: center; }
+        }
+        @media (max-width: 768px) {
+            .footer-content { grid-template-columns: 1fr 1fr !important; gap: 28px !important; }
+            .footer-brand { grid-column: 1 / -1; }
+        }
+        @media (max-width: 480px) {
+            .footer-content { grid-template-columns: 1fr !important; }
+        }
+        @media (hover: none) {
+            .video-card:hover img { transform: none; filter: brightness(0.85); }
+            .social-card:hover, .lspdfr-callout:hover, .btn:hover { transform: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+        }
+
+        /* ===== APPAREILS PLIANTS, PETITS ÉCRANS, PAYSAGE, DOUBLE ÉCRAN ===== */
+
+        /* Encoches / coins arrondis (iPhone, Android, pliants en paysage) */
+        header .nav-container, .product-section, footer .container {
+            padding-left: max(clamp(16px, 4vw, 5%), env(safe-area-inset-left));
+            padding-right: max(clamp(16px, 4vw, 5%), env(safe-area-inset-right));
+        }
+        footer { padding-bottom: env(safe-area-inset-bottom); }
+        body { overflow-x: clip; }
+        .split-columns > * { min-width: 0; }
+
+        /* Écran de couverture Z Fold (~280–360px) et Z Flip (cover / plié) */
+        @media (max-width: 380px) {
+            .product-section { padding-left: 12px; padding-right: 12px; }
+            .column-card { padding: 16px; border-radius: 8px; }
+            .column-eyebrow { font-size: 12px; }
+            .column-card h2 { font-size: 24px; }
+            .lspdfr-callout { flex-wrap: wrap; }
+            .lspdfr-callout-icon { width: 46px; height: 46px; }
+            .lspdfr-callout-title { font-size: 15px; }
+            .mobile-nav { padding-left: 16px; padding-right: 16px; }
+            .mobile-nav-links a { font-size: 16px; padding: 12px; }
+            .footer-links a, .footer-desc { font-size: 13px; }
+        }
+        @media (max-width: 300px) {
+            .nav-container { padding: 0 10px; }
+            .logo-icon { font-size: 18px; }
+            .btn { padding: 10px 12px; font-size: 13px; }
+            .social-card span { font-size: 11px; }
+        }
+
+        /* Z Fold déplié / tablettes pliées (~600–900px) : deux colonnes plus tôt */
+        @media (min-width: 700px) and (max-width: 860px) and (min-aspect-ratio: 1/1) {
+            .split-columns { grid-template-columns: 1fr 1fr; }
+            .product-section { max-width: none; }
+            .column-card { height: 100%; }
+        }
+
+        /* Z Flip déplié (écran très allongé) et téléphones en paysage */
+        @media (max-height: 500px) and (orientation: landscape) {
+            main { padding-top: 76px; }
+            .mobile-nav { padding-top: 64px; }
+            .mobile-nav-links li { margin-bottom: 2px; }
+            .mobile-nav-links a { padding: 8px 14px; font-size: 16px; }
+            .mobile-nav-actions { margin-bottom: 12px; padding-top: 8px; }
+            .mobile-close { top: 12px; right: 16px; }
+        }
+        @media (max-width: 860px) and (orientation: landscape) and (max-height: 500px) {
+            .split-columns { grid-template-columns: 1fr 1fr; }
+            .product-section { max-width: none; }
+            .column-card { height: 100%; }
+        }
+
+        /* Surface Duo & doubles écrans : une carte par écran, pli respecté */
+        @media (horizontal-viewport-segments: 2) {
+            .split-columns {
+                grid-template-columns: env(viewport-segment-width 0 0) env(viewport-segment-width 1 0);
+                column-gap: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0));
             }
-        });
-    }, { passive: true });
-}
-
-// ── TEMPS SUR LA PAGE ──
-function trackTimeOnPage() {
-    const milestones = [5, 15, 30, 60, 120, 300];
-    const reached = new Set();
-    const startTime = Date.now();
-
-    const timer = setInterval(() => {
-        if (areCookiesRejected()) { clearInterval(timer); return; }
-        const elapsed = Math.round((Date.now() - startTime) / 1000);
-        milestones.forEach(m => {
-            if (elapsed >= m && !reached.has(m)) {
-                reached.add(m);
-                const eventName = `time_${m}s`;
-                const d = { seconds_on_page: m, page_title: getPageTitle(), engagement_time_msec: String(m * 1000) };
-                if (window.gtag) gtag('event', eventName, d);
-                sendToSecureAPI(eventName, d);
-                console.log(`⏱️ ${m}s sur la page`);
-            }
-        });
-    }, 3000);
-
-    window.addEventListener('beforeunload', () => {
-        if (areCookiesRejected()) return;
-        const total = Math.round((Date.now() - startTime) / 1000);
-        let nextPage = 'unknown';
-        try { nextPage = sessionStorage.getItem(NEXT_PAGE_KEY) || 'unknown'; } catch(err) {}
-        const d = {
-            seconds_on_page: total,
-            exit_page:       getPagePath(),
-            next_page:       nextPage,
-            page_title:      getPageTitle(),
-            engagement_time_msec: String(Math.max(total, 1) * 1000)
-        };
-        sendToSecureAPI('page_exit', d);
-        if (window.gtag) gtag('event', 'page_exit', d);
-        try { sessionStorage.removeItem(NEXT_PAGE_KEY); } catch(err) {}
-    });
-}
-
-// ── VISIBILITÉ PAGE ──
-function trackPageVisibility() {
-    let hiddenAt = null;
-    document.addEventListener('visibilitychange', () => {
-        if (areCookiesRejected()) return;
-        if (document.hidden) {
-            hiddenAt = Date.now();
-            const d = { page_title: getPageTitle() };
-            if (window.gtag) gtag('event', 'tab_hidden', d);
-            sendToSecureAPI('tab_hidden', d);
-        } else if (hiddenAt) {
-            const away = Math.round((Date.now() - hiddenAt) / 1000);
-            hiddenAt = null;
-            const d = { away_seconds: away, page_title: getPageTitle() };
-            if (window.gtag) gtag('event', 'tab_returned', d);
-            sendToSecureAPI('tab_returned', d);
+            .product-section { max-width: none; padding-left: 0; padding-right: 0; }
+            .column-card { height: 100%; border-radius: 0; }
         }
-    });
-}
-
-// ── RAGE CLICKS ──
-function trackRageClicks() {
-    let clicks = [];
-    document.addEventListener('click', (e) => {
-        if (areCookiesRejected()) return;
-        const now = Date.now();
-        clicks.push({ x: e.clientX, y: e.clientY, t: now });
-        clicks = clicks.filter(c => now - c.t < 1000);
-        if (clicks.length >= 3) {
-            const dx = Math.max(...clicks.map(c => c.x)) - Math.min(...clicks.map(c => c.x));
-            const dy = Math.max(...clicks.map(c => c.y)) - Math.min(...clicks.map(c => c.y));
-            if (dx < 30 && dy < 30) {
-                const el = e.target.tagName + (e.target.className ? '.' + [...e.target.classList].join('.') : '');
-                const d = { element: el.substring(0, 100), page_title: getPageTitle() };
-                if (window.gtag) gtag('event', 'rage_click', d);
-                sendToSecureAPI('rage_click', d);
-                console.log('😡 Rage click:', el);
-                clicks = [];
-            }
+        @media (vertical-viewport-segments: 2) {
+            .split-columns { grid-template-columns: 1fr; }
         }
-    }, { passive: true });
-}
 
-// ── COPIER DU TEXTE ──
-function trackCopyPaste() {
-    document.addEventListener('copy', () => {
-        if (areCookiesRejected()) return;
-        const raw = window.getSelection()?.toString() || '';
-        const length = raw.length;
-        const d = { copied_length: length, page_title: getPageTitle() };
-        if (window.gtag) gtag('event', 'text_copy', d);
-        sendToSecureAPI('text_copy', d);
-    });
-}
-
-// ── LIENS SORTANTS ──
-function trackExternalLinks() {
-    document.addEventListener('click', (e) => {
-        if (areCookiesRejected()) return;
-        const link = e.target.closest('a[href]');
-        if (!link) return;
-        const href = link.href || '';
-        if (href && !href.includes(window.location.hostname) && href.startsWith('http')) {
-            const trackName = link.getAttribute('data-track-name');
-            let destination = 'other';
-            if (href.includes('drive.google.com')) destination = 'google_drive';
-            else if (href.includes('discord.gg') || href.includes('discord.com')) destination = 'discord';
-            else if (href.includes('youtube.com') || href.includes('youtu.be')) destination = 'youtube';
-            const d = {
-                outbound_url:  href.substring(0, 200),
-                destination:   destination,
-                link_text:     link.textContent?.trim()?.substring(0, 50) || '',
-                link_name:     trackName || '',
-                page_title:    getPageTitle()
-            };
-            if (window.gtag) gtag('event', 'outbound_link', d);
-            sendToSecureAPI('outbound_link', d);
-            console.log('🔗 Lien sortant:', href);
+        /* ===== COOKIES (copié de la page d'accueil) ===== */
+        #custom-cookie-banner { position: fixed; bottom: 30px; right: 30px; max-width: 420px; background: #000; color: #fff; padding: 28px; border-radius: 16px; z-index: 10000; display: none; border: 1px solid #333; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+        #custom-cookie-banner.show { display: block; animation: cookieSlideIn 0.5s ease; }
+        @keyframes cookieSlideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        #custom-cookie-banner.hiding { animation: cookieSlideOut 0.4s ease forwards; }
+        @keyframes cookieSlideOut { to { opacity: 0; transform: translateY(30px); } }
+        .cookie-banner-content { display: flex; flex-direction: column; gap: 20px; }
+        .cookie-text h3 { margin: 0 0 12px; font-size: 18px; font-weight: 600; color: #fff; }
+        .cookie-text p { margin: 0; font-size: 14px; color: #ccc; line-height: 1.5; }
+        .cookie-actions { display: flex; gap: 10px; justify-content: flex-end; }
+        .cookie-btn { padding: 10px 20px; border: 1px solid #444; border-radius: 8px; background: transparent; color: #fff; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; min-width: 90px; min-height: 44px; }
+        .cookie-btn:hover { transform: translateY(-1px); }
+        .cookie-btn.reject { background: rgba(255,255,255,0.05); }
+        .cookie-btn.settings { background: rgba(255,255,255,0.08); }
+        .cookie-btn.accept { background: #fff; color: #000; font-weight: 600; }
+        .cookie-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 10001; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .cookie-modal.show { display: flex; }
+        .modal-content { background: #000; padding: 30px; border-radius: 16px; max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto; border: 1px solid #333; color: #fff; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #333; }
+        .modal-header h3 { margin: 0; font-size: 18px; font-weight: 600; color: #fff; }
+        .close-modal { background: rgba(255,255,255,0.1); border: 1px solid #444; color: #fff; font-size: 18px; cursor: pointer; border-radius: 6px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; }
+        .cookie-options { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+        .cookie-option { display: flex; align-items: center; justify-content: space-between; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid #333; }
+        .cookie-option-info { flex: 1; margin-right: 20px; }
+        .cookie-option-title { display: block; color: #fff; font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+        .cookie-option-description { font-size: 13px; color: #999; line-height: 1.4; }
+        .cookie-slide-container { position: relative; display: inline-block; width: 54px; height: 28px; flex-shrink: 0; }
+        .cookie-slide { opacity: 0; width: 0; height: 0; position: absolute; }
+        .cookie-slide-label { position: relative; display: block; width: 100%; height: 100%; background: #333; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; }
+        .cookie-slide-label:before { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: #666; border-radius: 50%; transition: all 0.3s ease; }
+        .cookie-slide:checked + .cookie-slide-label { background: #fff; border-color: #fff; }
+        .cookie-slide:checked + .cookie-slide-label:before { transform: translateX(26px); background: #000; }
+        .cookie-slide:disabled + .cookie-slide-label { opacity: 0.4; cursor: not-allowed; }
+        .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 25px; padding-top: 20px; border-top: 1px solid #333; }
+        .modal-btn { padding: 12px 24px; border: 1px solid #444; border-radius: 10px; background: transparent; color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; min-width: 100px; min-height: 44px; }
+        .modal-btn.save { background: #fff; color: #000; font-weight: 600; border-color: #fff; }
+        .modal-btn.cancel { background: rgba(255,255,255,0.05); }
+        @media (max-width: 768px) {
+            #custom-cookie-banner { bottom: 0; right: 0; left: 0; max-width: none; border-radius: 16px 16px 0 0; padding: 20px 16px max(20px, env(safe-area-inset-bottom)); }
+            #custom-cookie-banner.show { animation: none; }
+            .cookie-actions { flex-direction: column; gap: 8px; }
+            .cookie-btn { width: 100%; }
+            .cookie-modal { padding: 10px; align-items: flex-end; }
+            .modal-content { max-width: none; border-radius: 16px 16px 0 0; padding: 20px 16px; max-height: 85vh; }
+            .cookie-option { padding: 14px; flex-direction: column; align-items: flex-start; gap: 12px; }
+            .cookie-option-info { margin-right: 0; }
+            .cookie-slide-container { align-self: flex-end; }
+            .modal-actions { flex-direction: column; gap: 10px; }
+            .modal-btn { width: 100%; }
         }
-    }, { passive: true });
-}
 
-// ── ERREURS JAVASCRIPT ──
-function trackJSErrors() {
-    window.addEventListener('error', (e) => {
-        if (areCookiesRejected()) return;
-        const d = { error_message: e.message?.substring(0, 100) || 'unknown', error_file: e.filename?.substring(0, 100) || 'unknown', error_line: e.lineno || 0, page_title: getPageTitle() };
-        if (window.gtag) gtag('event', 'js_error', d);
-        sendToSecureAPI('js_error', d);
-    });
-    window.addEventListener('unhandledrejection', (e) => {
-        if (areCookiesRejected()) return;
-        const d = { error_message: (e.reason?.message || String(e.reason))?.substring(0, 100), error_type: 'promise_rejected', page_title: getPageTitle() };
-        if (window.gtag) gtag('event', 'js_error', d);
-        sendToSecureAPI('js_error', d);
-    });
-}
-
-// ── WEB VITALS ──
-function trackWebVitals() {
-    try {
-        new PerformanceObserver((list) => {
-            const last = list.getEntries().at(-1);
-            const d = { value_ms: Math.round(last.startTime), page_title: getPageTitle() };
-            if (window.gtag) gtag('event', 'vital_lcp', d);
-            sendToSecureAPI('vital_lcp', d);
-        }).observe({ type: 'largest-contentful-paint', buffered: true });
-    } catch(e) {}
-
-    try {
-        let clsValue = 0;
-        new PerformanceObserver((list) => {
-            list.getEntries().forEach(entry => { if (!entry.hadRecentInput) clsValue += entry.value; });
-        }).observe({ type: 'layout-shift', buffered: true });
-        window.addEventListener('beforeunload', () => {
-            const d = { value: Math.round(clsValue * 1000) / 1000, page_title: getPageTitle() };
-            if (window.gtag) gtag('event', 'vital_cls', d);
-            sendToSecureAPI('vital_cls', d);
-        });
-    } catch(e) {}
-
-    try {
-        new PerformanceObserver((list) => {
-            const entry = list.getEntries().find(e => e.name === 'first-contentful-paint');
-            if (entry) {
-                const d = { value_ms: Math.round(entry.startTime), page_title: getPageTitle() };
-                if (window.gtag) gtag('event', 'vital_fcp', d);
-                sendToSecureAPI('vital_fcp', d);
-            }
-        }).observe({ type: 'paint', buffered: true });
-    } catch(e) {}
-
-    try {
-        const nav = performance.getEntriesByType('navigation')[0];
-        if (nav) {
-            const ttfb = Math.round(nav.responseStart - nav.requestStart);
-            setTimeout(() => {
-                const d = { value_ms: ttfb, page_title: getPageTitle() };
-                if (window.gtag) gtag('event', 'vital_ttfb', d);
-                sendToSecureAPI('vital_ttfb', d);
-            }, 2000);
+        /* Grand texte système / zoom accessibilité */
+        @media (max-width: 480px) {
+            .column-card > p, .feature-list li { hyphens: auto; }
         }
-    } catch(e) {}
+    </style>
+</head>
+<body>
 
-    try {
-        let worstINP = 0;
-        let worstINPName = '';
-        new PerformanceObserver((list) => {
-            list.getEntries().forEach(entry => {
-                if (entry.duration > worstINP) {
-                    worstINP = entry.duration;
-                    worstINPName = entry.name;
-                }
-            });
-        }).observe({ type: 'event', durationThreshold: 40, buffered: true });
+    <header>
+        <div class="container nav-container">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-temple"></i></div>
+                <div class="logo-text">
+                    <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../index.html#accueil" data-track-name="nav_accueil">Accueil</a></li>
+                <li><a href="../nexa/fonctionnalites.html" data-track-name="nav_fonctionnalites">Fonctionnalités</a></li>
+                <li><a href="../nexa/galerie.html" data-track-name="nav_galeries">Galeries</a></li>
+                <li><a href="../nexa/the_void_protocol.html" data-track-name="nav_void_protocol">The void protocol</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div class="mobile-menu" id="mobileMenu"><i class="fas fa-bars"></i></div>
+            </div>
+        </div>
+    </header>
 
-        window.addEventListener('beforeunload', () => {
-            if (worstINP > 0 && !areCookiesRejected()) {
-                const d = { value_ms: Math.round(worstINP), interaction: worstINPName, page_title: getPageTitle() };
-                if (window.gtag) gtag('event', 'vital_inp', d);
-                sendToSecureAPI('vital_inp', d);
-            }
-        });
-    } catch(e) {}
-}
+    <div class="overlay" id="overlay"></div>
+    <nav class="mobile-nav" id="mobileNav">
+        <div class="mobile-close" id="mobileClose"><i class="fas fa-times"></i></div>
+        <ul class="mobile-nav-links">
+            <li><a href="../index.html#accueil" class="mobile-nav-link" data-track-name="mobile_nav_accueil">Accueil</a></li>
+            <li><a href="../nexa/fonctionnalites.html" class="mobile-nav-link" data-track-name="mobile_nav_fonctionnalites">Fonctionnalités</a></li>
+            <li><a href="../nexa/galerie.html" class="mobile-nav-link" data-track-name="mobile_nav_galeries">Galeries</a></li>
+            <li><a href="../nexa/the_void_protocol.html" class="mobile-nav-link" data-track-name="mobile_nav_void_protocol">The void protocol</a></li>
+        </ul>
+        <div class="mobile-nav-actions"></div>
+    </nav>
 
-// ── INACTIVITÉ ──
-function trackInactivity() {
-    let inactiveTimer;
-    let inactiveReported = false;
-    const THRESHOLD = 3 * 60 * 1000;
+    <main>
+        <section class="product-section">
+            <div class="split-columns">
+                <div class="column-card">
+                    <div class="column-eyebrow"><i class="fas fa-flag"></i> Pack France</div>
+                    <h2>Pack France 2026</h2>
+                    <p>Vidéo créée par Multierot, présentant des véhicules de la police, de la gendarmerie, des pompiers et du SAMU, prêts à être déployés en jeu. Cette vidéo n'a pas été créée par UNWARE STUDIO.</p>
 
-    function resetTimer() {
-        if (inactiveReported) {
-            inactiveReported = false;
-            const d = { page_title: getPageTitle() };
-            if (window.gtag) gtag('event', 'user_returned', d);
-            sendToSecureAPI('user_returned', d);
+                    <a class="video-card" href="https://www.youtube.com/watch?v=oXKjN61I0F4&t=78s" target="_blank" rel="noopener" data-track-name="video_preview_youtube">
+                        <img src="https://img.youtube.com/vi/oXKjN61I0F4/maxresdefault.jpg" alt="Aperçu vidéo" loading="lazy">
+                        <div class="video-play-icon"></div>
+                    </a>
+
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> Véhicules et EUP aux couleurs françaises</li>
+                        <li><i class="fas fa-check"></i> Mise à jour régulière du pack</li>
+                        <li><i class="fas fa-check"></i> Compatible avec les dernières versions de LSPDFR</li>
+                    </ul>
+
+                    <div class="column-footer download-actions">
+                        <a href="https://drive.google.com/drive/folders/1mlHde0CX6JvZ3ey8qMhdK9p-wOLDGgOV?usp=sharing" class="btn btn-primary" target="_blank" rel="noopener" data-track-name="cta_access_digital_files">
+                            Google Drive
+                        </a>
+                    </div>
+                </div>
+
+                <div class="column-card">
+                    <div class="column-eyebrow"><i class="fas fa-shield-halved"></i> LSPDFR</div>
+                    <h2>Mes callouts</h2>
+                    <p>Des scripts d'interventions inédits développés par UNWARE STUDIO pour enrichir vos patrouilles avec de nouvelles situations et poursuites.</p>
+
+                    <a href="https://www.lcpdfr.com/downloads/gta4mods/scripts/55465-superpoursuitecallout/" class="lspdfr-callout" target="_blank" rel="noopener" data-track-name="callout_superpoursuitecallout">
+                        <div class="lspdfr-callout-icon"><img src="https://s3-screenshots.int-cdn.lcpdfrusercontent.com/monthly_2026_09/SUPERPOUSSUITECALLOUT.thumb.png.9fbd86a634e754f53a8d401d0e981658.png" alt="SuperPoursuiteCallout" loading="lazy"></div>
+                        <div class="lspdfr-callout-body">
+                            <div class="lspdfr-callout-label">Callout LSPDFR</div>
+                            <div class="lspdfr-callout-title">SuperPoursuiteCallout</div>
+                        </div>
+                        <div class="lspdfr-callout-arrow"><i class="fas fa-arrow-right"></i></div>
+                    </a>
+
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> 7 callouts de poursuite inédits</li>
+                        <li><i class="fas fa-check"></i> Véhicules, blindés et engins de chantier</li>
+                        <li><i class="fas fa-check"></i> Développé avec l'API LCPDFR 1.0</li>
+                    </ul>
+
+                    <div class="column-footer">
+                        <div class="social-row">
+                            <a href="https://discord.gg/bD6C8WgcE7" class="social-card" style="--social-color:#5865F2" target="_blank" rel="noopener" data-track-name="social_card_discord">
+                                <i class="fab fa-discord"></i>
+                                <span>Discord</span>
+                            </a>
+                            <a href="https://www.twitch.tv/unware_studio" class="social-card" style="--social-color:#9146FF" target="_blank" rel="noopener" data-track-name="social_card_twitch">
+                                <i class="fab fa-twitch"></i>
+                                <span>Twitch</span>
+                            </a>
+                            <a href="https://www.tiktok.com/@unware.studio" class="social-card" style="--social-color:#ffffff" target="_blank" rel="noopener noreferrer" data-track-name="social_card_tiktok">
+                                <i class="fab fa-tiktok"></i>
+                                <span>TikTok</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="footer-logo-text">UNWARE STUDIO</span>
+        </div>
+        <p class="footer-desc">Un studio de développement indépendant.</p>
+        <div class="social-links">
+          <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer" data-track-name="social_twitch">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/>
+            </svg>
+          </a>
+          <a href="https://discord.gg/bD6C8WgcE7" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer" data-track-name="social_discord">
+            <svg width="21" height="21" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+            </svg>
+          </a>
+          <a href="https://www.youtube.com/@unware.studio" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer" data-track-name="social_youtube">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </a>
+          <a href="https://www.instagram.com/unware.studio?igsh=bXcyaWVlMG96cXhl" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer" data-track-name="social_instagram">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h3>Navigation</h3>
+        <ul class="footer-links">
+          <li><a href="/#accueil" target="_blank" rel="noopener noreferrer" data-track-name="footer_nav_accueil">Accueil</a></li>
+          <li><a href="/nexa/fonctionnalites.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_nav_fonctionnalites">Fonctionnalités</a></li>
+          <li><a href="/nexa/galerie.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_nav_galeries">Galeries</a></li>
+          <li><a href="../nexa/the_void_protocol.html" data-track-name="nav_void_protocol">The void protocol</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><a href="/Support/centre-aide.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_support_aide">Centre d'aide</a></li>
+          <li><a href="/Support/FAQ.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_support_faq">FAQ</a></li>
+          <li><a href="/Support/contact.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_support_contact">Contact</a></li>
+          <li><a href="/Support/statut.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_support_statut">Statut des services</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Légal</h3>
+        <ul class="footer-links">
+          <li><a href="/legals/conditions-utilisation.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_legal_conditions">Conditions d'utilisation</a></li>
+          <li><a href="/legals/politique-confidentialite.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_legal_confidentialite">Politique de confidentialité</a></li>
+          <li><a href="/legals/mentions-legales.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_legal_mentions">Mentions légales</a></li>
+          <li><a href="/legals/politique-cookies.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_legal_cookies">Politique de cookies</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="copyright">
+      <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
+    </div>
+  </div>
+</footer>
+
+    <!-- Bannière Cookies (identique à la page d'accueil) -->
+    <div id="custom-cookie-banner" role="dialog" aria-label="Gestion des cookies">
+        <div class="cookie-banner-content">
+            <div class="cookie-text">
+                <h3>Respect de votre vie privée</h3>
+                <p>Nous utilisons des cookies pour améliorer votre expérience. Vous pouvez personnaliser vos préférences.</p>
+            </div>
+            <div class="cookie-actions">
+                <button class="cookie-btn reject" onclick="rejectCookies()">Refuser</button>
+                <button class="cookie-btn settings" onclick="showCookieSettings()">Personnaliser</button>
+                <button class="cookie-btn accept" onclick="acceptCookies()">Accepter</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cookie-modal" id="cookieModal" role="dialog" aria-modal="true" aria-label="Paramètres des cookies">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Gestion des cookies</h3>
+                <button class="close-modal" onclick="hideCookieSettings()" aria-label="Fermer">&times;</button>
+            </div>
+            <div class="cookie-options">
+                <div class="cookie-option">
+                    <div class="cookie-option-info">
+                        <div class="cookie-option-title">Cookies essentiels</div>
+                        <div class="cookie-option-description">Nécessaires au bon fonctionnement du site. Ils ne peuvent pas être désactivés.</div>
+                    </div>
+                    <div class="cookie-slide-container">
+                        <input type="checkbox" class="cookie-slide essential" checked disabled id="essentialCookies">
+                        <label class="cookie-slide-label" for="essentialCookies"></label>
+                    </div>
+                </div>
+                <div class="cookie-option">
+                    <div class="cookie-option-info">
+                        <div class="cookie-option-title">Cookies analytiques</div>
+                        <div class="cookie-option-description">Nous aident à comprendre comment vous utilisez le site pour l'améliorer.</div>
+                    </div>
+                    <div class="cookie-slide-container">
+                        <input type="checkbox" class="cookie-slide" id="analyticsCookies">
+                        <label class="cookie-slide-label" for="analyticsCookies"></label>
+                    </div>
+                </div>
+                <div class="cookie-option">
+                    <div class="cookie-option-info">
+                        <div class="cookie-option-title">Cookies de performance</div>
+                        <div class="cookie-option-description">Améliorent les performances du site en mémorisant vos préférences.</div>
+                    </div>
+                    <div class="cookie-slide-container">
+                        <input type="checkbox" class="cookie-slide" id="performanceCookies">
+                        <label class="cookie-slide-label" for="performanceCookies"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="hideCookieSettings()">Annuler</button>
+                <button class="modal-btn save" onclick="saveCookiePreferences()">Enregistrer mes choix</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mobileMenu  = document.getElementById('mobileMenu');
+        const mobileNav   = document.getElementById('mobileNav');
+        const overlay     = document.getElementById('overlay');
+        const mobileClose = document.getElementById('mobileClose');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        const body = document.body;
+
+        function openMobileMenu()  { mobileNav.classList.add('active'); overlay.classList.add('active'); mobileMenu.classList.add('active'); body.classList.add('no-scroll'); void mobileNav.offsetWidth; }
+        function closeMobileMenu() { mobileNav.classList.remove('active'); overlay.classList.remove('active'); mobileMenu.classList.remove('active'); body.classList.remove('no-scroll'); }
+
+        if (mobileMenu && mobileNav && overlay && mobileClose) {
+            mobileMenu.addEventListener('click', () => mobileNav.classList.contains('active') ? closeMobileMenu() : openMobileMenu());
+            overlay.addEventListener('click', closeMobileMenu);
+            mobileClose.addEventListener('click', closeMobileMenu);
         }
-        clearTimeout(inactiveTimer);
-        inactiveTimer = setTimeout(() => {
-            if (areCookiesRejected()) return;
-            inactiveReported = true;
-            const d = { page_title: getPageTitle() };
-            if (window.gtag) gtag('event', 'user_inactive', d);
-            sendToSecureAPI('user_inactive', d);
-            console.log('💤 Inactif');
-        }, THRESHOLD);
-    }
+        mobileNavLinks.forEach(l => l.addEventListener('click', closeMobileMenu));
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMobileMenu(); });
+    </script>
 
-    ['mousemove', 'keydown', 'scroll', 'click', 'touchstart'].forEach(evt => {
-        window.addEventListener(evt, resetTimer, { passive: true });
-    });
-    resetTimer();
-}
+    <!-- Cookies / Analytics (même ordre et mêmes chemins que la page d'accueil) -->
+    <script src="/js/analytics.js"></script>
+    <script src="/js/analytics-clarify.js"></script>
 
-// ── PREMIER ENGAGEMENT ──
-function trackFirstEngagement() {
-    let done = false;
-    function onFirst(e) {
-        if (done || areCookiesRejected()) return;
-        done = true;
-        const t = Math.round((Date.now() - performance.timeOrigin) / 1000);
-        const d = { seconds_to_engage: t, interaction_type: e.type, page_title: getPageTitle(), engagement_time_msec: String(Math.max(t,1) * 1000) };
-        if (window.gtag) gtag('event', 'first_engagement', d);
-        sendToSecureAPI('first_engagement', d);
-        console.log(`👆 Premier engagement: ${t}s (${e.type})`);
-        ['click','scroll','keydown','touchstart'].forEach(t => window.removeEventListener(t, onFirst));
-    }
-    ['click','scroll','keydown','touchstart'].forEach(t => {
-        window.addEventListener(t, onFirst, { passive: true });
-    });
-}
+    <!-- Vercel Speed Insights (présent sur la page d'accueil) -->
+    <script>
+    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
 
-// ── HOVER SUR ÉLÉMENTS CLÉS ──
-function trackHover() {
-    const selectorMap = {
-        'a[href]':        'hover_link',
-        'button':         'hover_button',
-        '.btn':           'hover_btn',
-        '.gallery-card':  'hover_gallery_card',
-        '.video-card':    'hover_video_card',
-        '.nav-links a':   'hover_nav'
-    };
-    const hovered = new Set();
-
-    function attachHoverTo(el, eventName) {
-        if (el._hoverTracked) return;
-        el._hoverTracked = true;
-        el.addEventListener('mouseenter', () => {
-            if (areCookiesRejected()) return;
-            const key = eventName + '_' + (el.textContent?.trim()?.substring(0, 30) || el.id || Math.random());
-            if (hovered.has(key)) return;
-            hovered.add(key);
-            const d = {
-                element_text: el.textContent?.trim()?.substring(0, 50) || el.getAttribute('aria-label') || '',
-                element_href: el.href || '',
-                page_title:   getPageTitle()
-            };
-            if (window.gtag) gtag('event', eventName, d);
-            sendToSecureAPI(eventName, d);
-        }, { passive: true });
-    }
-
-    function scanAndAttach() {
-        Object.entries(selectorMap).forEach(([sel, eventName]) => {
-            document.querySelectorAll(sel).forEach(el => attachHoverTo(el, eventName));
-        });
-    }
-
-    scanAndAttach();
-
-    const observer = new MutationObserver(() => scanAndAttach());
-    observer.observe(document.body, { childList: true, subtree: true });
-}
-
-// ── TRACKING CLICS ──
-function trackClick(element) {
-    if (areCookiesRejected() || !window.gtag || !element) return;
-    const el = element.closest('a, button, .btn');
-    if (!el) return;
-    const text = el.textContent?.trim()?.substring(0, 100) || el.getAttribute('aria-label') || 'unknown';
-    const trackName = el.getAttribute('data-track-name');
-    gtag('event', trackName ? 'cta_click' : 'click', {
-        event_category:  'engagement',
-        event_label:     trackName || text,
-        element_type:    el.tagName.toLowerCase(),
-        element_href:    el.href || '',
-        page_title:      getPageTitle()
-    });
-}
-
-function trackClickSecure(element) {
-    if (areCookiesRejected()) return;
-    const el = element.closest('a, button, .btn');
-    if (!el) return;
-    const text = el.textContent?.trim()?.substring(0, 100) || el.getAttribute('aria-label') || 'unknown';
-    const trackName = el.getAttribute('data-track-name');
-    sendToSecureAPI(trackName ? 'cta_click' : 'click', {
-        event_category:       'engagement',
-        event_label:          trackName || text,
-        element_type:         el.tagName.toLowerCase(),
-        element_href:         el.href || '',
-        engagement_time_msec: '50'
-    });
-}
-
-function trackFormSubmit(form) {
-    if (areCookiesRejected() || !window.gtag) return;
-    gtag('event', 'form_submit', { event_category: 'form', event_label: form.id || 'form_submit', form_id: form.id || 'unknown', page_title: getPageTitle() });
-}
-
-function trackFormSubmitSecure(form) {
-    if (areCookiesRejected()) return;
-    sendToSecureAPI('form_submit', { event_category: 'form', event_label: form.id || 'form_submit', form_id: form.id || 'unknown', engagement_time_msec: '100' });
-}
-
-// =============== NAVIGATION INTER-PAGES ===============
-const NAV_HISTORY_KEY  = 'ga_nav_history';
-const NAV_ENTER_KEY    = 'ga_page_enter_time';
-const NEXT_PAGE_KEY    = 'ga_next_intended_page';
-const NAV_MAX_HISTORY  = 20;
-
-function getNavigationHistory() {
-    try {
-        return JSON.parse(localStorage.getItem(NAV_HISTORY_KEY) || '[]');
-    } catch(e) {
-        return [];
-    }
-}
-
-function saveNavigationHistory(history) {
-    try {
-        localStorage.setItem(NAV_HISTORY_KEY, JSON.stringify(history.slice(-NAV_MAX_HISTORY)));
-    } catch(e) {}
-}
-
-function recordPageEnter() {
-    sessionStorage.setItem(NAV_ENTER_KEY, String(Date.now()));
-}
-
-function getTimeSpentOnCurrentPage() {
-    const entered = parseInt(sessionStorage.getItem(NAV_ENTER_KEY) || '0', 10);
-    return entered ? Math.round((Date.now() - entered) / 1000) : 0;
-}
-
-function getPreviousPage() {
-    const history = getNavigationHistory();
-    return history.length > 0 ? history[history.length - 1] : null;
-}
-
-function pushPageToHistory(path, title) {
-    const history = getNavigationHistory();
-    history.push({ path, title, visited_at: Date.now() });
-    saveNavigationHistory(history);
-}
-
-function trackPageNavigation() {
-    const currentPath  = getPagePath();
-    const currentTitle = getPageTitle();
-    const previous     = getPreviousPage();
-
-    const navEntry = performance.getEntriesByType('navigation')[0];
-    const navType  = navEntry?.type || 'navigate';
-
-    if (previous && previous.path !== currentPath) {
-        const timeSpent = getTimeSpentOnCurrentPage();
-        const d = {
-            from_page:      previous.path,
-            from_title:     previous.title,
-            to_page:        currentPath,
-            to_title:       currentTitle,
-            nav_type:       navType,
-            time_on_prev:   timeSpent,
-            session_depth:  getNavigationHistory().length + 1,
-        };
-        if (window.gtag) gtag('event', 'page_navigation', d);
-        sendToSecureAPI('page_navigation', d);
-        console.log(`🗺️ Navigation: ${previous.path} → ${currentPath} (${timeSpent}s)`);
-    } else if (!previous) {
-        const d = {
-            // ✅ FIX v4 : appel sécurisé, plus de new URL() non protégé
-            from_page:     safeReferrerHostname(),
-            from_title:    document.referrer ? 'external' : 'direct',
-            to_page:       currentPath,
-            to_title:      currentTitle,
-            nav_type:      navType,
-            time_on_prev:  0,
-            session_depth: 1,
-        };
-        if (window.gtag) gtag('event', 'page_navigation', d);
-        sendToSecureAPI('page_navigation', d);
-        console.log(`🚪 Entrée: ${d.from_page} → ${currentPath}`);
-    }
-
-    pushPageToHistory(currentPath, currentTitle);
-    recordPageEnter();
-
-    ['pushState', 'replaceState'].forEach(method => {
-        const original = history[method];
-        history[method] = function(...args) {
-            const result = original.apply(this, args);
-            window.dispatchEvent(new Event('locationchange'));
-            return result;
-        };
-    });
-    window.addEventListener('popstate',      () => window.dispatchEvent(new Event('locationchange')));
-    window.addEventListener('locationchange', onSPANavigation);
-}
-
-function onSPANavigation() {
-    if (areCookiesRejected()) return;
-
-    const newPath  = getPagePath();
-    const newTitle = getPageTitle();
-    const previous = getPreviousPage();
-
-    if (previous && previous.path === newPath) return;
-
-    const timeSpent = getTimeSpentOnCurrentPage();
-
-    const d = {
-        from_page:     previous?.path  || 'unknown',
-        from_title:    previous?.title || 'unknown',
-        to_page:       newPath,
-        to_title:      newTitle,
-        nav_type:      'spa',
-        time_on_prev:  timeSpent,
-        session_depth: getNavigationHistory().length + 1,
-    };
-
-    if (window.gtag) {
-        gtag('config', GA_MEASUREMENT_ID, { page_title: newTitle, page_location: window.location.href, page_path: newPath });
-        gtag('event', 'page_navigation', d);
-        // Note : ici gtag('config', ...) ne renvoie pas de page_view automatique lors
-        // d'un changement de route SPA, donc l'event manuel ci-dessous reste nécessaire
-        // (contrairement au chargement initial dans initializeGoogleAnalytics()).
-        gtag('event', 'page_view', { page_title: newTitle, page_location: window.location.href, page_path: newPath });
-    }
-    sendToSecureAPI('page_navigation', d);
-    sendToSecureAPI('page_view', { page_title: newTitle, page_path: newPath, engagement_time_msec: '100' });
-
-    pushPageToHistory(newPath, newTitle);
-    recordPageEnter();
-
-    console.log(`🔄 SPA Navigation: ${previous?.path} → ${newPath} (${timeSpent}s)`);
-}
-
-// =============== COOKIES UI ===============
-function showCookieBanner() {
-    const banner = document.getElementById('custom-cookie-banner');
-    const consent = getCookie('cookieConsent');
-    if (consent) return;
-    if (banner) {
-        banner.classList.remove('hiding');
-        banner.style.display = 'block';
-        setTimeout(() => banner.classList.add('show'), 10);
-    }
-}
-
-function hideCookieBanner() {
-    const banner = document.getElementById('custom-cookie-banner');
-    if (banner) {
-        banner.classList.add('hiding');
-        setTimeout(() => {
-            banner.classList.remove('show');
-            banner.classList.remove('hiding');
-            banner.style.display = 'none';
-        }, 400);
-    }
-}
-
-function showCookieSettings() {
-    const modal = document.getElementById('cookieModal');
-    if (modal) {
-        modal.classList.add('show');
-        const analytics = getCookie('analyticsCookies');
-        const perf = getCookie('performanceCookies');
-        const aEl = document.getElementById('analyticsCookies');
-        const pEl = document.getElementById('performanceCookies');
-        if (aEl) aEl.checked = analytics === 'true';
-        if (pEl) pEl.checked = perf === 'true';
-        hideCookieBanner();
-    }
-}
-
-function hideCookieSettings() {
-    const modal = document.getElementById('cookieModal');
-    if (modal) modal.classList.remove('show');
-    const consent = getCookie('cookieConsent');
-    if (!consent) setTimeout(showCookieBanner, 500);
-}
-
-// =============== DISPATCH CONSENTEMENT ===============
-function dispatchConsentEvent(consent, analytics) {
-    document.dispatchEvent(new CustomEvent('cookieConsentChanged', {
-        detail: { consent, analytics }
-    }));
-}
-
-// =============== FONCTIONS GLOBALES COOKIES ===============
-function acceptCookies() {
-    setCookie('cookieConsent', 'all', 365);
-    setCookie('analyticsCookies', 'true', 365);
-    setCookie('performanceCookies', 'true', 365);
-    cookiesRejected = false;
-    hideCookieBanner();
-    dispatchConsentEvent('all', 'true');
-    setTimeout(() => initializeGoogleAnalytics(), 100);
-}
-
-function rejectCookies() {
-    setCookie('cookieConsent', 'rejected', 365);
-    setCookie('analyticsCookies', 'false', 365);
-    setCookie('performanceCookies', 'false', 365);
-    resetAnalyticsState();
-    dispatchConsentEvent('rejected', 'false');
-    hideCookieBanner();
-}
-
-function saveCookiePreferences() {
-    const analyticsChecked = document.getElementById('analyticsCookies')?.checked;
-    const performanceChecked = document.getElementById('performanceCookies')?.checked;
-    setCookie('cookieConsent', 'custom', 365);
-    setCookie('analyticsCookies', analyticsChecked ? 'true' : 'false', 365);
-    setCookie('performanceCookies', performanceChecked ? 'true' : 'false', 365);
-    if (!analyticsChecked) {
-        resetAnalyticsState();
-    } else {
-        cookiesRejected = false;
-        setTimeout(() => initializeGoogleAnalytics(), 100);
-    }
-    dispatchConsentEvent('custom', analyticsChecked ? 'true' : 'false');
-    hideCookieSettings();
-    hideCookieBanner();
-}
-
-// =============== INIT PRINCIPALE ===============
-function initAnalytics() {
-    deviceType = detectDeviceType();
-    logConsentStatus();
-
-    const consent = getCookie('cookieConsent');
-
-    if (!consent) {
-        console.log('⏳ Analytics en attente de consentement...');
-        setTimeout(showCookieBanner, 1500);
-        return;
-    }
-
-    if (areCookiesRejected()) {
-        isGALoaded = false;
-        return;
-    }
-
-    if (shouldLoadGA()) {
-        setTimeout(() => initializeGoogleAnalytics(), 300);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', initAnalytics);
-
-// =============== DEBUG CONSOLE ===============
-window.debugGA = {
-    check: function() {
-        console.log('🔍 GA MAX DATA v4:');
-        console.log('- Cookies refusés :', areCookiesRejected());
-        console.log('- GA Loaded       :', isGALoaded);
-        console.log('- cookieConsent   :', getCookie('cookieConsent'));
-        console.log('- analyticsCookies:', getCookie('analyticsCookies'));
-        console.log('- Client ID       :', getClientId());
-        console.log('- Session ID      :', getSessionId());
-        console.log('- Device          :', deviceType);
-        console.log('- Page            :', getPageTitle());
-        console.log('- Enriched data   :', getEnrichedUserData());
-    },
-    test: function() {
-        if (areCookiesRejected()) { console.log('⛔ Cookies refusés'); return; }
-        if (window.gtag) { gtag('event', 'debug_test', { test: 'ok' }); console.log('✅ gtag OK'); }
-        sendToSecureAPI('debug_test', { test: 'api' }).then(s => console.log(s ? '✅ API OK' : '❌ API KO'));
-    },
-    force:   () => { if (!areCookiesRejected()) initializeGoogleAnalytics(); },
-    apiTest: () => areCookiesRejected() ? Promise.resolve(false) : sendToSecureAPI('api_test', { test: 'direct' }),
-    status:  () => logConsentStatus(),
-
-    navHistory: function() {
-        const h = getNavigationHistory();
-        console.groupCollapsed(`🗺️ Historique navigation (${h.length} pages)`);
-        h.forEach((p, i) => {
-            const ago = Math.round((Date.now() - p.visited_at) / 1000);
-            console.log(`  ${i + 1}. ${p.title} — ${p.path} (il y a ${ago}s)`);
-        });
-        console.groupEnd();
-        return h;
-    },
-    clearNavHistory: function() {
-        localStorage.removeItem(NAV_HISTORY_KEY);
-        sessionStorage.removeItem(NAV_ENTER_KEY);
-        console.log('🗑️ Historique navigation effacé');
-    },
-
-    reset: function() {
-        document.cookie.split(";").forEach(c => {
-            const name = c.split("=")[0].trim();
-            if (['cookieConsent','analyticsCookies','performanceCookies'].some(n => name.includes(n))) {
-                document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            }
-        });
-        cookiesRejected = false;
-        isGALoaded = false;
-        location.reload();
-    }
-};
+</body>
+</html>
