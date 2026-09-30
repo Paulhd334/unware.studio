@@ -1,23 +1,25 @@
-// =============== GOOGLE ANALYTICS 4 — UNWARE STUDIO — v5 ===============
-// Corrections v5 par rapport à v4 :
-//  1. Écoute de 'cookieConsentChanged' (envoyé par cookie-banner.js) → GA4 démarre
-//     dès le clic sur « Accepter », sans attendre la page suivante.
-//  2. Plus de doublons : chaque événement part soit par gtag (si gtag.js est chargé),
-//     soit par l'API /api/ga-event (si gtag.js est bloqué), jamais les deux.
-//  3. Storage sécurisé (localStorage/sessionStorage peuvent lever une exception dans
-//     les navigateurs intégrés comme celui de TikTok) avec repli mémoire / cookie.
-//  4. session_start : l'ancien flag était toujours faux au moment de la lecture.
-//  5. Limites GA4 respectées : 25 paramètres max, 100 caractères max par valeur,
-//     engagement_time_msec numérique. Les données enrichies sont scindées en 2 événements.
-//  6. user_properties envoyées avec gtag('set', 'user_properties') (invalide dans config).
-//  7. Événements de sortie via pagehide (fiable sur mobile), envoyés une seule fois.
-//  8. Refus après acceptation : ga-disable-<ID> coupe réellement gtag.
-//  9. Historique de navigation : entrées de plus de 30 min ignorées.
-// 10. Navigation SPA : plus de double page_view.
-// 11. Détection mobile / tablette corrigée (iPhone en paysage, Z Fold...).
+// =============== GOOGLE ANALYTICS 4 — UNWARE STUDIO — v6 ===============
+// Objectif v6 : une même personne = UN SEUL utilisateur GA4, quelles que soient les pages visitées.
+//
+// Changements par rapport à v5 :
+//  1. ID visiteur unique et stable : cookie partagé sur tout le domaine (unware.studio ET
+//     www.unware.studio) + copie dans localStorage. Si l'un des deux est perdu, il est restauré
+//     depuis l'autre.
+//  2. Cet ID est envoyé comme client_id ET comme user_id (gtag et API). GA4 fusionne ainsi tout ce
+//     qui porte le même user_id (réglage : Admin → Identité pour le reporting → Combinée).
+//  3. Session partagée entre les onglets (localStorage au lieu de sessionStorage) : ouvrir deux
+//     pages en même temps ne crée plus deux sessions côté repli API.
+//  4. gtag gère lui-même sa session : le session_id personnalisé n'est plus envoyé à gtag.
+//  5. Lecture du cookie 'user_id' (qui n'existe pas) supprimée.
+//  6. Refus du consentement : l'ID visiteur et la session locale sont effacés.
+//  7. Aucun ID n'est écrit sur l'appareil avant l'accord de l'utilisateur.
+//  (tout le reste : identique à la v5)
 
 const GA_MEASUREMENT_ID = 'G-NJLCB6G0G8';
 const SESSION_DURATION  = 30 * 60 * 1000;
+const VISITOR_KEY       = 'ga_client_id';   // même nom qu'avant : les visiteurs actuels gardent leur ID
+const SESSION_KEY       = 'ga_session';
+const VISITOR_DAYS      = 365;
 const NAV_HISTORY_KEY   = 'ga_nav_history';
 const NAV_ENTER_KEY     = 'ga_page_enter_time';
 const NEXT_PAGE_KEY     = 'ga_next_intended_page';
@@ -100,10 +102,32 @@ function getCookie(name) {
     return null;
 }
 
-function setCookie(name, value, days) {
-    const date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/;SameSite=Lax;Secure';
+// Domaine racine (ex. unware.studio) pour partager le cookie entre www et sans www.
+// Retourne '' pour localhost / adresses IP.
+function getRootDomain() {
+    const host = window.location.hostname;
+    if (/^(\d{1,3}\.){3}\d{1,3}$/.test(host) || host.indexOf('.') === -1) return '';
+    return host.split('.').slice(-2).join('.');
+}
+
+// shared = true : cookie valable sur tout le domaine (uniquement pour l'ID visiteur).
+// Les cookies de consentement restent limités à l'hôte, comme avant.
+function setCookie(name, value, days, shared) {
+    const exp = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+    const base = name + '=' + value + ';expires=' + exp + ';path=/;SameSite=Lax;Secure';
+    const root = shared ? getRootDomain() : '';
+    if (root) document.cookie = base + ';domain=' + root;
+    if (!root || getCookie(name) !== String(value)) document.cookie = base; // repli : cookie limité à l'hôte
+}
+
+function deleteCookieEverywhere(name) {
+    const past = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+    document.cookie = past;
+    const root = getRootDomain();
+    if (root) {
+        document.cookie = past + '; domain=' + root;
+        document.cookie = past + '; domain=.' + root;
+    }
 }
 
 // true uniquement si l'utilisateur a donné son accord pour l'analytique
@@ -125,34 +149,66 @@ function setGADisabled(flag) {
     window['ga-disable-' + GA_MEASUREMENT_ID] = !!flag;
 }
 
+// =============== ID VISITEUR (1 seul par personne / navigateur) ===============
+function generateVisitorId() {
+    // Format proche de celui de GA : nombre.timestamp
+    let rnd;
+    try {
+        const a = new Uint32Array(1);
+        window.crypto.getRandomValues(a);
+        rnd = a[0];
+    } catch (e) {
+        rnd = Math.floor(Math.random() * 4294967295);
+    }
+    return rnd + '.' + Math.floor(Date.now() / 1000);
+}
+
+function getVisitorId() {
+    if (clientId) return clientId;
+
+    // 1) on relit l'ID existant : cookie d'abord, sinon localStorage
+    let id = getCookie(VISITOR_KEY) || sGet('local', VISITOR_KEY);
+    // 2) sinon on en crée un nouveau
+    if (!id) id = generateVisitorId();
+    clientId = id;
+
+    // 3) on l'écrit (cookie + localStorage) UNIQUEMENT si l'utilisateur a accepté l'analytique.
+    //    Chaque page relit puis réécrit : si l'un des deux stockages avait été vidé, il est restauré.
+    if (shouldLoadGA()) {
+        setCookie(VISITOR_KEY, id, VISITOR_DAYS, true);
+        sSet('local', VISITOR_KEY, id);
+    }
+    return id;
+}
+const getClientId = getVisitorId; // compatibilité
+
+// Efface tout ce qui identifie le visiteur (refus du consentement)
+function clearVisitorId() {
+    clientId = null;
+    deleteCookieEverywhere(VISITOR_KEY);
+    sDel('local', VISITOR_KEY);
+    sDel('local', SESSION_KEY);
+    sDel('local', 'ga_has_visited');
+    sDel('local', NAV_HISTORY_KEY);
+}
+
 function resetAnalyticsState() {
     isGALoaded = false;
     gaInitStarted = false;
     cookiesRejected = true;
     setGADisabled(true);
+    clearVisitorId();
     console.log('🔴 Analytics désactivé — consentement refusé');
 }
 
-// =============== CLIENT ID & SESSION ===============
-function getClientId() {
-    if (!clientId) {
-        clientId = sGet('local', 'ga_client_id') || getCookie('ga_client_id');
-        if (!clientId) {
-            clientId = 'cid_' + Math.random().toString(36).slice(2, 14) + '_' + Math.floor(Date.now() / 1000);
-        }
-        sSet('local', 'ga_client_id', clientId);
-        if (shouldLoadGA()) setCookie('ga_client_id', clientId, 365);
-    }
-    return clientId;
-}
-
+// =============== SESSION (partagée entre les onglets) ===============
 function readSession() {
     try {
-        const raw = sGet('session', 'ga_session');
+        const raw = sGet('local', SESSION_KEY);
         return raw ? JSON.parse(raw) : null;
     } catch (e) { return null; }
 }
-function writeSession(s) { sSet('session', 'ga_session', JSON.stringify(s)); }
+function writeSession(s) { sSet('local', SESSION_KEY, JSON.stringify(s)); }
 
 function getSessionId() {
     const now = Date.now();
@@ -276,9 +332,10 @@ function whenLoaded(cb) {
 async function sendToSecureAPI(eventName, params = {}) {
     if (!shouldLoadGA()) return false;
     try {
-        const userId = getCookie('user_id');
+        const visitorId = getVisitorId();
         const payload = {
-            client_id: getClientId(),
+            client_id: visitorId,
+            user_id:   visitorId, // même ID que gtag → GA4 fusionne les deux flux
             timestamp_micros: Math.floor(Date.now() * 1000),
             events: [{
                 name: eventName,
@@ -294,7 +351,6 @@ async function sendToSecureAPI(eventName, params = {}) {
                 })
             }]
         };
-        if (userId) payload.user_id = userId;
 
         const response = await fetch('/api/ga-event', {
             method: 'POST',
@@ -343,9 +399,10 @@ function initializeGoogleAnalytics() {
     cookiesRejected = false;
     setGADisabled(false);
 
-    console.log('🚀 Init GA4 v5...');
+    console.log('🚀 Init GA4 v6...');
 
-    const sid = getSessionId();
+    const visitorId = getVisitorId();
+    getSessionId();
     const isNewSession = sessionJustCreated;
     const isReturning = !!sGet('local', 'ga_has_visited');
     markVisit();
@@ -371,9 +428,10 @@ function initializeGoogleAnalytics() {
         device_type:          deviceType,
         anonymize_ip:         true,
         allow_google_signals: false,
-        client_id:            getClientId(),
-        session_id:           sid,
+        client_id:            visitorId, // ID visiteur stable
+        user_id:              visitorId, // même ID → utilisateur unique dans GA4
         transport_type:       'beacon'
+        // session_id volontairement absent : gtag gère lui-même la session
     };
     if (document.referrer) config.page_referrer = document.referrer;
     gtag('config', GA_MEASUREMENT_ID, config); // envoie automatiquement 1 page_view
@@ -425,7 +483,7 @@ window.addEventListener('pageshow', e => { if (e.persisted) exitFlushed = false;
 function initEventTracking() {
     if (eventTrackingStarted) return;
     eventTrackingStarted = true;
-    console.log('🎯 Tracking v5 activé...');
+    console.log('🎯 Tracking v6 activé...');
 
     document.addEventListener('click', (e) => {
         if (!shouldLoadGA()) return;
@@ -959,13 +1017,15 @@ else initAnalytics();
 // =============== DEBUG CONSOLE ===============
 window.debugGA = {
     check: function () {
-        console.log('🔍 GA v5:');
+        console.log('🔍 GA v6:');
         console.log('- Consentement analytics :', shouldLoadGA());
         console.log('- GA Loaded / gtag OK    :', isGALoaded, '/', gtagLoaded);
         console.log('- cookieConsent          :', getCookie('cookieConsent'));
         console.log('- analyticsCookies       :', getCookie('analyticsCookies'));
-        console.log('- Client ID              :', getClientId());
-        console.log('- Session ID             :', getSessionId());
+        console.log('- ID visiteur (cookie)   :', getCookie(VISITOR_KEY));
+        console.log('- ID visiteur (storage)  :', sGet('local', VISITOR_KEY));
+        console.log('- ID envoyé à GA4        :', getVisitorId(), '(client_id = user_id)');
+        console.log('- Session ID (repli API) :', getSessionId());
         console.log('- Device                 :', deviceType);
         console.log('- Page                   :', getPageTitle());
         console.log('- Enriched data          :', getEnrichedUserData());
@@ -991,9 +1051,8 @@ window.debugGA = {
         console.log('🗑️ Historique navigation effacé');
     },
     reset: function () {
-        ['cookieConsent', 'analyticsCookies', 'performanceCookies', 'ga_client_id'].forEach(name => {
-            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        });
+        ['cookieConsent', 'analyticsCookies', 'performanceCookies'].forEach(deleteCookieEverywhere);
+        clearVisitorId();
         cookiesRejected = false;
         isGALoaded = false;
         location.reload();
