@@ -6,14 +6,14 @@
 <meta name="theme-color" content="#0a0a0a">
 <meta name="format-detection" content="telephone=no">
 <title>The Void Protocol | UNWARE STUDIO</title>
-<meta name="description" content="The Void Protocol arrive en 2027 ! Une expérience de jeu PC sous Unreal Engine 5.6 développé par UNWARE STUDIO. Inscrivez-vous pour être informé du lancement.">
+<meta name="description" content="The Void Protocol : planète inconnue, base scientifique abandonnée, robots de sécurité et orbe étrange. Jeu PC sous Unreal Engine 5.6, prévu en 2027.">
 <meta name="keywords" content="The Void Protocol, jeu vidéo 2027, Unreal Engine 5, sortie 2027, jeu PC">
 <meta name="author" content="UNWARE STUDIO">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://unware.studio/nexa/the_void_protocol.html">
 <meta property="og:url" content="https://unware.studio/nexa/the_void_protocol.html">
 <meta property="og:title" content="The Void Protocol - Disponible en 2027 sur PC | UNWARE STUDIO">
-<meta property="og:description" content="The Void Protocol arrive en 2027 sur PC ! Jeu développé avec Unreal Engine 5.6. Inscrivez-vous pour être informé du lancement.">
+<meta property="og:description" content="The Void Protocol : planète inconnue, base scientifique abandonnée, robots de sécurité et orbe étrange. Jeu PC sous Unreal Engine 5.6, prévu en 2027.">
 <meta property="og:image" content="https://unware.studio/images/nexa-screen.webp">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="UNWARE STUDIO">
@@ -41,7 +41,7 @@ if(getCookie('cookieConsent')!=='rejected'){load('../js/analytics.js');load('../
 <style>
 :root{--primary:#0a0a0a;--secondary:#111;--accent:#fff;--text:#e0e0e0;--text-secondary:#888;--card-bg:rgba(255,255,255,.03);--border:rgba(255,255,255,.08);--transition:all .3s ease;--red:#fff}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:90px}
 body{background:var(--primary);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 body.no-scroll{overflow:hidden}
 .container{width:90%;max-width:1200px;margin:0 auto}
@@ -87,19 +87,28 @@ section{padding:clamp(80px,11vw,150px) 0}
 .btn-w:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,0,0,.2)}
 .btn:not(.btn-w):hover{background:rgba(255,255,255,.05);transform:translateY(-2px)}
 
-/* ═══ HERO (structure de l'accueil) ═══ */
-.hero{padding:170px 0 100px;min-height:100vh;min-height:100dvh;display:flex;align-items:center;position:relative;overflow:hidden}
-.hero-content{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.hero-badge{display:inline-block;font:500 12px 'Inter',sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:7px 16px;border:1px solid var(--border);border-radius:100px;background:var(--card-bg);color:var(--text-secondary);margin-bottom:26px}
-.hero h1{font:400 clamp(60px,8.6vw,132px)/.9 'Bebas Neue',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#fff;margin-bottom:26px;text-align:left}
-.hero-subtitle{font-size:1.2rem;color:var(--text-secondary);max-width:500px;margin-bottom:40px}
+/* ═══ HERO + PARCOURS DE L'HISTOIRE ═══ */
+.hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding:0;overflow:hidden;background:#000}
+.hero-bg{position:absolute;inset:0;background:url('../images/The_Void_Protocol_In_Game/image_website_6.png') center/cover;filter:brightness(.5) contrast(1.1) saturate(.8);transform:scale(1.05);animation:zoom 24s ease-in-out infinite alternate}
+@keyframes zoom{to{transform:scale(1.12)}}
+.hero:before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(10,10,10,.92) 0%,rgba(10,10,10,.5) 50%,rgba(10,10,10,.1) 100%),linear-gradient(to top,var(--primary) 0%,transparent 40%)}
+.hero-in{position:relative;z-index:2;padding:140px 0 0}
+.hero-meta{display:flex;gap:10px 22px;flex-wrap:wrap;color:rgba(255,255,255,.6);margin-bottom:26px}
+.hero-meta span+span:before{content:'/';margin-right:22px;opacity:.4}
+.hero h1{font:400 clamp(64px,13vw,210px)/.86 'Bebas Neue',sans-serif;text-transform:uppercase;color:#fff;letter-spacing:.005em;margin-bottom:30px;text-align:left;text-shadow:0 4px 50px rgba(0,0,0,.6)}
+.hero h1 span{display:block}
+.hero h1 span:nth-child(2){color:rgba(255,255,255,.38)}
+.hero-subtitle{max-width:540px;font-size:clamp(16px,1.5vw,19px);color:rgba(255,255,255,.75);font-weight:300;margin-bottom:34px}
 .hero-subtitle strong{color:#fff;font-weight:500}
 .hero-actions{display:flex;gap:15px;flex-wrap:wrap}
-.hero-visual img{display:block;width:100%;height:auto;border-radius:12px;box-shadow:0 20px 40px rgba(0,0,0,.3);border:1px solid var(--border)}
-.strip{background:var(--secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.bar{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:34px 0}
-.bar small{display:block;color:var(--text-secondary);margin-bottom:4px}
-.bar strong{font:600 16px 'Inter',sans-serif;color:#fff;letter-spacing:-.01em}
+.path{display:grid;grid-template-columns:repeat(4,1fr);margin-top:clamp(44px,8vh,90px);border-top:1px solid rgba(255,255,255,.18)}
+.path a{display:block;padding:22px 24px 28px;text-decoration:none;color:inherit;border-right:1px solid rgba(255,255,255,.1)}
+.path a:first-child{padding-left:0}
+.path a:last-child{border-right:0}
+.path small{display:block;color:rgba(255,255,255,.4);margin-bottom:6px;transition:color .3s}
+.path strong{font:400 clamp(20px,2vw,28px)/1.05 'Bebas Neue',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#fff;font-weight:400}
+.path a:hover small{color:#fff}
+.path a:hover strong:after{content:' \2193'}
 
 /* ═══ LE JEU ═══ */
 .about{display:grid;grid-template-columns:1fr 2fr;gap:clamp(30px,6vw,100px)}
@@ -109,6 +118,15 @@ section{padding:clamp(80px,11vw,150px) 0}
 .about-txt b{color:#fff;font-weight:500}
 .about-txt p+p{margin-top:1.2em}
 
+/* ═══ HISTOIRE ═══ */
+.story-head{margin-bottom:clamp(40px,6vw,70px)}
+.chap{display:grid;grid-template-columns:1fr 2fr;gap:clamp(30px,6vw,100px);padding:clamp(40px,6vw,80px) 0;border-top:1px solid var(--border)}
+.chap:last-child{border-bottom:1px solid var(--border)}
+.chap .mono{display:block;color:var(--text-secondary);margin-bottom:14px}
+.chap h3{font:400 clamp(42px,5vw,76px)/.95 'Bebas Neue',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#fff}
+.chap p{font:300 clamp(18px,2vw,24px)/1.65 'Inter',sans-serif;color:rgba(255,255,255,.58);max-width:680px}
+.chap p b{color:#fff;font-weight:500}
+.chap p+p{margin-top:1.1em}
 /* ═══ CARACTÉRISTIQUES ═══ */
 .feats{background:var(--secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .feats .t2{margin-bottom:60px}
@@ -179,19 +197,22 @@ footer{background:var(--secondary);padding:80px 0 40px;border-top:1px solid var(
 .scroll-to-top.active{opacity:1;visibility:visible}
 
 /* ═══ RESPONSIVE ═══ */
-@media(max-width:1024px){.hero{padding:130px 0 70px;min-height:auto}.hero-content{grid-template-columns:1fr;gap:40px}}
 @media(max-width:900px){
+.chap{grid-template-columns:1fr;gap:16px}
 .about,.nl-grid{grid-template-columns:1fr}
 .about-l{position:static}
 .frow{grid-template-columns:1fr;gap:12px;padding:34px 0}
-.bar{grid-template-columns:1fr 1fr;row-gap:22px}
+.path{grid-template-columns:1fr 1fr}
+.path a,.path a:first-child{padding:18px 16px;border-right:0;border-bottom:1px solid rgba(255,255,255,.1)}
+.path a:nth-child(odd){padding-left:0;border-right:1px solid rgba(255,255,255,.1)}
+.path a:nth-child(n+3){border-bottom:0}
 .gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:190px}
 .gi,.gi:nth-child(2){grid-column:span 1;grid-row:span 1}
 .gi:nth-child(1){grid-column:span 2;grid-row:span 2}.gi:nth-child(6){grid-column:span 2}
 .lb .p{left:8px}.lb .nx{right:8px}
 }
 @media(max-width:560px){
-.hero-actions{width:100%}.btn{flex:1 1 auto}
+.hero-in{padding-top:110px}.hero-actions{width:100%}.btn{flex:1 1 auto}
 .gi span{font-size:15px}.gi div{left:14px;right:14px;bottom:14px}.gi small{display:none}
 .footer-content{grid-template-columns:1fr}
 .scroll-to-top{width:44px;height:44px;bottom:calc(20px + env(safe-area-inset-bottom,0px));right:20px}
@@ -242,31 +263,32 @@ footer{background:var(--secondary);padding:80px 0 40px;border-top:1px solid var(
 </nav>
 
 <main>
-
-<div class="strip"><div class="container bar">
-  <div><small class="mono">Studio</small><strong>Unware</strong></div>
-  <div><small class="mono">Moteur</small><strong>Unreal Engine 5.6</strong></div>
-  <div><small class="mono">Sortie</small><strong>2027</strong></div>
-  <div><small class="mono">Plateforme</small><strong>PC uniquement</strong></div>
-</div></div>
-
-<section id="about">
-  <div class="container about">
-    <div class="about-l" data-r><div class="mono lbl">Le jeu</div><h2 class="t2">Une descente <span>sans retour</span></h2></div>
-    <div class="about-txt" data-r>
-      <p><b>The Void Protocol</b> est une expérience narrative et immersive qui vous plonge dans un complexe abandonné où chaque couloir, chaque salle, chaque silence <b>raconte une histoire.</b> Développé sous Unreal Engine 5.6, le jeu exploite la lumière globale dynamique et le ray tracing pour créer une atmosphère d'une densité rare.</p>
-      <p>Prévu pour <b>2027</b> sur <b>PC uniquement</b>, c'est une descente progressive : une désorientation maîtrisée où votre seule arme est <b>votre attention.</b> La menace se fait entendre avant de se voir.</p>
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="container hero-in">
+    <div class="hero-meta mono"><span>Unreal Engine 5.6</span><span>PC</span><span>2027</span></div>
+    <h1><span>The Void</span><span>Protocol</span></h1>
+    <p class="hero-subtitle">Une base scientifique abandonnée sur une planète inconnue. Des robots de sécurité qui patrouillent encore. Et au cœur de tout, <strong>un orbe étrange</strong>.</p>
+    <div class="hero-actions">
+      <a href="#newsletter" class="btn btn-w"><i class="fas fa-bell"></i> Être alerté</a>
+      <a href="https://discord.gg/PE7MS4Sazk" class="btn" target="_blank" rel="noopener noreferrer">Rejoindre le Discord</a>
     </div>
+    <nav class="path" aria-label="Les étapes de l'histoire">
+      <a href="#ch1"><small class="mono">01</small><strong>Planète inconnue</strong></a>
+      <a href="#ch2"><small class="mono">02</small><strong>Base abandonnée</strong></a>
+      <a href="#ch3"><small class="mono">03</small><strong>Robots de sécurité</strong></a>
+      <a href="#ch4"><small class="mono">04</small><strong>L'orbe étrange</strong></a>
+    </nav>
   </div>
 </section>
 
-<section class="feats" id="features">
+<section id="about" class="story">
   <div class="container">
-    <div data-r><div class="mono lbl">Caractéristiques</div><h2 class="t2">Ce qui <span>vous attend</span></h2></div>
-    <div class="frow" data-r><span class="mono">01</span><h3>Rendu ultra-réaliste</h3><p>Lumière globale dynamique, ray tracing et Lumen pour des environnements d'une fidélité sans précédent. Chaque surface réagit à la lumière comme dans la réalité.</p></div>
-    <div class="frow" data-r><span class="mono">02</span><h3>Audio immersif</h3><p>La menace se fait entendre avant de se voir. Un design sonore spatialisé où votre ouïe devient votre meilleure arme dans l'obscurité.</p></div>
-    <div class="frow" data-r><span class="mono">03</span><h3>Level design</h3><p>Des niveaux conçus pour désorienter et surprendre. Chaque recoin recèle une histoire, chaque trappe une issue, ou un piège.</p></div>
-    <div class="frow" data-r><span class="mono">04</span><h3>Narration environnementale</h3><p>Aucun dialogue imposé. L'histoire se découvre par fragments, à travers l'espace, les objets oubliés et les traces laissées derrière.</p></div>
+    <div class="story-head" data-r><div class="mono lbl">L'histoire</div><h2 class="t2">Une descente <span>sans retour</span></h2></div>
+    <article class="chap" id="ch1" data-r><div><span class="mono">Chapitre 01</span><h3>Une planète inconnue</h3></div><div><p>Vous vous retrouvez sur une <b>planète inconnue</b>, absente de toutes les cartes. Aucun signal, aucune réponse, aucun moyen de savoir où vous êtes. Le silence est total.</p><p>Une seule structure se détache dans ce décor étranger : une base scientifique.</p></div></article>
+    <article class="chap" id="ch2" data-r><div><span class="mono">Chapitre 02</span><h3>La base abandonnée</h3></div><div><p>Les lumières vacillent, les portes sont restées ouvertes. Les laboratoires ont été <b>désertés</b>, les postes de travail abandonnés en plein travail. Personne ne répond.</p><p>Chaque couloir, chaque salle garde les traces de ce qui s'est passé ici. À vous de les lire.</p></div></article>
+    <article class="chap" id="ch3" data-r><div><span class="mono">Chapitre 03</span><h3>Les robots de sécurité</h3></div><div><p>Les humains ont disparu, mais la sécurité n'a jamais cessé son service. Des <b>robots de sécurité</b> patrouillent encore dans la base, fidèles à un protocole que plus personne ne contrôle.</p><p>Ils ne dorment pas, ils n'oublient pas. La menace se fait entendre avant de se voir : votre seule arme est votre attention.</p></div></article>
+    <article class="chap" id="ch4" data-r><div><span class="mono">Chapitre 04</span><h3>L'orbe étrange</h3></div><div><p>Au cœur de la base, un <b>orbe étrange</b> attire le regard. Rien n'explique sa présence. Est-il la cause de l'abandon ? La raison pour laquelle les robots ne s'arrêtent jamais ?</p><p>Plus vous vous approchez, plus les questions se multiplient. Percer son secret est peut-être la seule façon de comprendre, et d'en sortir.</p></div></article>
   </div>
 </section>
 
