@@ -11,404 +11,450 @@
 <meta name="author" content="UNWARE STUDIO">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://unware.studio/nexa/the_void_protocol.html">
-<meta property="og:url" content="https://unware.studio/nexa/the_void_protocol.html">
-<meta property="og:title" content="The Void Protocol - Disponible en 2027 sur PC | UNWARE STUDIO">
-<meta property="og:description" content="The Void Protocol : planète inconnue, base scientifique abandonnée, robots de sécurité et orbe étrange. Jeu PC sous Unreal Engine 5.6, prévu en 2027.">
-<meta property="og:image" content="https://unware.studio/images/nexa-screen.webp">
+
+<!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="UNWARE STUDIO">
+<meta property="og:url" content="https://unware.studio/nexa/the_void_protocol.html">
+<meta property="og:title" content="The Void Protocol | UNWARE STUDIO">
+<meta property="og:description" content="Planète inconnue, base scientifique abandonnée, robots de sécurité et orbe étrange. Jeu PC sous Unreal Engine 5.6, prévu en 2027.">
+<meta property="og:image" content="https://unware.studio/nexa/assets/void-protocol-cover.jpg">
+
+<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Void Protocol - Disponible en 2027 sur PC">
-<meta name="twitter:description" content="The Void Protocol arrive en 2027 sur PC ! Jeu développé avec Unreal Engine 5.6.">
+<meta name="twitter:title" content="The Void Protocol | UNWARE STUDIO">
+<meta name="twitter:description" content="Planète inconnue, base scientifique abandonnée, robots de sécurité et orbe étrange. Prévu en 2027.">
+<meta name="twitter:image" content="https://unware.studio/nexa/assets/void-protocol-cover.jpg">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="icon" href="../favicon.ico" sizes="any">
-<link rel="icon" href="../favicon.svg" type="image/svg+xml">
-<link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
-<link rel="apple-touch-icon" href="../images/favicons/apple-touch-icon.png">
-<link rel="manifest" href="/site.webmanifest">
-<script>
-(function(){
-function getCookie(n){var eq=n+"=",ca=document.cookie.split(';');for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}return null;}
-function load(src){var s=document.createElement('script');s.src=src;document.head.appendChild(s);}
-load('../js/cookie-banner.js');
-if(getCookie('cookieConsent')!=='rejected'){load('../js/analytics.js');load('../js/analytics-clarify.js');}
-})();
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-:root{--primary:#0a0a0a;--secondary:#111;--accent:#fff;--text:#e0e0e0;--text-secondary:#888;--card-bg:rgba(255,255,255,.03);--border:rgba(255,255,255,.08);--transition:all .3s ease;--red:#fff}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:90px}
-body{background:var(--primary);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-body.no-scroll{overflow:hidden}
-.container{width:90%;max-width:1200px;margin:0 auto}
+  :root {
+    --bg: #06070a;
+    --bg-2: #0c0e14;
+    --fg: #e8ecf4;
+    --muted: #8b94a7;
+    --accent: #4fd1ff;
+    --accent-2: #7c5cff;
+    --danger: #ff4d6d;
+    --line: rgba(255,255,255,0.08);
+    --max: 1100px;
+  }
 
-/* ═══ HEADER (identique) ═══ */
-header{position:fixed;top:0;width:100%;padding:20px 0;z-index:1000;background:rgba(10,10,10,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:var(--transition)}
-.nav-container{display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.logo-icon{color:var(--accent);font-size:24px}
-.logo-text{display:flex;align-items:center}
-.studio-logo{max-width:150px;height:auto;object-fit:contain}
-.nav-links{display:flex;list-style:none;gap:40px}
-.nav-links a{color:var(--text);text-decoration:none;font-weight:500;font-size:14px;letter-spacing:.5px;transition:var(--transition)}
-.nav-links a:hover{color:var(--accent)}
-.nav-actions{display:flex;gap:15px;align-items:center}
-.mobile-menu{display:none;font-size:24px;cursor:pointer;color:var(--accent);z-index:1001;transition:var(--transition);padding:8px;border-radius:4px;background:rgba(255,255,255,.05);height:42px;width:42px;align-items:center;justify-content:center;border:none;outline:none}
-.mobile-menu:hover{background:rgba(255,255,255,.1);transform:scale(1.05)}
-.mobile-nav{position:fixed;top:0;right:-100%;width:320px;max-width:85vw;height:100vh;height:100dvh;background:var(--primary);z-index:1000;transition:all .4s cubic-bezier(.4,0,.2,1);border-left:1px solid var(--border);display:flex;flex-direction:column;padding:80px 25px calc(25px + env(safe-area-inset-bottom,0px));overflow-y:auto;box-shadow:-5px 0 30px rgba(0,0,0,.3);box-sizing:border-box}
-.mobile-nav.active{right:0;transform:translateZ(0)}
-.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:999;opacity:0;visibility:hidden;transition:all .4s ease;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);pointer-events:none}
-.overlay.active{opacity:1;visibility:visible;pointer-events:all}
-.mobile-close{position:absolute;top:25px;right:25px;font-size:22px;cursor:pointer;color:var(--text);transition:var(--transition);padding:8px;border-radius:4px;background:rgba(255,255,255,.05);z-index:1001;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:none;outline:none}
-.mobile-close:hover{color:var(--accent);background:rgba(255,255,255,.1);transform:rotate(90deg)}
-.mobile-nav-links{list-style:none;order:1;margin-bottom:20px;flex:1;overflow-y:auto}
-.mobile-nav-links li{margin-bottom:8px}
-.mobile-nav-links a{color:var(--text);text-decoration:none;font-size:18px;font-weight:500;display:block;padding:14px 16px;border-radius:8px;transition:all .3s ease;position:relative;overflow:hidden}
-.mobile-nav-links a:before{content:'';position:absolute;left:0;top:0;height:100%;width:4px;background:var(--accent);transform:scaleY(0);transition:transform .3s ease}
-.mobile-nav-links a:hover{color:var(--accent);background:rgba(255,255,255,.05);padding-left:20px}
-.mobile-nav-links a:hover:before{transform:scaleY(1)}
-@media(max-width:768px){.nav-links{display:none}.mobile-menu{display:flex}.studio-logo{display:none}header{padding:12px 0}.nav-container{padding:0 15px}}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ═══ COMMUN ═══ */
-.mono{font:400 11px 'Space Mono',monospace;letter-spacing:.2em;text-transform:uppercase}
-.lbl{color:var(--text-secondary);display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.lbl:before{content:'';width:28px;height:1px;background:rgba(255,255,255,.35)}
-.t2{font:400 clamp(46px,7vw,104px)/.92 'Bebas Neue',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#fff}
-.t2 span{color:rgba(255,255,255,.3)}
-section{padding:clamp(80px,11vw,150px) 0}
-[data-r]{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
-[data-r].in{opacity:1;transform:none}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:12px 24px;font:500 14px/1.2 'Inter',sans-serif;text-decoration:none;cursor:pointer;border:1px solid var(--border);border-radius:6px;transition:all .3s ease;color:var(--text);background:transparent}
-.btn-w{background:var(--accent);border-color:var(--accent);color:var(--primary)}
-.btn-w:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,0,0,.2)}
-.btn:not(.btn-w):hover{background:rgba(255,255,255,.05);transform:translateY(-2px)}
+  html { scroll-behavior: smooth; }
 
-/* ═══ HERO + PARCOURS DE L'HISTOIRE ═══ */
-.hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding:0;overflow:hidden;background:#000}
-.hero-bg{position:absolute;inset:0;background:url('../images/The_Void_Protocol_In_Game/image_website_6.png') center/cover;filter:brightness(.5) contrast(1.1) saturate(.8);transform:scale(1.05);animation:zoom 24s ease-in-out infinite alternate}
-@keyframes zoom{to{transform:scale(1.12)}}
-.hero:before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(10,10,10,.92) 0%,rgba(10,10,10,.5) 50%,rgba(10,10,10,.1) 100%),linear-gradient(to top,var(--primary) 0%,transparent 40%)}
-.hero-in{position:relative;z-index:2;padding:140px 0 0}
-.hero-meta{display:flex;gap:10px 22px;flex-wrap:wrap;color:rgba(255,255,255,.6);margin-bottom:20px;font-size:10px}
-.hero-meta span+span:before{content:'/';margin-right:22px;opacity:.4}
-.hero h1{font:400 clamp(44px,7.5vw,112px)/.9 'Bebas Neue',sans-serif;text-transform:uppercase;color:#fff;letter-spacing:.005em;margin-bottom:30px;text-align:left;text-shadow:0 4px 50px rgba(0,0,0,.6)}
-.hero h1 span{display:block}
-.hero h1 span:nth-child(2){color:rgba(255,255,255,.38)}
-.hero-subtitle{max-width:540px;font-size:clamp(16px,1.5vw,19px);color:rgba(255,255,255,.75);font-weight:300;margin-bottom:34px}
-.hero-subtitle strong{color:#fff;font-weight:500}
-.hero-actions{display:flex;gap:15px;flex-wrap:wrap}
-.path{display:grid;grid-template-columns:repeat(4,1fr);margin-top:clamp(44px,8vh,90px);border-top:1px solid rgba(255,255,255,.18)}
-.path a{display:block;padding:22px 24px 28px;text-decoration:none;color:inherit;border-right:1px solid rgba(255,255,255,.1)}
-.path a:first-child{padding-left:0}
-.path a:last-child{border-right:0}
-.path small{display:block;color:rgba(255,255,255,.4);margin-bottom:6px;transition:color .3s}
-.path strong{font:400 clamp(20px,2vw,28px)/1.05 'Bebas Neue',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#fff;font-weight:400}
-.path a:hover small{color:#fff}
-.path a:hover strong:after{content:' \2193'}
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 
-/* ═══ LE JEU ═══ */
-.about{display:grid;grid-template-columns:1fr 2fr;gap:clamp(30px,6vw,100px)}
-.about-l{position:sticky;top:120px;align-self:start}
-.about-l .t2{font-size:clamp(44px,5vw,76px)}
-.about-txt{font:400 clamp(20px,2.3vw,30px)/1.5 'Inter',sans-serif;color:rgba(255,255,255,.42);letter-spacing:-.015em}
-.about-txt b{color:#fff;font-weight:500}
-.about-txt p+p{margin-top:1.2em}
+  /* ---------- HEADER ---------- */
+  header.site-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    background: rgba(6,7,10,0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
 
-/* ═══ HISTOIRE ═══ */
-.story-head{margin-bottom:clamp(40px,6vw,70px)}
-.chap{display:grid;grid-template-columns:1fr 2fr;gap:clamp(30px,6vw,100px);padding:clamp(40px,6vw,80px) 0;border-top:1px solid var(--border)}
-.chap:last-child{border-bottom:1px solid var(--border)}
-.chap .mono{display:block;color:var(--text-secondary);margin-bottom:14px}
-.chap h3{font:400 clamp(42px,5vw,76px)/.95 'Bebas Neue',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#fff}
-.chap p{font:300 clamp(18px,2vw,24px)/1.65 'Inter',sans-serif;color:rgba(255,255,255,.58);max-width:680px}
-.chap p b{color:#fff;font-weight:500}
-.chap p+p{margin-top:1.1em}
-/* ═══ CARACTÉRISTIQUES ═══ */
-.feats{background:var(--secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.feats .t2{margin-bottom:60px}
-.frow{display:grid;grid-template-columns:80px 1fr 1.1fr;gap:30px;align-items:baseline;padding:44px 0;border-top:1px solid var(--border);transition:padding .4s ease,background .4s ease}
-.frow:last-child{border-bottom:1px solid var(--border)}
-.frow .mono{color:var(--text-secondary)}
-.frow h3{font:400 clamp(32px,3.8vw,52px)/1 'Bebas Neue',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#fff}
-.frow p{color:rgba(255,255,255,.55);font-weight:300;max-width:460px}
-@media(hover:hover){.frow:hover{padding-left:22px;background:rgba(255,255,255,.025)}}
+  .brand {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.18em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .brand span { color: var(--accent); }
 
-/* ═══ GALERIE ═══ */
-.gal-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:50px}
-.gal-head .mono{color:var(--text-secondary)}
-.gal{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:260px;gap:12px}
-.gi{position:relative;overflow:hidden;cursor:pointer;background:#0d0d0d;border:1px solid var(--border);border-radius:6px;grid-column:span 4}
-.gi:nth-child(1){grid-column:span 7;grid-row:span 2}
-.gi:nth-child(2){grid-column:span 5;grid-row:span 2}
-.gi:nth-child(6){grid-column:span 12}
-.gi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.7) brightness(.7);transition:filter .6s,transform 1s cubic-bezier(.16,1,.3,1)}
-.gi:before{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(0,0,0,.85),transparent 55%)}
-.gi div{position:absolute;left:22px;bottom:18px;right:22px;z-index:3;display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
-.gi span{font:600 18px 'Inter',sans-serif;letter-spacing:-.02em;color:#fff}
-.gi small{font:400 10px 'Space Mono',monospace;letter-spacing:.2em;color:rgba(255,255,255,.55);text-transform:uppercase}
-@media(hover:hover){.gi:hover img{filter:none;transform:scale(1.05)}.gi:hover{border-color:rgba(255,255,255,.6)}}
-.lb{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.96);backdrop-filter:blur(20px);display:none;align-items:center;justify-content:center;padding:16px}
-.lb.on{display:flex}
-.lb figure{position:relative;max-width:92vw}
-.lb img{display:block;max-width:92vw;max-height:80vh;object-fit:contain;border:1px solid rgba(255,255,255,.15)}
-.lb figcaption{padding-top:12px;color:#fff;font:600 17px 'Inter',sans-serif;display:flex;justify-content:space-between}
-.lb figcaption small{font:400 11px 'Space Mono',monospace;color:rgba(255,255,255,.5);letter-spacing:.2em}
-.lb button{position:absolute;width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:15px;cursor:pointer;transition:.3s;z-index:2}
-.lb button:hover{background:#fff;color:#000}
-.lb .x{top:16px;right:16px}.lb .p{left:20px;top:50%}.lb .nx{right:20px;top:50%}
+  nav.site-nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin-left: 22px;
+    letter-spacing: 0.05em;
+    transition: color .2s;
+  }
+  nav.site-nav a:hover { color: var(--fg); }
 
-/* ═══ NEWSLETTER ═══ */
-.nl{background:#000;border-top:1px solid var(--border)}
-.nl-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(30px,6vw,100px);align-items:end}
-.nl .t2{font-size:clamp(52px,8vw,120px)}
-.nl p.d{color:rgba(255,255,255,.5);font-weight:300;max-width:420px;margin-bottom:34px}
-.nl-row{display:flex;align-items:center;border-bottom:2px solid rgba(255,255,255,.35);transition:border-color .3s}
-.nl-row:focus-within{border-color:#fff}
-.nl-row input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:300 clamp(18px,2.2vw,26px) 'Inter',sans-serif;padding:18px 0}
-.nl-row input::placeholder{color:rgba(255,255,255,.3)}
-.nl-row button{background:none;border:0;color:#fff;font:600 13px 'Inter',sans-serif;cursor:pointer;padding:18px 0 18px 20px;white-space:nowrap;transition:opacity .3s}
-.nl-row button:hover{opacity:.55}.nl-row button:disabled{opacity:.4}
-.nl .note{margin-top:18px;color:rgba(255,255,255,.28)}
-#formMessage{display:none;margin-top:16px;padding:12px 16px;font-size:13px;border:1px solid;border-radius:6px}
-#formMessage.ok{display:block;color:#66bb6a;border-color:rgba(76,175,80,.3);background:rgba(76,175,80,.08)}
-#formMessage.err{display:block;color:#ef5350;border-color:rgba(244,67,54,.3);background:rgba(244,67,54,.08)}
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    align-items: flex-start;              /* titre remonte en haut */
+    justify-content: center;
+    text-align: center;
+    padding: 90px 24px 60px;              /* moins d'espace au-dessus du titre */
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(124,92,255,0.28), transparent 55%),
+      radial-gradient(ellipse at 80% 90%, rgba(79,209,255,0.18), transparent 60%),
+      linear-gradient(180deg, #06070a 0%, #0a0c12 100%);
+  }
 
-/* ═══ FOOTER (identique) ═══ */
-footer{background:var(--secondary);padding:80px 0 40px;border-top:1px solid var(--border)}
-.footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:60px}
-.footer-brand{max-width:300px}
-.footer-logo{display:flex;align-items:center;margin-bottom:20px;gap:10px}
-.footer-logo-text{font-family:'Bebas Neue',sans-serif;font-weight:700;font-size:24px;color:var(--accent);letter-spacing:1.5px}
-.footer-desc{color:var(--text-secondary);margin-bottom:24px;font-weight:400;line-height:1.6;font-size:13px}
-.social-links{display:flex;gap:12px}
-.social-link{display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:var(--card-bg);border-radius:4px;color:var(--text);transition:var(--transition);border:1px solid var(--border);text-decoration:none}
-.social-link:hover{background:var(--accent);color:var(--primary)}
-.footer-column h3{font-size:18px;margin-bottom:20px;color:var(--accent);font-weight:600}
-.footer-links{list-style:none}.footer-links li{margin-bottom:12px}
-.footer-links a{color:var(--text-secondary);text-decoration:none;transition:var(--transition);font-weight:400;font-size:14px}
-.footer-links a:hover{color:var(--accent)}
-.copyright{text-align:center;padding-top:40px;border-top:1px solid var(--border);color:var(--text-secondary);font-size:14px}
-.studio-credit{color:var(--accent);font-weight:600}
-.scroll-to-top{position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:var(--accent);color:var(--primary);border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;opacity:0;visibility:hidden;transition:var(--transition);z-index:100;border:none}
-.scroll-to-top.active{opacity:1;visibility:visible}
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, #fff, transparent),
+      radial-gradient(1px 1px at 70% 20%, #cfe8ff, transparent),
+      radial-gradient(1px 1px at 40% 80%, #fff, transparent),
+      radial-gradient(1px 1px at 85% 60%, #bcd7ff, transparent),
+      radial-gradient(1px 1px at 10% 70%, #fff, transparent),
+      radial-gradient(1px 1px at 55% 45%, #fff, transparent);
+    opacity: 0.5;
+    pointer-events: none;
+  }
 
-/* ═══ RESPONSIVE ═══ */
-@media(max-width:900px){
-.chap{grid-template-columns:1fr;gap:16px}
-.about,.nl-grid{grid-template-columns:1fr}
-.about-l{position:static}
-.frow{grid-template-columns:1fr;gap:12px;padding:34px 0}
-.path{grid-template-columns:1fr 1fr}
-.path a,.path a:first-child{padding:18px 16px;border-right:0;border-bottom:1px solid rgba(255,255,255,.1)}
-.path a:nth-child(odd){padding-left:0;border-right:1px solid rgba(255,255,255,.1)}
-.path a:nth-child(n+3){border-bottom:0}
-.gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:190px}
-.gi,.gi:nth-child(2){grid-column:span 1;grid-row:span 1}
-.gi:nth-child(1){grid-column:span 2;grid-row:span 2}.gi:nth-child(6){grid-column:span 2}
-.lb .p{left:8px}.lb .nx{right:8px}
-}
-@media(max-width:560px){
-.hero-in{padding-top:110px}.hero-actions{width:100%}.btn{flex:1 1 auto}
-.gi span{font-size:15px}.gi div{left:14px;right:14px;bottom:14px}.gi small{display:none}
-.footer-content{grid-template-columns:1fr}
-.scroll-to-top{width:44px;height:44px;bottom:calc(20px + env(safe-area-inset-bottom,0px));right:20px}
-}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}[data-r]{opacity:1;transform:none}}
+  .hero-inner {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    z-index: 2;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.42em;
+    color: var(--accent);
+    padding: 6px 14px;
+    border: 1px solid rgba(79,209,255,0.35);
+    border-radius: 999px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.4rem, 7vw, 5.2rem);
+    line-height: 1.02;
+    letter-spacing: 0.02em;
+    margin-bottom: 18px;
+    background: linear-gradient(180deg, #ffffff 0%, #9fb4d4 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 0 60px rgba(79,209,255,0.25);
+  }
+
+  .hero .subtitle {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    color: var(--muted);
+    max-width: 640px;
+    margin: 0 auto 34px;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 14px 26px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: transform .2s, box-shadow .2s, background .2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #06070a;
+    font-weight: 700;
+    box-shadow: 0 8px 30px rgba(79,209,255,0.28);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(79,209,255,0.45);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid var(--line);
+  }
+  .btn-ghost:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.25);
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section {
+    padding: 90px 24px;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+    color: var(--fg);
+  }
+
+  .section-title::before {
+    content: "// ";
+    color: var(--accent);
+  }
+
+  .section-lead {
+    color: var(--muted);
+    max-width: 720px;
+    margin-bottom: 44px;
+  }
+
+  /* ---------- FEATURE GRID ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: linear-gradient(160deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 26px 24px;
+    transition: transform .25s, border-color .25s, background .25s;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(79,209,255,0.4);
+    background: linear-gradient(160deg, rgba(79,209,255,0.08), rgba(255,255,255,0.02));
+  }
+
+  .card .icon {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .card h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+    color: var(--fg);
+  }
+
+  .card p {
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+
+  /* ---------- INFO STRIP ---------- */
+  .info-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 18px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 34px 0;
+  }
+
+  .info-item .label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+    color: var(--accent);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .info-item .value {
+    font-size: 1rem;
+    color: var(--fg);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 44px 24px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    background: var(--bg-2);
+  }
+
+  footer .brand { display: inline-block; margin-bottom: 10px; }
+
+  footer a {
+    color: var(--muted);
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color .2s;
+  }
+  footer a:hover { color: var(--accent); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 640px) {
+    header.site-header { padding: 12px 16px; }
+    nav.site-nav a { margin-left: 14px; font-size: 0.78rem; }
+    .hero { padding: 76px 18px 50px; min-height: 88vh; }
+    section { padding: 64px 18px; }
+  }
 </style>
 </head>
 <body>
 
-<div class="lb" id="lb" role="dialog" aria-label="Image agrandie">
-  <button class="p" id="lbP" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
-  <figure><img id="lbImg" src="" alt=""><figcaption><span id="lbT"></span><small id="lbN"></small></figcaption></figure>
-  <button class="nx" id="lbN2" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
-  <button class="x" id="lbX" aria-label="Fermer"><i class="fas fa-times"></i></button>
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <a href="/" class="brand">UNWARE<span>.</span>STUDIO</a>
+  <nav class="site-nav">
+    <a href="#game">Jeu</a>
+    <a href="#features">Features</a>
+    <a href="#studio">Studio</a>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">UNREAL ENGINE 5.6 • PC • 2027</span>
+    <h1>THE VOID<br>PROTOCOL</h1>
+    <p class="subtitle">
+      Une planète inconnue. Une base scientifique abandonnée.
+      Des robots de sécurité en dérive et un orbe étrange qui n'aurait jamais dû être réveillé.
+    </p>
+    <div class="cta-row">
+      <a href="#game" class="btn btn-primary">Découvrir</a>
+      <a href="#features" class="btn btn-ghost">Voir les features</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INFO STRIP ============ -->
+<div style="max-width:1100px;margin:0 auto;padding:0 24px;">
+  <div class="info-strip">
+    <div class="info-item">
+      <span class="label">Plateforme</span>
+      <span class="value">PC (Windows)</span>
+    </div>
+    <div class="info-item">
+      <span class="label">Moteur</span>
+      <span class="value">Unreal Engine 5.6</span>
+    </div>
+    <div class="info-item">
+      <span class="label">Sortie</span>
+      <span class="value">2027</span>
+    </div>
+    <div class="info-item">
+      <span class="label">Genre</span>
+      <span class="value">Sci-Fi / Survie</span>
+    </div>
+  </div>
 </div>
 
-<header>
-  <div class="container nav-container">
-    <div class="logo">
-      <div class="logo-icon"><i class="fas fa-temple"></i></div>
-      <div class="logo-text"><img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo"></div>
-    </div>
-    <ul class="nav-links">
-      <li><a href="/#accueil">Accueil</a></li>
-      <li><a href="/nexa/fonctionnalites.html">Fonctionnalités</a></li>
-      <li><a href="/nexa/galerie.html">Galeries</a></li>
-      <li><a href="/nexa/the_void_protocol.html" data-track-name="nav_void_protocol">The void protocol</a></li>
-    </ul>
-    <div class="nav-actions">
-      <div class="mobile-menu" id="mobileMenu" aria-label="Ouvrir le menu" aria-expanded="false" role="button" tabindex="0">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
-      </div>
-    </div>
-  </div>
-</header>   
+<!-- ============ SECTION JEU ============ -->
+<section id="game">
+  <h2 class="section-title">Le Protocole</h2>
+  <p class="section-lead">
+    The Void Protocol plonge le joueur dans une installation oubliée, aux confins d'une planète silencieuse.
+    Chaque système est en veille, chaque robot peut se réveiller — et l'orbe, au centre du complexe,
+    semble attendre quelque chose. Ou quelqu'un.
+  </p>
 
-<div class="overlay" id="overlay"></div>
-<nav class="mobile-nav" id="mobileNav" aria-label="Menu mobile">
-  <div class="mobile-close" id="mobileClose" aria-label="Fermer le menu" role="button" tabindex="0">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-  </div>
-  <ul class="mobile-nav-links">
-    <li><a href="/#accueil" class="mobile-nav-link">Accueil</a></li>
-    <li><a href="/nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
-    <li><a href="/nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
-    <li><a href="/nexa/the_void_protocol.html" class="mobile-nav-link">The void protocol</a></li>
-  </ul>
-</nav>
-
-<main>
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="container hero-in">
-    <div class="hero-meta mono"><span>Unreal Engine 5.6</span><span>PC</span><span>2027</span></div>
-    <h1><span>The Void</span><span>Protocol</span></h1>
-    <p class="hero-subtitle">Une base scientifique abandonnée sur une planète inconnue. Des robots de sécurité qui patrouillent encore. Et au cœur de tout, <strong>un orbe étrange</strong>.</p>
-    <div class="hero-actions">
-      <a href="#newsletter" class="btn btn-w"><i class="fas fa-bell"></i> Être alerté</a>
-      <a href="https://discord.gg/PE7MS4Sazk" class="btn" target="_blank" rel="noopener noreferrer">Rejoindre le Discord</a>
-    </div>
+  <div class="grid">
+    <article class="card">
+      <span class="icon">🪐</span>
+      <h3>Planète inconnue</h3>
+      <p>Explorez des biomes hostiles, des tempêtes magnétiques et des ruines d'une civilisation disparue.</p>
+    </article>
+    <article class="card">
+      <span class="icon">🏚️</span>
+      <h3>Base abandonnée</h3>
+      <p>Une station scientifique labyrinthique : laboratoires, réacteurs, quartiers de confinement scellés.</p>
+    </article>
+    <article class="card">
+      <span class="icon">🤖</span>
+      <h3>Robots de sécurité</h3>
+      <p>Neutralisez, contournez ou reprogrammez des unités autonomes toujours actives après des années.</p>
+    </article>
+    <article class="card">
+      <span class="icon">🔮</span>
+      <h3>L'Orbe</h3>
+      <p>Un artefact d'origine inconnue. Il réagit à votre présence. Il apprend. Il n'est pas seul.</p>
+    </article>
   </div>
 </section>
 
-<section id="about" class="story">
-  <div class="container">
-    <div class="story-head" data-r><div class="mono lbl">L'histoire</div><h2 class="t2">Une descente <span>sans retour</span></h2></div>
-    <article class="chap" id="ch1" data-r><div><span class="mono">Chapitre 01</span><h3>Une planète inconnue</h3></div><div><p>Vous vous retrouvez sur une <b>planète inconnue</b>, absente de toutes les cartes. Aucun signal, aucune réponse, aucun moyen de savoir où vous êtes. Le silence est total.</p><p>Une seule structure se détache dans ce décor étranger : une base scientifique.</p></div></article>
-    <article class="chap" id="ch2" data-r><div><span class="mono">Chapitre 02</span><h3>La base abandonnée</h3></div><div><p>Les lumières vacillent, les portes sont restées ouvertes. Les laboratoires ont été <b>désertés</b>, les postes de travail abandonnés en plein travail. Personne ne répond.</p><p>Chaque couloir, chaque salle garde les traces de ce qui s'est passé ici. À vous de les lire.</p></div></article>
-    <article class="chap" id="ch3" data-r><div><span class="mono">Chapitre 03</span><h3>Les robots de sécurité</h3></div><div><p>Les humains ont disparu, mais la sécurité n'a jamais cessé son service. Des <b>robots de sécurité</b> patrouillent encore dans la base, fidèles à un protocole que plus personne ne contrôle.</p><p>Ils ne dorment pas, ils n'oublient pas. La menace se fait entendre avant de se voir : votre seule arme est votre attention.</p></div></article>
-    <article class="chap" id="ch4" data-r><div><span class="mono">Chapitre 04</span><h3>L'orbe étrange</h3></div><div><p>Au cœur de la base, un <b>orbe étrange</b> attire le regard. Rien n'explique sa présence. Est-il la cause de l'abandon ? La raison pour laquelle les robots ne s'arrêtent jamais ?</p><p>Plus vous vous approchez, plus les questions se multiplient. Percer son secret est peut-être la seule façon de comprendre, et d'en sortir.</p></div></article>
+<!-- ============ SECTION FEATURES ============ -->
+<section id="features">
+  <h2 class="section-title">Caractéristiques</h2>
+  <p class="section-lead">Une expérience immersive propulsée par la dernière génération d'Unreal Engine.</p>
+
+  <div class="grid">
+    <article class="card">
+      <span class="icon">⚙️</span>
+      <h3>UE 5.6</h3>
+      <p>Lumen, Nanite, mondes ouverts haute fidélité et effets atmosphériques temps réel.</p>
+    </article>
+    <article class="card">
+      <span class="icon">🧠</span>
+      <h3>IA adaptative</h3>
+      <p>Les robots évoluent, patrouillent et réagissent à vos choix tactiques.</p>
+    </article>
+    <article class="card">
+      <span class="icon">🌑</span>
+      <h3>Ambiance oppressante</h3>
+      <p>Sound design spatial, éclairage dynamique et narration environnementale.</p>
+    </article>
+    <article class="card">
+      <span class="icon">🎮</span>
+      <h3>Survie & exploration</h3>
+      <p>Ressources limitées, gestion d'énergie et décisions qui modifient la fin du jeu.</p>
+    </article>
   </div>
 </section>
 
-<section id="gallery">
-  <div class="container">
-    <div class="gal-head" data-r>
-      <div><div class="mono lbl">Galerie</div><h2 class="t2">Captures <span>du vide</span></h2></div>
-      <div class="mono">06 visuels</div>
-    </div>
-    <div class="gal" data-r>
-      <div class="gi" data-src="../images/The_Void_Protocol_In_Game/image_website_6.png" data-t="Zone d'expérimentation"><img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Zone d'expérimentation" loading="lazy" decoding="async"><div><span>Zone d'expérimentation</span><small>Environnement</small></div></div>
-      <div class="gi" data-src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" data-t="Couloir 13"><img src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" alt="The Void Protocol - Couloir 13" loading="lazy" decoding="async"><div><span>Couloir 13</span><small>Niveau</small></div></div>
-      <div class="gi" data-src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" data-t="Salle des machines"><img src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" alt="The Void Protocol - Salle des machines" loading="lazy" decoding="async"><div><span>Salle des machines</span><small>Décor</small></div></div>
-      <div class="gi" data-src="../images/The_Void_Protocol_In_Game/image_website_4.png" data-t="Zone intérieur"><img src="../images/The_Void_Protocol_In_Game/image_website_4.png" alt="The Void Protocol - Zone intérieur" loading="lazy" decoding="async"><div><span>Zone intérieur</span><small>Atmosphère</small></div></div>
-      <div class="gi" data-src="../images/nexa-screen-5.webp" data-t="HUD tactique"><img src="../images/nexa-screen-5.webp" alt="The Void Protocol - HUD tactique" loading="lazy" decoding="async"><div><span>HUD tactique</span><small>Interface</small></div></div>
-      <div class="gi" data-src="../images/nexa-screen-6.webp" data-t="Présence"><img src="../images/nexa-screen-6.webp" alt="The Void Protocol - Présence" loading="lazy" decoding="async"><div><span>Présence</span><small>Entité</small></div></div>
-    </div>
-  </div>
+<!-- ============ SECTION STUDIO ============ -->
+<section id="studio">
+  <h2 class="section-title">UNWARE STUDIO</h2>
+  <p class="section-lead">
+    Studio indépendant passionné par la science-fiction immersive et les expériences qui laissent une trace.
+    The Void Protocol est notre premier grand projet, développé sous Unreal Engine 5.6 pour une sortie prévue en 2027.
+  </p>
+  <a href="mailto:contact@unware.studio" class="btn btn-primary">Nous contacter</a>
 </section>
 
-<section class="nl" id="newsletter">
-  <div class="container nl-grid">
-    <div data-r><div class="mono lbl">Ne manquez pas</div><h2 class="t2">Soyez alerté <span>au lancement</span></h2></div>
-    <div data-r>
-      <p class="d">Recevez une notification dès que The Void Protocol sera disponible sur PC. Aucun spam, juste l'essentiel.</p>
-      <form id="notificationForm" novalidate>
-        <div class="nl-row"><input type="email" name="email" placeholder="votre@email.com" aria-label="Votre email" required><button type="submit">M'informer →</button></div>
-        <p class="note mono">Désinscription à tout moment</p>
-        <div id="formMessage" role="status"></div>
-      </form>
-    </div>
-  </div>
-</section>
-</main>
-
+<!-- ============ FOOTER ============ -->
 <footer>
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-brand">
-        <div class="footer-logo"><span class="footer-logo-text">The void protocol</span></div>
-        <p class="footer-desc">Un jeu PC développé par UNWARE STUDIO.</p>
-        <div class="social-links">
-          <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/></svg></a>
-          <a href="https://discord.gg/PE7MS4Sazk" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer"><svg width="21" height="21" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/></svg></a>
-          <a href="https://www.youtube.com/@unware.studio" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
-          <a href="https://www.instagram.com/unware.studio?igsh=bXcyaWVlMG96cXhl" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0 5.838a4.162 4.162 0 1 0 0 8.324 4.162 4.162 0 0 0 0-8.324zm0 6.862a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4zm5.338-7.04a.97.97 0 1 1-1.94 0 .97.97 0 0 1 1.94 0z"/></svg></a>
-        </div>
-      </div>
-      <div class="footer-column"><h3>Navigation</h3><ul class="footer-links">
-        <li><a href="/#accueil" rel="noopener noreferrer">Accueil</a></li>
-        <li><a href="/nexa/fonctionnalites.html" rel="noopener noreferrer">Fonctionnalités</a></li>
-        <li><a href="/nexa/galerie.html" rel="noopener noreferrer">Galeries</a></li>
-        <li><a href="/nexa/the_void_protocol.html" rel="noopener noreferrer">The Void Protocol</a></li></ul></div>
-      <div class="footer-column"><h3>Support</h3><ul class="footer-links">
-        <li><a href="/Support/centre-aide.html" target="_blank" rel="noopener noreferrer">Centre d'aide</a></li>
-        <li><a href="/Support/FAQ.html" target="_blank" rel="noopener noreferrer">FAQ</a></li>
-        <li><a href="/Support/contact.html" target="_blank" rel="noopener noreferrer">Contact</a></li>
-        <li><a href="/Support/statut.html" target="_blank" rel="noopener noreferrer">Statut des services</a></li></ul></div>
-      <div class="footer-column"><h3>Légal</h3><ul class="footer-links">
-        <li><a href="/legals/conditions-utilisation.html" target="_blank" rel="noopener noreferrer">Conditions d'utilisation</a></li>
-        <li><a href="/legals/politique-confidentialite.html" target="_blank" rel="noopener noreferrer">Politique de confidentialité</a></li>
-        <li><a href="/legals/mentions-legales.html" target="_blank" rel="noopener noreferrer">Mentions légales</a></li>
-        <li><a href="/legals/politique-cookies.html" target="_blank" rel="noopener noreferrer">Politique de cookies</a></li></ul></div>
-    </div>
-    <div class="copyright"><p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p></div>
+  <a href="/" class="brand">UNWARE<span>.</span>STUDIO</a>
+  <div>
+    <a href="#">Mentions légales</a>•
+    <a href="#">Presse</a>•
+    <a href="mailto:contact@unware.studio">Contact</a>
   </div>
+  <p style="margin-top:14px;opacity:.6;">© 2025 UNWARE STUDIO — The Void Protocol™. Tous droits réservés.</p>
 </footer>
 
-<button class="scroll-to-top" id="scrollToTop" aria-label="Retour en haut"><i class="fas fa-arrow-up"></i></button>
-
-<script>
-document.addEventListener('DOMContentLoaded',function(){
-  var mm=document.getElementById('mobileMenu'),mn=document.getElementById('mobileNav'),ov=document.getElementById('overlay'),mc=document.getElementById('mobileClose'),b=document.body;
-  function open(){mn.classList.add('active');ov.classList.add('active');b.classList.add('no-scroll');mm.setAttribute('aria-expanded','true');}
-  function close(){mn.classList.remove('active');ov.classList.remove('active');b.classList.remove('no-scroll');mm.setAttribute('aria-expanded','false');}
-  function key(f){return function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();f();}};}
-  mm.addEventListener('click',function(){mn.classList.contains('active')?close():open();});
-  mm.addEventListener('keydown',key(function(){mn.classList.contains('active')?close():open();}));
-  ov.addEventListener('click',close);mc.addEventListener('click',close);mc.addEventListener('keydown',key(close));
-  document.querySelectorAll('.mobile-nav-link').forEach(function(l){l.addEventListener('click',close);});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mn.classList.contains('active'))close();});
-});
-
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -50px 0px'});
-document.querySelectorAll('[data-r]').forEach(function(el){io.observe(el);});
-
-var up=document.getElementById('scrollToTop');
-window.addEventListener('scroll',function(){up.classList.toggle('active',window.scrollY>600);},{passive:true});
-up.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
-
-(function(){
-  var items=Array.from(document.querySelectorAll('.gi')),lb=document.getElementById('lb'),img=document.getElementById('lbImg'),t=document.getElementById('lbT'),n=document.getElementById('lbN'),cur=0;
-  function show(i){
-    cur=(i+items.length)%items.length;var it=items[cur];
-    img.src=it.dataset.src;img.alt=it.dataset.t;t.textContent=it.dataset.t;n.textContent='0'+(cur+1)+' / 0'+items.length;
-    lb.classList.add('on');document.body.classList.add('no-scroll');
-    var p={image_src:it.dataset.src,image_title:it.dataset.t,image_index:cur};
-    if(window.dataLayer&&window.dataLayer.push)window.dataLayer.push(Object.assign({event:'gallery_image_view'},p));
-    if(typeof window.gtag==='function')window.gtag('event','gallery_image_view',p);
-    if(typeof window.clarity==='function')window.clarity('event','gallery_image_view');
-  }
-  function hide(){lb.classList.remove('on');document.body.classList.remove('no-scroll');}
-  items.forEach(function(it,i){it.addEventListener('click',function(){show(i);});});
-  document.getElementById('lbX').addEventListener('click',hide);
-  document.getElementById('lbP').addEventListener('click',function(e){e.stopPropagation();show(cur-1);});
-  document.getElementById('lbN2').addEventListener('click',function(e){e.stopPropagation();show(cur+1);});
-  lb.addEventListener('click',function(e){if(e.target===lb)hide();});
-  document.addEventListener('keydown',function(e){if(!lb.classList.contains('on'))return;if(e.key==='Escape')hide();if(e.key==='ArrowLeft')show(cur-1);if(e.key==='ArrowRight')show(cur+1);});
-  var sx=0;lb.addEventListener('touchstart',function(e){sx=e.changedTouches[0].screenX;},{passive:true});
-  lb.addEventListener('touchend',function(e){var d=e.changedTouches[0].screenX-sx;if(Math.abs(d)>50)show(d>0?cur-1:cur+1);},{passive:true});
-})();
-
-document.getElementById('notificationForm').addEventListener('submit',async function(e){
-  e.preventDefault();
-  var email=this.email.value.trim(),btn=this.querySelector('button'),msg=document.getElementById('formMessage');
-  function say(x,c){msg.textContent=x;msg.className=c;setTimeout(function(){msg.className='';},6000);}
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){say('Veuillez entrer une adresse email valide.','err');return;}
-  btn.textContent='Inscription...';btn.disabled=true;
-  try{
-    var r=await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email})});
-    if(r.status===409)say('Vous êtes déjà inscrit !','err');
-    else if(r.ok){say('Merci ! Vous serez informé dès le lancement en 2027 sur PC.','ok');this.reset();}
-    else throw new Error();
-  }catch(x){say('Une erreur est survenue. Veuillez réessayer.','err');}
-  finally{btn.textContent="M'informer →";btn.disabled=false;}
-});
-</script>
 </body>
 </html>
