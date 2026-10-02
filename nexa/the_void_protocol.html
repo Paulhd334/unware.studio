@@ -1,1882 +1,437 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0a0a0a">
-    <meta name="format-detection" content="telephone=no">
-
-    <title>The Void Protocol | UNWARE STUDIO</title>
-
-    <meta name="description" content="The Void Protocol arrive en 2027 ! Une expérience de jeu PC sous Unreal Engine 5.6 développé par UNWARE STUDIO. Inscrivez-vous pour être informé du lancement.">
-    <meta name="keywords" content="The Void Protocol, jeu vidéo 2027, Unreal Engine 5, sortie 2027, jeu PC">
-    <meta name="author" content="UNWARE STUDIO">
-    <meta name="robots" content="index, follow">
-
-    <link rel="canonical" href="https://unware.studio/nexa/the_void_protocol.html">
-
-    <meta property="og:url" content="https://unware.studio/nexa/the_void_protocol.html">
-    <meta property="og:title" content="The Void Protocol - Disponible en 2027 sur PC | UNWARE STUDIO">
-    <meta property="og:description" content="The Void Protocol arrive en 2027 sur PC ! Jeu développé avec Unreal Engine 5.6. Inscrivez-vous pour être informé du lancement.">
-    <meta property="og:image" content="https://unware.studio/images/nexa-screen.webp">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="UNWARE STUDIO">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="The Void Protocol - Disponible en 2027 sur PC">
-    <meta name="twitter:description" content="The Void Protocol arrive en 2027 sur PC ! Jeu développé avec Unreal Engine 5.6.">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <link rel="icon" href="../favicon.ico" sizes="any">
-    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
-    <link rel="apple-touch-icon" href="../images/favicons/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
-
-    <link rel="stylesheet" href="../css/styles.css">
-    <script>
-    (function() {
-        function getCookie(n) {
-            var eq=n+"=", ca=document.cookie.split(';');
-            for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}
-            return null;
-        }
-        function load(src) { var s=document.createElement('script');s.src=src;document.head.appendChild(s); }
-        load('../js/cookie-banner.js');
-        if (getCookie('cookieConsent') !== 'rejected') {
-            load('../js/analytics.js');
-            load('../js/analytics-clarify.js');
-        }
-    })();
-    </script>
-
-    <style>
-        /* ═══════════ VARIABLES ═══════════ */
-        :root {
-            --primary: #0a0a0a;
-            --secondary: #111111;
-            --accent: #ffffff;
-            --text: #e0e0e0;
-            --text-secondary: #888888;
-            --card-bg: rgba(255,255,255,0.03);
-            --border: rgba(255,255,255,0.08);
-            --transition: all 0.3s ease;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-        body {
-            background-color: var(--primary);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        body.no-scroll { overflow: hidden; }
-        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
-
-        /* ═══════════ HEADER ═══════════ */
-        header {
-            position: fixed; top: 0; width: 100%;
-            padding: 20px 0; z-index: 1000;
-            background: rgba(10,10,10,0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            transition: var(--transition);
-        }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; }
-        .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-        .logo-icon { color: var(--accent); font-size: 24px; }
-        .logo-text { display: flex; align-items: center; }
-        .studio-logo { max-width: 150px; height: auto; object-fit: contain; transition: transform 0.3s ease, filter 0.3s ease; }
-        .nav-links { display: flex; list-style: none; gap: 40px; }
-        .nav-links a { color: var(--text); text-decoration: none; font-weight: 500; font-size: 14px; letter-spacing: 0.5px; transition: var(--transition); }
-        .nav-links a:hover { color: var(--accent); }
-        .nav-actions { display: flex; gap: 15px; align-items: center; }
-
-        .btn { padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 500; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; line-height: 1; }
-        .btn-login { color: var(--text); background: transparent; border: 1px solid var(--border); height: 42px; }
-        .btn-login:hover { background: rgba(255,255,255,0.05); transform: translateY(-2px); }
-        .btn-primary { background: var(--accent); color: var(--primary); border: none; height: 42px; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-
-        /* ═══════════ MOBILE MENU ═══════════ */
-        .mobile-menu {
-            display: none; font-size: 24px; cursor: pointer; color: var(--accent);
-            z-index: 1001; transition: var(--transition); padding: 8px; border-radius: 4px;
-            background: rgba(255,255,255,0.05); height: 42px; width: 42px;
-            align-items: center; justify-content: center; border: none; outline: none;
-        }
-        .mobile-menu:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
-        .mobile-nav {
-            position: fixed; top: 0; right: -100%; width: 320px; max-width: 85vw; height: 100vh;
-            height: 100dvh;
-            background: var(--primary); z-index: 1000;
-            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-            border-left: 1px solid var(--border); display: flex; flex-direction: column;
-            padding: 80px 25px 25px; overflow-y: auto;
-            box-shadow: -5px 0 30px rgba(0,0,0,0.3); box-sizing: border-box;
-            padding-bottom: calc(25px + env(safe-area-inset-bottom, 0px));
-        }
-        .mobile-nav.active { right: 0; transform: translateZ(0); }
-        .overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden;
-            transition: all 0.4s ease; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); pointer-events: none;
-        }
-        .overlay.active { opacity: 1; visibility: visible; pointer-events: all; }
-        .mobile-close {
-            position: absolute; top: 25px; right: 25px; font-size: 22px; cursor: pointer;
-            color: var(--text); transition: var(--transition); padding: 8px; border-radius: 4px;
-            background: rgba(255,255,255,0.05); z-index: 1001; width: 40px; height: 40px;
-            display: flex; align-items: center; justify-content: center; border: none; outline: none;
-        }
-        .mobile-close:hover { color: var(--accent); background: rgba(255,255,255,0.1); transform: rotate(90deg); }
-        .mobile-nav-links { list-style: none; order: 1; margin-bottom: 20px; flex: 1; overflow-y: auto; }
-        .mobile-nav-links li { margin-bottom: 8px; }
-        .mobile-nav-links a {
-            color: var(--text); text-decoration: none; font-size: 18px; font-weight: 500;
-            display: block; padding: 14px 16px; border-radius: 8px; transition: all 0.3s ease;
-            position: relative; overflow: hidden;
-        }
-        .mobile-nav-links a:before {
-            content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px;
-            background: var(--accent); transform: scaleY(0); transition: transform 0.3s ease;
-        }
-        .mobile-nav-links a:hover { color: var(--accent); background: rgba(255,255,255,0.05); padding-left: 20px; }
-        .mobile-nav-links a:hover:before { transform: scaleY(1); }
-        .mobile-nav-actions {
-            display: flex; flex-direction: column; gap: 12px; order: 2;
-            margin-bottom: 150px; padding-top: 20px; border-top: 1px solid var(--border);
-        }
-        .mobile-nav-actions .btn { text-align: center; width: 100%; padding: 14px 20px; border-radius: 8px; font-weight: 600; height: auto; }
-
-        @media (max-width: 768px) {
-            .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
-            .mobile-menu { display: flex; }
-            .studio-logo { display: none; }
-            header { padding: 12px 0; }
-            .nav-container { padding: 0 15px; }
-        }
-
-        /* ═══════════ HERO ═══════════ */
-        .cine-hero {
-            position: relative;
-            height: 100vh;
-            height: 100dvh;
-            min-height: 560px;
-            width: 100%;
-            overflow: hidden;
-            background: #000;
-        }
-
-        .cine-hero-bg {
-            position: absolute;
-            inset: 0;
-            background-image: url('../images/The_Void_Protocol_In_Game/image_website_6.png');
-            background-size: cover;
-            background-position: center;
-            filter: brightness(0.55) contrast(1.1) saturate(0.85);
-            transform: scale(1.08);
-            animation: cineZoom 22s ease-in-out infinite alternate;
-            z-index: 1;
-            will-change: transform;
-        }
-        @keyframes cineZoom {
-            from { transform: scale(1.08); }
-            to   { transform: scale(1.16); }
-        }
-
-        .cine-hero-vignette {
-            position: absolute; inset: 0;
-            background:
-                radial-gradient(ellipse 90% 80% at 50% 50%, transparent 0%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.9) 100%),
-                linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 25%, transparent 55%, rgba(10,10,10,1) 100%);
-            z-index: 2;
-        }
-
-        .cine-hero-grain {
-            position: absolute; inset: 0;
-            background-image: repeating-linear-gradient(
-                0deg, transparent, transparent 2px,
-                rgba(255,255,255,0.008) 2px, rgba(255,255,255,0.008) 3px
-            );
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .cine-hero-content {
-            position: absolute;
-            inset: 0;
-            z-index: 5;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 0 6% calc(6vh + env(safe-area-inset-bottom, 0px));
-            max-width: 1600px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .cine-hero-top {
-            position: absolute;
-            top: calc(90px + env(safe-area-inset-top, 0px));
-            left: 6%;
-            right: 6%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            z-index: 6;
-            opacity: 0;
-            animation: cineFadeIn 1.2s ease 0.4s forwards;
-        }
-        .cine-hero-top-left {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.5);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .cine-hero-top-left::before {
-            content: '';
-            width: 24px;
-            height: 1px;
-            background: rgba(255,255,255,0.4);
-        }
-        .cine-hero-top-right {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.5);
-        }
-
-        .cine-hero-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-weight: 400;
-            font-size: clamp(64px, 18vw, 280px);
-            line-height: 0.82;
-            letter-spacing: -0.01em;
-            color: #fff;
-            text-transform: uppercase;
-            margin: 0;
-            text-shadow: 0 4px 60px rgba(0,0,0,0.6);
-        }
-        .cine-hero-title .line {
-            display: block;
-            overflow: hidden;
-            padding-bottom: 0.05em;
-        }
-        .cine-hero-title .line span {
-            display: inline-block;
-            transform: translateY(105%);
-            animation: cineRise 1.1s cubic-bezier(0.16,1,0.3,1) forwards;
-        }
-        .cine-hero-title .line:nth-child(1) span { animation-delay: 0.5s; }
-        .cine-hero-title .line:nth-child(2) span {
-            animation-delay: 0.65s;
-            color: transparent;
-            -webkit-text-stroke: 1.5px rgba(255,255,255,0.5);
-            text-stroke: 1.5px rgba(255,255,255,0.5);
-        }
-        @keyframes cineRise {
-            to { transform: translateY(0); }
-        }
-
-        .cine-hero-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            gap: 60px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-            opacity: 0;
-            animation: cineFadeIn 1.2s ease 1.2s forwards;
-        }
-        .cine-hero-desc {
-            max-width: 440px;
-            font-size: 15px;
-            line-height: 1.7;
-            color: rgba(255,255,255,0.7);
-            font-weight: 300;
-        }
-        .cine-hero-desc strong { color: #fff; font-weight: 500; }
-
-        .cine-hero-actions {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-        .cine-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 16px 32px;
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            font-size: 12px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            text-decoration: none;
-            border-radius: 0;
-            cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-            border: none;
-            position: relative;
-            overflow: hidden;
-            min-height: 48px;
-        }
-        .cine-btn-primary {
-            background: #fff;
-            color: #0a0a0a;
-        }
-        .cine-btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(255,255,255,0.15);
-        }
-        .cine-btn-ghost {
-            background: transparent;
-            color: rgba(255,255,255,0.8);
-            border: 1px solid rgba(255,255,255,0.25);
-        }
-        .cine-btn-ghost:hover {
-            background: rgba(255,255,255,0.08);
-            border-color: rgba(255,255,255,0.5);
-            color: #fff;
-        }
-
-        .cine-hero-scroll {
-            position: absolute;
-            bottom: calc(6vh + env(safe-area-inset-bottom, 0px));
-            right: 6%;
-            z-index: 6;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 14px;
-            opacity: 0;
-            animation: cineFadeIn 1s ease 1.6s forwards;
-        }
-        .cine-hero-scroll-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.4);
-            writing-mode: vertical-rl;
-        }
-        .cine-hero-scroll-line {
-            width: 1px;
-            height: 60px;
-            background: rgba(255,255,255,0.15);
-            position: relative;
-            overflow: hidden;
-        }
-        .cine-hero-scroll-line::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: #fff;
-            transform: translateY(-100%);
-            animation: cineScrollDown 2.2s ease-in-out infinite;
-        }
-        @keyframes cineScrollDown {
-            0% { transform: translateY(-100%); }
-            60%,100% { transform: translateY(100%); }
-        }
-
-        @keyframes cineFadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ═══════════ MARQUEE ═══════════ */
-        .cine-marquee {
-            background: var(--primary);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            padding: 26px 0;
-            overflow: hidden;
-            position: relative;
-        }
-        .cine-marquee-track {
-            display: flex;
-            gap: 60px;
-            animation: marqueeScroll 40s linear infinite;
-            white-space: nowrap;
-            width: max-content;
-        }
-        .cine-marquee-item {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 22px;
-            letter-spacing: 0.15em;
-            color: rgba(255,255,255,0.35);
-            display: flex;
-            align-items: center;
-            gap: 60px;
-            text-transform: uppercase;
-        }
-        .cine-marquee-item::after {
-            content: '◆';
-            color: rgba(255,255,255,0.15);
-            font-size: 10px;
-        }
-        @keyframes marqueeScroll {
-            to { transform: translateX(-50%); }
-        }
-
-        /* ═══════════ SECTIONS ═══════════ */
-        .cine-section {
-            padding: 140px 0;
-            position: relative;
-        }
-        .cine-section-eyebrow {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.5em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.4);
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 32px;
-        }
-        .cine-section-eyebrow::before {
-            content: '';
-            width: 40px;
-            height: 1px;
-            background: rgba(255,255,255,0.3);
-        }
-
-        .cine-section-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(44px, 8vw, 120px);
-            line-height: 0.9;
-            letter-spacing: 0.005em;
-            color: #fff;
-            text-transform: uppercase;
-            margin-bottom: 60px;
-        }
-        .cine-section-title .muted {
-            color: rgba(255,255,255,0.15);
-        }
-
-        /* ═══════════ DESCRIPTION ═══════════ */
-        .cine-desc-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 100px;
-            align-items: start;
-        }
-        .cine-desc-meta {
-            position: sticky;
-            top: 120px;
-        }
-        .cine-desc-meta-item {
-            padding: 24px 0;
-            border-top: 1px solid var(--border);
-        }
-        .cine-desc-meta-item:last-child { border-bottom: 1px solid var(--border); }
-        .cine-desc-meta-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.35);
-            margin-bottom: 8px;
-        }
-        .cine-desc-meta-value {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 26px;
-            letter-spacing: 0.05em;
-            color: #fff;
-        }
-
-        .cine-desc-body {
-            font-size: 19px;
-            line-height: 1.7;
-            color: rgba(255,255,255,0.75);
-            font-weight: 300;
-            max-width: 720px;
-        }
-        .cine-desc-body p + p { margin-top: 1.4em; }
-        .cine-desc-body .drop-cap::first-letter {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 4.5em;
-            line-height: 0.85;
-            float: left;
-            margin: 0.08em 0.12em 0 0;
-            color: #fff;
-        }
-        .cine-desc-body strong { color: #fff; font-weight: 500; }
-
-        .cine-quote {
-            margin: 60px 0;
-            padding-left: 32px;
-            border-left: 2px solid #fff;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(24px, 3.5vw, 44px);
-            line-height: 1.15;
-            letter-spacing: 0.02em;
-            color: #fff;
-            text-transform: uppercase;
-            max-width: 720px;
-        }
-        .cine-quote span { color: rgba(255,255,255,0.4); }
-
-        /* ═══════════ FEATURES ═══════════ */
-        .cine-features {
-            background: var(--secondary);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-        .cine-features-header {
-            text-align: center;
-            margin-bottom: 100px;
-        }
-        .cine-features-header .cine-section-eyebrow {
-            justify-content: center;
-        }
-        .cine-features-header .cine-section-eyebrow::before { display: none; }
-
-        .cine-features-list {
-            display: flex;
-            flex-direction: column;
-        }
-        .cine-feature {
-            display: grid;
-            grid-template-columns: 80px 1fr 1fr;
-            gap: 80px;
-            align-items: center;
-            padding: 70px 0;
-            border-top: 1px solid var(--border);
-            transition: all 0.5s ease;
-            position: relative;
-        }
-        .cine-feature:last-child { border-bottom: 1px solid var(--border); }
-        .cine-feature::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 3px;
-            background: #fff;
-            transform: scaleY(0);
-            transform-origin: center;
-            transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
-        }
-        @media (min-width: 901px) {
-            .cine-feature:hover { padding-left: 30px; padding-right: 30px; }
-            .cine-feature:hover::before { transform: scaleY(1); }
-            .cine-feature:hover .cine-feature-num { color: #fff; }
-        }
-
-        .cine-feature-num {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 64px;
-            color: rgba(255,255,255,0.15);
-            line-height: 1;
-            letter-spacing: 0.02em;
-            transition: color 0.5s ease;
-        }
-
-        .cine-feature-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(30px, 4.5vw, 60px);
-            line-height: 0.95;
-            letter-spacing: 0.01em;
-            color: #fff;
-            text-transform: uppercase;
-        }
-
-        .cine-feature-desc {
-            font-size: 15px;
-            line-height: 1.75;
-            color: rgba(255,255,255,0.55);
-            font-weight: 300;
-        }
-
-        /* ═══════════ GALERIE ═══════════ */
-        .cine-gallery {
-            padding: 140px 0;
-            overflow-x: clip;
-        }
-        .cine-gallery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            gap: 40px;
-            margin-bottom: 70px;
-            flex-wrap: wrap;
-        }
-        .cine-gallery-header .cine-section-title { margin-bottom: 0; }
-        .cine-gallery-counter {
-            font-family: 'Space Mono', monospace;
-            font-size: 11px;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.4);
-        }
-        .cine-gallery-counter strong { color: #fff; font-weight: 700; }
-
-        .cine-gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            grid-template-rows: auto auto;
-            gap: 12px;
-        }
-
-        .cine-gallery-item {
-            position: relative;
-            overflow: hidden;
-            background: #0d0d0d;
-            border: 1px solid rgba(255,255,255,0.05);
-            cursor: pointer;
-            opacity: 0;
-            will-change: transform, opacity;
-            transition:
-                opacity 1s cubic-bezier(0.16,1,0.3,1),
-                transform 1.2s cubic-bezier(0.16,1,0.3,1);
-            border-radius: 2px;
-        }
-
-        .cine-gallery-item--a {
-            grid-column: 1 / 8;
-            grid-row: 1 / 2;
-            aspect-ratio: 16 / 10;
-        }
-        .cine-gallery-item--b {
-            grid-column: 8 / 13;
-            grid-row: 1 / 3;
-            aspect-ratio: 5 / 7;
-        }
-        .cine-gallery-item--c {
-            grid-column: 1 / 4;
-            grid-row: 2 / 3;
-            aspect-ratio: 1 / 1;
-        }
-        .cine-gallery-item--d {
-            grid-column: 4 / 7;
-            grid-row: 2 / 3;
-            aspect-ratio: 1 / 1;
-        }
-        .cine-gallery-item--e {
-            grid-column: 7 / 8;
-            grid-row: 2 / 3;
-            aspect-ratio: 1 / 2;
-        }
-        .cine-gallery-item--f {
-            grid-column: 1 / 13;
-            grid-row: 3 / 4;
-            aspect-ratio: 21 / 7;
-        }
-
-        .cine-gallery-item--a { transform: translate3d(-100%, 0, 0) rotate(-5deg); }
-        .cine-gallery-item--b { transform: translate3d(100%, -20%, 0) rotate(6deg); }
-        .cine-gallery-item--c { transform: translate3d(-50%, 100%, 0) rotate(-8deg); }
-        .cine-gallery-item--d { transform: translate3d(0, -100%, 0) rotate(5deg); }
-        .cine-gallery-item--e { transform: translate3d(50%, 100%, 0) rotate(7deg); }
-        .cine-gallery-item--f { transform: translate3d(0, 100%, 0) rotate(-4deg); }
-
-        .cine-gallery-item.is-visible {
-            opacity: 1;
-            transform: translate3d(0, 0, 0) rotate(0deg);
-        }
-
-        .cine-gallery-item--a.is-visible { transition-delay: 0.05s; }
-        .cine-gallery-item--b.is-visible { transition-delay: 0.15s; }
-        .cine-gallery-item--c.is-visible { transition-delay: 0.25s; }
-        .cine-gallery-item--d.is-visible { transition-delay: 0.35s; }
-        .cine-gallery-item--e.is-visible { transition-delay: 0.45s; }
-        .cine-gallery-item--f.is-visible { transition-delay: 0.55s; }
-
-        .cine-gallery-item img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            display: block;
-            filter: grayscale(55%) brightness(0.7);
-            transition: filter 0.6s ease, transform 1s cubic-bezier(0.16,1,0.3,1);
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            will-change: transform;
-        }
-
-        @media (hover: hover) and (pointer: fine) {
-            .cine-gallery-item:hover img {
-                filter: grayscale(0%) brightness(1);
-                transform: scale(1.05);
-            }
-        }
-
-        .cine-gallery-item::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            box-shadow: inset 0 0 50px rgba(255,255,255,0.4);
-            opacity: 0;
-            pointer-events: none;
-            z-index: 5;
-        }
-        .cine-gallery-item.is-visible::before {
-            animation: cineFlash 1.2s ease-out forwards;
-        }
-        @keyframes cineFlash {
-            0% { opacity: 0.85; }
-            100% { opacity: 0; }
-        }
-
-        .cine-gallery-overlay {
-            position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.4) 40%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            padding: 24px;
-            z-index: 2;
-            pointer-events: none;
-        }
-        .cine-gallery-info {
-            transform: translateY(14px);
-            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
-            min-width: 0;
-        }
-        .cine-gallery-tag {
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.6);
-            display: block;
-            margin-bottom: 8px;
-        }
-        .cine-gallery-name {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 22px;
-            letter-spacing: 0.02em;
-            color: #fff;
-            line-height: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .cine-gallery-icon {
-            font-size: 14px;
-            color: rgba(255,255,255,0.5);
-            transform: translateY(14px);
-            transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
-            flex-shrink: 0;
-        }
-
-        @media (hover: hover) and (pointer: fine) {
-            .cine-gallery-item:hover .cine-gallery-overlay { opacity: 1; }
-            .cine-gallery-item:hover .cine-gallery-info { transform: translateY(0); }
-            .cine-gallery-item:hover .cine-gallery-icon { transform: translateY(0); }
-        }
-
-        @media (hover: none) {
-            .cine-gallery-overlay {
-                opacity: 1;
-                background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 55%);
-            }
-            .cine-gallery-info { transform: translateY(0); }
-            .cine-gallery-icon { transform: translateY(0); }
-        }
-
-        .cine-gallery-placeholder {
-            position: absolute;
-            inset: 0;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            gap: 14px;
-            background: linear-gradient(135deg, #0d0d0d 0%, #151515 100%);
-            color: rgba(255,255,255,0.15);
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-        }
-        .cine-gallery-placeholder i { font-size: 26px; color: rgba(255,255,255,0.15); }
-
-        /* ═══════════ LIGHTBOX ═══════════ */
-        .cine-lightbox {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.97);
-            z-index: 9000;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.4s ease;
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-        }
-        .cine-lightbox.active { opacity: 1; pointer-events: all; }
-        .cine-lightbox-wrap {
-            position: relative;
-            max-width: 92vw; max-height: 88vh;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-            transform: scale(0.94);
-            transition: transform 0.6s cubic-bezier(0.34,1.56,0.64,1);
-            box-shadow: 0 40px 120px rgba(0,0,0,0.9);
-        }
-        .cine-lightbox.active .cine-lightbox-wrap { transform: scale(1); }
-        .cine-lightbox-wrap img { display: block; max-width: 92vw; max-height: 88vh; object-fit: contain; }
-        .cine-lightbox-close {
-            position: absolute; top: 16px; right: 16px;
-            width: 42px; height: 42px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: #fff; font-size: 15px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 2;
-        }
-        .cine-lightbox-close:hover { background: #fff; color: #000; transform: rotate(90deg); }
-        .cine-lightbox-caption {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            padding: 26px 30px;
-            background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
-            z-index: 1;
-        }
-        .cine-lightbox-nav {
-            position: absolute; top: 50%; transform: translateY(-50%);
-            width: 46px; height: 46px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: #fff; font-size: 15px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 2;
-        }
-        .cine-lightbox-nav:hover { background: #fff; color: #000; }
-        .cine-lightbox-prev { left: -70px; }
-        .cine-lightbox-next { right: -70px; }
-
-        /* ═══════════ NEWSLETTER ═══════════ */
-        .cine-newsletter {
-            position: relative;
-            padding: 160px 0;
-            background: #000;
-            overflow: hidden;
-        }
-        .cine-newsletter::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 800px; height: 800px;
-            max-width: 100%;
-            background: radial-gradient(circle, rgba(130,30,30,0.12) 0%, transparent 60%);
-            pointer-events: none;
-        }
-        .cine-newsletter-inner {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            max-width: 720px;
-            margin: 0 auto;
-        }
-        .cine-newsletter .cine-section-eyebrow {
-            justify-content: center;
-        }
-        .cine-newsletter .cine-section-eyebrow::before { display: none; }
-
-        .cine-newsletter-title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(44px, 9vw, 130px);
-            line-height: 0.88;
-            letter-spacing: 0.01em;
-            color: #fff;
-            text-transform: uppercase;
-            margin-bottom: 24px;
-        }
-        .cine-newsletter-title .muted {
-            color: rgba(255,255,255,0.18);
-        }
-        .cine-newsletter-desc {
-            font-size: 15px;
-            line-height: 1.7;
-            color: rgba(255,255,255,0.5);
-            font-weight: 300;
-            margin-bottom: 48px;
-            max-width: 460px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cine-nl-form {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            max-width: 560px;
-            margin: 0 auto;
-        }
-        .cine-nl-row {
-            display: flex;
-            gap: 0;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.15);
-            transition: border-color 0.3s ease;
-        }
-        .cine-nl-row:focus-within {
-            border-color: rgba(255,255,255,0.5);
-        }
-        .cine-nl-input {
-            flex: 1;
-            padding: 20px 24px;
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            outline: none;
-            min-width: 0;
-        }
-        .cine-nl-input::placeholder {
-            color: rgba(255,255,255,0.3);
-            letter-spacing: 0.05em;
-        }
-        .cine-nl-btn {
-            padding: 0 34px;
-            background: #fff;
-            color: #0a0a0a;
-            font-weight: 600;
-            font-size: 11px;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            border: none;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            min-height: 60px;
-        }
-        .cine-nl-btn:hover { background: #e0e0e0; }
-        .cine-nl-note {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.25);
-        }
-        .cine-form-message {
-            padding: 12px 16px;
-            font-size: 13px;
-            display: none;
-            border: 1px solid;
-            text-align: left;
-        }
-        .cine-form-message.success { background: rgba(76,175,80,0.08); color: #66bb6a; border-color: rgba(76,175,80,0.3); display: block; }
-        .cine-form-message.error   { background: rgba(244,67,54,0.08); color: #ef5350; border-color: rgba(244,67,54,0.3); display: block; }
-
-        /* ═══════════ FOOTER ═══════════ */
-        footer { background: var(--secondary); padding: 80px 0 40px; border-top: 1px solid var(--border); }
-        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 60px; }
-        .footer-brand { max-width: 300px; }
-        .footer-logo { display: flex; align-items: center; margin-bottom: 20px; gap: 10px; }
-        .footer-logo-text { font-family: 'Bebas Neue', sans-serif; font-weight: 700; font-size: 24px; color: var(--accent); letter-spacing: 1.5px; }
-        .footer-desc { color: var(--text-secondary); margin-bottom: 24px; font-weight: 400; line-height: 1.6; font-size: 13px; }
-        .social-links { display: flex; gap: 12px; }
-        .social-link { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: var(--card-bg); border-radius: 4px; color: var(--text); transition: var(--transition); border: 1px solid var(--border); text-decoration: none; }
-        .social-link:hover { background: var(--accent); color: var(--primary); }
-        .footer-column h3 { font-size: 18px; margin-bottom: 20px; color: var(--accent); font-weight: 600; }
-        .footer-links { list-style: none; }
-        .footer-links li { margin-bottom: 12px; }
-        .footer-links a { color: var(--text-secondary); text-decoration: none; transition: var(--transition); font-weight: 400; font-size: 14px; }
-        .footer-links a:hover { color: var(--accent); }
-        .copyright { text-align: center; padding-top: 40px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 14px; }
-        .studio-credit { color: var(--accent); font-weight: 600; }
-
-        .scroll-to-top { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--accent); color: var(--primary); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; opacity: 0; visibility: hidden; transition: var(--transition); z-index: 100; border: none; }
-        .scroll-to-top.active { opacity: 1; visibility: visible; }
-        .scroll-to-top:hover { transform: translateY(-5px); }
-
-        /* ═══════════════════════════════════════════════════════
-           RESPONSIVE — iPHONE 11 → iPHONE 18 + ANDROID
-           ═══════════════════════════════════════════════════════ */
-
-        /* ── Petits laptops / tablettes larges ── */
-        @media (max-width: 1024px) {
-            .cine-section { padding: 120px 0; }
-            .cine-desc-grid { gap: 60px; }
-            .cine-feature { gap: 50px; padding: 60px 0; }
-        }
-
-        /* ── Tablettes (iPad, iPad Air, iPad Pro 11") ── */
-        @media (max-width: 900px) {
-            .cine-section { padding: 100px 0; }
-            .cine-section-title { margin-bottom: 45px; }
-            .cine-desc-grid { grid-template-columns: 1fr; gap: 50px; }
-            .cine-desc-meta { position: static; }
-            .cine-desc-body { font-size: 17px; }
-            .cine-desc-body .drop-cap::first-letter { font-size: 3.5em; }
-            .cine-feature {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 50px 0;
-            }
-            .cine-feature-num { font-size: 48px; }
-            .cine-feature-desc { font-size: 14px; }
-            .cine-newsletter { padding: 120px 0; }
-            .cine-lightbox-prev { left: 10px; }
-            .cine-lightbox-next { right: 10px; }
-
-            /* Galerie iPad : layout 6 colonnes */
-            .cine-gallery-grid {
-                grid-template-columns: repeat(6, 1fr);
-                grid-template-rows: auto auto auto;
-            }
-            .cine-gallery-item--a {
-                grid-column: 1 / 7;
-                grid-row: 1;
-                aspect-ratio: 16 / 10;
-            }
-            .cine-gallery-item--b {
-                grid-column: 1 / 4;
-                grid-row: 2;
-                aspect-ratio: 4 / 5;
-            }
-            .cine-gallery-item--c {
-                grid-column: 4 / 7;
-                grid-row: 2;
-                aspect-ratio: 4 / 5;
-            }
-            .cine-gallery-item--d {
-                grid-column: 1 / 4;
-                grid-row: 3;
-                aspect-ratio: 4 / 5;
-            }
-            .cine-gallery-item--e {
-                grid-column: 4 / 7;
-                grid-row: 3;
-                aspect-ratio: 4 / 5;
-            }
-            .cine-gallery-item--f {
-                grid-column: 1 / 7;
-                grid-row: 4;
-                aspect-ratio: 16 / 9;
-            }
-        }
-
-        /* ═══════════════════════════════════════════════════
-           MOBILE — iPHONE 11 → iPHONE 18 + ANDROID
-           Flèches lightbox masquées sur mobile
-           ═══════════════════════════════════════════════════ */
-
-        /* ── Masquer les flèches de lightbox sur tous les mobiles ── */
-        @media (max-width: 768px) {
-            .cine-lightbox-nav { display: none !important; }
-        }
-
-        /* ── iPHONE 14 Pro Max / 15 Pro Max / 16 Pro Max / S24 Ultra (430px) ── */
-        @media (max-width: 480px) {
-            .container { width: 92%; }
-            .cine-section { padding: 80px 0; }
-            .cine-section-title { font-size: clamp(38px, 11vw, 62px); margin-bottom: 36px; }
-            .cine-section-eyebrow { margin-bottom: 20px; font-size: 9px; letter-spacing: 0.4em; }
-
-            .cine-hero-title { font-size: clamp(54px, 17vw, 110px); }
-            .cine-hero-bottom { gap: 24px; margin-top: 28px; flex-direction: column; align-items: flex-start; }
-            .cine-hero-desc { font-size: 14px; max-width: 100%; }
-            .cine-hero-actions { width: 100%; gap: 10px; }
-            .cine-btn { flex: 1 1 auto; padding: 14px 18px; font-size: 11px; }
-            .cine-hero-top { top: calc(78px + env(safe-area-inset-top, 0px)); gap: 12px; }
-            .cine-hero-top-left, .cine-hero-top-right { font-size: 9px; letter-spacing: 0.3em; }
-            .cine-hero-top-left::before { display: none; }
-            .cine-hero-scroll { display: none; }
-
-            .cine-marquee { padding: 18px 0; }
-            .cine-marquee-track { gap: 40px; animation-duration: 32s; }
-            .cine-marquee-item { font-size: 18px; gap: 40px; }
-
-            .cine-quote { font-size: 22px; padding-left: 20px; margin: 40px 0; }
-            .cine-feature { padding: 44px 0; gap: 14px; }
-            .cine-feature-num { font-size: 40px; }
-            .cine-feature-title { font-size: clamp(28px, 7.5vw, 44px); }
-            .cine-feature-desc { font-size: 13.5px; }
-
-            .cine-gallery { padding: 80px 0; }
-            .cine-gallery-header { margin-bottom: 40px; gap: 20px; }
-            .cine-gallery-counter { font-size: 10px; }
-
-            .cine-gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: auto;
-                gap: 10px;
-            }
-            .cine-gallery-item--a,
-            .cine-gallery-item--b,
-            .cine-gallery-item--c,
-            .cine-gallery-item--d,
-            .cine-gallery-item--e,
-            .cine-gallery-item--f {
-                grid-column: auto;
-                grid-row: auto;
-                aspect-ratio: 4 / 5;
-            }
-            .cine-gallery-item--a {
-                grid-column: 1 / 3;
-                grid-row: 1;
-                aspect-ratio: 16 / 10;
-            }
-            .cine-gallery-item--b {
-                grid-column: 1 / 2;
-                grid-row: 2;
-                aspect-ratio: 1 / 1;
-            }
-            .cine-gallery-item--c {
-                grid-column: 2 / 3;
-                grid-row: 2;
-                aspect-ratio: 1 / 1;
-            }
-            .cine-gallery-item--d {
-                grid-column: 1 / 2;
-                grid-row: 3;
-                aspect-ratio: 1 / 1;
-            }
-            .cine-gallery-item--e {
-                grid-column: 2 / 3;
-                grid-row: 3;
-                aspect-ratio: 1 / 1;
-            }
-            .cine-gallery-item--f {
-                grid-column: 1 / 3;
-                grid-row: 4;
-                aspect-ratio: 16 / 9;
-            }
-
-            .cine-gallery-item--a { transform: translate3d(-60%, 0, 0) rotate(-3deg); }
-            .cine-gallery-item--b { transform: translate3d(-60%, 0, 0) rotate(-3deg); }
-            .cine-gallery-item--c { transform: translate3d(60%, 0, 0) rotate(3deg); }
-            .cine-gallery-item--d { transform: translate3d(-60%, 0, 0) rotate(-3deg); }
-            .cine-gallery-item--e { transform: translate3d(60%, 0, 0) rotate(3deg); }
-            .cine-gallery-item--f { transform: translate3d(0, 60%, 0) rotate(-2deg); }
-
-            .cine-gallery-overlay { padding: 16px; }
-            .cine-gallery-tag { font-size: 8px; letter-spacing: 0.3em; margin-bottom: 6px; }
-            .cine-gallery-name { font-size: 18px; }
-            .cine-gallery-icon { font-size: 12px; }
-
-            .cine-newsletter { padding: 90px 0; }
-            .cine-newsletter-desc { margin-bottom: 32px; font-size: 14px; }
-            .cine-nl-row { flex-direction: column; background: transparent; border: none; gap: 12px; }
-            .cine-nl-input { border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.04); padding: 18px 20px; font-size: 16px; }
-            .cine-nl-btn { padding: 18px 24px; width: 100%; }
-
-            .cine-lightbox-wrap { max-width: 94vw; max-height: 78vh; }
-            .cine-lightbox-wrap img { max-width: 94vw; max-height: 78vh; }
-            .cine-lightbox-close { top: 10px; right: 10px; width: 40px; height: 40px; }
-            .cine-lightbox-caption { padding: 18px 20px; }
-
-            .scroll-to-top {
-                width: 44px; height: 44px;
-                bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-                right: 20px;
-            }
-
-            footer { padding: 60px 0 30px; }
-            .footer-content { gap: 32px; margin-bottom: 40px; }
-        }
-
-        /* ── iPHONE 11 / 12 / 13 / 14 (390px) + Pixel / Galaxy (393px) ── */
-        @media (max-width: 400px) {
-            .cine-hero-title { font-size: clamp(48px, 16vw, 90px); }
-            .cine-btn { padding: 13px 16px; font-size: 10px; letter-spacing: 0.1em; gap: 8px; }
-            .cine-btn i { font-size: 12px; }
-            .cine-section-title { font-size: clamp(36px, 10.5vw, 54px); }
-            .cine-feature-num { font-size: 36px; }
-            .cine-gallery-name { font-size: 17px; }
-        }
-
-        /* ── iPHONE 11 Pro / X / XS / 12 mini / 13 mini (375px) ── */
-        @media (max-width: 380px) {
-            .container { width: 94%; }
-            .cine-section { padding: 70px 0; }
-            .cine-hero-title { font-size: clamp(44px, 15vw, 78px); }
-            .cine-hero-content { padding: 0 5% calc(5vh + env(safe-area-inset-bottom, 0px)); }
-            .cine-hero-top { top: calc(72px + env(safe-area-inset-top, 0px)); left: 5%; right: 5%; }
-            .cine-section-title { font-size: clamp(34px, 10vw, 48px); }
-            .cine-desc-body { font-size: 15.5px; }
-            .cine-desc-body .drop-cap::first-letter { font-size: 3.2em; }
-            .cine-feature { padding: 40px 0; }
-            .cine-feature-num { font-size: 34px; }
-            .cine-feature-title { font-size: clamp(24px, 8vw, 36px); }
-            .cine-feature-desc { font-size: 13px; }
-            .cine-gallery { padding: 70px 0; }
-            .cine-gallery-grid { gap: 8px; }
-            .cine-gallery-name { font-size: 16px; }
-            .cine-gallery-tag { font-size: 8px; }
-            .cine-newsletter { padding: 70px 0; }
-            .cine-newsletter-title { font-size: clamp(36px, 11vw, 56px); }
-            .cine-nl-input { padding: 16px 18px; }
-            .cine-nl-btn { padding: 16px 20px; font-size: 11px; }
-        }
-
-        /* ── iPHONE SE / Galaxy A bas de gamme (320px) ── */
-        @media (max-width: 340px) {
-            .cine-section { padding: 60px 0; }
-            .cine-hero-title { font-size: 40px; }
-            .cine-btn { padding: 12px 12px; font-size: 9px; }
-            .cine-hero-actions { flex-direction: column; }
-            .cine-btn { width: 100%; }
-            .cine-section-title { font-size: 30px; }
-            .cine-feature-title { font-size: 22px; }
-            .cine-feature-num { font-size: 30px; }
-            .cine-gallery-name { font-size: 15px; }
-
-            .cine-gallery-grid { grid-template-columns: 1fr; }
-            .cine-gallery-item--a,
-            .cine-gallery-item--b,
-            .cine-gallery-item--c,
-            .cine-gallery-item--d,
-            .cine-gallery-item--e,
-            .cine-gallery-item--f {
-                grid-column: 1 / -1;
-                grid-row: auto;
-                aspect-ratio: 16 / 10;
-            }
-        }
-
-        /* ── Mode paysage mobile ── */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .cine-hero { height: auto; min-height: 100dvh; padding: 100px 0 40px; }
-            .cine-hero-title { font-size: clamp(40px, 8vw, 72px); }
-            .cine-hero-top { display: none; }
-            .cine-hero-scroll { display: none; }
-            .cine-hero-content { justify-content: center; padding: 0 6% 30px; }
-            .cine-section { padding: 60px 0; }
-        }
-
-        /* ── Très grands écrans ── */
-        @media (min-width: 1440px) {
-            .container { max-width: 1320px; }
-        }
-
-        /* ── Accessibilité : animations réduites ── */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-            .cine-gallery-item {
-                opacity: 1 !important;
-                transform: none !important;
-            }
-            .cine-hero-title .line span {
-                transform: translateY(0) !important;
-            }
-            .cine-hero-bg { animation: none !important; }
-            .cine-marquee-track { animation: none !important; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="format-detection" content="telephone=no">
+<title>The Void Protocol | UNWARE STUDIO</title>
+<meta name="description" content="The Void Protocol arrive en 2027 ! Une expérience de jeu PC sous Unreal Engine 5.6 développé par UNWARE STUDIO. Inscrivez-vous pour être informé du lancement.">
+<meta name="keywords" content="The Void Protocol, jeu vidéo 2027, Unreal Engine 5, sortie 2027, jeu PC">
+<meta name="author" content="UNWARE STUDIO">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://unware.studio/nexa/the_void_protocol.html">
+<meta property="og:url" content="https://unware.studio/nexa/the_void_protocol.html">
+<meta property="og:title" content="The Void Protocol - Disponible en 2027 sur PC | UNWARE STUDIO">
+<meta property="og:description" content="The Void Protocol arrive en 2027 sur PC ! Jeu développé avec Unreal Engine 5.6. Inscrivez-vous pour être informé du lancement.">
+<meta property="og:image" content="https://unware.studio/images/nexa-screen.webp">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="UNWARE STUDIO">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Void Protocol - Disponible en 2027 sur PC">
+<meta name="twitter:description" content="The Void Protocol arrive en 2027 sur PC ! Jeu développé avec Unreal Engine 5.6.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" href="../images/favicons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<script>
+(function(){
+function getCookie(n){var eq=n+"=",ca=document.cookie.split(';');for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}return null;}
+function load(src){var s=document.createElement('script');s.src=src;document.head.appendChild(s);}
+load('../js/cookie-banner.js');
+if(getCookie('cookieConsent')!=='rejected'){load('../js/analytics.js');load('../js/analytics-clarify.js');}
+})();
+</script>
+<style>
+:root{--primary:#0a0a0a;--secondary:#111;--accent:#fff;--text:#e0e0e0;--text-secondary:#888;--card-bg:rgba(255,255,255,.03);--border:rgba(255,255,255,.08);--transition:all .3s ease;--red:#e5322d}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--primary);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.no-scroll{overflow:hidden}
+.container{width:90%;max-width:1200px;margin:0 auto}
+
+/* ═══ HEADER (identique) ═══ */
+header{position:fixed;top:0;width:100%;padding:20px 0;z-index:1000;background:rgba(10,10,10,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:var(--transition)}
+.nav-container{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.logo-icon{color:var(--accent);font-size:24px}
+.logo-text{display:flex;align-items:center}
+.studio-logo{max-width:150px;height:auto;object-fit:contain}
+.nav-links{display:flex;list-style:none;gap:40px}
+.nav-links a{color:var(--text);text-decoration:none;font-weight:500;font-size:14px;letter-spacing:.5px;transition:var(--transition)}
+.nav-links a:hover{color:var(--accent)}
+.nav-actions{display:flex;gap:15px;align-items:center}
+.mobile-menu{display:none;font-size:24px;cursor:pointer;color:var(--accent);z-index:1001;transition:var(--transition);padding:8px;border-radius:4px;background:rgba(255,255,255,.05);height:42px;width:42px;align-items:center;justify-content:center;border:none;outline:none}
+.mobile-menu:hover{background:rgba(255,255,255,.1);transform:scale(1.05)}
+.mobile-nav{position:fixed;top:0;right:-100%;width:320px;max-width:85vw;height:100vh;height:100dvh;background:var(--primary);z-index:1000;transition:all .4s cubic-bezier(.4,0,.2,1);border-left:1px solid var(--border);display:flex;flex-direction:column;padding:80px 25px calc(25px + env(safe-area-inset-bottom,0px));overflow-y:auto;box-shadow:-5px 0 30px rgba(0,0,0,.3);box-sizing:border-box}
+.mobile-nav.active{right:0;transform:translateZ(0)}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:999;opacity:0;visibility:hidden;transition:all .4s ease;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);pointer-events:none}
+.overlay.active{opacity:1;visibility:visible;pointer-events:all}
+.mobile-close{position:absolute;top:25px;right:25px;font-size:22px;cursor:pointer;color:var(--text);transition:var(--transition);padding:8px;border-radius:4px;background:rgba(255,255,255,.05);z-index:1001;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:none;outline:none}
+.mobile-close:hover{color:var(--accent);background:rgba(255,255,255,.1);transform:rotate(90deg)}
+.mobile-nav-links{list-style:none;order:1;margin-bottom:20px;flex:1;overflow-y:auto}
+.mobile-nav-links li{margin-bottom:8px}
+.mobile-nav-links a{color:var(--text);text-decoration:none;font-size:18px;font-weight:500;display:block;padding:14px 16px;border-radius:8px;transition:all .3s ease;position:relative;overflow:hidden}
+.mobile-nav-links a:before{content:'';position:absolute;left:0;top:0;height:100%;width:4px;background:var(--accent);transform:scaleY(0);transition:transform .3s ease}
+.mobile-nav-links a:hover{color:var(--accent);background:rgba(255,255,255,.05);padding-left:20px}
+.mobile-nav-links a:hover:before{transform:scaleY(1)}
+@media(max-width:768px){.nav-links{display:none}.mobile-menu{display:flex}.studio-logo{display:none}header{padding:12px 0}.nav-container{padding:0 15px}}
+
+/* ═══ COMMUN ═══ */
+.mono{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase}
+.eyebrow{color:var(--red);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.eyebrow:before{content:'';width:32px;height:1px;background:var(--red)}
+.h2{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(46px,8vw,110px);line-height:.9;color:#fff;text-transform:uppercase}
+.h2 em{font-style:normal;color:rgba(255,255,255,.2)}
+section{padding:clamp(80px,11vw,150px) 0}
+[data-r]{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+[data-r].in{opacity:1;transform:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:52px;padding:0 32px;font:600 12px 'Inter',sans-serif;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:1px solid rgba(255,255,255,.25);transition:all .35s cubic-bezier(.16,1,.3,1);color:#fff;background:transparent}
+.btn-red{background:var(--red);border-color:var(--red)}
+.btn-red:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(229,50,45,.35)}
+.btn:not(.btn-red):hover{background:rgba(255,255,255,.08);border-color:#fff}
+
+/* ═══ HERO ═══ */
+.hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:flex-end;overflow:hidden;background:#000}
+.hero-bg{position:absolute;inset:0;background:url('../images/The_Void_Protocol_In_Game/image_website_6.png') center/cover;filter:brightness(.5) contrast(1.15) saturate(.8);transform:scale(1.06);animation:zoom 24s ease-in-out infinite alternate}
+@keyframes zoom{to{transform:scale(1.14)}}
+.hero:before{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse 80% 70% at 60% 40%,transparent,rgba(0,0,0,.75)),linear-gradient(to bottom,rgba(0,0,0,.55),transparent 30%,transparent 50%,var(--primary))}
+.hero:after{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(0,0,0,.18) 2px 3px)}
+.hud{position:absolute;inset:100px 5% 5%;z-index:3;pointer-events:none}
+.hud i{position:absolute;width:28px;height:28px;border:2px solid rgba(255,255,255,.55)}
+.hud .a{top:0;left:0;border-right:0;border-bottom:0}.hud .b{top:0;right:0;border-left:0;border-bottom:0}
+.hud .c{bottom:0;left:0;border-right:0;border-top:0}.hud .d{bottom:0;right:0;border-left:0;border-top:0}
+.rec{position:absolute;top:22px;left:26px;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:10px}
+.rec:before{content:'';width:9px;height:9px;border-radius:50%;background:var(--red);animation:blink 1.4s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.coords{position:absolute;top:22px;right:26px;color:rgba(255,255,255,.5)}
+.hero-in{position:relative;z-index:4;width:90%;max-width:1200px;margin:0 auto;padding:0 0 calc(9vh + env(safe-area-inset-bottom,0px))}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(70px,17vw,260px);line-height:.8;color:#fff;text-transform:uppercase;text-shadow:0 4px 60px rgba(0,0,0,.7);margin:18px 0 34px}
+.hero h1 span{display:block;overflow:hidden;padding-bottom:.04em}
+.hero h1 span b{display:inline-block;font-weight:400;transform:translateY(105%);animation:rise 1.1s cubic-bezier(.16,1,.3,1) forwards}
+.hero h1 span:nth-child(2) b{animation-delay:.15s;color:var(--red)}
+@keyframes rise{to{transform:none}}
+.hero-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
+.hero-foot p{max-width:430px;color:rgba(255,255,255,.7);font-weight:300}
+.hero-foot p strong{color:#fff;font-weight:500}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+
+/* ═══ STATS ═══ */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--secondary)}
+.stats div{padding:34px 28px;border-right:1px solid var(--border)}
+.stats div:last-child{border:0}
+.stats small{display:block;color:var(--text-secondary);margin-bottom:8px}
+.stats strong{font:400 34px 'Bebas Neue',sans-serif;letter-spacing:.05em;color:#fff}
+
+/* ═══ JEU ═══ */
+.about{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(40px,7vw,110px);align-items:start}
+.about-txt p{font-size:18px;font-weight:300;line-height:1.75;color:rgba(255,255,255,.7);margin-bottom:1.3em}
+.about-txt strong{color:#fff;font-weight:500}
+.about-txt strong.r{color:var(--red)}
+.quote{margin-top:44px;padding:30px 0 0;border-top:1px solid var(--border);font:400 clamp(26px,3.4vw,42px)/1.1 'Bebas Neue',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#fff}
+.quote span{color:var(--red)}
+
+/* ═══ FEATURES ═══ */
+.feats{background:var(--secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:64px}
+.fcard{background:var(--secondary);padding:clamp(30px,4vw,54px);position:relative;overflow:hidden;transition:background .4s}
+.fcard:before{content:'';position:absolute;left:0;top:0;height:3px;width:100%;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.fcard:hover{background:#161616}.fcard:hover:before{transform:scaleX(1)}
+.fcard .n{font:400 70px/1 'Bebas Neue',sans-serif;color:rgba(255,255,255,.1);display:block;margin-bottom:28px;transition:color .4s}
+.fcard:hover .n{color:var(--red)}
+.fcard h3{font:400 clamp(30px,3.6vw,46px)/.95 'Bebas Neue',sans-serif;color:#fff;text-transform:uppercase;margin-bottom:16px}
+.fcard p{font-size:14.5px;color:rgba(255,255,255,.55);font-weight:300;max-width:440px}
+
+/* ═══ GALERIE ═══ */
+.gal-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;margin-bottom:56px}
+.gal-head .mono{color:var(--text-secondary)}.gal-head .mono b{color:#fff}
+.gal{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:210px;gap:10px}
+.gi{position:relative;overflow:hidden;cursor:pointer;background:#0d0d0d;border:1px solid var(--border);grid-column:span 2}
+.gi:nth-child(1){grid-column:span 4;grid-row:span 2}.gi:nth-child(2){grid-row:span 2}.gi:nth-child(6){grid-column:span 6}
+.gi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.7) brightness(.7);transition:filter .6s,transform 1s cubic-bezier(.16,1,.3,1)}
+.gi:before{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(0,0,0,.85),transparent 55%)}
+.gi div{position:absolute;left:20px;bottom:16px;right:20px;z-index:3;display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.gi span{font:400 22px 'Bebas Neue',sans-serif;color:#fff;letter-spacing:.03em}
+.gi small{font:400 9px 'Space Mono',monospace;letter-spacing:.3em;color:var(--red);text-transform:uppercase}
+@media(hover:hover){.gi:hover img{filter:none;transform:scale(1.05)}.gi{transition:border-color .3s}.gi:hover{border-color:var(--red)}}
+.lb{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.96);backdrop-filter:blur(20px);display:none;align-items:center;justify-content:center;padding:16px}
+.lb.on{display:flex}
+.lb figure{position:relative;max-width:92vw}
+.lb img{display:block;max-width:92vw;max-height:80vh;object-fit:contain;border:1px solid rgba(255,255,255,.15)}
+.lb figcaption{padding-top:12px;color:#fff;font:400 22px 'Bebas Neue',sans-serif;letter-spacing:.05em;display:flex;justify-content:space-between}
+.lb figcaption small{font:400 11px 'Space Mono',monospace;color:var(--red);letter-spacing:.3em}
+.lb button{position:absolute;width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:15px;cursor:pointer;transition:.3s;z-index:2}
+.lb button:hover{background:#fff;color:#000}
+.lb .x{top:16px;right:16px}.lb .p{left:20px;top:50%}.lb .nx{right:20px;top:50%}
+
+/* ═══ NEWSLETTER ═══ */
+.nl{position:relative;background:#000;text-align:center;overflow:hidden}
+.nl:before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:900px;height:900px;max-width:100%;background:radial-gradient(circle,rgba(229,50,45,.14),transparent 60%);pointer-events:none}
+.nl-in{position:relative;max-width:700px;margin:0 auto}
+.nl .eyebrow{justify-content:center}.nl .eyebrow:before{display:none}
+.nl .h2{font-size:clamp(46px,9vw,124px);margin-bottom:22px}
+.nl p.d{color:rgba(255,255,255,.5);font-weight:300;max-width:440px;margin:0 auto 44px}
+.nl-row{display:flex;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04);transition:border-color .3s}
+.nl-row:focus-within{border-color:var(--red)}
+.nl-row input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:400 15px 'Inter',sans-serif;padding:20px 24px}
+.nl-row input::placeholder{color:rgba(255,255,255,.3)}
+.nl-row button{padding:0 34px;background:var(--red);color:#fff;border:0;font:600 11px 'Inter',sans-serif;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;min-height:60px;transition:.3s}
+.nl-row button:hover{background:#c8211c}.nl-row button:disabled{opacity:.6}
+.nl .note{margin-top:16px;color:rgba(255,255,255,.25)}
+#formMessage{display:none;margin-top:16px;padding:12px 16px;font-size:13px;border:1px solid;text-align:left}
+#formMessage.ok{display:block;color:#66bb6a;border-color:rgba(76,175,80,.3);background:rgba(76,175,80,.08)}
+#formMessage.err{display:block;color:#ef5350;border-color:rgba(244,67,54,.3);background:rgba(244,67,54,.08)}
+
+/* ═══ FOOTER (identique) ═══ */
+footer{background:var(--secondary);padding:80px 0 40px;border-top:1px solid var(--border)}
+.footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:60px}
+.footer-brand{max-width:300px}
+.footer-logo{display:flex;align-items:center;margin-bottom:20px;gap:10px}
+.footer-logo-text{font-family:'Bebas Neue',sans-serif;font-weight:700;font-size:24px;color:var(--accent);letter-spacing:1.5px}
+.footer-desc{color:var(--text-secondary);margin-bottom:24px;font-weight:400;line-height:1.6;font-size:13px}
+.social-links{display:flex;gap:12px}
+.social-link{display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:var(--card-bg);border-radius:4px;color:var(--text);transition:var(--transition);border:1px solid var(--border);text-decoration:none}
+.social-link:hover{background:var(--accent);color:var(--primary)}
+.footer-column h3{font-size:18px;margin-bottom:20px;color:var(--accent);font-weight:600}
+.footer-links{list-style:none}.footer-links li{margin-bottom:12px}
+.footer-links a{color:var(--text-secondary);text-decoration:none;transition:var(--transition);font-weight:400;font-size:14px}
+.footer-links a:hover{color:var(--accent)}
+.copyright{text-align:center;padding-top:40px;border-top:1px solid var(--border);color:var(--text-secondary);font-size:14px}
+.studio-credit{color:var(--accent);font-weight:600}
+.scroll-to-top{position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:var(--accent);color:var(--primary);border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;opacity:0;visibility:hidden;transition:var(--transition);z-index:100;border:none}
+.scroll-to-top.active{opacity:1;visibility:visible}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+.about,.fgrid{grid-template-columns:1fr}
+.stats{grid-template-columns:1fr 1fr}.stats div:nth-child(2){border-right:0}.stats div:nth-child(-n+2){border-bottom:1px solid var(--border)}
+.gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:190px}
+.gi,.gi:nth-child(2){grid-column:span 1;grid-row:span 1}.gi:nth-child(1),.gi:nth-child(6){grid-column:span 2}.gi:nth-child(1){grid-row:span 2}
+.lb .p{left:8px}.lb .nx{right:8px}
+}
+@media(max-width:560px){
+.hud{inset:80px 4% 3%}.coords{display:none}
+.hero-btns{width:100%}.btn{flex:1 1 auto;padding:0 18px}
+.nl-row{flex-direction:column;background:transparent;border:0;gap:12px}
+.nl-row input{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.04);font-size:16px}
+.gi span{font-size:18px}.gi div{left:12px;right:12px}.gi small{display:none}
+.footer-content{grid-template-columns:1fr}
+.scroll-to-top{width:44px;height:44px;bottom:calc(20px + env(safe-area-inset-bottom,0px));right:20px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}[data-r]{opacity:1;transform:none}.hero h1 span b{transform:none}}
+</style>
 </head>
 <body>
 
-<!-- Lightbox -->
-<div class="cine-lightbox" id="lightbox">
-    <div class="cine-lightbox-nav cine-lightbox-prev" id="lightboxPrev" aria-label="Précédent"><i class="fas fa-chevron-left"></i></div>
-    <div class="cine-lightbox-wrap" id="lightboxWrap">
-        <img src="" alt="" id="lightboxImg">
-        <div class="cine-lightbox-caption">
-            <span class="cine-gallery-tag" id="lightboxTag"></span>
-            <div class="cine-gallery-name" id="lightboxTitle"></div>
-        </div>
-        <div class="cine-lightbox-close" id="lightboxClose"><i class="fas fa-times"></i></div>
-    </div>
-    <div class="cine-lightbox-nav cine-lightbox-next" id="lightboxNext" aria-label="Suivant"><i class="fas fa-chevron-right"></i></div>
+<div class="lb" id="lb" role="dialog" aria-label="Image agrandie">
+  <button class="p" id="lbP" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
+  <figure><img id="lbImg" src="" alt=""><figcaption><span id="lbT"></span><small id="lbN"></small></figcaption></figure>
+  <button class="nx" id="lbN2" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
+  <button class="x" id="lbX" aria-label="Fermer"><i class="fas fa-times"></i></button>
 </div>
 
-<!-- HEADER -->
 <header>
-    <div class="container nav-container">
-        <div class="logo">
-            <div class="logo-icon"><i class="fas fa-temple"></i></div>
-            <div class="logo-text">
-                <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
-            </div>
-        </div>
-        <ul class="nav-links">
-            <li><a href="/#accueil">Accueil</a></li>
-            <li><a href="/nexa/fonctionnalites.html">Fonctionnalités</a></li>
-            <li><a href="/nexa/galerie.html">Galeries</a></li>
-            <li><a href="/nexa/the_void_protocol.html" data-track-name="nav_void_protocol">The void protocol</a></li>
-        </ul>
-        <div class="nav-actions">
-            <div class="mobile-menu" id="mobileMenu" aria-label="Ouvrir le menu" role="button" tabindex="0">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-                </svg>
-            </div>
-        </div>
+  <div class="container nav-container">
+    <div class="logo">
+      <div class="logo-icon"><i class="fas fa-temple"></i></div>
+      <div class="logo-text"><img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo"></div>
     </div>
+    <ul class="nav-links">
+      <li><a href="/#accueil">Accueil</a></li>
+      <li><a href="/nexa/fonctionnalites.html">Fonctionnalités</a></li>
+      <li><a href="/nexa/galerie.html">Galeries</a></li>
+      <li><a href="/nexa/the_void_protocol.html" data-track-name="nav_void_protocol">The void protocol</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div class="mobile-menu" id="mobileMenu" aria-label="Ouvrir le menu" aria-expanded="false" role="button" tabindex="0">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+      </div>
+    </div>
+  </div>
 </header>
 
-<!-- Menu Mobile -->
 <div class="overlay" id="overlay"></div>
 <nav class="mobile-nav" id="mobileNav" aria-label="Menu mobile">
-    <div class="mobile-close" id="mobileClose" aria-label="Fermer le menu" role="button" tabindex="0">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-        </svg>
-    </div>
-    <ul class="mobile-nav-links">
-        <li><a href="/#accueil" class="mobile-nav-link">Accueil</a></li>
-        <li><a href="/nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
-        <li><a href="/nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
-        <li><a href="/nexa/nexa.html" class="mobile-nav-link">The void protocol</a></li>
-    </ul>
-    <div class="mobile-nav-actions"></div>
+  <div class="mobile-close" id="mobileClose" aria-label="Fermer le menu" role="button" tabindex="0">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+  </div>
+  <ul class="mobile-nav-links">
+    <li><a href="/#accueil" class="mobile-nav-link">Accueil</a></li>
+    <li><a href="/nexa/fonctionnalites.html" class="mobile-nav-link">Fonctionnalités</a></li>
+    <li><a href="/nexa/galerie.html" class="mobile-nav-link">Galeries</a></li>
+    <li><a href="/nexa/the_void_protocol.html" class="mobile-nav-link">The void protocol</a></li>
+  </ul>
 </nav>
 
-<!-- HERO -->
-<section class="cine-hero">
-    <div class="cine-hero-bg"></div>
-    <div class="cine-hero-vignette"></div>
-    <div class="cine-hero-grain"></div>
-
-    <div class="cine-hero-top">
-        <div class="cine-hero-top-left">Unreal Engine 5.6</div>
-        <div class="cine-hero-top-right">Sortie — 2027 sur PC</div>
+<main>
+<section class="hero" style="padding:0">
+  <div class="hero-bg"></div>
+  <div class="hud"><i class="a"></i><i class="b"></i><i class="c"></i><i class="d"></i>
+    <div class="rec mono">Signal — 2027</div><div class="coords mono">UE 5.6 / PC</div></div>
+  <div class="hero-in">
+    <div class="mono" style="color:rgba(255,255,255,.6)">UNWARE STUDIO présente</div>
+    <h1><span><b>The Void</b></span><span><b>Protocol</b></span></h1>
+    <div class="hero-foot">
+      <p>Une expérience conçue pour <strong>désorienter</strong>. Lumière globale dynamique, audio immersif, level design impitoyable. <strong>Sur PC uniquement.</strong></p>
+      <div class="hero-btns">
+        <a href="#newsletter" class="btn btn-red"><i class="fas fa-bell"></i> Être alerté</a>
+        <a href="https://discord.gg/PE7MS4Sazk" class="btn" target="_blank" rel="noopener"><i class="fab fa-discord"></i> Discord</a>
+      </div>
     </div>
-
-    <div class="cine-hero-content">
-        <h1 class="cine-hero-title">
-            <span class="line"><span>The Void</span></span>
-            <span class="line"><span>Protocol</span></span>
-        </h1>
-
-        <div class="cine-hero-bottom">
-            <p class="cine-hero-desc">
-                Une expérience conçue pour <strong>désorienter</strong>. Lumière globale dynamique, audio immersif, level design impitoyable. <strong>Sur PC uniquement.</strong>
-            </p>
-            <div class="cine-hero-actions">
-                <a href="#newsletter" class="cine-btn cine-btn-primary">
-                    <i class="fas fa-bell"></i>
-                    Être alerté
-                </a>
-                <a href="https://discord.gg/PE7MS4Sazk" class="cine-btn cine-btn-ghost" target="_blank" rel="noopener">
-                    <i class="fab fa-discord"></i>
-                    Discord
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div class="cine-hero-scroll">
-        <span class="cine-hero-scroll-label">Défiler</span>
-        <div class="cine-hero-scroll-line"></div>
-    </div>
+  </div>
 </section>
 
-<!-- MARQUEE -->
-<div class="cine-marquee">
-    <div class="cine-marquee-track">
-        <div class="cine-marquee-item">Unreal Engine 5.6</div>
-        <div class="cine-marquee-item">PC uniquement</div>
-        <div class="cine-marquee-item">Sortie 2027</div>
-        <div class="cine-marquee-item">UNWARE STUDIO</div>
-        <div class="cine-marquee-item">Unreal Engine 5.6</div>
-        <div class="cine-marquee-item">PC uniquement</div>
-        <div class="cine-marquee-item">Sortie 2027</div>
-        <div class="cine-marquee-item">UNWARE STUDIO</div>
-    </div>
+<div class="stats">
+  <div><small class="mono">Titre</small><strong>The Void Protocol</strong></div>
+  <div><small class="mono">Studio</small><strong>Unware</strong></div>
+  <div><small class="mono">Moteur</small><strong>Unreal Engine 5.6</strong></div>
+  <div><small class="mono">Sortie</small><strong>2027 — PC</strong></div>
 </div>
 
-<!-- DESCRIPTION -->
-<section class="cine-section" id="about">
-    <div class="container">
-        <div class="cine-desc-grid">
-            <div class="cine-desc-meta" data-reveal>
-                <div class="cine-desc-meta-item">
-                    <div class="cine-desc-meta-label">Titre</div>
-                    <div class="cine-desc-meta-value">The Void Protocol</div>
-                </div>
-                <div class="cine-desc-meta-item">
-                    <div class="cine-desc-meta-label">Studio</div>
-                    <div class="cine-desc-meta-value">UNWARE</div>
-                </div>
-                <div class="cine-desc-meta-item">
-                    <div class="cine-desc-meta-label">Moteur</div>
-                    <div class="cine-desc-meta-value">UE 5.6</div>
-                </div>
-                <div class="cine-desc-meta-item">
-                    <div class="cine-desc-meta-label">Sortie</div>
-                    <div class="cine-desc-meta-value">2027</div>
-                </div>
-                <div class="cine-desc-meta-item">
-                    <div class="cine-desc-meta-label">Plateforme</div>
-                    <div class="cine-desc-meta-value">PC uniquement</div>
-                </div>
-            </div>
-
-            <div>
-                <div class="cine-section-eyebrow" data-reveal>Le jeu</div>
-                <h2 class="cine-section-title" data-reveal data-delay="1">
-                    Une descente<br>
-                    <span class="muted">sans retour</span>
-                </h2>
-
-                <div class="cine-desc-body" data-reveal data-delay="2">
-                    <p class="drop-cap">
-                        <strong>The Void Protocol</strong> est une expérience narrative et immersive qui vous plonge dans un complexe abandonné où chaque couloir, chaque salle, chaque silence raconte une histoire. Développé sous <strong>Unreal Engine 5.6</strong>, le jeu exploite la lumière globale dynamique et le ray tracing pour créer une atmosphère d'une densité rare.
-                    </p>
-                    <p>
-                        Prévu pour <strong>2027</strong> sur <strong>PC uniquement</strong>, The Void Protocol est pensé comme une descente progressive — une désorientation maîtrisée où votre seule arme est votre attention.
-                    </p>
-                </div>
-
-                <blockquote class="cine-quote" data-reveal data-delay="3">
-                    « La menace se fait entendre <span>avant de se voir.</span> »
-                </blockquote>
-            </div>
-        </div>
+<section id="about">
+  <div class="container about">
+    <div data-r>
+      <div class="mono eyebrow">Le jeu</div>
+      <h2 class="h2">Une descente<br><em>sans retour</em></h2>
     </div>
+    <div class="about-txt" data-r>
+      <p><strong class="r">The Void Protocol</strong> est une expérience narrative et immersive qui vous plonge dans un complexe abandonné où chaque couloir, chaque salle, chaque silence raconte une histoire. Développé sous <strong>Unreal Engine 5.6</strong>, le jeu exploite la lumière globale dynamique et le ray tracing pour créer une atmosphère d'une densité rare.</p>
+      <p>Prévu pour <strong>2027</strong> sur <strong>PC uniquement</strong>, The Void Protocol est pensé comme une descente progressive : une désorientation maîtrisée où votre seule arme est votre attention.</p>
+      <blockquote class="quote">« La menace se fait entendre <span>avant de se voir.</span> »</blockquote>
+    </div>
+  </div>
 </section>
 
-<!-- FEATURES -->
-<section class="cine-section cine-features" id="features">
-    <div class="container">
-        <div class="cine-features-header">
-            <div class="cine-section-eyebrow" data-reveal>Caractéristiques</div>
-            <h2 class="cine-section-title" data-reveal data-delay="1">
-                Ce qui vous attend
-            </h2>
-        </div>
-
-        <div class="cine-features-list">
-            <div class="cine-feature" data-reveal>
-                <div class="cine-feature-num">01</div>
-                <h3 class="cine-feature-title">Rendu<br>ultra-réaliste</h3>
-                <p class="cine-feature-desc">Lumière globale dynamique, ray tracing et Lumen pour des environnements d'une fidélité sans précédent. Chaque surface réagit à la lumière comme dans la réalité.</p>
-            </div>
-            <div class="cine-feature" data-reveal data-delay="1">
-                <div class="cine-feature-num">02</div>
-                <h3 class="cine-feature-title">Audio<br>immersif</h3>
-                <p class="cine-feature-desc">La menace se fait entendre avant de se voir. Un design sonore spatialisé où votre ouïe devient votre meilleure arme dans l'obscurité.</p>
-            </div>
-            <div class="cine-feature" data-reveal data-delay="2">
-                <div class="cine-feature-num">03</div>
-                <h3 class="cine-feature-title">Level<br>design</h3>
-                <p class="cine-feature-desc">Des niveaux conçus pour désorienter et surprendre. Chaque recoin recèle une histoire, chaque trappe une issue — ou un piège.</p>
-            </div>
-            <div class="cine-feature" data-reveal data-delay="3">
-                <div class="cine-feature-num">04</div>
-                <h3 class="cine-feature-title">Narration<br>environnementale</h3>
-                <p class="cine-feature-desc">Aucun dialogue imposé. L'histoire se découvre par fragments, à travers l'espace, les objets oubliés et les traces laissées derrière.</p>
-            </div>
-        </div>
+<section class="feats" id="features">
+  <div class="container">
+    <div data-r><div class="mono eyebrow">Caractéristiques</div><h2 class="h2">Ce qui<br><em>vous attend</em></h2></div>
+    <div class="fgrid" data-r>
+      <div class="fcard"><span class="n">01</span><h3>Rendu ultra-réaliste</h3><p>Lumière globale dynamique, ray tracing et Lumen pour des environnements d'une fidélité sans précédent. Chaque surface réagit à la lumière comme dans la réalité.</p></div>
+      <div class="fcard"><span class="n">02</span><h3>Audio immersif</h3><p>La menace se fait entendre avant de se voir. Un design sonore spatialisé où votre ouïe devient votre meilleure arme dans l'obscurité.</p></div>
+      <div class="fcard"><span class="n">03</span><h3>Level design</h3><p>Des niveaux conçus pour désorienter et surprendre. Chaque recoin recèle une histoire, chaque trappe une issue, ou un piège.</p></div>
+      <div class="fcard"><span class="n">04</span><h3>Narration environnementale</h3><p>Aucun dialogue imposé. L'histoire se découvre par fragments, à travers l'espace, les objets oubliés et les traces laissées derrière.</p></div>
     </div>
+  </div>
 </section>
 
-<!-- GALERIE -->
-<section class="cine-gallery" id="gallery">
-    <div class="container">
-        <div class="cine-gallery-header">
-            <div>
-                <div class="cine-section-eyebrow" data-reveal>Galerie</div>
-                <h2 class="cine-section-title" data-reveal data-delay="1">
-                    Captures<br>
-                    <span class="muted">du vide</span>
-                </h2>
-            </div>
-            <div class="cine-gallery-counter" data-reveal data-delay="2">
-                <strong>06</strong> visuels / The Void Protocol
-            </div>
-        </div>
-
-        <div class="cine-gallery-grid" id="galleryGrid">
-            <div class="cine-gallery-item cine-gallery-item--a" data-src="../images/The_Void_Protocol_In_Game/image_website_6.png" data-tag="Environnement" data-title="Zone d'expérimentation">
-                <img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Zone d'expérimentation" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_01</span></div>
-                <div class="cine-gallery-overlay">
-                    <div class="cine-gallery-info">
-                        <span class="cine-gallery-tag">Environnement</span>
-                        <div class="cine-gallery-name">Zone d'expérimentation</div>
-                    </div>
-                    <div class="cine-gallery-icon"><i class="fas fa-expand-alt"></i></div>
-                </div>
-            </div>
-
-            <div class="cine-gallery-item cine-gallery-item--b" data-src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" data-tag="Niveau" data-title="Couloir 13">
-                <img src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" alt="The Void Protocol - Couloir 13" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>visuel_02</span></div>
-                <div class="cine-gallery-overlay">
-                    <div class="cine-gallery-info">
-                        <span class="cine-gallery-tag">Niveau</span>
-                        <div class="cine-gallery-name">Couloir 13</div>
-                    </div>
-                    <div class="cine-gallery-icon"><i class="fas fa-expand-alt"></i></div>
-                </div>
-            </div>
-
-            <div class="cine-gallery-item cine-gallery-item--c" data-src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" data-tag="Décor" data-title="Salle des machines">
-                <img src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" alt="The Void Protocol - Salle des machines" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>03</span></div>
-                <div class="cine-gallery-overlay">
-                    <div class="cine-gallery-info">
-                        <span class="cine-gallery-tag">Décor</span>
-                        <div class="cine-gallery-name">Salle des machines</div>
-                    </div>
-                    <div class="cine-gallery-icon"><i class="fas fa-expand-alt"></i></div>
-                </div>
-            </div>
-
-            <div class="cine-gallery-item cine-gallery-item--d" data-src="../images/The_Void_Protocol_In_Game/image_website_4.png" data-tag="Atmosphère" data-title="Zone intérieur">
-                <img src="../images/The_Void_Protocol_In_Game/image_website_4.png" alt="The Void Protocol - Zone intérieur" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>04</span></div>
-                <div class="cine-gallery-overlay">
-                    <div class="cine-gallery-info">
-                        <span class="cine-gallery-tag">Atmosphère</span>
-                        <div class="cine-gallery-name">Zone intérieur</div>
-                    </div>
-                    <div class="cine-gallery-icon"><i class="fas fa-expand-alt"></i></div>
-                </div>
-            </div>
-
-            <div class="cine-gallery-item cine-gallery-item--e" data-src="../images/nexa-screen-5.webp" data-tag="Interface" data-title="HUD tactique">
-                <img src="../images/nexa-screen-5.webp" alt="The Void Protocol - HUD tactique" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>05</span></div>
-                <div class="cine-gallery-overlay">
-                    <div class="cine-gallery-info">
-                        <span class="cine-gallery-tag">Interface</span>
-                        <div class="cine-gallery-name">HUD tactique</div>
-                    </div>
-                    <div class="cine-gallery-icon"><i class="fas fa-expand-alt"></i></div>
-                </div>
-            </div>
-
-            <div class="cine-gallery-item cine-gallery-item--f" data-src="../images/nexa-screen-6.webp" data-tag="Entité" data-title="Présence">
-                <img src="../images/nexa-screen-6.webp" alt="The Void Protocol - Présence" loading="lazy" decoding="async"
-                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                <div class="cine-gallery-placeholder" style="display:none;"><i class="fas fa-image"></i><span>06</span></div>
-                <div class="cine-gallery-overlay">
-                    <div class="cine-gallery-info">
-                        <span class="cine-gallery-tag">Entité</span>
-                        <div class="cine-gallery-name">Présence</div>
-                    </div>
-                    <div class="cine-gallery-icon"><i class="fas fa-expand-alt"></i></div>
-                </div>
-            </div>
-        </div>
+<section id="gallery">
+  <div class="container">
+    <div class="gal-head" data-r>
+      <div><div class="mono eyebrow">Galerie</div><h2 class="h2">Captures<br><em>du vide</em></h2></div>
+      <div class="mono"><b>06</b> visuels</div>
     </div>
+    <div class="gal" id="gal" data-r>
+      <div class="gi" data-src="../images/The_Void_Protocol_In_Game/image_website_6.png" data-t="Zone d'expérimentation"><img src="../images/The_Void_Protocol_In_Game/image_website_6.png" alt="The Void Protocol - Zone d'expérimentation" loading="lazy" decoding="async"><div><span>Zone d'expérimentation</span><small>Environnement</small></div></div>
+      <div class="gi" data-src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" data-t="Couloir 13"><img src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" alt="The Void Protocol - Couloir 13" loading="lazy" decoding="async"><div><span>Couloir 13</span><small>Niveau</small></div></div>
+      <div class="gi" data-src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" data-t="Salle des machines"><img src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" alt="The Void Protocol - Salle des machines" loading="lazy" decoding="async"><div><span>Salle des machines</span><small>Décor</small></div></div>
+      <div class="gi" data-src="../images/The_Void_Protocol_In_Game/image_website_4.png" data-t="Zone intérieur"><img src="../images/The_Void_Protocol_In_Game/image_website_4.png" alt="The Void Protocol - Zone intérieur" loading="lazy" decoding="async"><div><span>Zone intérieur</span><small>Atmosphère</small></div></div>
+      <div class="gi" data-src="../images/nexa-screen-5.webp" data-t="HUD tactique"><img src="../images/nexa-screen-5.webp" alt="The Void Protocol - HUD tactique" loading="lazy" decoding="async"><div><span>HUD tactique</span><small>Interface</small></div></div>
+      <div class="gi" data-src="../images/nexa-screen-6.webp" data-t="Présence"><img src="../images/nexa-screen-6.webp" alt="The Void Protocol - Présence" loading="lazy" decoding="async"><div><span>Présence</span><small>Entité</small></div></div>
+    </div>
+  </div>
 </section>
 
-<!-- NEWSLETTER -->
-<section class="cine-newsletter" id="newsletter">
-    <div class="container">
-        <div class="cine-newsletter-inner">
-            <div class="cine-section-eyebrow" data-reveal>Ne manquez pas</div>
-            <h2 class="cine-newsletter-title" data-reveal data-delay="1">
-                Soyez alerté<br>
-                <span class="muted">au lancement</span>
-            </h2>
-            <p class="cine-newsletter-desc" data-reveal data-delay="2">
-                Recevez une notification dès que The Void Protocol sera disponible sur PC. Aucun spam — juste l'essentiel.
-            </p>
-            <form id="notificationForm" class="cine-nl-form" data-reveal data-delay="3">
-                <div class="cine-nl-row">
-                    <input type="email" name="email" class="cine-nl-input" placeholder="votre@email.com" required>
-                    <button type="submit" class="cine-nl-btn">M'informer</button>
-                </div>
-                <p class="cine-nl-note">Désinscription à tout moment</p>
-                <div id="formMessage" class="cine-form-message"></div>
-            </form>
-        </div>
-    </div>
+<section class="nl" id="newsletter">
+  <div class="container nl-in">
+    <div class="mono eyebrow" data-r>Ne manquez pas</div>
+    <h2 class="h2" data-r>Soyez alerté<br><em>au lancement</em></h2>
+    <p class="d" data-r>Recevez une notification dès que The Void Protocol sera disponible sur PC. Aucun spam, juste l'essentiel.</p>
+    <form id="notificationForm" data-r novalidate>
+      <div class="nl-row"><input type="email" name="email" placeholder="votre@email.com" aria-label="Votre email" required><button type="submit">M'informer</button></div>
+      <p class="note mono">Désinscription à tout moment</p>
+      <div id="formMessage" role="status"></div>
+    </form>
+  </div>
 </section>
+</main>
 
-<!-- FOOTER -->
 <footer>
   <div class="container">
     <div class="footer-content">
       <div class="footer-brand">
-        <div class="footer-logo">
-          <span class="footer-logo-text">The void protocol</span>
-        </div>
+        <div class="footer-logo"><span class="footer-logo-text">The void protocol</span></div>
         <p class="footer-desc">Un jeu PC développé par UNWARE STUDIO.</p>
         <div class="social-links">
-          <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer">
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/>
-            </svg>
-          </a>
-          <a href="https://discord.gg/PE7MS4Sazk" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer">
-            <svg width="21" height="21" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
-            </svg>
-          </a>
-          <a href="https://www.youtube.com/@unware.studio" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-          </a>
-          <a href="https://www.instagram.com/unware.studio?igsh=bXcyaWVlMG96cXhl" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </a>
+          <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/></svg></a>
+          <a href="https://discord.gg/PE7MS4Sazk" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer"><svg width="21" height="21" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/></svg></a>
+          <a href="https://www.youtube.com/@unware.studio" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+          <a href="https://www.instagram.com/unware.studio?igsh=bXcyaWVlMG96cXhl" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0 5.838a4.162 4.162 0 1 0 0 8.324 4.162 4.162 0 0 0 0-8.324zm0 6.862a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4zm5.338-7.04a.97.97 0 1 1-1.94 0 .97.97 0 0 1 1.94 0z"/></svg></a>
         </div>
       </div>
-
-      <div class="footer-column">
-        <h3>Navigation</h3>
-        <ul class="footer-links">
-          <li><a href="/#accueil" rel="noopener noreferrer">Accueil</a></li>
-          <li><a href="/nexa/fonctionnalites.html" rel="noopener noreferrer">Fonctionnalités</a></li>
-          <li><a href="/nexa/galerie.html" rel="noopener noreferrer">Galeries</a></li>
-          <li><a href="/nexa/the_void_protocol.html" rel="noopener noreferrer">The Void Protocol</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h3>Support</h3>
-        <ul class="footer-links">
-          <li><a href="/Support/centre-aide.html" target="_blank" rel="noopener noreferrer">Centre d'aide</a></li>
-          <li><a href="/Support/FAQ.html" target="_blank" rel="noopener noreferrer">FAQ</a></li>
-          <li><a href="/Support/contact.html" target="_blank" rel="noopener noreferrer">Contact</a></li>
-          <li><a href="/Support/statut.html" target="_blank" rel="noopener noreferrer">Statut des services</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h3>Légal</h3>
-        <ul class="footer-links">
-          <li><a href="/legals/conditions-utilisation.html" target="_blank" rel="noopener noreferrer">Conditions d'utilisation</a></li>
-          <li><a href="/legals/politique-confidentialite.html" target="_blank" rel="noopener noreferrer">Politique de confidentialité</a></li>
-          <li><a href="/legals/mentions-legales.html" target="_blank" rel="noopener noreferrer">Mentions légales</a></li>
-          <li><a href="/legals/politique-cookies.html" target="_blank" rel="noopener noreferrer">Politique de cookies</a></li>
-        </ul>
-      </div>
+      <div class="footer-column"><h3>Navigation</h3><ul class="footer-links">
+        <li><a href="/#accueil" rel="noopener noreferrer">Accueil</a></li>
+        <li><a href="/nexa/fonctionnalites.html" rel="noopener noreferrer">Fonctionnalités</a></li>
+        <li><a href="/nexa/galerie.html" rel="noopener noreferrer">Galeries</a></li>
+        <li><a href="/nexa/the_void_protocol.html" rel="noopener noreferrer">The Void Protocol</a></li></ul></div>
+      <div class="footer-column"><h3>Support</h3><ul class="footer-links">
+        <li><a href="/Support/centre-aide.html" target="_blank" rel="noopener noreferrer">Centre d'aide</a></li>
+        <li><a href="/Support/FAQ.html" target="_blank" rel="noopener noreferrer">FAQ</a></li>
+        <li><a href="/Support/contact.html" target="_blank" rel="noopener noreferrer">Contact</a></li>
+        <li><a href="/Support/statut.html" target="_blank" rel="noopener noreferrer">Statut des services</a></li></ul></div>
+      <div class="footer-column"><h3>Légal</h3><ul class="footer-links">
+        <li><a href="/legals/conditions-utilisation.html" target="_blank" rel="noopener noreferrer">Conditions d'utilisation</a></li>
+        <li><a href="/legals/politique-confidentialite.html" target="_blank" rel="noopener noreferrer">Politique de confidentialité</a></li>
+        <li><a href="/legals/mentions-legales.html" target="_blank" rel="noopener noreferrer">Mentions légales</a></li>
+        <li><a href="/legals/politique-cookies.html" target="_blank" rel="noopener noreferrer">Politique de cookies</a></li></ul></div>
     </div>
-
-    <div class="copyright">
-      <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
-    </div>
+    <div class="copyright"><p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p></div>
   </div>
 </footer>
 
-<button class="scroll-to-top" id="scrollToTop" aria-label="Retour en haut">
-    <i class="fas fa-arrow-up"></i>
-</button>
+<button class="scroll-to-top" id="scrollToTop" aria-label="Retour en haut"><i class="fas fa-arrow-up"></i></button>
 
 <script>
-    /* ── MOBILE MENU ── */
-    document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenu  = document.getElementById('mobileMenu');
-        const mobileNav   = document.getElementById('mobileNav');
-        const overlay     = document.getElementById('overlay');
-        const mobileClose = document.getElementById('mobileClose');
-        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-        const body = document.body;
+document.addEventListener('DOMContentLoaded',function(){
+  var mm=document.getElementById('mobileMenu'),mn=document.getElementById('mobileNav'),ov=document.getElementById('overlay'),mc=document.getElementById('mobileClose'),b=document.body;
+  function open(){mn.classList.add('active');ov.classList.add('active');b.classList.add('no-scroll');mm.setAttribute('aria-expanded','true');}
+  function close(){mn.classList.remove('active');ov.classList.remove('active');b.classList.remove('no-scroll');mm.setAttribute('aria-expanded','false');}
+  function key(f){return function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();f();}};}
+  mm.addEventListener('click',function(){mn.classList.contains('active')?close():open();});
+  mm.addEventListener('keydown',key(function(){mn.classList.contains('active')?close():open();}));
+  ov.addEventListener('click',close);mc.addEventListener('click',close);mc.addEventListener('keydown',key(close));
+  document.querySelectorAll('.mobile-nav-link').forEach(function(l){l.addEventListener('click',close);});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mn.classList.contains('active'))close();});
+});
 
-        function openMenu()  { mobileNav.classList.add('active'); overlay.classList.add('active'); mobileMenu.classList.add('active'); body.classList.add('no-scroll'); mobileMenu.setAttribute('aria-expanded','true'); }
-        function closeMenu() { mobileNav.classList.remove('active'); overlay.classList.remove('active'); mobileMenu.classList.remove('active'); body.classList.remove('no-scroll'); mobileMenu.setAttribute('aria-expanded','false'); }
-        function toggleMenu() { mobileNav.classList.contains('active') ? closeMenu() : openMenu(); }
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('[data-r]').forEach(function(el){io.observe(el);});
 
-        mobileMenu.addEventListener('click', toggleMenu);
-        mobileMenu.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleMenu();} });
-        overlay.addEventListener('click', closeMenu);
-        mobileClose.addEventListener('click', closeMenu);
-        mobileClose.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){e.preventDefault();closeMenu();} });
-        mobileNavLinks.forEach(l => l.addEventListener('click', closeMenu));
-        document.addEventListener('keydown', e => { if(e.key==='Escape'&&mobileNav.classList.contains('active'))closeMenu(); });
-    });
+var up=document.getElementById('scrollToTop');
+window.addEventListener('scroll',function(){up.classList.toggle('active',window.scrollY>600);},{passive:true});
+up.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
 
-    /* ── SCROLL REVEAL ── */
-    const revealObs = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.classList.add('is-visible');
-                revealObs.unobserve(e.target);
-            }
-        });
-    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+(function(){
+  var items=Array.from(document.querySelectorAll('.gi')),lb=document.getElementById('lb'),img=document.getElementById('lbImg'),t=document.getElementById('lbT'),n=document.getElementById('lbN'),cur=0;
+  function show(i){
+    cur=(i+items.length)%items.length;var it=items[cur];
+    img.src=it.dataset.src;img.alt=it.dataset.t;t.textContent=it.dataset.t;n.textContent='0'+(cur+1)+' / 0'+items.length;
+    lb.classList.add('on');document.body.classList.add('no-scroll');
+    var p={image_src:it.dataset.src,image_title:it.dataset.t,image_index:cur};
+    if(window.dataLayer&&window.dataLayer.push)window.dataLayer.push(Object.assign({event:'gallery_image_view'},p));
+    if(typeof window.gtag==='function')window.gtag('event','gallery_image_view',p);
+    if(typeof window.clarity==='function')window.clarity('event','gallery_image_view');
+  }
+  function hide(){lb.classList.remove('on');document.body.classList.remove('no-scroll');}
+  items.forEach(function(it,i){it.addEventListener('click',function(){show(i);});});
+  document.getElementById('lbX').addEventListener('click',hide);
+  document.getElementById('lbP').addEventListener('click',function(e){e.stopPropagation();show(cur-1);});
+  document.getElementById('lbN2').addEventListener('click',function(e){e.stopPropagation();show(cur+1);});
+  lb.addEventListener('click',function(e){if(e.target===lb)hide();});
+  document.addEventListener('keydown',function(e){if(!lb.classList.contains('on'))return;if(e.key==='Escape')hide();if(e.key==='ArrowLeft')show(cur-1);if(e.key==='ArrowRight')show(cur+1);});
+  var sx=0;lb.addEventListener('touchstart',function(e){sx=e.changedTouches[0].screenX;},{passive:true});
+  lb.addEventListener('touchend',function(e){var d=e.changedTouches[0].screenX-sx;if(Math.abs(d)>50)show(d>0?cur-1:cur+1);},{passive:true});
+})();
 
-    document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
-
-    /* ── GALERIE : RÉVÉLATION ── */
-    (function() {
-        const galleryItems = document.querySelectorAll('.cine-gallery-item');
-        if (!galleryItems.length) return;
-
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReducedMotion) {
-            galleryItems.forEach(item => item.classList.add('is-visible'));
-            return;
-        }
-
-        const galleryObs = new IntersectionObserver((entries) => {
-            entries.forEach(e => {
-                if (e.isIntersecting) {
-                    e.target.classList.add('is-visible');
-                    galleryObs.unobserve(e.target);
-                }
-            });
-        }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-
-        galleryItems.forEach(item => galleryObs.observe(item));
-    })();
-
-    /* ── SCROLL TO TOP ── */
-    const scrollToTop = document.getElementById('scrollToTop');
-    window.addEventListener('scroll', () => scrollToTop.classList.toggle('active', window.scrollY > 600), { passive: true });
-    scrollToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-    /* ── LIGHTBOX ── */
-    (function() {
-        const items = Array.from(document.querySelectorAll('.cine-gallery-item'));
-        if (!items.length) return;
-
-        const lightbox      = document.getElementById('lightbox');
-        const lightboxImg   = document.getElementById('lightboxImg');
-        const lightboxTag   = document.getElementById('lightboxTag');
-        const lightboxTitle = document.getElementById('lightboxTitle');
-        const lightboxClose = document.getElementById('lightboxClose');
-        const lightboxPrev  = document.getElementById('lightboxPrev');
-        const lightboxNext  = document.getElementById('lightboxNext');
-        const body = document.body;
-
-        let currentIndex = 0;
-        const TRACK_KEY = 'void_gallery_views';
-
-        function trackImageView(item, index) {
-            const src = item.dataset.src;
-            const title = item.dataset.title || src;
-            const tag = item.dataset.tag || '';
-            try {
-                const data = JSON.parse(localStorage.getItem(TRACK_KEY)) || {};
-                const entry = data[src] || { title, tag, views: 0 };
-                entry.views += 1;
-                entry.title = title; entry.tag = tag;
-                entry.lastViewed = new Date().toISOString();
-                data[src] = entry;
-                localStorage.setItem(TRACK_KEY, JSON.stringify(data));
-            } catch (e) {}
-            const payload = { event: 'gallery_image_view', image_src: src, image_title: title, image_tag: tag, image_index: index };
-            if (window.dataLayer && typeof window.dataLayer.push === 'function') window.dataLayer.push(payload);
-            if (typeof window.gtag === 'function') window.gtag('event', 'gallery_image_view', { image_src: src, image_title: title, image_tag: tag, image_index: index });
-            if (typeof window.clarity === 'function') window.clarity('event', 'gallery_image_view');
-        }
-
-        function openLightbox(index) {
-            currentIndex = index;
-            const item = items[currentIndex];
-            lightboxImg.src = item.dataset.src;
-            lightboxImg.alt = item.dataset.title || '';
-            lightboxTag.textContent = item.dataset.tag || '';
-            lightboxTitle.textContent = item.dataset.title || '';
-            lightbox.classList.add('active');
-            body.classList.add('no-scroll');
-            trackImageView(item, currentIndex);
-        }
-        function closeLightbox() {
-            lightbox.classList.remove('active');
-            body.classList.remove('no-scroll');
-        }
-        function showRelative(offset) {
-            currentIndex = (currentIndex + offset + items.length) % items.length;
-            openLightbox(currentIndex);
-        }
-
-        items.forEach((item, i) => item.addEventListener('click', () => openLightbox(i)));
-        lightboxClose.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-        lightboxPrev.addEventListener('click', e => { e.stopPropagation(); showRelative(-1); });
-        lightboxNext.addEventListener('click', e => { e.stopPropagation(); showRelative(1); });
-        document.addEventListener('keydown', e => {
-            if (!lightbox.classList.contains('active')) return;
-            if (e.key === 'Escape') closeLightbox();
-            if (e.key === 'ArrowLeft') showRelative(-1);
-            if (e.key === 'ArrowRight') showRelative(1);
-        });
-
-        /* Swipe tactile */
-        let touchStartX = 0;
-        let touchEndX = 0;
-        lightbox.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-        lightbox.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            const diff = touchEndX - touchStartX;
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) showRelative(-1);
-                else showRelative(1);
-            }
-        }, { passive: true });
-    })();
-
-    /* ── NEWSLETTER ── */
-    document.getElementById('notificationForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const email = this.email.value;
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const formMessage = document.getElementById('formMessage');
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (!emailRegex.test(email)) {
-            formMessage.textContent = 'Veuillez entrer une adresse email valide.';
-            formMessage.className = 'cine-form-message error';
-            setTimeout(() => formMessage.className = 'cine-form-message', 5000);
-            return;
-        }
-        submitBtn.textContent = 'Inscription...';
-        submitBtn.disabled = true;
-        try {
-            const response = await fetch('/api/subscribe', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email })
-            });
-            if (response.status === 409) {
-                formMessage.textContent = 'Vous êtes déjà inscrit !';
-                formMessage.className = 'cine-form-message error';
-            } else if (response.ok) {
-                formMessage.textContent = 'Merci ! Vous serez informé dès le lancement en 2027 sur PC.';
-                formMessage.className = 'cine-form-message success';
-                this.reset();
-            } else throw new Error();
-        } catch {
-            formMessage.textContent = 'Une erreur est survenue. Veuillez réessayer.';
-            formMessage.className = 'cine-form-message error';
-        } finally {
-            submitBtn.textContent = "M'informer";
-            submitBtn.disabled = false;
-            setTimeout(() => formMessage.className = 'cine-form-message', 6000);
-        }
-    });
+document.getElementById('notificationForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  var email=this.email.value.trim(),btn=this.querySelector('button'),msg=document.getElementById('formMessage');
+  function say(x,c){msg.textContent=x;msg.className=c;setTimeout(function(){msg.className='';},6000);}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){say('Veuillez entrer une adresse email valide.','err');return;}
+  btn.textContent='Inscription...';btn.disabled=true;
+  try{
+    var r=await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email})});
+    if(r.status===409)say('Vous êtes déjà inscrit !','err');
+    else if(r.ok){say('Merci ! Vous serez informé dès le lancement en 2027 sur PC.','ok');this.reset();}
+    else throw new Error();
+  }catch(x){say('Une erreur est survenue. Veuillez réessayer.','err');}
+  finally{btn.textContent="M'informer";btn.disabled=false;}
+});
 </script>
-
 </body>
 </html>
