@@ -393,48 +393,19 @@
         .social-card span { font-size: 12.5px; font-weight: 600; color: var(--text); }
         .social-card:hover { border-color: var(--social-color, var(--accent)); transform: translateY(-3px); }
 
-        /* ===== USERSTYLES (dans la colonne LSPDFR) ===== */
-        .us-block {
-            margin: 0 0 24px;
-            padding-top: 22px;
-            border-top: 1px solid var(--border);
+        /* ===== USERSTYLES (carte à part, pleine largeur) ===== */
+        .us-card-wide {
+            margin-top: clamp(16px, 2.5vw, 28px);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(20px, 4vw, 40px);
+            align-items: start;
+            height: auto;
         }
-        .us-block-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 6px;
-        }
-        .us-block-head h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: clamp(21px, 4vw, 24px);
-            letter-spacing: 1px;
-            color: var(--text);
-            margin: 0;
-        }
-        .us-profile-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12.5px;
-            font-weight: 600;
-            color: var(--accent);
-            text-decoration: none;
-            padding: 6px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-        .us-profile-link:hover { border-color: var(--accent); transform: translateY(-2px); }
-        .us-block-desc {
-            font-size: 13px;
-            line-height: 1.6;
-            color: rgba(255,255,255,0.55);
-            margin: 0 0 14px;
-        }
-        .us-list { display: flex; flex-direction: column; gap: 8px; }
+        .us-intro { display: flex; flex-direction: column; min-width: 0; }
+        .us-intro .download-actions { justify-content: flex-start; }
+        .us-intro .download-actions .btn { flex: 0 1 auto; }
+        .us-list { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
         .us-row {
             display: flex;
             align-items: center;
@@ -474,6 +445,7 @@
             .split-columns { grid-template-columns: 1fr; }
             .column-card { height: auto; }
             .product-section { max-width: 640px; }
+            .us-card-wide { grid-template-columns: 1fr; }
         }
         @media (max-width: 540px) {
             .download-actions { flex-direction: column; align-items: stretch; }
@@ -500,7 +472,7 @@
         @media (hover: none) {
             .video-card:hover img { transform: none; filter: brightness(0.85); }
             .social-card:hover, .lspdfr-callout:hover, .btn:hover { transform: none; }
-            .us-row:hover, .us-profile-link:hover { transform: none; }
+            .us-row:hover { transform: none; }
         }
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -544,6 +516,7 @@
             .split-columns { grid-template-columns: 1fr 1fr; }
             .product-section { max-width: none; }
             .column-card { height: 100%; }
+            .us-card-wide { grid-template-columns: 1fr 1fr; height: auto; }
         }
 
         /* Z Flip déplié (écran très allongé) et téléphones en paysage */
@@ -572,6 +545,7 @@
         }
         @media (vertical-viewport-segments: 2) {
             .split-columns { grid-template-columns: 1fr; }
+            .us-card-wide { grid-template-columns: 1fr; border-radius: 0; }
         }
 
         /* Grand texte système / zoom accessibilité */
@@ -660,17 +634,43 @@
                         <li><i class="fas fa-check"></i> Développé avec l'API LCPDFR 1.0</li>
                     </ul>
 
-                    <!-- ===== USERSTYLES ===== -->
-                    <div class="us-block">
-                        <div class="us-block-head">
-                            <h3>Mes userstyles</h3>
-                            <a href="https://userstyles.world/user/Paulhd334" class="us-profile-link" target="_blank" rel="noopener noreferrer" data-track-name="userstyles_profile">
-                                <i class="fas fa-palette"></i> Voir mon profil
+                    <div class="column-footer">
+                        <div class="social-row">
+                            <a href="https://discord.gg/bD6C8WgcE7" class="social-card" style="--social-color:#5865F2" target="_blank" rel="noopener" data-track-name="social_card_discord">
+                                <i class="fab fa-discord"></i>
+                                <span>Discord</span>
+                            </a>
+                            <a href="https://www.twitch.tv/unware_studio" class="social-card" style="--social-color:#9146FF" target="_blank" rel="noopener" data-track-name="social_card_twitch">
+                                <i class="fab fa-twitch"></i>
+                                <span>Twitch</span>
+                            </a>
+                            <a href="https://www.tiktok.com/@unware.studio" class="social-card" style="--social-color:#ffffff" target="_blank" rel="noopener noreferrer" data-track-name="social_card_tiktok">
+                                <i class="fab fa-tiktok"></i>
+                                <span>TikTok</span>
                             </a>
                         </div>
-                        <p class="us-block-desc">De petits styles pour nettoyer YouTube, Gmail et Netflix : on retire ce qui distrait, on garde l'essentiel.</p>
+                    </div>
+                </div>
+            </div>
 
-                        <div class="us-list">
+            <!-- ===== USERSTYLES (carte à part) ===== -->
+            <div class="column-card us-card-wide">
+                <div class="us-intro">
+                    <div class="column-eyebrow"><i class="fas fa-palette"></i> Userstyles</div>
+                    <h2>Mes userstyles</h2>
+                    <p>Un userstyle est un petit bout de code qui change l'apparence d'un site web : cacher un bouton, retirer une fenêtre gênante ou retrouver un ancien design. Il ne modifie que ce que tu vois sur ton écran, jamais le site lui-même.</p>
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check"></i> S'installe en un clic avec une extension comme Stylus</li>
+                        <li><i class="fas fa-check"></i> Se désactive ou se supprime à tout moment</li>
+                        <li><i class="fas fa-check"></i> Les miens nettoient YouTube, Gmail et Netflix</li>
+                    </ul>
+                    <div class="column-footer download-actions">
+                        <a href="https://userstyles.world/user/Paulhd334" class="btn btn-primary" target="_blank" rel="noopener noreferrer" data-track-name="userstyles_profile">
+                            <i class="fas fa-palette" style="margin-right:8px"></i> Voir mon profil
+                        </a>
+                    </div>
+                </div>
+                <div class="us-list">
                             <a href="https://userstyles.world/user/Paulhd334" class="us-row" style="--us-color:#ff3b3b" target="_blank" rel="noopener noreferrer" data-track-name="userstyle_youtube_old_ui">
                                 <div class="us-row-icon"><i class="fab fa-youtube"></i></div>
                                 <div class="us-row-body">
@@ -734,25 +734,6 @@
                                 <i class="fas fa-arrow-right us-row-arrow"></i>
                             </a>
                         </div>
-                    </div>
-
-                    <div class="column-footer">
-                        <div class="social-row">
-                            <a href="https://discord.gg/bD6C8WgcE7" class="social-card" style="--social-color:#5865F2" target="_blank" rel="noopener" data-track-name="social_card_discord">
-                                <i class="fab fa-discord"></i>
-                                <span>Discord</span>
-                            </a>
-                            <a href="https://www.twitch.tv/unware_studio" class="social-card" style="--social-color:#9146FF" target="_blank" rel="noopener" data-track-name="social_card_twitch">
-                                <i class="fab fa-twitch"></i>
-                                <span>Twitch</span>
-                            </a>
-                            <a href="https://www.tiktok.com/@unware.studio" class="social-card" style="--social-color:#ffffff" target="_blank" rel="noopener noreferrer" data-track-name="social_card_tiktok">
-                                <i class="fab fa-tiktok"></i>
-                                <span>TikTok</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
     </main>
