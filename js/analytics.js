@@ -1,19 +1,20 @@
-// =============== GOOGLE ANALYTICS 4 — UNWARE STUDIO — v6 ===============
-// Objectif v6 : une même personne = UN SEUL utilisateur GA4, quelles que soient les pages visitées.
+// =============== GOOGLE ANALYTICS 4 — UNWARE STUDIO — v7 ===============
+// Objectif v7 : une même personne = UN SEUL utilisateur GA4 (plus de "2 personnes en même temps"),
+// et les clics importants sont envoyés comme événements clés.
 //
-// Changements par rapport à v5 :
-//  1. ID visiteur unique et stable : cookie partagé sur tout le domaine (unware.studio ET
-//     www.unware.studio) + copie dans localStorage. Si l'un des deux est perdu, il est restauré
-//     depuis l'autre.
-//  2. Cet ID est envoyé comme client_id ET comme user_id (gtag et API). GA4 fusionne ainsi tout ce
-//     qui porte le même user_id (réglage : Admin → Identité pour le reporting → Combinée).
-//  3. Session partagée entre les onglets (localStorage au lieu de sessionStorage) : ouvrir deux
-//     pages en même temps ne crée plus deux sessions côté repli API.
-//  4. gtag gère lui-même sa session : le session_id personnalisé n'est plus envoyé à gtag.
-//  5. Lecture du cookie 'user_id' (qui n'existe pas) supprimée.
-//  6. Refus du consentement : l'ID visiteur et la session locale sont effacés.
-//  7. Aucun ID n'est écrit sur l'appareil avant l'accord de l'utilisateur.
-//  (tout le reste : identique à la v5)
+// Changements par rapport à v6 :
+//  1. ID visiteur : plus jamais deux cookies du même nom (un limité à l'hôte + un partagé sur le domaine).
+//     Avant, un vieux cookie "host-only" de la v5 pouvait écraser le cookie partagé et donner un ID
+//     différent sur unware.studio et www.unware.studio → 2 utilisateurs. Le cookie limité à l'hôte
+//     est maintenant supprimé avant d'écrire le cookie partagé.
+//  2. Repli API (/api/ga-event) : il reprend le session_id réel de gtag (via gtag('get')) au lieu d'un
+//     session_id inventé. Plus de session "fantôme" à côté de celle de gtag.
+//  3. Protection contre un double chargement de gtag.js / un double gtag('config') pour le même ID
+//     (cause fréquente de doubles page_view et de doubles utilisateurs).
+//  4. ÉVÉNEMENTS CLÉS : clic_video_pack_france et clic_callout_lspdfr (voir KEY_EVENTS plus bas),
+//     envoyés immédiatement au clic (et au clic molette). À marquer comme "événement clé" dans GA4.
+//  5. debugGA.scan() : diagnostic des doublons (scripts gtag, cookies _ga, ID envoyé).
+//  (tout le reste : identique à la v6)
 
 const GA_MEASUREMENT_ID = 'G-NJLCB6G0G8';
 const SESSION_DURATION  = 30 * 60 * 1000;
@@ -25,6 +26,26 @@ const NAV_ENTER_KEY     = 'ga_page_enter_time';
 const NEXT_PAGE_KEY     = 'ga_next_intended_page';
 const NAV_MAX_HISTORY   = 20;
 
+// =============== ÉVÉNEMENTS CLÉS ===============
+// Clé = valeur de data-track-name du lien. "hrefContains" sert de filet de sécurité si l'attribut manque.
+// Pour ajouter un autre événement clé : copie un bloc et change les valeurs.
+const KEY_EVENTS = [
+    {
+        track_name:   'video_preview_youtube',
+        hrefContains: 'youtube.com/watch?v=oXKjN61I0F4',
+        event:        'clic_video_pack_france',
+        params:       { video_name: 'Pack France 2026' }
+    },
+    {
+        track_name:   'callout_superpoursuitecallout',
+        hrefContains: '55465-superpoursuitecallout',
+        event:        'clic_callout_lspdfr',
+        params:       { callout_name: 'SuperPoursuiteCallout' }
+    }
+    // Exemple (désactivé) : téléchargement du pack depuis Google Drive
+    // ,{ track_name: 'cta_access_digital_files', hrefContains: 'drive.google.com', event: 'clic_telechargement_pack', params: {} }
+];
+
 let isGALoaded = false;
 let gaInitStarted = false;
 let gaScriptInjected = false;
@@ -35,6 +56,8 @@ let clientId = null;
 let cookiesRejected = false;
 let pageCountIncremented = false;
 let sessionJustCreated = false;
+let gtagSessionId = null;       // session_id réel de gtag (pour le repli API)
+const lastKeyEventAt = {};      // anti-doublon des événements clés
 
 // =============== STOCKAGE SÉCURISÉ ===============
 const memStore = { local: {}, session: {} };
@@ -114,10 +137,16 @@ function getRootDomain() {
 // Les cookies de consentement restent limités à l'hôte, comme avant.
 function setCookie(name, value, days, shared) {
     const exp = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
-    const base = name + '=' + value + ';expires=' + exp + ';path=/;SameSite=Lax;Secure';
+    const attrs = ';expires=' + exp + ';path=/;SameSite=Lax;Secure';
     const root = shared ? getRootDomain() : '';
-    if (root) document.cookie = base + ';domain=' + root;
-    if (!root || getCookie(name) !== String(value)) document.cookie = base; // repli : cookie limité à l'hôte
+    if (root) {
+        // v7 : on supprime d'abord un éventuel cookie limité à l'hôte (ancienne version).
+        // Sinon deux cookies du même nom coexistent et chaque page peut lire un ID différent.
+        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+        document.cookie = name + '=' + value + attrs + ';domain=' + root;
+        if (getCookie(name) === String(value)) return;
+    }
+    document.cookie = name + '=' + value + attrs; // repli : cookie limité à l'hôte
 }
 
 function deleteCookieEverywhere(name) {
@@ -172,8 +201,9 @@ function getVisitorId() {
     if (!id) id = generateVisitorId();
     clientId = id;
 
-    // 3) on l'écrit (cookie + localStorage) UNIQUEMENT si l'utilisateur a accepté l'analytique.
-    //    Chaque page relit puis réécrit : si l'un des deux stockages avait été vidé, il est restauré.
+    // 3) on l'écrit (cookie partagé + localStorage) UNIQUEMENT si l'utilisateur a accepté l'analytique.
+    //    Chaque page relit puis réécrit : si l'un des deux stockages avait été vidé, il est restauré,
+    //    et les doublons de cookies (host-only / domaine) sont nettoyés.
     if (shouldLoadGA()) {
         setCookie(VISITOR_KEY, id, VISITOR_DAYS, true);
         sSet('local', VISITOR_KEY, id);
@@ -185,6 +215,7 @@ const getClientId = getVisitorId; // compatibilité
 // Efface tout ce qui identifie le visiteur (refus du consentement)
 function clearVisitorId() {
     clientId = null;
+    gtagSessionId = null;
     deleteCookieEverywhere(VISITOR_KEY);
     sDel('local', VISITOR_KEY);
     sDel('local', SESSION_KEY);
@@ -244,6 +275,16 @@ function incrementSessionPageCount() {
 }
 
 function markVisit() { sSet('local', 'ga_has_visited', '1'); }
+
+// session_id réel de gtag (lecture asynchrone). Sert au repli API pour rester dans la MÊME session.
+function fetchGtagSessionId() {
+    try {
+        if (typeof window.gtag !== 'function') return;
+        window.gtag('get', GA_MEASUREMENT_ID, 'session_id', function (sid) {
+            if (sid) gtagSessionId = String(sid);
+        });
+    } catch (e) {}
+}
 
 // =============== UTILITAIRES ===============
 function safeReferrerHostname() {
@@ -345,7 +386,8 @@ async function sendToSecureAPI(eventName, params = {}) {
                     page_path:            getPagePath(),
                     page_referrer:        document.referrer || '',
                     device_type:          deviceType,
-                    session_id:           getSessionId(),
+                    // v7 : on réutilise la session de gtag quand elle est connue
+                    session_id:           gtagSessionId || getSessionId(),
                     engagement_time_msec: 1,
                     ...params
                 })
@@ -399,7 +441,7 @@ function initializeGoogleAnalytics() {
     cookiesRejected = false;
     setGADisabled(false);
 
-    console.log('🚀 Init GA4 v6...');
+    console.log('🚀 Init GA4 v7...');
 
     const visitorId = getVisitorId();
     getSessionId();
@@ -412,34 +454,44 @@ function initializeGoogleAnalytics() {
         window.gtag = function () { window.dataLayer.push(arguments); };
     }
 
-    gtag('js', new Date());
-    gtag('set', 'user_properties', {
-        device_type:       deviceType,
-        screen_resolution: window.screen.width + 'x' + window.screen.height,
-        language:          navigator.language || 'unknown',
-        connection_type:   (navigator.connection || {}).effectiveType || 'unknown',
-        is_returning:      isReturning ? 'returning' : 'new'
-    });
+    // v7 : un seul gtag('config') pour cet ID, même si le script est relancé ou chargé en double
+    if (!window.__unwareGAConfigured) {
+        window.__unwareGAConfigured = true;
 
-    const config = {
-        page_title:           getPageTitle(),
-        page_location:        window.location.href,
-        page_path:            getPagePath(),
-        device_type:          deviceType,
-        anonymize_ip:         true,
-        allow_google_signals: false,
-        client_id:            visitorId, // ID visiteur stable
-        user_id:              visitorId, // même ID → utilisateur unique dans GA4
-        transport_type:       'beacon'
-        // session_id volontairement absent : gtag gère lui-même la session
-    };
-    if (document.referrer) config.page_referrer = document.referrer;
-    gtag('config', GA_MEASUREMENT_ID, config); // envoie automatiquement 1 page_view
+        gtag('js', new Date());
+        gtag('set', 'user_properties', {
+            device_type:       deviceType,
+            screen_resolution: window.screen.width + 'x' + window.screen.height,
+            language:          navigator.language || 'unknown',
+            connection_type:   (navigator.connection || {}).effectiveType || 'unknown',
+            is_returning:      isReturning ? 'returning' : 'new'
+        });
+
+        const config = {
+            page_title:           getPageTitle(),
+            page_location:        window.location.href,
+            page_path:            getPagePath(),
+            device_type:          deviceType,
+            anonymize_ip:         true,
+            allow_google_signals: false,
+            client_id:            visitorId, // ID visiteur stable
+            user_id:              visitorId, // même ID → utilisateur unique dans GA4
+            transport_type:       'beacon'
+            // session_id volontairement absent : gtag gère lui-même la session
+        };
+        if (document.referrer) config.page_referrer = document.referrer;
+        gtag('config', GA_MEASUREMENT_ID, config); // envoie automatiquement 1 page_view
+    } else {
+        console.warn('⚠️ gtag("config") déjà fait pour ' + GA_MEASUREMENT_ID + ' — pas de second envoi');
+    }
 
     function ready(ok) {
         isGALoaded = true;
         gtagLoaded = ok;
-        if (!ok) {
+        if (ok) {
+            fetchGtagSessionId();
+            setTimeout(fetchGtagSessionId, 1500); // la session peut être créée un peu après le chargement
+        } else {
             // gtag.js bloqué : on passe par l'API pour ne rien perdre
             console.warn('⚠️ gtag.js bloqué — repli sur /api/ga-event');
             if (isNewSession) track('session_start', { engagement_time_msec: 1 });
@@ -457,6 +509,15 @@ function initializeGoogleAnalytics() {
 
     if (gaScriptInjected) { ready(gtagLoaded); return; }
     gaScriptInjected = true;
+
+    // v7 : si gtag.js est déjà présent dans la page (autre script), on ne le recharge pas
+    const already = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
+    if (already) {
+        console.warn('⚠️ gtag.js déjà présent dans la page — pas de second chargement');
+        ready(true);
+        return;
+    }
+
     const script = document.createElement('script');
     script.async = true;
     script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
@@ -479,19 +540,59 @@ window.addEventListener('pagehide', flushExit);
 window.addEventListener('beforeunload', flushExit);
 window.addEventListener('pageshow', e => { if (e.persisted) exitFlushed = false; });
 
+// =============== ÉVÉNEMENTS CLÉS ===============
+// Envoyé immédiatement au clic (pas de délai) pour ne rien perdre, même si la page change.
+function trackKeyEvent(link, clickType) {
+    if (!shouldLoadGA() || !link || !link.href) return;
+    const name = link.getAttribute('data-track-name') || '';
+    const href = link.href || '';
+
+    const def = KEY_EVENTS.find(k =>
+        (k.track_name && k.track_name === name) ||
+        (k.hrefContains && href.indexOf(k.hrefContains) > -1)
+    );
+    if (!def) return;
+
+    // Anti-doublon : un même événement clé n'est envoyé qu'une fois par seconde
+    const now = Date.now();
+    if (lastKeyEventAt[def.event] && (now - lastKeyEventAt[def.event]) < 1000) return;
+    lastKeyEventAt[def.event] = now;
+
+    const img = link.querySelector('img');
+    track(def.event, Object.assign({
+        track_name:   name,
+        link_url:     href,
+        link_text:    ((link.innerText || (img && img.alt) || '')).trim().slice(0, 80),
+        click_type:   clickType || 'normal',
+        page_title:   getPageTitle(),
+        engagement_time_msec: 100
+    }, def.params || {}));
+    console.log('⭐ Événement clé : ' + def.event);
+}
+
 // =============== TRACKING ÉVÉNEMENTS ===============
 function initEventTracking() {
     if (eventTrackingStarted) return;
     eventTrackingStarted = true;
-    console.log('🎯 Tracking v6 activé...');
+    console.log('🎯 Tracking v7 activé...');
 
     document.addEventListener('click', (e) => {
         if (!shouldLoadGA()) return;
         const link = e.target.closest && e.target.closest('a[href]');
-        if (link && link.href) sSet('session', NEXT_PAGE_KEY, link.href);
+        if (link && link.href) {
+            sSet('session', NEXT_PAGE_KEY, link.href);
+            trackKeyEvent(link, 'normal');
+        }
         const target = e.target;
         setTimeout(() => trackClick(target), 50);
-    }, { passive: true });
+    }, { capture: true, passive: true });
+
+    // Clic molette (ouverture dans un nouvel onglet)
+    document.addEventListener('auxclick', (e) => {
+        if (e.button !== 1 || !shouldLoadGA()) return;
+        const link = e.target.closest && e.target.closest('a[href]');
+        if (link) trackKeyEvent(link, 'milieu');
+    }, { capture: true, passive: true });
 
     document.addEventListener('submit', (e) => {
         if (!shouldLoadGA()) return;
@@ -1017,7 +1118,7 @@ else initAnalytics();
 // =============== DEBUG CONSOLE ===============
 window.debugGA = {
     check: function () {
-        console.log('🔍 GA v6:');
+        console.log('🔍 GA v7:');
         console.log('- Consentement analytics :', shouldLoadGA());
         console.log('- GA Loaded / gtag OK    :', isGALoaded, '/', gtagLoaded);
         console.log('- cookieConsent          :', getCookie('cookieConsent'));
@@ -1025,10 +1126,26 @@ window.debugGA = {
         console.log('- ID visiteur (cookie)   :', getCookie(VISITOR_KEY));
         console.log('- ID visiteur (storage)  :', sGet('local', VISITOR_KEY));
         console.log('- ID envoyé à GA4        :', getVisitorId(), '(client_id = user_id)');
-        console.log('- Session ID (repli API) :', getSessionId());
+        console.log('- Session ID (repli API) :', gtagSessionId || getSessionId());
         console.log('- Device                 :', deviceType);
         console.log('- Page                   :', getPageTitle());
         console.log('- Enriched data          :', getEnrichedUserData());
+    },
+    // Diagnostic des doublons d'utilisateurs
+    scan: function () {
+        const scripts = [...document.querySelectorAll('script[src*="googletagmanager.com"]')].map(s => s.src);
+        const ids = document.cookie.split(';').map(c => c.trim()).filter(c => c.indexOf(VISITOR_KEY + '=') === 0);
+        console.groupCollapsed('🔎 Scan doublons GA4');
+        console.log('Scripts gtag/GTM chargés (' + scripts.length + ') :', scripts);
+        if (scripts.length > 1) console.warn('⚠️ Plusieurs scripts Google : un autre fichier charge aussi GA4 (cookie-banner.js ? analytics-clarify.js ?)');
+        console.log('Cookies ' + VISITOR_KEY + ' visibles (' + ids.length + ') :', ids);
+        if (ids.length > 1) console.warn('⚠️ Deux cookies ' + VISITOR_KEY + ' : relance la page, la v7 nettoie le doublon');
+        console.log('Cookie _ga :', getCookie('_ga'));
+        console.log('ID envoyé (client_id = user_id) :', getVisitorId());
+        console.log('Session gtag :', gtagSessionId);
+        console.log('gtag("config") déjà fait :', !!window.__unwareGAConfigured);
+        console.log('dataLayer config pour cet ID :', (window.dataLayer || []).filter(x => x && x[0] === 'config' && x[1] === GA_MEASUREMENT_ID).length);
+        console.groupEnd();
     },
     test: function () {
         if (!shouldLoadGA()) { console.log('⛔ Pas de consentement analytics'); return; }
