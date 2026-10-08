@@ -1,33 +1,54 @@
-// =============== MICROSOFT CLARITY - Version MAX DATA (CORRIGÉE v2) ===============
-// ✅ FIX v2 : le commentaire ci-dessous prêtait à confusion — il n'existe PAS de
-// variable "isClarityLoaded" partagée avec analytics.js. Le flag réellement utilisé
-// et partagé entre les deux fichiers est bien window._isClarityLoaded (getter/setter
-// ci-dessous), ce qui est correct et ne change pas de comportement.
+// =============== MICROSOFT CLARITY - Version MAX DATA (v3, alignée sur analytics.js v7) ===============
+// Changements par rapport à la v2 :
+//  1. API de consentement v2 (consentv2) : obligatoire depuis le 31 oct. 2025 pour les visites venant de
+//     l'EEE / Royaume-Uni / Suisse. Sans ce signal, Clarity fonctionne en mode "sans consentement"
+//     (pas de cookies, nouvel ID à chaque page vue → un même visiteur apparaît comme plusieurs personnes).
+//  2. Même visiteur que GA4 : l'ID ga_client_id (cookie partagé, sinon localStorage) est transmis à Clarity
+//     avec clarity("identify"), donc une personne = un seul utilisateur dans Clarity aussi.
+//  3. Session corrigée : analytics.js (v6+) stocke la session dans localStorage, plus dans sessionStorage.
+//     La v2 lisait au mauvais endroit et renvoyait toujours "unknown".
+//  4. Événements clés identiques à GA4 : clic_video_pack_france et clic_callout_lspdfr
+//     (filtrables dans Clarity avec "Smart events" / "Custom events").
+//  5. Page /tiktok/ reconnue (section "TikTok"), type d'appareil et titre de page repris d'analytics.js
+//     quand il est chargé, avec repli si ce n'est pas le cas.
+//  6. Fiabilité : écouteurs attachés une seule fois, init même si le script est chargé après DOMContentLoaded,
+//     données de sortie envoyées sur pagehide (plus fiable que beforeunload sur mobile).
+//  (tout le reste : identique à la v2)
+
 const CLARITY_PROJECT_ID = 'vrmfcq4hei';
 let clarityLoadAttempted = false;
+let clarityEventsAttached = false;
+let clarityExitFlushed = false;
+
+// =============== ÉVÉNEMENTS CLÉS (mêmes noms que dans GA4) ===============
+const CLARITY_KEY_EVENTS = [
+    {
+        track_name:   'video_preview_youtube',
+        hrefContains: 'youtube.com/watch?v=oXKjN61I0F4',
+        event:        'clic_video_pack_france',
+        tags:         { video: 'Pack France 2026' }
+    },
+    {
+        track_name:   'callout_superpoursuitecallout',
+        hrefContains: '55465-superpoursuitecallout',
+        event:        'clic_callout_lspdfr',
+        tags:         { callout: 'SuperPoursuiteCallout' }
+    }
+];
+const clarityLastKeyAt = {};
 
 // =============== COOKIES ===============
-// Ces fonctions existent déjà dans analytics.js — on les réutilise directement
-// si analytics.js est chargé avant, sinon on les redéfinit en fallback
-function _getClarityConsent() {
-    const nameEQ = 'cookieConsent=';
+function _getClarityCookie(name) {
+    const nameEQ = name + '=';
     const ca = document.cookie.split(';');
     for (let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
+        const c = ca[i].trim();
         if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
     }
     return null;
 }
-
-function _getClarityAnalytics() {
-    const nameEQ = 'analyticsCookies=';
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
-    }
-    return null;
-}
+function _getClarityConsent()   { return _getClarityCookie('cookieConsent'); }
+function _getClarityAnalytics() { return _getClarityCookie('analyticsCookies'); }
 
 function areClarityRejected() {
     return _getClarityConsent() === 'rejected';
@@ -40,23 +61,35 @@ function shouldLoadClarity() {
     return !!(consent && (consent === 'all' || (consent === 'custom' && analytics === 'true')));
 }
 
+// Transmet le choix de l'utilisateur à Clarity (API de consentement v2).
+// Pas de publicité sur ce site : ad_Storage reste toujours "denied".
+function sendClarityConsent(granted) {
+    if (typeof window.clarity !== 'function') return;
+    try {
+        window.clarity('consentv2', {
+            ad_Storage:        'denied',
+            analytics_Storage: granted ? 'granted' : 'denied'
+        });
+    } catch (e) {}
+}
+
 // =============== RESET COMPLET DE L'ÉTAT CLARITY ===============
-// FIX: appelé à chaque refus pour permettre une future ré-initialisation
 function resetClarityState() {
-    // isClarityLoaded est partagé avec analytics.js via window._isClarityLoaded
-    if (typeof window !== 'undefined') {
-        window._isClarityLoaded = false;
-    }
+    sendClarityConsent(false);
+    if (typeof window !== 'undefined') window._isClarityLoaded = false;
     clarityLoadAttempted = false;
     console.log('🔴 Clarity désactivé — consentement refusé');
 }
 
-// Getter/setter centralisé pour isClarityLoaded
 function getClarityLoaded() { return !!window._isClarityLoaded; }
 function setClarityLoaded(v) { window._isClarityLoaded = v; }
 
 // =============== HELPERS ===============
 function getDeviceType() {
+    // Même logique qu'analytics.js quand il est chargé : le type d'appareil est identique dans GA4 et Clarity
+    if (typeof detectDeviceType === 'function') {
+        try { return detectDeviceType(); } catch (e) {}
+    }
     const w = window.innerWidth;
     const ua = navigator.userAgent.toLowerCase();
     if (/mobile|android|iphone|ipad|ipod/i.test(ua) || w <= 768) return w <= 480 ? 'mobile' : 'tablet';
@@ -68,36 +101,61 @@ function getConnectionType() {
     return conn.effectiveType || 'unknown';
 }
 
-// Déjà protégé par try/catch — inchangé
 function getReferrerSource() {
     if (!document.referrer) return 'direct';
-    try { return new URL(document.referrer).hostname; } catch(e) { return 'unknown'; }
+    try { return new URL(document.referrer).hostname; } catch (e) { return 'unknown'; }
 }
 
 function getUTM(param) {
     return new URLSearchParams(window.location.search).get(param) || null;
 }
 
+// ID visiteur : le même que celui envoyé à GA4 (cookie partagé d'abord, sinon localStorage)
+function getClarityVisitorId() {
+    const fromCookie = _getClarityCookie('ga_client_id');
+    if (fromCookie) return fromCookie;
+    try { return localStorage.getItem('ga_client_id') || null; } catch (e) { return null; }
+}
+
+// Session : analytics.js v6+ l'écrit dans localStorage (partagée entre onglets)
 function getClaritySessionId() {
-    // Réutilise la session GA si dispo
     try {
-        const raw = sessionStorage.getItem('ga_session');
-        if (raw) return JSON.parse(raw).id;
-    } catch(e) {}
+        const raw = localStorage.getItem('ga_session') || sessionStorage.getItem('ga_session');
+        if (raw) return JSON.parse(raw).id || 'unknown';
+    } catch (e) {}
     return 'unknown';
 }
 
 function isReturningUser() {
-    return !!localStorage.getItem('ga_has_visited');
+    try { return !!localStorage.getItem('ga_has_visited'); } catch (e) { return false; }
+}
+
+function getClarityPageTitle() {
+    if (typeof getPageTitle === 'function') {
+        try { return getPageTitle(); } catch (e) {}
+    }
+    return document.title;
 }
 
 function getPageSection() {
     const path = window.location.pathname;
     if (path.includes('/nexa/'))    return 'NEXA';
+    if (path.includes('/tiktok/'))  return 'TikTok';
     if (path.includes('/Support/')) return 'Support';
     if (path.includes('/legals/'))  return 'Légal';
     if (path === '/' || path.includes('index')) return 'Accueil';
     return 'Autre';
+}
+
+// =============== IDENTIFICATION DU VISITEUR ===============
+// Un même visiteur = un seul utilisateur Clarity (et le même ID que dans GA4)
+function identifyClarityVisitor() {
+    if (typeof window.clarity !== 'function') return;
+    const id = getClarityVisitorId();
+    if (!id) return;
+    try {
+        window.clarity('identify', String(id), getClaritySessionId(), window.location.pathname);
+    } catch (e) {}
 }
 
 // =============== TAGS CLARITY ENRICHIS ===============
@@ -109,12 +167,12 @@ function setClarityTags() {
 
     try {
         // ── Identité & session ──
-        window.clarity("set", "clientId",    localStorage.getItem('ga_client_id') || 'unknown');
+        window.clarity("set", "clientId",    getClarityVisitorId() || 'unknown');
         window.clarity("set", "sessionId",   getClaritySessionId());
         window.clarity("set", "isReturning", isReturningUser() ? 'returning' : 'new');
 
         // ── Page ──
-        window.clarity("set", "pageTitle",   document.title);
+        window.clarity("set", "pageTitle",   getClarityPageTitle());
         window.clarity("set", "pagePath",    window.location.pathname);
         window.clarity("set", "pageSection", getPageSection());
 
@@ -153,27 +211,32 @@ function setClarityTags() {
         }
 
         console.log('🏷️ Clarity: tags enrichis définis');
-    } catch(e) {
+    } catch (e) {
         console.warn('⚠️ Erreur tags Clarity:', e);
     }
 }
 
 // =============== INITIALISATION CLARITY ===============
 function initializeClarity() {
-    // FIX: on relit toujours l'état réel des cookies AVANT de vérifier clarityLoadAttempted
     if (areClarityRejected() || !shouldLoadClarity()) return;
     if (getClarityLoaded() || clarityLoadAttempted) return;
 
-    console.log('🚀 Initialisation Clarity MAX DATA...');
+    console.log('🚀 Initialisation Clarity MAX DATA v3...');
     clarityLoadAttempted = true;
 
     try {
-        (function(c, l, a, r, i, t, y) {
-            c[a] = c[a] || function() { (c[a].q = c[a].q || []).push(arguments); };
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+
+            // v3 : le consentement est transmis AVANT le chargement du script (la file d'attente le rejoue),
+            // pour que Clarity démarre directement avec les cookies autorisés.
+            sendClarityConsent(true);
+            identifyClarityVisitor();
+
             t = l.createElement(r); t.async = 1;
             t.src = "https://www.clarity.ms/tag/" + i + "?ref=bwt";
 
-            t.onload = function() {
+            t.onload = function () {
                 console.log('✅ Clarity chargé !');
                 setClarityLoaded(true);
 
@@ -182,15 +245,13 @@ function initializeClarity() {
                     window.clarity("event", "page_view");
                     attachClarityEvents();
                     trackClarityWebVitals();
-                    // FIX: log déplacé ici — n'apparaît que si Clarity est réellement actif
                     console.log('📊 Clarity MAX DATA prêt — ID:', CLARITY_PROJECT_ID);
                 }
             };
 
-            t.onerror = function() {
+            t.onerror = function () {
                 console.warn('⚠️ Clarity bloqué (adblock probable)');
                 setClarityLoaded(false);
-                // FIX: reset de clarityLoadAttempted pour permettre une prochaine tentative
                 clarityLoadAttempted = false;
             };
 
@@ -198,7 +259,7 @@ function initializeClarity() {
             y.parentNode.insertBefore(t, y);
         })(window, document, "clarity", "script", CLARITY_PROJECT_ID);
 
-    } catch(e) {
+    } catch (e) {
         console.error('❌ Erreur Clarity:', e);
         clarityLoadAttempted = false;
     }
@@ -212,24 +273,70 @@ function clarityEvent(name, data = {}) {
         Object.entries(data).forEach(([k, v]) => {
             window.clarity("set", `evt_${name}_${k}`, String(v).substring(0, 100));
         });
-    } catch(e) {}
+    } catch (e) {}
+}
+
+// =============== ÉVÉNEMENTS CLÉS ===============
+// Envoyés immédiatement au clic (pas de délai), comme dans analytics.js
+function clarityKeyEvent(link, clickType) {
+    if (areClarityRejected() || !getClarityLoaded() || !link || !link.href) return;
+    const name = link.getAttribute('data-track-name') || '';
+    const href = link.href || '';
+
+    const def = CLARITY_KEY_EVENTS.find(k =>
+        (k.track_name && k.track_name === name) ||
+        (k.hrefContains && href.indexOf(k.hrefContains) > -1)
+    );
+    if (!def) return;
+
+    const now = Date.now();
+    if (clarityLastKeyAt[def.event] && (now - clarityLastKeyAt[def.event]) < 1000) return;
+    clarityLastKeyAt[def.event] = now;
+
+    try {
+        window.clarity("event", def.event);
+        window.clarity("set", "lastKeyEvent", def.event);
+        window.clarity("set", `evt_${def.event}_click_type`, clickType || 'normal');
+        Object.entries(def.tags || {}).forEach(([k, v]) => {
+            window.clarity("set", `evt_${def.event}_${k}`, String(v).substring(0, 100));
+        });
+        console.log('⭐ Clarity événement clé : ' + def.event);
+    } catch (e) {}
 }
 
 // =============== ÉVÉNEMENTS COMPORTEMENTAUX ===============
 function attachClarityEvents() {
     if (areClarityRejected()) return;
+    if (clarityEventsAttached) return; // v3 : jamais de doublon d'écouteurs
+    clarityEventsAttached = true;
     console.log('🎯 Clarity events attachés...');
 
     // ── Clics ──
     document.addEventListener('click', (e) => {
         if (areClarityRejected() || !getClarityLoaded()) return;
+
+        const link = e.target.closest && e.target.closest('a[href]');
+        if (link) clarityKeyEvent(link, 'normal');
+
         setTimeout(() => {
             const el = e.target.closest('a, button, .btn, [role="button"], .gallery-card');
             if (!el) return;
             const text = el.textContent?.trim()?.substring(0, 60) || el.getAttribute('aria-label') || 'unknown';
-            clarityEvent('click', { element: el.tagName.toLowerCase(), text, path: window.location.pathname });
+            clarityEvent('click', {
+                element: el.tagName.toLowerCase(),
+                text,
+                track_name: el.getAttribute('data-track-name') || '',
+                path: window.location.pathname
+            });
         }, 50);
-    }, { passive: true });
+    }, { capture: true, passive: true });
+
+    // ── Clic molette (ouverture dans un nouvel onglet) ──
+    document.addEventListener('auxclick', (e) => {
+        if (e.button !== 1 || areClarityRejected() || !getClarityLoaded()) return;
+        const link = e.target.closest && e.target.closest('a[href]');
+        if (link) clarityKeyEvent(link, 'milieu');
+    }, { capture: true, passive: true });
 
     // ── Copie de texte ──
     document.addEventListener('copy', () => {
@@ -287,12 +394,18 @@ function trackClarityTimeOnPage() {
         });
     }, 5000);
 
-    window.addEventListener('beforeunload', () => {
+    // v3 : pagehide (fiable sur mobile) + une seule fois
+    function flush() {
+        if (clarityExitFlushed) return;
+        clarityExitFlushed = true;
         if (!getClarityLoaded() || areClarityRejected()) return;
         const total = Math.round((Date.now() - startTime) / 1000);
         window.clarity("set", "finalTimeOnPage", `${total}s`);
         window.clarity("set", "exitPage", window.location.pathname);
-    });
+    }
+    window.addEventListener('pagehide', flush);
+    window.addEventListener('beforeunload', flush);
+    window.addEventListener('pageshow', (e) => { if (e.persisted) clarityExitFlushed = false; });
 }
 
 // ── RAGE CLICKS ──
@@ -343,7 +456,7 @@ function trackClarityExternalLinks() {
         const href = link.href || '';
         if (href && !href.includes(window.location.hostname) && href.startsWith('http')) {
             window.clarity("event", "outbound_link");
-            try { window.clarity("set", "outboundDomain", new URL(href).hostname); } catch(e) {}
+            try { window.clarity("set", "outboundDomain", new URL(href).hostname); } catch (err) {}
             console.log('🔗 Clarity lien sortant:', href);
         }
     }, { passive: true });
@@ -365,10 +478,12 @@ function trackClarityErrors() {
 
 // ── HOVER ÉLÉMENTS CLÉS ──
 function trackClarityHover() {
-    const selectors = ['.gallery-card', '.btn', '.nav-links a', '.footer-links a'];
+    const selectors = ['.gallery-card', '.btn', '.nav-links a', '.footer-links a', '.video-card', '.lspdfr-callout'];
     const hovered = new Set();
     selectors.forEach(sel => {
         document.querySelectorAll(sel).forEach(el => {
+            if (el._clarityHover) return;
+            el._clarityHover = true;
             el.addEventListener('mouseenter', () => {
                 if (areClarityRejected() || !getClarityLoaded()) return;
                 const key = sel + '_' + (el.textContent?.trim()?.substring(0, 20) || el.id);
@@ -384,6 +499,7 @@ function trackClarityHover() {
 // ── PREMIER ENGAGEMENT ──
 function trackClarityFirstEngagement() {
     let done = false;
+    const types = ['click', 'scroll', 'keydown', 'touchstart'];
     function onFirst(e) {
         if (done || areClarityRejected() || !getClarityLoaded()) return;
         done = true;
@@ -392,11 +508,9 @@ function trackClarityFirstEngagement() {
         window.clarity("set", "timeToFirstEngagement", `${t}s`);
         window.clarity("set", "firstEngagementType", e.type);
         console.log(`👆 Clarity premier engagement: ${t}s`);
-        ['click','scroll','keydown','touchstart'].forEach(ev => window.removeEventListener(ev, onFirst));
+        types.forEach(ev => window.removeEventListener(ev, onFirst));
     }
-    ['click','scroll','keydown','touchstart'].forEach(ev => {
-        window.addEventListener(ev, onFirst, { passive: true });
-    });
+    types.forEach(ev => window.addEventListener(ev, onFirst, { passive: true }));
 }
 
 // ── INACTIVITÉ ──
@@ -416,7 +530,7 @@ function trackClarityInactivity() {
             window.clarity("set", "inactiveAt", window.location.pathname);
         }, 3 * 60 * 1000);
     }
-    ['mousemove','keydown','scroll','click','touchstart'].forEach(ev => {
+    ['mousemove', 'keydown', 'scroll', 'click', 'touchstart'].forEach(ev => {
         window.addEventListener(ev, reset, { passive: true });
     });
     reset();
@@ -432,7 +546,7 @@ function trackClarityWebVitals() {
             window.clarity("set", "LCP", `${lcp}ms`);
             window.clarity("set", "LCP_rating", lcp < 2500 ? 'good' : lcp < 4000 ? 'needs_improvement' : 'poor');
         }).observe({ type: 'largest-contentful-paint', buffered: true });
-    } catch(e) {}
+    } catch (e) {}
 
     // CLS
     try {
@@ -440,13 +554,15 @@ function trackClarityWebVitals() {
         new PerformanceObserver((list) => {
             list.getEntries().forEach(entry => { if (!entry.hadRecentInput) clsValue += entry.value; });
         }).observe({ type: 'layout-shift', buffered: true });
-        window.addEventListener('beforeunload', () => {
+        const sendCls = () => {
             if (!getClarityLoaded()) return;
             const cls = Math.round(clsValue * 1000) / 1000;
             window.clarity("set", "CLS", String(cls));
             window.clarity("set", "CLS_rating", cls < 0.1 ? 'good' : cls < 0.25 ? 'needs_improvement' : 'poor');
-        });
-    } catch(e) {}
+        };
+        window.addEventListener('pagehide', sendCls);
+        window.addEventListener('beforeunload', sendCls);
+    } catch (e) {}
 
     // FCP
     try {
@@ -458,7 +574,7 @@ function trackClarityWebVitals() {
                 window.clarity("set", "FCP_rating", fcp < 1800 ? 'good' : fcp < 3000 ? 'needs_improvement' : 'poor');
             }
         }).observe({ type: 'paint', buffered: true });
-    } catch(e) {}
+    } catch (e) {}
 
     // TTFB
     try {
@@ -468,18 +584,14 @@ function trackClarityWebVitals() {
             window.clarity("set", "TTFB", `${ttfb}ms`);
             window.clarity("set", "TTFB_rating", ttfb < 800 ? 'good' : ttfb < 1800 ? 'needs_improvement' : 'poor');
         }
-    } catch(e) {}
+    } catch (e) {}
 }
 
 // =============== INIT PRINCIPALE ===============
-// FIX: plus de surcharge window.acceptCookies / window.saveCookiePreferences
-// Ces fonctions appellent directement initializeClarity() via analytics.js
-// On utilise un listener sur un custom event dispatché par analytics.js
 function initClarity() {
     const consent = _getClarityConsent();
 
     if (!consent) {
-        // En attente de consentement — Clarity ne se charge pas
         console.log('⏳ Clarity en attente de consentement...');
         return;
     }
@@ -495,9 +607,8 @@ function initClarity() {
 }
 
 // =============== ÉCOUTE DES CHANGEMENTS DE CONSENTEMENT ===============
-// FIX: au lieu de surcharger les fonctions globales (fragile),
-// on écoute l'événement 'cookieConsentChanged' dispatché par analytics.js
-document.addEventListener('cookieConsentChanged', function(e) {
+// Écoute l'événement 'cookieConsentChanged' (même événement qu'analytics.js)
+document.addEventListener('cookieConsentChanged', function (e) {
     const { consent, analytics } = e.detail || {};
 
     if (consent === 'rejected') {
@@ -506,28 +617,32 @@ document.addEventListener('cookieConsentChanged', function(e) {
     }
 
     if (consent === 'all' || (consent === 'custom' && analytics === 'true')) {
-        // FIX: reset de clarityLoadAttempted pour permettre la ré-initialisation
         clarityLoadAttempted = false;
+        sendClarityConsent(true); // si Clarity tourne déjà, il reçoit aussitôt le nouveau choix
         setTimeout(() => initializeClarity(), 200);
     } else {
-        // Analytics décoché dans les préférences custom
+        // Analytics décoché dans les préférences personnalisées
         resetClarityState();
     }
 });
 
-document.addEventListener('DOMContentLoaded', initClarity);
+// v3 : fonctionne aussi si le script est chargé après DOMContentLoaded
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initClarity);
+else initClarity();
 
 // =============== DEBUG ===============
 window.debugClarity = {
-    check: function() {
-        console.log('🔍 Clarity MAX DATA:');
+    check: function () {
+        console.log('🔍 Clarity MAX DATA v3:');
         console.log('- Cookies refusés  :', areClarityRejected());
         console.log('- Loaded           :', getClarityLoaded());
         console.log('- Attempted        :', clarityLoadAttempted);
         console.log('- window.clarity   :', typeof window.clarity !== 'undefined');
         console.log('- Consentement     :', shouldLoadClarity() ? '✅' : '❌');
         console.log('- cookieConsent    :', _getClarityConsent());
+        console.log('- ID visiteur      :', getClarityVisitorId(), '(identique à GA4)');
         console.log('- Session ID       :', getClaritySessionId());
+        console.log('- Cookies Clarity  :', { _clck: !!_getClarityCookie('_clck'), _clsk: !!_getClarityCookie('_clsk') });
         console.log('- Is Returning     :', isReturningUser());
         console.log('- Device           :', getDeviceType());
         console.log('- Connection       :', getConnectionType());
@@ -536,7 +651,7 @@ window.debugClarity = {
         const found = scripts.find(s => s.src?.includes('clarity.ms'));
         console.log('- Script DOM       :', found ? '✅ ' + found.src : '❌');
     },
-    test: function() {
+    test: function () {
         if (areClarityRejected()) { console.log('⛔ Cookies refusés'); return; }
         if (typeof window.clarity !== 'undefined') {
             window.clarity("event", "debug_test");
@@ -546,15 +661,19 @@ window.debugClarity = {
             console.log('❌ Clarity non dispo');
         }
     },
-    force: function() {
+    force: function () {
         if (areClarityRejected()) { console.log('⛔ Cookies refusés'); return; }
         setClarityLoaded(false);
         clarityLoadAttempted = false;
         initClarity();
     },
-    tags: function() {
+    tags: function () {
         if (typeof window.clarity === 'undefined') { console.log('❌ Clarity non chargé'); return; }
         setClarityTags();
         console.log('✅ Tags redéfinis');
+    },
+    identify: function () {
+        identifyClarityVisitor();
+        console.log('✅ identify envoyé avec', getClarityVisitorId());
     }
 };
