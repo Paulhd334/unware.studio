@@ -499,16 +499,30 @@
                 say('Merci de cocher la case pour confirmer votre accord.', 'err');
                 return;
             }
+            if (trap.value) { say('Merci ! Vous serez prévenu à la sortie de The Void Protocol.', 'ok'); return; }
             btn.disabled = true;
             say('Inscription en cours…', '');
-            fetch('/api/newsletter', {
+            fetch('/api/subscribe', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email: value, consent: true, website: trap.value })
+                body: JSON.stringify({ email: value })
             }).then(function (r) {
-                if (!r.ok) throw new Error('http_' + r.status);
-                form.reset();
-                say('Merci ! Vous serez prévenu à la sortie de The Void Protocol.', 'ok');
+                return r.json().catch(function () { return {}; }).then(function (data) { return { status: r.status, data: data }; });
+            }).then(function (res) {
+                if (res.status === 200) {
+                    form.reset();
+                    say('Merci ! Un email de confirmation vous a été envoyé. Vous serez prévenu à la sortie du jeu.', 'ok');
+                } else if (res.status === 409) {
+                    say('Cette adresse est déjà inscrite. Vous serez bien prévenu à la sortie du jeu.', 'ok');
+                } else if (res.data && res.data.error === 'temp_email_not_allowed') {
+                    email.classList.add('invalid');
+                    say('Les adresses email temporaires ne sont pas acceptées.', 'err');
+                } else if (res.status === 400) {
+                    email.classList.add('invalid');
+                    say('Adresse email invalide.', 'err');
+                } else {
+                    throw new Error('http_' + res.status);
+                }
             }).catch(function () {
                 say('Une erreur est survenue. Réessayez dans un instant ou écrivez-moi via la page Contact.', 'err');
             }).then(function () { btn.disabled = false; });
