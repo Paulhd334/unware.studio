@@ -7,8 +7,8 @@
 
     <!-- SEO -->
     <title>Centre d'aide | UNWARE STUDIO</title>
-    <meta name="description" content="Besoin d'aide avec UNWARE STUDIO ? Contactez-moi par email, Discord ou réseaux sociaux. Réponse garantie sous 48h. FAQ et assistance dédiée.">
-    <meta name="keywords" content="Centre d'aide UNWARE STUDIO, contact, assistance, aide, Discord, email support">
+    <meta name="description" content="Centre d'aide UNWARE STUDIO : FAQ, état des services, signalement de bug, récupération de compte et données personnelles.">
+    <meta name="keywords" content="Centre d'aide UNWARE STUDIO, assistance, aide, FAQ, statut des services, compte, bug">
     <meta name="author" content="UNWARE STUDIO">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://unware.studio/Support/centre-aide.html">
@@ -17,7 +17,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://unware.studio/Support/centre-aide.html">
     <meta property="og:title" content="Centre d'aide | UNWARE STUDIO">
-    <meta property="og:description" content="Besoin d'aide avec UNWARE STUDIO ? Contactez-moi par email, Discord ou réseaux sociaux. Réponse sous 48h.">
+    <meta property="og:description" content="FAQ, état des services, bug, compte et données personnelles : trouvez la bonne page.">
     <meta property="og:image" content="https://unware.studio/images/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -30,7 +30,7 @@
     <meta name="twitter:site" content="@unwarestudio">
     <meta name="twitter:creator" content="@unwarestudio">
     <meta name="twitter:title" content="Centre d'aide | UNWARE STUDIO">
-    <meta name="twitter:description" content="Besoin d'aide ? Contactez-moi par email, Discord ou réseaux sociaux. Réponse sous 48h.">
+    <meta name="twitter:description" content="FAQ, état des services, bug, compte et données personnelles : trouvez la bonne page.">
     <meta name="twitter:image" content="https://unware.studio/images/og-image.png">
     <meta name="twitter:image:alt" content="Page support UNWARE STUDIO">
 
@@ -115,7 +115,7 @@
     .sp-section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
 
     /* Contact */
-    .sp-contact-grid { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr); gap: 16px; margin-bottom: clamp(70px, 9vw, 100px); }
+    .sp-help-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; margin-bottom: 16px; }
     .sp-contact-card { position: relative; padding: 32px 30px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; display: flex; flex-direction: column; gap: 20px; transition: all 0.35s cubic-bezier(0.2,0.8,0.2,1); overflow: hidden; text-decoration: none; color: inherit; min-width: 0; }
     .sp-contact-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at var(--x, 50%) var(--y, 0%), rgba(255,255,255,0.06), transparent 60%); opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
     .sp-contact-card:hover::before { opacity: 1; }
@@ -130,9 +130,14 @@
     .sp-contact-card .sp-cc-meta { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); padding-top: 16px; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); }
     .sp-contact-card .sp-cc-meta .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px rgba(255,255,255,0.05); animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-    .sp-contact-card.sp-cc-featured { background: linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%); }
-    .sp-contact-card.sp-cc-featured .sp-cc-email { font-size: 15px; color: var(--accent); font-weight: 500; overflow-wrap: anywhere; text-decoration: none; transition: color 0.25s ease; }
-    .sp-contact-card.sp-cc-featured .sp-cc-email:hover { color: var(--text); }
+
+    /* Newsletter */
+    .sp-newsletter { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 32px 30px; margin-bottom: clamp(70px, 9vw, 100px); background: linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%); border: 1px solid var(--border); border-radius: 16px; }
+    .sp-newsletter-main { display: flex; align-items: center; gap: 20px; min-width: 0; }
+    .sp-newsletter .sp-cc-icon { flex-shrink: 0; width: 46px; height: 46px; border-radius: 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--accent); }
+    .sp-newsletter h3 { font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.2px; margin-bottom: 4px; }
+    .sp-newsletter p { font-size: 14px; line-height: 1.6; color: var(--text-secondary); }
+    .sp-newsletter .sp-cta-btn { flex-shrink: 0; }
 
     /* CTA */
     .sp-cta { text-align: center; padding: clamp(44px, 6vw, 60px) clamp(20px, 4vw, 30px); border: 1px solid var(--border); border-radius: 20px; background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(255,255,255,0.04), transparent), var(--card-bg); position: relative; overflow: hidden; }
@@ -152,8 +157,7 @@
     footer { padding-bottom: env(safe-area-inset-bottom); }
 
     @media (max-width: 1024px) {
-        .sp-contact-grid { grid-template-columns: 1fr 1fr; }
-        .sp-contact-card.sp-cc-featured { grid-column: 1 / -1; }
+        .sp-help-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 768px) {
         .nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
@@ -167,16 +171,15 @@
         .footer-content { grid-template-columns: 1fr 1fr !important; gap: 28px !important; }
         .footer-brand { grid-column: 1 / -1; }
     }
-    @media (min-width: 600px) and (max-width: 768px) {
-        .sp-contact-grid { grid-template-columns: 1fr 1fr; }
-        .sp-contact-card.sp-cc-featured { grid-column: 1 / -1; }
-    }
     @media (max-width: 599px) {
-        .sp-contact-grid { grid-template-columns: 1fr; }
-        .sp-contact-card.sp-cc-featured { grid-column: auto; }
+        .sp-help-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+        .sp-newsletter { flex-direction: column; align-items: flex-start; }
     }
     @media (max-width: 576px) {
-        .sp-contact-card { padding: 26px 22px; }
+        .sp-contact-card, .sp-newsletter { padding: 26px 22px; }
+        .sp-newsletter .sp-cta-btn { width: 100%; justify-content: center; }
     }
     @media (max-width: 480px) {
         .footer-content { grid-template-columns: 1fr !important; }
@@ -202,10 +205,6 @@
         .mobile-nav-links a { padding: 8px 14px; font-size: 16px; }
         .mobile-close { top: 12px; right: 16px; }
         .support-page { padding-top: 90px; }
-    }
-    @media (horizontal-viewport-segments: 2) {
-        .sp-contact-grid { grid-template-columns: env(viewport-segment-width 0 0) env(viewport-segment-width 1 0); column-gap: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0)); }
-        .sp-contact-card.sp-cc-featured { grid-column: auto; }
     }
     @media (hover: none) {
         .sp-contact-card:hover, .sp-cta-btn:hover, .btn:hover { transform: none; }
@@ -265,55 +264,92 @@
         <div class="sp-hero">
             <span class="eyebrow">Centre d'aide</span>
             <h1>Besoin d'un <em>coup de main</em> ?</h1>
-            <p>Une question, un bug, une idée ? Écrivez-moi directement, je vous réponds personnellement en moins de 48 heures.</p>
+            <p>Choisissez le sujet qui vous concerne : on vous oriente vers la bonne page, ou vers moi si vous ne trouvez pas.</p>
         </div>
 
-        <!-- CONTACT -->
-        <h2 class="sp-section-label" id="contact">Me contacter</h2>
-        <div class="sp-contact-grid">
-            <a href="mailto:contact.unwarestudio@gmail.com" class="sp-contact-card sp-cc-featured" data-track-name="contact_email">
+        <!-- AIDE PAR THEME -->
+        <h2 class="sp-section-label" id="aide">Que cherchez-vous ?</h2>
+        <div class="sp-help-grid">
+            <a href="/Support/FAQ.html" class="sp-contact-card" data-track-name="help_circle-question">
                 <div class="sp-cc-top">
-                    <div class="sp-cc-icon"><i class="fas fa-envelope"></i></div>
-                    <i class="fas fa-arrow-up-right-from-square sp-cc-arrow"></i>
+                    <div class="sp-cc-icon"><i class="fas fa-circle-question"></i></div>
+                    <i class="fas fa-arrow-right sp-cc-arrow"></i>
                 </div>
-                <h3>Envoyez-moi un email</h3>
-                <span class="sp-cc-email">contact.unwarestudio@gmail.com</span>
-                <div class="sp-cc-meta"><span class="dot"></span>Réponse garantie sous 48h</div>
+                <h3>FAQ</h3>
+                <p class="sp-cc-desc">Les réponses aux questions les plus posées : compte, bug, données, sortie du jeu.</p>
+                <div class="sp-cc-meta">Questions fréquentes</div>
             </a>
-
-            <a href="https://discord.gg/bD6C8WgcE7" target="_blank" rel="noopener noreferrer" class="sp-contact-card" aria-label="Rejoindre le Discord UNWARE STUDIO" data-track-name="contact_discord">
+            <a href="/Support/statut.html" class="sp-contact-card" data-track-name="help_signal">
                 <div class="sp-cc-top">
-                    <div class="sp-cc-icon"><i class="fab fa-discord"></i></div>
-                    <i class="fas fa-arrow-up-right-from-square sp-cc-arrow"></i>
+                    <div class="sp-cc-icon"><i class="fas fa-signal"></i></div>
+                    <i class="fas fa-arrow-right sp-cc-arrow"></i>
                 </div>
-                <h3>Discord</h3>
-                <p class="sp-cc-desc">Rejoignez le serveur pour discuter, poser vos questions et suivre l'avancement du projet.</p>
-                <div class="sp-cc-meta"><span class="dot"></span>Échanges directs</div>
+                <h3>État des services</h3>
+                <p class="sp-cc-desc">Vérifiez si le site ou les ressources médias rencontrent un incident.</p>
+                <div class="sp-cc-meta">Statut en temps réel</div>
             </a>
-
-            <a href="https://x.com/unwarestudio" target="_blank" rel="noopener noreferrer" class="sp-contact-card" aria-label="Suivre UNWARE STUDIO sur X" data-track-name="contact_x">
+            <a href="https://discord.gg/bD6C8WgcE7" target="_blank" rel="noopener noreferrer" class="sp-contact-card" data-track-name="help_bug">
                 <div class="sp-cc-top">
-                    <div class="sp-cc-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                    </div>
+                    <div class="sp-cc-icon"><i class="fas fa-bug"></i></div>
                     <i class="fas fa-arrow-up-right-from-square sp-cc-arrow"></i>
                 </div>
-                <h3>Réseaux sociaux</h3>
-                <p class="sp-cc-desc">Suivez les annonces, mises à jour et coulisses du développement.</p>
-                <div class="sp-cc-meta"><span class="dot"></span>Annonces officielles</div>
+                <h3>Signaler un bug</h3>
+                <p class="sp-cc-desc">Décrivez le problème dans le salon dédié aux retours du Discord.</p>
+                <div class="sp-cc-meta">Via Discord</div>
+            </a>
+            <a href="/Support/contact.html#message" class="sp-contact-card" data-track-name="help_user-lock">
+                <div class="sp-cc-top">
+                    <div class="sp-cc-icon"><i class="fas fa-user-lock"></i></div>
+                    <i class="fas fa-arrow-right sp-cc-arrow"></i>
+                </div>
+                <h3>Récupérer mon compte</h3>
+                <p class="sp-cc-desc">Envoyez votre pseudo et, si possible, l'email de création du compte.</p>
+                <div class="sp-cc-meta">Réponse sous 48h</div>
+            </a>
+            <a href="/legals/politique-confidentialite.html" class="sp-contact-card" data-track-name="help_shield-halved">
+                <div class="sp-cc-top">
+                    <div class="sp-cc-icon"><i class="fas fa-shield-halved"></i></div>
+                    <i class="fas fa-arrow-right sp-cc-arrow"></i>
+                </div>
+                <h3>Mes données personnelles</h3>
+                <p class="sp-cc-desc">Exercez votre droit à l'effacement et consultez le détail de vos droits.</p>
+                <div class="sp-cc-meta">Politique de confidentialité</div>
+            </a>
+            <a href="/legals/conditions-utilisation.html" class="sp-contact-card" data-track-name="help_scale-balanced">
+                <div class="sp-cc-top">
+                    <div class="sp-cc-icon"><i class="fas fa-scale-balanced"></i></div>
+                    <i class="fas fa-arrow-right sp-cc-arrow"></i>
+                </div>
+                <h3>Documents légaux</h3>
+                <p class="sp-cc-desc">Conditions d'utilisation, mentions légales et politique de cookies.</p>
+                <div class="sp-cc-meta">Informations légales</div>
+            </a>
+        </div>
+
+        <!-- NEWSLETTER -->
+        <div class="sp-newsletter">
+            <div class="sp-newsletter-main">
+                <div class="sp-cc-icon"><i class="fas fa-paper-plane"></i></div>
+                <div>
+                    <h3>Newsletter</h3>
+                    <p>Recevez par email les annonces et l'avancement de The Void Protocol.</p>
+                </div>
+            </div>
+            <a href="/nexa/nexa.html" class="sp-cta-btn" data-track-name="contact_newsletter">
+                S'inscrire à la newsletter <i class="fas fa-arrow-right"></i>
             </a>
         </div>
 
         <!-- CTA FINAL -->
         <div class="sp-cta">
-            <h2>Une question ?</h2>
-            <p>Consultez la FAQ pour trouver une réponse rapide, ou écrivez-moi directement.</p>
+            <h2>Toujours bloqué ?</h2>
+            <p>Si vous ne trouvez pas votre réponse, écrivez-moi : je réponds personnellement sous 48h.</p>
             <div class="sp-cta-actions">
-                <a href="/Support/FAQ.html" class="sp-cta-btn" data-track-name="cta_faq">
-                    Voir la FAQ <i class="fas fa-arrow-right"></i>
+                <a href="/Support/contact.html" class="sp-cta-btn" data-track-name="cta_contact">
+                    Me contacter <i class="fas fa-arrow-right"></i>
                 </a>
-                <a href="mailto:contact.unwarestudio@gmail.com" class="sp-cta-btn sp-cta-secondary" data-track-name="cta_write_me">
-                    M'écrire
+                <a href="/Support/FAQ.html" class="sp-cta-btn sp-cta-secondary" data-track-name="cta_faq">
+                    Voir la FAQ
                 </a>
             </div>
         </div>
@@ -352,7 +388,7 @@
                 <ul class="footer-links">
                     <li><a href="/Support/centre-aide.html">Centre d'aide</a></li>
                     <li><a href="/Support/FAQ.html">FAQ</a></li>
-                    <li><a href="/Support/centre-aide.html#contact">Contact</a></li>
+                    <li><a href="/Support/contact.html">Contact</a></li>
                     <li><a href="/Support/statut.html">Statut des services</a></li>
                 </ul>
             </div>
