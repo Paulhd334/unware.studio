@@ -436,7 +436,6 @@
             <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
         </div>
     </div>
-    <br>
 </footer>
 
 <script>
@@ -514,7 +513,12 @@
                     form.reset();
                     say('Merci ! Un email de confirmation vous a été envoyé. Vous serez prévenu à la sortie du jeu.', 'ok');
                 } else if (res.status === 409) {
-                    say('Cette adresse est déjà inscrite. Vous serez bien prévenu à la sortie du jeu.', 'ok');
+                    if (res.data && res.data.resent) {
+                        form.reset();
+                        say('Vous êtes déjà inscrit : nous venons de vous renvoyer l\'email de confirmation. Pensez à vérifier vos spams.', 'ok');
+                    } else {
+                        say('Cette adresse est déjà inscrite. Un email vient d\'être envoyé, patientez quelques minutes avant de réessayer.', 'ok');
+                    }
                 } else if (res.data && res.data.error === 'temp_email_not_allowed') {
                     email.classList.add('invalid');
                     say('Les adresses email temporaires ne sont pas acceptées.', 'err');
