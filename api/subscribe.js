@@ -2,11 +2,18 @@ const { Resend } = require('resend');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+const GAME_NAME = 'The Void Protocol';
+
 // Regex pour bloquer les emails temporaires (général)
 const isTempEmail = (email) => {
     const tempPattern = /(mailinator\.com|tempmail|10minutemail|disposable|trashmail|fakeemail|yopmail)/i;
     return tempPattern.test(email);
 };
+
+// Évite d'injecter du HTML dans les emails envoyés
+const escapeHtml = (str) => String(str).replace(/[&<>"']/g, (m) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]
+));
 
 module.exports = async function handler(req, res) {
     // CORS
@@ -17,10 +24,11 @@ module.exports = async function handler(req, res) {
     if (req.method === 'OPTIONS') return res.status(200).end();
     if (req.method !== 'POST') return res.status(405).json({ error: 'Méthode non autorisée' });
 
-    const { email } = req.body;
-    if (!email || !email.includes('@')) return res.status(400).json({ error: 'Email invalide' });
+    const { email } = req.body || {};
+    if (!email || typeof email !== 'string' || !email.includes('@')) return res.status(400).json({ error: 'Email invalide' });
     if (isTempEmail(email)) return res.status(400).json({ error: 'temp_email_not_allowed' });
 
+    const safeEmail = escapeHtml(email);
     const date = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
 
     try {
@@ -58,7 +66,7 @@ module.exports = async function handler(req, res) {
         <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 20px;">
         <tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="background:#111111;border-radius:12px;border:1px solid rgba(255,255,255,0.08);">
         <tr><td style="padding:40px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.08);">
-        <h1 style="margin:0;font-size:42px;color:#ffffff;letter-spacing:6px;font-weight:700;">NEXA</h1>
+        <h1 style="margin:0;font-size:30px;color:#ffffff;letter-spacing:4px;font-weight:700;text-transform:uppercase;">${GAME_NAME}</h1>
         <p style="margin:8px 0 0;font-size:11px;color:#888888;letter-spacing:3px;text-transform:uppercase;">UNWARE STUDIO</p>
         </td></tr>
         <tr><td style="padding:30px 40px 0;text-align:center;">
@@ -66,11 +74,11 @@ module.exports = async function handler(req, res) {
         </td></tr>
         <tr><td style="padding:30px 40px;">
         <h2 style="margin:0 0 16px;font-size:22px;color:#ffffff;font-weight:600;">Vous êtes sur la liste.</h2>
-        <p style="margin:0 0 30px;font-size:15px;color:#888888;line-height:1.6;">Merci de votre intérêt pour NEXA. Vous serez parmi les premiers informés du lancement en 2027 et bénéficierez d'avantages exclusifs réservés aux premiers inscrits.</p>
+        <p style="margin:0 0 30px;font-size:15px;color:#888888;line-height:1.6;">Merci de votre intérêt pour ${GAME_NAME}. Vous serez parmi les premiers informés du lancement en 2027 et bénéficierez d'avantages exclusifs réservés aux premiers inscrits.</p>
         <table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;margin-bottom:30px;">
         <tr><td style="padding:20px 24px;">
         <p style="margin:0 0 6px;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:2px;">Inscrit avec</p>
-        <p style="margin:0;font-size:15px;color:#ffffff;font-weight:600;">${email}</p>
+        <p style="margin:0;font-size:15px;color:#ffffff;font-weight:600;">${safeEmail}</p>
         </td></tr></table>
         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:30px;">
         <tr><td style="padding:16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;">
@@ -98,20 +106,20 @@ module.exports = async function handler(req, res) {
         </table></td></tr></table></body></html>
         `;
 
-        const adminTemplate = `<html><body><p>Nouvelle inscription : ${email}</p><p>Date : ${date}</p></body></html>`;
+        const adminTemplate = `<html><body><p>Nouvelle inscription : ${safeEmail}</p><p>Date : ${date}</p></body></html>`;
 
         // Envoi emails
         await resend.emails.send({
-            from: 'NEXA <noreply@unware.studio>',
+            from: `${GAME_NAME} <noreply@unware.studio>`,
             to: [email],
-            subject: 'Votre inscription à NEXA est confirmée',
+            subject: `Votre inscription à ${GAME_NAME} est confirmée`,
             html: playerTemplate
         });
 
         await resend.emails.send({
-            from: 'NEXA <noreply@unware.studio>',
+            from: `${GAME_NAME} <noreply@unware.studio>`,
             to: [process.env.CONTACT_EMAIL],
-            subject: `Nouvelle inscription NEXA — ${email}`,
+            subject: `Nouvelle inscription ${GAME_NAME} — ${email}`,
             html: adminTemplate
         });
 
