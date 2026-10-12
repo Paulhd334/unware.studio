@@ -15,6 +15,38 @@ const escapeHtml = (str) => String(str).replace(/[&<>"']/g, (m) => (
     { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]
 ));
 
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Le SDK Resend ne lève pas d'exception sur une erreur d'API : il renvoie { data, error }.
+// Resend limite aussi à 2 requêtes/seconde : on réessaie quand l'API répond 429.
+async function withRetry(fn, tries = 3) {
+    let result;
+    for (let i = 0; i < tries; i++) {
+        result = await fn();
+        const err = result && result.error;
+        if (!err) return result;
+        const rateLimited = err.statusCode === 429 || err.name === 'rate_limit_exceeded';
+        if (!rateLimited) return result;
+        await sleep(700 * (i + 1));
+    }
+    return result;
+}
+
+async function findContact(audienceId, email) {
+    try {
+        const r = await withRetry(() => resend.contacts.get({ audienceId, email }));
+        if (r && r.error) {
+            if (r.error.statusCode === 404 || r.error.name === 'not_found') return null;
+            throw r.error;
+        }
+        return r && r.data ? r.data : null;
+    } catch (e) {
+        if (e && e.statusCode === 404) return null;
+        throw e;
+    }
+}
+
 module.exports = async function handler(req, res) {
     // CORS
     res.setHeader('Access-Control-Allow-Origin', 'https://unware.studio');
@@ -31,21 +63,16 @@ module.exports = async function handler(req, res) {
     const safeEmail = escapeHtml(email);
     const date = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
 
+    const audienceId = process.env.RESEND_AUDIENCE_ID;
+
     try {
         // Vérifier si le contact existe déjà
-        let existing = null;
+        let existing;
         try {
-            const response = await resend.contacts.get({
-                audienceId: process.env.RESEND_AUDIENCE_ID,
-                email: email
-            });
-            existing = response.data || null;
+            existing = await findContact(audienceId, email);
         } catch (getError) {
-            if (getError.statusCode !== 404) {
-                console.error('Erreur GET contact:', getError);
-                return res.status(500).json({ error: 'Erreur serveur lors de la vérification du contact' });
-            }
-            // 404 → contact non trouvé → existing reste null
+            console.error('Erreur GET contact:', getError);
+            return res.status(500).json({ error: 'Erreur serveur lors de la vérification du contact' });
         }
 
         if (existing) {
@@ -53,11 +80,15 @@ module.exports = async function handler(req, res) {
         }
 
         // Ajouter le contact
-        await resend.contacts.create({
-            audienceId: process.env.RESEND_AUDIENCE_ID,
+        const created = await withRetry(() => resend.contacts.create({
+            audienceId,
             email: email,
             unsubscribed: false
-        });
+        }));
+        if (created && created.error) {
+            console.error('Erreur création contact:', created.error);
+            return res.status(500).json({ error: 'Erreur serveur' });
+        }
 
         // Templates d'email
         const playerTemplate = `
@@ -108,20 +139,35 @@ module.exports = async function handler(req, res) {
 
         const adminTemplate = `<html><body><p>Nouvelle inscription : ${safeEmail}</p><p>Date : ${date}</p></body></html>`;
 
-        // Envoi emails
-        await resend.emails.send({
+        // Email de confirmation à l'inscrit
+        const sent = await withRetry(() => resend.emails.send({
             from: `${GAME_NAME} <noreply@unware.studio>`,
             to: [email],
             subject: `Votre inscription à ${GAME_NAME} est confirmée`,
             html: playerTemplate
-        });
+        }));
 
-        await resend.emails.send({
+        if (sent && sent.error) {
+            console.error('Erreur envoi email de confirmation:', sent.error);
+            // On annule l'inscription pour que la personne puisse réessayer
+            try {
+                await withRetry(() => resend.contacts.remove({ audienceId, email }));
+            } catch (rollbackError) {
+                console.error('Erreur annulation contact:', rollbackError);
+            }
+            return res.status(500).json({ error: 'email_failed' });
+        }
+
+        // Notification pour le studio (une erreur ici ne doit pas bloquer l'inscription)
+        const notified = await withRetry(() => resend.emails.send({
             from: `${GAME_NAME} <noreply@unware.studio>`,
             to: [process.env.CONTACT_EMAIL],
             subject: `Nouvelle inscription ${GAME_NAME} — ${email}`,
             html: adminTemplate
-        });
+        }));
+        if (notified && notified.error) {
+            console.error('Erreur envoi notification admin:', notified.error);
+        }
 
         return res.status(200).json({ success: true });
 
