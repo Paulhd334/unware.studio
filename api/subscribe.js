@@ -47,51 +47,10 @@ async function findContact(audienceId, email) {
     }
 }
 
-module.exports = async function handler(req, res) {
-    // CORS
-    res.setHeader('Access-Control-Allow-Origin', 'https://unware.studio');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-    if (req.method === 'OPTIONS') return res.status(200).end();
-    if (req.method !== 'POST') return res.status(405).json({ error: 'Méthode non autorisée' });
-
-    const { email } = req.body || {};
-    if (!email || typeof email !== 'string' || !email.includes('@')) return res.status(400).json({ error: 'Email invalide' });
-    if (isTempEmail(email)) return res.status(400).json({ error: 'temp_email_not_allowed' });
-
-    const safeEmail = escapeHtml(email);
-    const date = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
-
-    const audienceId = process.env.RESEND_AUDIENCE_ID;
-
-    try {
-        // Vérifier si le contact existe déjà
-        let existing;
-        try {
-            existing = await findContact(audienceId, email);
-        } catch (getError) {
-            console.error('Erreur GET contact:', getError);
-            return res.status(500).json({ error: 'Erreur serveur lors de la vérification du contact' });
-        }
-
-        if (existing) {
-            return res.status(409).json({ error: 'already_subscribed' });
-        }
-
-        // Ajouter le contact
-        const created = await withRetry(() => resend.contacts.create({
-            audienceId,
-            email: email,
-            unsubscribed: false
-        }));
-        if (created && created.error) {
-            console.error('Erreur création contact:', created.error);
-            return res.status(500).json({ error: 'Erreur serveur' });
-        }
-
-        // Templates d'email
-        const playerTemplate = `
+const buildPlayerTemplate = (safeEmail, alreadySubscribed) => {
+    const badge = alreadySubscribed ? 'DÉJÀ INSCRIT' : 'INSCRIPTION CONFIRMÉE';
+    const title = alreadySubscribed ? 'Vous êtes déjà sur la liste.' : 'Vous êtes sur la liste.';
+    return `
         <!DOCTYPE html>
         <html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#0a0a0a;font-family:Arial,sans-serif;">
         <table width="100%" cellpadding="0" cellspacing="0" style="background:#0a0a0a;padding:40px 20px;">
@@ -101,10 +60,10 @@ module.exports = async function handler(req, res) {
         <p style="margin:8px 0 0;font-size:11px;color:#888888;letter-spacing:3px;text-transform:uppercase;">UNWARE STUDIO</p>
         </td></tr>
         <tr><td style="padding:30px 40px 0;text-align:center;">
-        <span style="display:inline-block;background:rgba(255,255,255,0.05);color:#ffffff;padding:8px 16px;border-radius:4px;font-size:11px;letter-spacing:2px;border:1px solid rgba(255,255,255,0.1);">INSCRIPTION CONFIRMÉE</span>
+        <span style="display:inline-block;background:rgba(255,255,255,0.05);color:#ffffff;padding:8px 16px;border-radius:4px;font-size:11px;letter-spacing:2px;border:1px solid rgba(255,255,255,0.1);">${badge}</span>
         </td></tr>
         <tr><td style="padding:30px 40px;">
-        <h2 style="margin:0 0 16px;font-size:22px;color:#ffffff;font-weight:600;">Vous êtes sur la liste.</h2>
+        <h2 style="margin:0 0 16px;font-size:22px;color:#ffffff;font-weight:600;">${title}</h2>
         <p style="margin:0 0 30px;font-size:15px;color:#888888;line-height:1.6;">Merci de votre intérêt pour ${GAME_NAME}. Vous serez parmi les premiers informés du lancement en 2027 et bénéficierez d'avantages exclusifs réservés aux premiers inscrits.</p>
         <table width="100%" cellpadding="0" cellspacing="0" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;margin-bottom:30px;">
         <tr><td style="padding:20px 24px;">
@@ -136,6 +95,79 @@ module.exports = async function handler(req, res) {
         </td></tr>
         </table></td></tr></table></body></html>
         `;
+};
+
+// Anti-abus (au mieux : la mémoire est propre à chaque instance serverless)
+const RESEND_COOLDOWN_MS = 10 * 60 * 1000;
+const lastResend = new Map();
+const canResend = (email) => {
+    const now = Date.now();
+    for (const [k, t] of lastResend) { if (now - t > RESEND_COOLDOWN_MS) lastResend.delete(k); }
+    if (lastResend.has(email)) return false;
+    lastResend.set(email, now);
+    return true;
+};
+
+module.exports = async function handler(req, res) {
+    // CORS
+    res.setHeader('Access-Control-Allow-Origin', 'https://unware.studio');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') return res.status(200).end();
+    if (req.method !== 'POST') return res.status(405).json({ error: 'Méthode non autorisée' });
+
+    const { email } = req.body || {};
+    if (!email || typeof email !== 'string' || !email.includes('@')) return res.status(400).json({ error: 'Email invalide' });
+    if (isTempEmail(email)) return res.status(400).json({ error: 'temp_email_not_allowed' });
+
+    const safeEmail = escapeHtml(email);
+    const date = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
+
+    const audienceId = process.env.RESEND_AUDIENCE_ID;
+
+    try {
+        // Vérifier si le contact existe déjà
+        let existing;
+        try {
+            existing = await findContact(audienceId, email);
+        } catch (getError) {
+            console.error('Erreur GET contact:', getError);
+            return res.status(500).json({ error: 'Erreur serveur lors de la vérification du contact' });
+        }
+
+        if (existing) {
+            // Déjà inscrit : on renvoie l'email de confirmation (au maximum 1 fois / 10 min / adresse)
+            let resent = false;
+            if (canResend(email.toLowerCase())) {
+                const again = await withRetry(() => resend.emails.send({
+                    from: `${GAME_NAME} <noreply@unware.studio>`,
+                    to: [email],
+                    subject: `Votre inscription à ${GAME_NAME}`,
+                    html: buildPlayerTemplate(safeEmail, true)
+                }));
+                if (again && again.error) {
+                    console.error('Erreur renvoi email de confirmation:', again.error);
+                    lastResend.delete(email.toLowerCase());
+                } else {
+                    resent = true;
+                }
+            }
+            return res.status(409).json({ error: 'already_subscribed', resent });
+        }
+
+        // Ajouter le contact
+        const created = await withRetry(() => resend.contacts.create({
+            audienceId,
+            email: email,
+            unsubscribed: false
+        }));
+        if (created && created.error) {
+            console.error('Erreur création contact:', created.error);
+            return res.status(500).json({ error: 'Erreur serveur' });
+        }
+
+        const playerTemplate = buildPlayerTemplate(safeEmail, false);
 
         const adminTemplate = `<html><body><p>Nouvelle inscription : ${safeEmail}</p><p>Date : ${date}</p></body></html>`;
 
