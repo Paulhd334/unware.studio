@@ -7,8 +7,8 @@
 
     <!-- SEO -->
     <title>Centre d'aide | UNWARE STUDIO</title>
-    <meta name="description" content="Centre d'aide UNWARE STUDIO : FAQ, état des services, signalement de bug, récupération de compte et données personnelles.">
-    <meta name="keywords" content="Centre d'aide UNWARE STUDIO, assistance, aide, FAQ, statut des services, compte, bug">
+    <meta name="description" content="Centre d'aide UNWARE STUDIO : FAQ, état des services, signalement de bug, données personnelles et suivi de The Void Protocol.">
+    <meta name="keywords" content="Centre d'aide UNWARE STUDIO, assistance, aide, FAQ, statut des services, bug, newsletter">
     <meta name="author" content="UNWARE STUDIO">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://unware.studio/Support/centre-aide.html">
@@ -17,7 +17,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://unware.studio/Support/centre-aide.html">
     <meta property="og:title" content="Centre d'aide | UNWARE STUDIO">
-    <meta property="og:description" content="FAQ, état des services, bug, compte et données personnelles : trouvez la bonne page.">
+    <meta property="og:description" content="FAQ, état des services, bug, données personnelles et newsletter : trouvez la bonne page.">
     <meta property="og:image" content="https://unware.studio/images/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -30,7 +30,7 @@
     <meta name="twitter:site" content="@unwarestudio">
     <meta name="twitter:creator" content="@unwarestudio">
     <meta name="twitter:title" content="Centre d'aide | UNWARE STUDIO">
-    <meta name="twitter:description" content="FAQ, état des services, bug, compte et données personnelles : trouvez la bonne page.">
+    <meta name="twitter:description" content="FAQ, état des services, bug, données personnelles et newsletter : trouvez la bonne page.">
     <meta name="twitter:image" content="https://unware.studio/images/og-image.png">
     <meta name="twitter:image:alt" content="Page support UNWARE STUDIO">
 
@@ -132,12 +132,27 @@
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
     /* Newsletter */
-    .sp-newsletter { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 32px 30px; margin-bottom: clamp(70px, 9vw, 100px); background: linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%); border: 1px solid var(--border); border-radius: 16px; }
-    .sp-newsletter-main { display: flex; align-items: center; gap: 20px; min-width: 0; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .sp-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+    .sp-newsletter { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.2fr); gap: clamp(24px, 4vw, 48px); align-items: center; padding: clamp(26px, 4vw, 38px); margin-bottom: clamp(70px, 9vw, 100px); background: linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%); border: 1px solid var(--border); border-radius: 16px; }
+    .sp-newsletter-main { display: flex; align-items: flex-start; gap: 20px; min-width: 0; }
     .sp-newsletter .sp-cc-icon { flex-shrink: 0; width: 46px; height: 46px; border-radius: 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--accent); }
-    .sp-newsletter h3 { font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.2px; margin-bottom: 4px; }
-    .sp-newsletter p { font-size: 14px; line-height: 1.6; color: var(--text-secondary); }
-    .sp-newsletter .sp-cta-btn { flex-shrink: 0; }
+    .sp-newsletter h3 { font-size: 18px; font-weight: 600; color: var(--text); letter-spacing: -0.2px; margin-bottom: 6px; }
+    .sp-newsletter-main p { font-size: 14px; line-height: 1.6; color: var(--text-secondary); }
+    .sp-nl-form { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+    .sp-nl-row { display: flex; gap: 10px; }
+    .sp-nl-row input { flex: 1; min-width: 0; box-sizing: border-box; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-family: inherit; font-size: 16px; padding: 0 14px; min-height: 48px; outline: none; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+    .sp-nl-row input::placeholder { color: var(--text-secondary); opacity: 0.65; }
+    .sp-nl-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(255,255,255,0.04); }
+    .sp-nl-row input.invalid { border-color: #e5484d; }
+    .sp-nl-row .sp-cta-btn { flex-shrink: 0; border: none; cursor: pointer; font-family: inherit; padding: 0 24px; }
+    .sp-nl-row .sp-cta-btn[disabled] { opacity: 0.6; cursor: wait; transform: none; box-shadow: none; }
+    .sp-nl-consent { display: flex; align-items: flex-start; gap: 10px; font-size: 12.5px; line-height: 1.5; color: var(--text-secondary); cursor: pointer; }
+    .sp-nl-consent input { flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; accent-color: var(--accent); cursor: pointer; }
+    .sp-nl-consent a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+    .sp-nl-status { min-height: 1.3em; margin: 0; font-size: 13px; line-height: 1.5; }
+    .sp-nl-status.ok { color: var(--accent); }
+    .sp-nl-status.err { color: #e5484d; }
 
     /* CTA */
     .sp-cta { text-align: center; padding: clamp(44px, 6vw, 60px) clamp(20px, 4vw, 30px); border: 1px solid var(--border); border-radius: 20px; background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(255,255,255,0.04), transparent), var(--card-bg); position: relative; overflow: hidden; }
@@ -174,12 +189,13 @@
     @media (max-width: 599px) {
         .sp-help-grid { grid-template-columns: 1fr; }
     }
-    @media (max-width: 768px) {
-        .sp-newsletter { flex-direction: column; align-items: flex-start; }
+    @media (max-width: 860px) {
+        .sp-newsletter { grid-template-columns: 1fr; }
     }
     @media (max-width: 576px) {
         .sp-contact-card, .sp-newsletter { padding: 26px 22px; }
-        .sp-newsletter .sp-cta-btn { width: 100%; justify-content: center; }
+        .sp-nl-row { flex-direction: column; }
+        .sp-nl-row .sp-cta-btn { width: 100%; justify-content: center; min-height: 48px; }
     }
     @media (max-width: 480px) {
         .footer-content { grid-template-columns: 1fr !important; }
@@ -276,7 +292,7 @@
                     <i class="fas fa-arrow-right sp-cc-arrow"></i>
                 </div>
                 <h3>FAQ</h3>
-                <p class="sp-cc-desc">Les réponses aux questions les plus posées : compte, bug, données, sortie du jeu.</p>
+                <p class="sp-cc-desc">Les réponses aux questions les plus posées : bug, données, sortie du jeu.</p>
                 <div class="sp-cc-meta">Questions fréquentes</div>
             </a>
             <a href="/Support/statut.html" class="sp-contact-card" data-track-name="help_signal">
@@ -297,14 +313,14 @@
                 <p class="sp-cc-desc">Décrivez le problème dans le salon dédié aux retours du Discord.</p>
                 <div class="sp-cc-meta">Via Discord</div>
             </a>
-            <a href="/Support/contact.html#message" class="sp-contact-card" data-track-name="help_user-lock">
+            <a href="/nexa/the_void_protocol.html" class="sp-contact-card" data-track-name="help_game">
                 <div class="sp-cc-top">
-                    <div class="sp-cc-icon"><i class="fas fa-user-lock"></i></div>
+                    <div class="sp-cc-icon"><i class="fas fa-gamepad"></i></div>
                     <i class="fas fa-arrow-right sp-cc-arrow"></i>
                 </div>
-                <h3>Récupérer mon compte</h3>
-                <p class="sp-cc-desc">Envoyez votre pseudo et, si possible, l'email de création du compte.</p>
-                <div class="sp-cc-meta">Réponse sous 48h</div>
+                <h3>Suivre The Void Protocol</h3>
+                <p class="sp-cc-desc">Présentation, fonctionnalités et galerie du jeu en développement.</p>
+                <div class="sp-cc-meta">Le jeu</div>
             </a>
             <a href="/legals/politique-confidentialite.html" class="sp-contact-card" data-track-name="help_shield-halved">
                 <div class="sp-cc-top">
@@ -327,17 +343,29 @@
         </div>
 
         <!-- NEWSLETTER -->
-        <div class="sp-newsletter">
+        <div class="sp-newsletter" id="newsletter">
             <div class="sp-newsletter-main">
                 <div class="sp-cc-icon"><i class="fas fa-paper-plane"></i></div>
                 <div>
-                    <h3>Newsletter</h3>
-                    <p>Recevez par email les annonces et l'avancement de The Void Protocol.</p>
+                    <h3>Soyez prévenu de la sortie du jeu</h3>
+                    <p>Laissez votre email : vous serez averti à la sortie de The Void Protocol.</p>
                 </div>
             </div>
-            <a href="/nexa/nexa.html" class="sp-cta-btn" data-track-name="contact_newsletter">
-                S'inscrire à la newsletter <i class="fas fa-arrow-right"></i>
-            </a>
+            <form class="sp-nl-form" id="newsletterForm" novalidate>
+                <div class="sp-nl-row">
+                    <label for="nlEmail" class="sr-only">Adresse email</label>
+                    <input type="email" id="nlEmail" name="email" placeholder="votre@email.com" autocomplete="email" inputmode="email" required>
+                    <button type="submit" class="sp-cta-btn" id="nlSubmit" data-track-name="newsletter_submit">
+                        Me prévenir <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                <input type="text" name="website" id="nlWebsite" class="sp-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <label class="sp-nl-consent" for="nlConsent">
+                    <input type="checkbox" id="nlConsent" required>
+                    <span>J'accepte que mon adresse email soit utilisée pour m'informer de la sortie de The Void Protocol. Désinscription possible à tout moment. Voir la <a href="/legals/politique-confidentialite.html">politique de confidentialité</a>.</span>
+                </label>
+                <p class="sp-nl-status" id="nlStatus" role="status" aria-live="polite"></p>
+            </form>
         </div>
 
         <!-- CTA FINAL -->
@@ -441,6 +469,49 @@
         document.querySelectorAll('.mobile-nav-link').forEach(function (l) { l.addEventListener('click', closeMenu); });
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape' && mobileNav.classList.contains('active')) closeMenu();
+        });
+    })();
+
+    /* Newsletter : sortie de The Void Protocol */
+    (function () {
+        var form = document.getElementById('newsletterForm');
+        if (!form) return;
+        var email = document.getElementById('nlEmail');
+        var consent = document.getElementById('nlConsent');
+        var trap = document.getElementById('nlWebsite');
+        var btn = document.getElementById('nlSubmit');
+        var status = document.getElementById('nlStatus');
+        var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+        function say(msg, type) { status.textContent = msg; status.className = 'sp-nl-status' + (type ? ' ' + type : ''); }
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            email.classList.remove('invalid');
+            var value = email.value.trim();
+            if (!EMAIL_RE.test(value)) {
+                email.classList.add('invalid');
+                say('Merci de saisir une adresse email valide.', 'err');
+                email.focus();
+                return;
+            }
+            if (!consent.checked) {
+                say('Merci de cocher la case pour confirmer votre accord.', 'err');
+                return;
+            }
+            btn.disabled = true;
+            say('Inscription en cours…', '');
+            fetch('/api/newsletter', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: value, consent: true, website: trap.value })
+            }).then(function (r) {
+                if (!r.ok) throw new Error('http_' + r.status);
+                form.reset();
+                say('Merci ! Vous serez prévenu à la sortie de The Void Protocol.', 'ok');
+            }).catch(function () {
+                say('Une erreur est survenue. Réessayez dans un instant ou écrivez-moi via la page Contact.', 'err');
+            }).then(function () { btn.disabled = false; });
         });
     })();
 
