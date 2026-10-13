@@ -11,6 +11,7 @@
 <meta name="author" content="UNWARE STUDIO">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://unware.studio/nexa/the_void_protocol.html">
+
 <meta property="og:url" content="https://unware.studio/nexa/the_void_protocol.html">
 <meta property="og:title" content="The Void Protocol - Disponible en 2027 sur PC | UNWARE STUDIO">
 <meta property="og:description" content="The Void Protocol : planète inconnue, base scientifique abandonnée, robots de sécurité et orbe étrange. Jeu PC sous Unreal Engine 5.6, prévu en 2027.">
@@ -20,227 +21,1073 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Void Protocol - Disponible en 2027 sur PC">
 <meta name="twitter:description" content="The Void Protocol arrive en 2027 sur PC ! Jeu développé avec Unreal Engine 5.6.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <link rel="icon" href="../favicon.ico" sizes="any">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="icon" type="image/png" sizes="32x32" href="../images/favicons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../images/favicons/favicon-16x16.png">
 <link rel="apple-touch-icon" href="../images/favicons/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
+
 <script>
-(function(){
-function getCookie(n){var eq=n+"=",ca=document.cookie.split(';');for(var i=0;i<ca.length;i++){var c=ca[i].trim();if(c.indexOf(eq)===0)return c.substring(eq.length);}return null;}
-function load(src){var s=document.createElement('script');s.src=src;document.head.appendChild(s);}
-load('../js/cookie-banner.js');
-if(getCookie('cookieConsent')!=='rejected'){load('../js/analytics.js');load('../js/analytics-clarify.js');}
+(function () {
+  function getCookie(name) {
+    var prefix = name + "=";
+    var parts = document.cookie.split(';');
+    for (var i = 0; i < parts.length; i++) {
+      var c = parts[i].trim();
+      if (c.indexOf(prefix) === 0) return c.substring(prefix.length);
+    }
+    return null;
+  }
+  function load(src) {
+    var s = document.createElement('script');
+    s.src = src;
+    document.head.appendChild(s);
+  }
+  load('../js/cookie-banner.js');
+  if (getCookie('cookieConsent') !== 'rejected') {
+    load('../js/analytics.js');
+    load('../js/analytics-clarify.js');
+  }
 })();
 </script>
+
 <style>
-:root{--primary:#0a0a0a;--secondary:#111;--accent:#fff;--text:#e0e0e0;--text-secondary:#888;--card-bg:rgba(255,255,255,.03);--border:rgba(255,255,255,.08);--transition:all .3s ease;--red:#fff}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:90px}
-body{background:var(--primary);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-body.no-scroll{overflow:hidden}
-.container{width:90%;max-width:1200px;margin:0 auto}
-
-/* ═══ HEADER (identique) ═══ */
-header{position:fixed;top:0;width:100%;padding:20px 0;z-index:1000;background:rgba(10,10,10,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:var(--transition)}
-.nav-container{display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:12px;flex-shrink:0}
-.logo-icon{color:var(--accent);font-size:24px}
-.logo-text{display:flex;align-items:center}
-.studio-logo{max-width:150px;height:auto;object-fit:contain}
-.nav-links{display:flex;list-style:none;gap:40px}
-.nav-links a{color:var(--text);text-decoration:none;font-weight:500;font-size:14px;letter-spacing:.5px;transition:var(--transition)}
-.nav-links a:hover{color:var(--accent)}
-.nav-actions{display:flex;gap:15px;align-items:center}
-.mobile-menu{display:none;font-size:24px;cursor:pointer;color:var(--accent);z-index:1001;transition:var(--transition);padding:8px;border-radius:4px;background:rgba(255,255,255,.05);height:42px;width:42px;align-items:center;justify-content:center;border:none;outline:none}
-.mobile-menu:hover{background:rgba(255,255,255,.1);transform:scale(1.05)}
-.mobile-nav{position:fixed;top:0;right:-100%;width:320px;max-width:85vw;height:100vh;height:100dvh;background:var(--primary);z-index:1000;transition:all .4s cubic-bezier(.4,0,.2,1);border-left:1px solid var(--border);display:flex;flex-direction:column;padding:80px 25px calc(25px + env(safe-area-inset-bottom,0px));overflow-y:auto;box-shadow:-5px 0 30px rgba(0,0,0,.3);box-sizing:border-box}
-.mobile-nav.active{right:0;transform:translateZ(0)}
-.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:999;opacity:0;visibility:hidden;transition:all .4s ease;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);pointer-events:none}
-.overlay.active{opacity:1;visibility:visible;pointer-events:all}
-.mobile-close{position:absolute;top:25px;right:25px;font-size:22px;cursor:pointer;color:var(--text);transition:var(--transition);padding:8px;border-radius:4px;background:rgba(255,255,255,.05);z-index:1001;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:none;outline:none}
-.mobile-close:hover{color:var(--accent);background:rgba(255,255,255,.1);transform:rotate(90deg)}
-.mobile-nav-links{list-style:none;order:1;margin-bottom:20px;flex:1;overflow-y:auto}
-.mobile-nav-links li{margin-bottom:8px}
-.mobile-nav-links a{color:var(--text);text-decoration:none;font-size:18px;font-weight:500;display:block;padding:14px 16px;border-radius:8px;transition:all .3s ease;position:relative;overflow:hidden}
-.mobile-nav-links a:before{content:'';position:absolute;left:0;top:0;height:100%;width:4px;background:var(--accent);transform:scaleY(0);transition:transform .3s ease}
-.mobile-nav-links a:hover{color:var(--accent);background:rgba(255,255,255,.05);padding-left:20px}
-.mobile-nav-links a:hover:before{transform:scaleY(1)}
-@media(max-width:768px){.nav-links{display:none}.mobile-menu{display:flex}.studio-logo{display:none}header{padding:12px 0}.nav-container{padding:0 15px}}
-
-/* ═══ COMMUN ═══ */
-.mono{font:400 11px 'Space Mono',monospace;letter-spacing:.2em;text-transform:uppercase}
-.lbl{color:var(--text-secondary);display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.lbl:before{content:'';width:28px;height:1px;background:rgba(255,255,255,.35)}
-.t2{font:400 clamp(46px,7vw,104px)/.92 'Bebas Neue',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#fff}
-.t2 span{color:rgba(255,255,255,.3)}
-section{padding:clamp(80px,11vw,150px) 0}
-[data-r]{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
-[data-r].in{opacity:1;transform:none}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:12px 24px;font:500 14px/1.2 'Inter',sans-serif;text-decoration:none;cursor:pointer;border:1px solid var(--border);border-radius:6px;transition:all .3s ease;color:var(--text);background:transparent}
-.btn-w{background:var(--accent);border-color:var(--accent);color:var(--primary)}
-.btn-w:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,0,0,.2)}
-.btn:not(.btn-w):hover{background:rgba(255,255,255,.05);transform:translateY(-2px)}
-
-/* ═══ HERO + PARCOURS DE L'HISTOIRE ═══ */
-.hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding:0;overflow:hidden;background:#000}
-.hero-bg{position:absolute;inset:0;background:url('../images/The_Void_Protocol_In_Game/image_website_6.png') center/cover;filter:brightness(.5) contrast(1.1) saturate(.8);transform:scale(1.05);animation:zoom 24s ease-in-out infinite alternate}
-@keyframes zoom{to{transform:scale(1.12)}}
-.hero:before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(10,10,10,.92) 0%,rgba(10,10,10,.5) 50%,rgba(10,10,10,.1) 100%),linear-gradient(to top,var(--primary) 0%,transparent 40%)}
-.hero-in{position:relative;z-index:2;padding:120px 0 90px}
-.hero-meta{display:flex;gap:10px 22px;flex-wrap:wrap;color:rgba(255,255,255,.6);margin-bottom:20px;font-size:10px}
-.hero-meta span+span:before{content:'/';margin-right:22px;opacity:.4}
-.hero h1{font:400 clamp(44px,7.5vw,112px)/.9 'Bebas Neue',sans-serif;text-transform:uppercase;color:#fff;letter-spacing:.005em;margin-bottom:30px;text-align:left;text-shadow:0 4px 50px rgba(0,0,0,.6)}
-.hero h1 span{display:block}
-.hero h1 span:nth-child(2){color:rgba(255,255,255,.38)}
-.hero-subtitle{max-width:540px;font-size:clamp(16px,1.5vw,19px);color:rgba(255,255,255,.75);font-weight:300;margin-bottom:34px}
-.hero-subtitle strong{color:#fff;font-weight:500}
-.hero-actions{display:flex;gap:15px;flex-wrap:wrap}
-.path{display:grid;grid-template-columns:repeat(4,1fr);margin-top:clamp(44px,8vh,90px);border-top:1px solid rgba(255,255,255,.18)}
-.path a{display:block;padding:22px 24px 28px;text-decoration:none;color:inherit;border-right:1px solid rgba(255,255,255,.1)}
-.path a:first-child{padding-left:0}
-.path a:last-child{border-right:0}
-.path small{display:block;color:rgba(255,255,255,.4);margin-bottom:6px;transition:color .3s}
-.path strong{font:400 clamp(20px,2vw,28px)/1.05 'Bebas Neue',sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#fff;font-weight:400}
-.path a:hover small{color:#fff}
-.path a:hover strong:after{content:' \2193'}
-
-/* ═══ LE JEU ═══ */
-.about{display:grid;grid-template-columns:1fr 2fr;gap:clamp(30px,6vw,100px)}
-.about-l{position:sticky;top:120px;align-self:start}
-.about-l .t2{font-size:clamp(44px,5vw,76px)}
-.about-txt{font:400 clamp(20px,2.3vw,30px)/1.5 'Inter',sans-serif;color:rgba(255,255,255,.42);letter-spacing:-.015em}
-.about-txt b{color:#fff;font-weight:500}
-.about-txt p+p{margin-top:1.2em}
-
-/* ═══ HISTOIRE ═══ */
-.story-head{margin-bottom:clamp(40px,6vw,70px)}
-.chap{display:grid;grid-template-columns:1fr 2fr;gap:clamp(30px,6vw,100px);padding:clamp(40px,6vw,80px) 0;border-top:1px solid var(--border)}
-.chap:last-child{border-bottom:1px solid var(--border)}
-.chap .mono{display:block;color:var(--text-secondary);margin-bottom:14px}
-.chap h3{font:400 clamp(42px,5vw,76px)/.95 'Bebas Neue',sans-serif;letter-spacing:.01em;text-transform:uppercase;color:#fff}
-.chap p{font:300 clamp(18px,2vw,24px)/1.65 'Inter',sans-serif;color:rgba(255,255,255,.58);max-width:680px}
-.chap p b{color:#fff;font-weight:500}
-.chap p+p{margin-top:1.1em}
-/* ═══ CARACTÉRISTIQUES ═══ */
-.feats{background:var(--secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.feats .t2{margin-bottom:60px}
-.frow{display:grid;grid-template-columns:80px 1fr 1.1fr;gap:30px;align-items:baseline;padding:44px 0;border-top:1px solid var(--border);transition:padding .4s ease,background .4s ease}
-.frow:last-child{border-bottom:1px solid var(--border)}
-.frow .mono{color:var(--text-secondary)}
-.frow h3{font:400 clamp(32px,3.8vw,52px)/1 'Bebas Neue',sans-serif;letter-spacing:.02em;text-transform:uppercase;color:#fff}
-.frow p{color:rgba(255,255,255,.55);font-weight:300;max-width:460px}
-@media(hover:hover){.frow:hover{padding-left:22px;background:rgba(255,255,255,.025)}}
-
-/* ═══ GALERIE ═══ */
-.gal-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:50px}
-.gal-head .mono{color:var(--text-secondary)}
-.gal{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:260px;gap:12px}
-.gi{position:relative;overflow:hidden;cursor:pointer;background:#0d0d0d;border:1px solid var(--border);border-radius:6px;grid-column:span 4}
-.gi:nth-child(1){grid-column:span 7;grid-row:span 2}
-.gi:nth-child(2){grid-column:span 5;grid-row:span 2}
-.gi:nth-child(6){grid-column:span 12}
-.gi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.7) brightness(.7);transition:filter .6s,transform 1s cubic-bezier(.16,1,.3,1)}
-.gi:before{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(0,0,0,.85),transparent 55%)}
-.gi div{position:absolute;left:22px;bottom:18px;right:22px;z-index:3;display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
-.gi span{font:600 18px 'Inter',sans-serif;letter-spacing:-.02em;color:#fff}
-.gi small{font:400 10px 'Space Mono',monospace;letter-spacing:.2em;color:rgba(255,255,255,.55);text-transform:uppercase}
-@media(hover:hover){.gi:hover img{filter:none;transform:scale(1.05)}.gi:hover{border-color:rgba(255,255,255,.6)}}
-.lb{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.96);backdrop-filter:blur(20px);display:none;align-items:center;justify-content:center;padding:16px}
-.lb.on{display:flex}
-.lb figure{position:relative;max-width:92vw}
-.lb img{display:block;max-width:92vw;max-height:80vh;object-fit:contain;border:1px solid rgba(255,255,255,.15)}
-.lb figcaption{padding-top:12px;color:#fff;font:600 17px 'Inter',sans-serif;display:flex;justify-content:space-between}
-.lb figcaption small{font:400 11px 'Space Mono',monospace;color:rgba(255,255,255,.5);letter-spacing:.2em}
-.lb button{position:absolute;width:46px;height:46px;border-radius:50%;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:15px;cursor:pointer;transition:.3s;z-index:2}
-.lb button:hover{background:#fff;color:#000}
-.lb .x{top:16px;right:16px}.lb .p{left:20px;top:50%}.lb .nx{right:20px;top:50%}
-
-/* ═══ NEWSLETTER ═══ */
-.nl{background:#000;border-top:1px solid var(--border)}
-.nl-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(30px,6vw,100px);align-items:end}
-.nl .t2{font-size:clamp(52px,8vw,120px)}
-.nl p.d{color:rgba(255,255,255,.5);font-weight:300;max-width:420px;margin-bottom:34px}
-.nl-row{display:flex;align-items:center;border-bottom:2px solid rgba(255,255,255,.35);transition:border-color .3s}
-.nl-row:focus-within{border-color:#fff}
-.nl-row input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:#fff;font:300 clamp(18px,2.2vw,26px) 'Inter',sans-serif;padding:18px 0}
-.nl-row input::placeholder{color:rgba(255,255,255,.3)}
-.nl-row button{background:none;border:0;color:#fff;font:600 13px 'Inter',sans-serif;cursor:pointer;padding:18px 0 18px 20px;white-space:nowrap;transition:opacity .3s}
-.nl-row button:hover{opacity:.55}.nl-row button:disabled{opacity:.4}
-.nl .note{margin-top:18px;color:rgba(255,255,255,.28)}
-#formMessage{display:none;margin-top:16px;padding:12px 16px;font-size:13px;border:1px solid;border-radius:6px}
-#formMessage.ok{display:block;color:#66bb6a;border-color:rgba(76,175,80,.3);background:rgba(76,175,80,.08)}
-#formMessage.err{display:block;color:#ef5350;border-color:rgba(244,67,54,.3);background:rgba(244,67,54,.08)}
-
-/* ═══ FOOTER (identique) ═══ */
-footer{background:var(--secondary);padding:80px 0 40px;border-top:1px solid var(--border)}
-.footer-content{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;margin-bottom:60px}
-.footer-brand{max-width:300px}
-.footer-logo{display:flex;align-items:center;margin-bottom:20px;gap:10px}
-.footer-logo-text{font-family:'Bebas Neue',sans-serif;font-weight:700;font-size:24px;color:var(--accent);letter-spacing:1.5px}
-.footer-desc{color:var(--text-secondary);margin-bottom:24px;font-weight:400;line-height:1.6;font-size:13px}
-.social-links{display:flex;gap:12px}
-.social-link{display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:var(--card-bg);border-radius:4px;color:var(--text);transition:var(--transition);border:1px solid var(--border);text-decoration:none}
-.social-link:hover{background:var(--accent);color:var(--primary)}
-.footer-column h3{font-size:18px;margin-bottom:20px;color:var(--accent);font-weight:600}
-.footer-links{list-style:none}.footer-links li{margin-bottom:12px}
-.footer-links a{color:var(--text-secondary);text-decoration:none;transition:var(--transition);font-weight:400;font-size:14px}
-.footer-links a:hover{color:var(--accent)}
-.copyright{text-align:center;padding-top:40px;border-top:1px solid var(--border);color:var(--text-secondary);font-size:14px}
-.studio-credit{color:var(--accent);font-weight:600}
-.scroll-to-top{position:fixed;bottom:30px;right:30px;width:50px;height:50px;background:var(--accent);color:var(--primary);border-radius:50%;display:flex;justify-content:center;align-items:center;cursor:pointer;opacity:0;visibility:hidden;transition:var(--transition);z-index:100;border:none}
-.scroll-to-top.active{opacity:1;visibility:visible}
-
-/* ═══ RESPONSIVE ═══ */
-@media(max-width:900px){
-.chap{grid-template-columns:1fr;gap:16px}
-.about,.nl-grid{grid-template-columns:1fr}
-.about-l{position:static}
-.frow{grid-template-columns:1fr;gap:12px;padding:34px 0}
-.path{grid-template-columns:1fr 1fr}
-.path a,.path a:first-child{padding:18px 16px;border-right:0;border-bottom:1px solid rgba(255,255,255,.1)}
-.path a:nth-child(odd){padding-left:0;border-right:1px solid rgba(255,255,255,.1)}
-.path a:nth-child(n+3){border-bottom:0}
-.gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:190px}
-.gi,.gi:nth-child(2){grid-column:span 1;grid-row:span 1}
-.gi:nth-child(1){grid-column:span 2;grid-row:span 2}.gi:nth-child(6){grid-column:span 2}
-.lb .p{left:8px}.lb .nx{right:8px}
+/* ==========================================================
+   1. VARIABLES
+   ========================================================== */
+:root {
+  --primary: #0a0a0a;
+  --secondary: #111;
+  --accent: #fff;
+  --signal: #8fe3d4;               /* accent froid : orbe, états, détails */
+  --text: #e0e0e0;
+  --text-secondary: #888;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --border: rgba(255, 255, 255, 0.08);
+  --transition: all 0.3s ease;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
-@media(max-width:560px){
-.hero-in{padding-top:110px}.hero-actions{width:100%}.btn{flex:1 1 auto}
-.gi span{font-size:15px}.gi div{left:14px;right:14px;bottom:14px}.gi small{display:none}
-.footer-content{grid-template-columns:1fr}
-.scroll-to-top{width:44px;height:44px;bottom:calc(20px + env(safe-area-inset-bottom,0px));right:20px}
+
+/* ==========================================================
+   2. BASE
+   ========================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}[data-r]{opacity:1;transform:none}}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 90px;
+}
+
+body {
+  background: var(--primary);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+section {
+  padding: clamp(80px, 11vw, 150px) 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+/* ==========================================================
+   3. HEADER
+   ========================================================== */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px 0;
+  z-index: 1000;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: var(--transition);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.logo-icon {
+  color: var(--accent);
+  font-size: 24px;
+}
+
+.logo-text {
+  display: flex;
+  align-items: center;
+}
+
+.studio-logo {
+  max-width: 150px;
+  height: auto;
+  object-fit: contain;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 40px;
+}
+
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  transition: var(--transition);
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+
+.nav-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+/* ---------- Menu mobile ---------- */
+.mobile-menu {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 8px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  z-index: 1001;
+  transition: var(--transition);
+}
+
+.mobile-menu:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.mobile-nav {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 320px;
+  max-width: 85vw;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 80px 25px calc(25px + env(safe-area-inset-bottom, 0px));
+  background: var(--primary);
+  border-left: 1px solid var(--border);
+  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.3);
+  overflow-y: auto;
+  z-index: 1000;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-nav.active {
+  right: 0;
+  transform: translateZ(0);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 999;
+  transition: all 0.4s ease;
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.mobile-close {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  font-size: 22px;
+  cursor: pointer;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  z-index: 1001;
+  transition: var(--transition);
+}
+
+.mobile-close:hover {
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
+}
+
+.mobile-nav-links {
+  list-style: none;
+  flex: 1;
+  margin-bottom: 20px;
+  overflow-y: auto;
+}
+
+.mobile-nav-links li {
+  margin-bottom: 8px;
+}
+
+.mobile-nav-links a {
+  position: relative;
+  display: block;
+  padding: 14px 16px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-links a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--accent);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.mobile-nav-links a:hover {
+  padding-left: 20px;
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.mobile-nav-links a:hover::before {
+  transform: scaleY(1);
+}
+
+/* ==========================================================
+   4. ÉLÉMENTS COMMUNS
+   ========================================================== */
+.mono {
+  font: 400 11px 'Space Mono', monospace;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.lbl {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  color: var(--text-secondary);
+}
+
+.lbl::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.t2 {
+  font: 400 clamp(46px, 7vw, 104px) / 0.92 'Bebas Neue', sans-serif;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.t2 span {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Apparition au scroll */
+[data-r] {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+}
+
+[data-r].in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Boutons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 12px 24px;
+  font: 500 14px / 1.2 'Inter', sans-serif;
+  color: var(--text);
+  text-decoration: none;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:not(.btn-w):hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+.btn-w {
+  color: var(--primary);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn-w:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================
+   5. HERO
+   ========================================================== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0;
+  background: #000;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('../images/The_Void_Protocol_In_Game/image_website_6.png') center / cover;
+  filter: brightness(0.5) contrast(1.1) saturate(0.8);
+  transform: scale(1.05);
+  animation: zoom 24s ease-in-out infinite alternate;
+}
+
+@keyframes zoom {
+  to { transform: scale(1.12); }
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(10, 10, 10, 0.92) 0%, rgba(10, 10, 10, 0.5) 50%, rgba(10, 10, 10, 0.1) 100%),
+    linear-gradient(to top, var(--primary) 0%, transparent 40%);
+}
+
+.hero-in {
+  position: relative;
+  z-index: 2;
+  padding: 120px 0 90px;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin-bottom: 20px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.hero-meta span + span::before {
+  content: '/';
+  margin-right: 22px;
+  opacity: 0.4;
+}
+
+/* Petit voyant d'état devant la première info */
+.hero-meta span:first-child::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 10px;
+  border-radius: 50%;
+  background: var(--signal);
+  box-shadow: 0 0 10px var(--signal);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% { opacity: 0.25; }
+}
+
+.hero h1 {
+  margin-bottom: 30px;
+  font: 400 clamp(44px, 7.5vw, 112px) / 0.9 'Bebas Neue', sans-serif;
+  letter-spacing: 0.005em;
+  text-align: left;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 4px 50px rgba(0, 0, 0, 0.6);
+}
+
+.hero h1 span {
+  display: block;
+}
+
+.hero h1 span:nth-child(2) {
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.hero-subtitle {
+  max-width: 540px;
+  margin-bottom: 34px;
+  font-size: clamp(16px, 1.5vw, 19px);
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* Parcours : liens vers les sections */
+.path {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: clamp(44px, 8vh, 90px);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.path a {
+  display: block;
+  padding: 22px 24px 28px;
+  color: inherit;
+  text-decoration: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.path a:first-child {
+  padding-left: 0;
+}
+
+.path a:last-child {
+  border-right: 0;
+}
+
+.path small {
+  display: block;
+  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.3s;
+}
+
+.path strong {
+  font: 400 clamp(20px, 2vw, 28px) / 1.05 'Bebas Neue', sans-serif;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.path a:hover small {
+  color: var(--signal);
+}
+
+.path a:hover strong::after {
+  content: ' \2193';
+}
+
+/* ==========================================================
+   6. LE JEU
+   ========================================================== */
+.about {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: clamp(30px, 6vw, 100px);
+}
+
+.about-l {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+}
+
+.about-l .t2 {
+  font-size: clamp(44px, 5vw, 76px);
+}
+
+.about-txt {
+  font: 400 clamp(20px, 2.3vw, 30px) / 1.5 'Inter', sans-serif;
+  letter-spacing: -0.015em;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.about-txt b {
+  font-weight: 500;
+  color: #fff;
+}
+
+.about-txt p + p {
+  margin-top: 1.2em;
+}
+
+/* Bande de chiffres clés */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 50px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.facts div {
+  padding: 24px 22px;
+  background: var(--primary);
+}
+
+.facts strong {
+  display: block;
+  font: 400 clamp(30px, 3.5vw, 46px) / 1 'Bebas Neue', sans-serif;
+  letter-spacing: 0.03em;
+  color: #fff;
+}
+
+.facts span {
+  display: block;
+  margin-top: 8px;
+  font: 400 10px 'Space Mono', monospace;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================
+   7. HISTOIRE
+   ========================================================== */
+.story-head {
+  margin-bottom: clamp(40px, 6vw, 70px);
+}
+
+.chap {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: clamp(30px, 6vw, 100px);
+  padding: clamp(40px, 6vw, 80px) 0;
+  border-top: 1px solid var(--border);
+}
+
+.chap:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.chap .mono {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--text-secondary);
+}
+
+.chap h3 {
+  font: 400 clamp(42px, 5vw, 76px) / 0.95 'Bebas Neue', sans-serif;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.chap p {
+  max-width: 680px;
+  font: 300 clamp(18px, 2vw, 24px) / 1.65 'Inter', sans-serif;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.chap p b {
+  font-weight: 500;
+  color: #fff;
+}
+
+.chap p + p {
+  margin-top: 1.1em;
+}
+
+/* ==========================================================
+   8. CARACTÉRISTIQUES
+   ========================================================== */
+.feats {
+  background: var(--secondary);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.feats .t2 {
+  margin-bottom: 60px;
+}
+
+.frow {
+  display: grid;
+  grid-template-columns: 80px 1fr 1.1fr;
+  gap: 30px;
+  align-items: baseline;
+  padding: 44px 0;
+  border-top: 1px solid var(--border);
+  transition: padding 0.4s ease, background 0.4s ease;
+}
+
+.frow:last-child {
+  border-bottom: 1px solid var(--border);
+}
+
+.frow .mono {
+  color: var(--text-secondary);
+}
+
+.frow h3 {
+  font: 400 clamp(32px, 3.8vw, 52px) / 1 'Bebas Neue', sans-serif;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.frow p {
+  max-width: 460px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+@media (hover: hover) {
+  .frow:hover {
+    padding-left: 22px;
+    background: rgba(255, 255, 255, 0.025);
+  }
+}
+
+/* ==========================================================
+   10. NEWSLETTER
+   ========================================================== */
+.nl {
+  background: #000;
+  border-top: 1px solid var(--border);
+}
+
+.nl-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(30px, 6vw, 100px);
+  align-items: end;
+}
+
+.nl .t2 {
+  font-size: clamp(52px, 8vw, 120px);
+}
+
+.nl p.d {
+  max-width: 420px;
+  margin-bottom: 34px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.nl-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.35);
+  transition: border-color 0.3s;
+}
+
+.nl-row:focus-within {
+  border-color: var(--signal);
+}
+
+.nl-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 18px 0;
+  font: 300 clamp(18px, 2.2vw, 26px) 'Inter', sans-serif;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+
+.nl-row input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.nl-row button {
+  padding: 18px 0 18px 20px;
+  font: 600 13px 'Inter', sans-serif;
+  white-space: nowrap;
+  color: #fff;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.nl-row button:hover {
+  opacity: 0.55;
+}
+
+.nl-row button:disabled {
+  opacity: 0.4;
+}
+
+.nl .note {
+  margin-top: 18px;
+  color: rgba(255, 255, 255, 0.28);
+}
+
+#formMessage {
+  display: none;
+  margin-top: 16px;
+  padding: 12px 16px;
+  font-size: 13px;
+  border: 1px solid;
+  border-radius: 6px;
+}
+
+#formMessage.ok {
+  display: block;
+  color: #66bb6a;
+  border-color: rgba(76, 175, 80, 0.3);
+  background: rgba(76, 175, 80, 0.08);
+}
+
+#formMessage.err {
+  display: block;
+  color: #ef5350;
+  border-color: rgba(244, 67, 54, 0.3);
+  background: rgba(244, 67, 54, 0.08);
+}
+
+/* ==========================================================
+   11. FOOTER
+   ========================================================== */
+footer {
+  padding: 80px 0 40px;
+  background: var(--secondary);
+  border-top: 1px solid var(--border);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.footer-brand {
+  max-width: 300px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.footer-logo-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+}
+
+.footer-desc {
+  margin-bottom: 24px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.social-links {
+  display: flex;
+  gap: 12px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--text);
+  text-decoration: none;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.social-link:hover {
+  color: var(--primary);
+  background: var(--accent);
+}
+
+.footer-column h3 {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+.copyright {
+  padding-top: 40px;
+  font-size: 14px;
+  text-align: center;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+}
+
+.studio-credit {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.scroll-to-top {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  color: var(--primary);
+  background: var(--accent);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 100;
+  transition: var(--transition);
+}
+
+.scroll-to-top.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ==========================================================
+   12. RESPONSIVE
+   ========================================================== */
+@media (max-width: 900px) {
+  .about,
+  .nl-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-l {
+    position: static;
+  }
+
+  .chap {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .frow {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 34px 0;
+  }
+
+  .path {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .path a,
+  .path a:first-child {
+    padding: 18px 16px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .path a:nth-child(odd) {
+    padding-left: 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .path a:nth-child(n+3) {
+    border-bottom: 0;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .nav-links,
+  .studio-logo {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: flex;
+  }
+
+  header {
+    padding: 12px 0;
+  }
+
+  .nav-container {
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-in {
+    padding-top: 110px;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+
+  .btn {
+    flex: 1 1 auto;
+  }
+
+  .facts {
+    grid-template-columns: 1fr;
+  }
+
+
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+
+  .scroll-to-top {
+    width: 44px;
+    height: 44px;
+    right: 20px;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  [data-r] {
+    opacity: 1;
+    transform: none;
+  }
+}
 </style>
 </head>
+
 <body>
 
-<div class="lb" id="lb" role="dialog" aria-label="Image agrandie">
-  <button class="p" id="lbP" aria-label="Précédent"><i class="fas fa-chevron-left"></i></button>
-  <figure><img id="lbImg" src="" alt=""><figcaption><span id="lbT"></span><small id="lbN"></small></figcaption></figure>
-  <button class="nx" id="lbN2" aria-label="Suivant"><i class="fas fa-chevron-right"></i></button>
-  <button class="x" id="lbX" aria-label="Fermer"><i class="fas fa-times"></i></button>
-</div>
-
+<!-- ═══ HEADER ═══ -->
 <header>
   <div class="container nav-container">
     <div class="logo">
       <div class="logo-icon"><i class="fas fa-temple"></i></div>
-      <div class="logo-text"><img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo"></div>
+      <div class="logo-text">
+        <img src="../images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
+      </div>
     </div>
+
     <ul class="nav-links">
       <li><a href="/#accueil">Accueil</a></li>
       <li><a href="/nexa/fonctionnalites.html">Fonctionnalités</a></li>
       <li><a href="/nexa/galerie.html">Galeries</a></li>
       <li><a href="/nexa/the_void_protocol.html" data-track-name="nav_void_protocol">The void protocol</a></li>
     </ul>
+
     <div class="nav-actions">
       <div class="mobile-menu" id="mobileMenu" aria-label="Ouvrir le menu" aria-expanded="false" role="button" tabindex="0">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
@@ -250,6 +1097,7 @@ footer{background:var(--secondary);padding:80px 0 40px;border-top:1px solid var(
 </header>
 
 <div class="overlay" id="overlay"></div>
+
 <nav class="mobile-nav" id="mobileNav" aria-label="Menu mobile">
   <div class="mobile-close" id="mobileClose" aria-label="Fermer le menu" role="button" tabindex="0">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
@@ -263,47 +1111,157 @@ footer{background:var(--secondary);padding:80px 0 40px;border-top:1px solid var(
 </nav>
 
 <main>
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="container hero-in">
-    <h1><span>The Void</span><span>Protocol</span></h1>
-    <p class="hero-subtitle">Une base scientifique abandonnée sur une planète inconnue. Des robots de sécurité qui patrouillent encore...</p>
-    <div class="hero-actions">
-      <a href="#newsletter" class="btn btn-w"><i class="fas fa-bell"></i> Être alerté</a>
-      <a href="https://discord.gg/PE7MS4Sazk" class="btn" target="_blank" rel="noopener noreferrer">Rejoindre le Discord</a>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-in">
+      <div class="hero-meta mono">
+        <span>En développement</span>
+        <span>PC</span>
+        <span>Unreal Engine 5.6</span>
+        <span>2027</span>
+      </div>
+
+      <h1><span>The Void</span><span>Protocol</span></h1>
+
+      <p class="hero-subtitle">Une base scientifique abandonnée sur une planète inconnue. Des robots de sécurité qui patrouillent encore...</p>
+
+      <div class="hero-actions">
+        <a href="#newsletter" class="btn btn-w"><i class="fas fa-bell"></i> Être alerté</a>
+        <a href="https://discord.gg/PE7MS4Sazk" class="btn" target="_blank" rel="noopener noreferrer">Rejoindre le Discord</a>
+      </div>
+
+      <nav class="path" aria-label="Parcourir la page">
+        <a href="#jeu"><small class="mono">01</small><strong>Le jeu</strong></a>
+        <a href="#about"><small class="mono">02</small><strong>L'histoire</strong></a>
+        <a href="#features"><small class="mono">03</small><strong>Ce qui vous attend</strong></a>
+      </nav>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="about" class="story">
-  <div class="container">
-    <div class="story-head" data-r><div class="mono lbl">L'histoire</div><h2 class="t2">Une descente <span>sans retour</span></h2></div>
-    <article class="chap" id="ch1" data-r><div><span class="mono">Chapitre 01</span><h3>Une planète inconnue</h3></div><div><p>Vous vous retrouvez sur une <b>planète inconnue</b>, absente de toutes les cartes. Aucun signal, aucune réponse, aucun moyen de savoir où vous êtes. Le silence est total.</p><p>Une seule structure se détache dans ce décor étranger : une base scientifique.</p></div></article>
-    <article class="chap" id="ch2" data-r><div><span class="mono">Chapitre 02</span><h3>La base abandonnée</h3></div><div><p>Les lumières vacillent, les portes sont restées ouvertes. Les laboratoires ont été <b>désertés</b>, les postes de travail abandonnés en plein travail. Personne ne répond.</p><p>Chaque couloir, chaque salle garde les traces de ce qui s'est passé ici. À vous de les lire.</p></div></article>
-    <article class="chap" id="ch3" data-r><div><span class="mono">Chapitre 03</span><h3>Les robots de sécurité</h3></div><div><p>Les humains ont disparu, mais la sécurité n'a jamais cessé son service. Des <b>robots de sécurité</b> patrouillent encore dans la base, fidèles à un protocole que plus personne ne contrôle.</p><p>Ils ne dorment pas, ils n'oublient pas. La menace se fait entendre avant de se voir : votre seule arme est votre attention.</p></div></article>
-    <article class="chap" id="ch4" data-r><div><span class="mono">Chapitre 04</span><h3>L'orbe étrange</h3></div><div><p>Au cœur de la base, un <b>orbe étrange</b> attire le regard. Rien n'explique sa présence. Est-il la cause de l'abandon ? La raison pour laquelle les robots ne s'arrêtent jamais ?</p><p>Plus vous vous approchez, plus les questions se multiplient. Percer son secret est peut-être la seule façon de comprendre, et d'en sortir.</p></div></article>
-  </div>
-</section>
-
-
-<section class="nl" id="newsletter">
-  <div class="container nl-grid">
-    <div data-r><div class="mono lbl">Ne manquez pas</div><h2 class="t2">Soyez alerté <span>au lancement</span></h2></div>
-    <div data-r>
-      <p class="d">Recevez une notification dès que The Void Protocol sera disponible sur PC. Aucun spam, juste l'essentiel.</p>
-      <form id="notificationForm" novalidate>
-        <div class="nl-row"><input type="email" name="email" placeholder="votre@email.com" aria-label="Votre email" required><button type="submit">M'informer →</button></div>
-        <p class="note mono">Désinscription à tout moment</p>
-        <div id="formMessage" role="status"></div>
-      </form>
+  <!-- ═══ LE JEU ═══ -->
+  <section id="jeu">
+    <div class="container about">
+      <div class="about-l" data-r>
+        <div class="mono lbl">Le jeu</div>
+        <h2 class="t2">Seul face <span>au silence</span></h2>
+      </div>
+      <div data-r>
+        <div class="about-txt">
+          <p><b>The Void Protocol</b> est un jeu PC d'exploration et de survie, dans une base scientifique abandonnée sur une planète inconnue.</p>
+          <p>Pas de réponses données d'avance : vous <b>observez</b>, vous <b>écoutez</b> et vous avancez, en évitant les robots de sécurité qui patrouillent encore.</p>
+        </div>
+        <div class="facts">
+          <div><strong>PC</strong><span>Plateforme</span></div>
+          <div><strong>2027</strong><span>Sortie prévue</span></div>
+          <div><strong>UE 5.6</strong><span>Moteur</span></div>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- ═══ HISTOIRE ═══ -->
+  <section id="about" class="story">
+    <div class="container">
+      <div class="story-head" data-r>
+        <div class="mono lbl">L'histoire</div>
+        <h2 class="t2">Une descente <span>sans retour</span></h2>
+      </div>
+
+      <article class="chap" id="ch1" data-r>
+        <div><span class="mono">Chapitre 01</span><h3>Une planète inconnue</h3></div>
+        <div>
+          <p>Vous vous retrouvez sur une <b>planète inconnue</b>, absente de toutes les cartes. Aucun signal, aucune réponse, aucun moyen de savoir où vous êtes. Le silence est total.</p>
+          <p>Une seule structure se détache dans ce décor étranger : une base scientifique.</p>
+        </div>
+      </article>
+
+      <article class="chap" id="ch2" data-r>
+        <div><span class="mono">Chapitre 02</span><h3>La base abandonnée</h3></div>
+        <div>
+          <p>Les lumières vacillent, les portes sont restées ouvertes. Les laboratoires ont été <b>désertés</b>, les postes de travail abandonnés en plein travail. Personne ne répond.</p>
+          <p>Chaque couloir, chaque salle garde les traces de ce qui s'est passé ici. À vous de les lire.</p>
+        </div>
+      </article>
+
+      <article class="chap" id="ch3" data-r>
+        <div><span class="mono">Chapitre 03</span><h3>Les robots de sécurité</h3></div>
+        <div>
+          <p>Les humains ont disparu, mais la sécurité n'a jamais cessé son service. Des <b>robots de sécurité</b> patrouillent encore dans la base, fidèles à un protocole que plus personne ne contrôle.</p>
+          <p>Ils ne dorment pas, ils n'oublient pas. La menace se fait entendre avant de se voir : votre seule arme est votre attention.</p>
+        </div>
+      </article>
+
+      <article class="chap" id="ch4" data-r>
+        <div><span class="mono">Chapitre 04</span><h3>L'orbe étrange</h3></div>
+        <div>
+          <p>Au cœur de la base, un <b>orbe étrange</b> attire le regard. Rien n'explique sa présence. Est-il la cause de l'abandon ? La raison pour laquelle les robots ne s'arrêtent jamais ?</p>
+          <p>Plus vous vous approchez, plus les questions se multiplient. Percer son secret est peut-être la seule façon de comprendre, et d'en sortir.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ═══ CE QUI VOUS ATTEND ═══ -->
+  <section id="features" class="feats">
+    <div class="container">
+      <h2 class="t2" data-r>Ce qui <span>vous attend</span></h2>
+
+      <div class="frow" data-r>
+        <span class="mono">Exploration</span>
+        <h3>Une base à explorer</h3>
+        <p>Laboratoires, couloirs, salles de contrôle : parcourez la base à votre rythme et reconstituez ce qui s'est passé.</p>
+      </div>
+
+      <div class="frow" data-r>
+        <span class="mono">Menace</span>
+        <h3>Des robots qui patrouillent</h3>
+        <p>Écoutez, observez, restez discret. Les robots de sécurité suivent toujours leur protocole.</p>
+      </div>
+
+      <div class="frow" data-r>
+        <span class="mono">Mystère</span>
+        <h3>Un orbe à comprendre</h3>
+        <p>Au centre de la base, un objet inexpliqué. Chaque indice vous rapproche de la vérité.</p>
+      </div>
+
+      <div class="frow" data-r>
+        <span class="mono">Technique</span>
+        <h3>Unreal Engine 5.6</h3>
+        <p>Une ambiance sombre et immersive, développée sur PC avec Unreal Engine 5.6.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ NEWSLETTER ═══ -->
+  <section class="nl" id="newsletter">
+    <div class="container nl-grid">
+      <div data-r>
+        <div class="mono lbl">Ne manquez pas</div>
+        <h2 class="t2">Soyez alerté <span>au lancement</span></h2>
+      </div>
+      <div data-r>
+        <p class="d">Recevez une notification dès que The Void Protocol sera disponible sur PC. Aucun spam, juste l'essentiel.</p>
+        <form id="notificationForm" novalidate>
+          <div class="nl-row">
+            <input type="email" name="email" placeholder="votre@email.com" aria-label="Votre email" required>
+            <button type="submit">M'informer →</button>
+          </div>
+          <p class="note mono">Désinscription à tout moment</p>
+          <div id="formMessage" role="status"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
 </main>
 
+<!-- ═══ FOOTER ═══ -->
 <footer>
   <div class="container">
     <div class="footer-content">
+
       <div class="footer-brand">
         <div class="footer-logo"><span class="footer-logo-text">The void protocol</span></div>
         <p class="footer-desc">Un jeu PC développé par UNWARE STUDIO.</p>
@@ -314,83 +1272,166 @@ footer{background:var(--secondary);padding:80px 0 40px;border-top:1px solid var(
           <a href="https://www.instagram.com/unware.studio?igsh=bXcyaWVlMG96cXhl" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0 5.838a4.162 4.162 0 1 0 0 8.324 4.162 4.162 0 0 0 0-8.324zm0 6.862a2.7 2.7 0 1 1 0-5.4 2.7 2.7 0 0 1 0 5.4zm5.338-7.04a.97.97 0 1 1-1.94 0 .97.97 0 0 1 1.94 0z"/></svg></a>
         </div>
       </div>
-      <div class="footer-column"><h3>Navigation</h3><ul class="footer-links">
-        <li><a href="/#accueil" rel="noopener noreferrer">Accueil</a></li>
-        <li><a href="/nexa/fonctionnalites.html" rel="noopener noreferrer">Fonctionnalités</a></li>
-        <li><a href="/nexa/galerie.html" rel="noopener noreferrer">Galeries</a></li>
-        <li><a href="/nexa/the_void_protocol.html" rel="noopener noreferrer">The Void Protocol</a></li></ul></div>
-      <div class="footer-column"><h3>Support</h3><ul class="footer-links">
-        <li><a href="/Support/centre-aide.html" target="_blank" rel="noopener noreferrer">Centre d'aide</a></li>
-        <li><a href="/Support/FAQ.html" target="_blank" rel="noopener noreferrer">FAQ</a></li>
-        <li><a href="/Support/contact.html" target="_blank" rel="noopener noreferrer">Contact</a></li>
-        <li><a href="/Support/statut.html" target="_blank" rel="noopener noreferrer">Statut des services</a></li></ul></div>
-      <div class="footer-column"><h3>Légal</h3><ul class="footer-links">
-        <li><a href="/legals/conditions-utilisation.html" target="_blank" rel="noopener noreferrer">Conditions d'utilisation</a></li>
-        <li><a href="/legals/politique-confidentialite.html" target="_blank" rel="noopener noreferrer">Politique de confidentialité</a></li>
-        <li><a href="/legals/mentions-legales.html" target="_blank" rel="noopener noreferrer">Mentions légales</a></li>
-        <li><a href="/legals/politique-cookies.html" target="_blank" rel="noopener noreferrer">Politique de cookies</a></li></ul></div>
+
+      <div class="footer-column">
+        <h3>Navigation</h3>
+        <ul class="footer-links">
+          <li><a href="/#accueil">Accueil</a></li>
+          <li><a href="/nexa/fonctionnalites.html">Fonctionnalités</a></li>
+          <li><a href="/nexa/galerie.html">Galeries</a></li>
+          <li><a href="/nexa/the_void_protocol.html">The Void Protocol</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><a href="/Support/centre-aide.html">Centre d'aide</a></li>
+          <li><a href="/Support/FAQ.html">FAQ</a></li>
+          <li><a href="/Support/contact.html">Contact</a></li>
+          <li><a href="/Support/statut.html">Statut des services</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Légal</h3>
+        <ul class="footer-links">
+          <li><a href="/legals/conditions-utilisation.html">Conditions d'utilisation</a></li>
+          <li><a href="/legals/politique-confidentialite.html">Politique de confidentialité</a></li>
+          <li><a href="/legals/mentions-legales.html">Mentions légales</a></li>
+          <li><a href="/legals/politique-cookies.html">Politique de cookies</a></li>
+        </ul>
+      </div>
+
     </div>
-    <div class="copyright"><p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p></div>
+
+    <div class="copyright">
+      <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
+    </div>
   </div>
 </footer>
 
 <button class="scroll-to-top" id="scrollToTop" aria-label="Retour en haut"><i class="fas fa-arrow-up"></i></button>
 
 <script>
-document.addEventListener('DOMContentLoaded',function(){
-  var mm=document.getElementById('mobileMenu'),mn=document.getElementById('mobileNav'),ov=document.getElementById('overlay'),mc=document.getElementById('mobileClose'),b=document.body;
-  function open(){mn.classList.add('active');ov.classList.add('active');b.classList.add('no-scroll');mm.setAttribute('aria-expanded','true');}
-  function close(){mn.classList.remove('active');ov.classList.remove('active');b.classList.remove('no-scroll');mm.setAttribute('aria-expanded','false');}
-  function key(f){return function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();f();}};}
-  mm.addEventListener('click',function(){mn.classList.contains('active')?close():open();});
-  mm.addEventListener('keydown',key(function(){mn.classList.contains('active')?close():open();}));
-  ov.addEventListener('click',close);mc.addEventListener('click',close);mc.addEventListener('keydown',key(close));
-  document.querySelectorAll('.mobile-nav-link').forEach(function(l){l.addEventListener('click',close);});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&mn.classList.contains('active'))close();});
+/* ---------- Menu mobile ---------- */
+document.addEventListener('DOMContentLoaded', function () {
+  var menuBtn = document.getElementById('mobileMenu');
+  var nav = document.getElementById('mobileNav');
+  var overlay = document.getElementById('overlay');
+  var closeBtn = document.getElementById('mobileClose');
+  var body = document.body;
+
+  function openMenu() {
+    nav.classList.add('active');
+    overlay.classList.add('active');
+    body.classList.add('no-scroll');
+    menuBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeMenu() {
+    nav.classList.remove('active');
+    overlay.classList.remove('active');
+    body.classList.remove('no-scroll');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  function toggleMenu() {
+    nav.classList.contains('active') ? closeMenu() : openMenu();
+  }
+
+  function onKey(callback) {
+    return function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        callback();
+      }
+    };
+  }
+
+  menuBtn.addEventListener('click', toggleMenu);
+  menuBtn.addEventListener('keydown', onKey(toggleMenu));
+  overlay.addEventListener('click', closeMenu);
+  closeBtn.addEventListener('click', closeMenu);
+  closeBtn.addEventListener('keydown', onKey(closeMenu));
+
+  document.querySelectorAll('.mobile-nav-link').forEach(function (link) {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && nav.classList.contains('active')) closeMenu();
+  });
 });
 
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12,rootMargin:'0px 0px -50px 0px'});
-document.querySelectorAll('[data-r]').forEach(function(el){io.observe(el);});
+/* ---------- Apparition au scroll ---------- */
+var observer = new IntersectionObserver(function (entries) {
+  entries.forEach(function (entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
 
-var up=document.getElementById('scrollToTop');
-window.addEventListener('scroll',function(){up.classList.toggle('active',window.scrollY>600);},{passive:true});
-up.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+document.querySelectorAll('[data-r]').forEach(function (el) {
+  observer.observe(el);
+});
 
-(function(){
-  var items=Array.from(document.querySelectorAll('.gi')),lb=document.getElementById('lb'),img=document.getElementById('lbImg'),t=document.getElementById('lbT'),n=document.getElementById('lbN'),cur=0;
-  function show(i){
-    cur=(i+items.length)%items.length;var it=items[cur];
-    img.src=it.dataset.src;img.alt=it.dataset.t;t.textContent=it.dataset.t;n.textContent='0'+(cur+1)+' / 0'+items.length;
-    lb.classList.add('on');document.body.classList.add('no-scroll');
-    var p={image_src:it.dataset.src,image_title:it.dataset.t,image_index:cur};
-    if(window.dataLayer&&window.dataLayer.push)window.dataLayer.push(Object.assign({event:'gallery_image_view'},p));
-    if(typeof window.gtag==='function')window.gtag('event','gallery_image_view',p);
-    if(typeof window.clarity==='function')window.clarity('event','gallery_image_view');
-  }
-  function hide(){lb.classList.remove('on');document.body.classList.remove('no-scroll');}
-  items.forEach(function(it,i){it.addEventListener('click',function(){show(i);});});
-  document.getElementById('lbX').addEventListener('click',hide);
-  document.getElementById('lbP').addEventListener('click',function(e){e.stopPropagation();show(cur-1);});
-  document.getElementById('lbN2').addEventListener('click',function(e){e.stopPropagation();show(cur+1);});
-  lb.addEventListener('click',function(e){if(e.target===lb)hide();});
-  document.addEventListener('keydown',function(e){if(!lb.classList.contains('on'))return;if(e.key==='Escape')hide();if(e.key==='ArrowLeft')show(cur-1);if(e.key==='ArrowRight')show(cur+1);});
-  var sx=0;lb.addEventListener('touchstart',function(e){sx=e.changedTouches[0].screenX;},{passive:true});
-  lb.addEventListener('touchend',function(e){var d=e.changedTouches[0].screenX-sx;if(Math.abs(d)>50)show(d>0?cur-1:cur+1);},{passive:true});
-})();
+/* ---------- Retour en haut ---------- */
+var scrollTopBtn = document.getElementById('scrollToTop');
 
-document.getElementById('notificationForm').addEventListener('submit',async function(e){
+window.addEventListener('scroll', function () {
+  scrollTopBtn.classList.toggle('active', window.scrollY > 600);
+}, { passive: true });
+
+scrollTopBtn.addEventListener('click', function () {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+/* ---------- Formulaire newsletter ---------- */
+document.getElementById('notificationForm').addEventListener('submit', async function (e) {
   e.preventDefault();
-  var email=this.email.value.trim(),btn=this.querySelector('button'),msg=document.getElementById('formMessage');
-  function say(x,c){msg.textContent=x;msg.className=c;setTimeout(function(){msg.className='';},6000);}
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){say('Veuillez entrer une adresse email valide.','err');return;}
-  btn.textContent='Inscription...';btn.disabled=true;
-  try{
-    var r=await fetch('/api/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email})});
-    if(r.status===409)say('Vous êtes déjà inscrit !','err');
-    else if(r.ok){say('Merci ! Vous serez informé dès le lancement en 2027 sur PC.','ok');this.reset();}
-    else throw new Error();
-  }catch(x){say('Une erreur est survenue. Veuillez réessayer.','err');}
-  finally{btn.textContent="M'informer →";btn.disabled=false;}
+
+  var email = this.email.value.trim();
+  var btn = this.querySelector('button');
+  var msg = document.getElementById('formMessage');
+
+  function say(text, cls) {
+    msg.textContent = text;
+    msg.className = cls;
+    setTimeout(function () { msg.className = ''; }, 6000);
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    say('Veuillez entrer une adresse email valide.', 'err');
+    return;
+  }
+
+  btn.textContent = 'Inscription...';
+  btn.disabled = true;
+
+  try {
+    var res = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    });
+
+    if (res.status === 409) {
+      say('Vous êtes déjà inscrit !', 'err');
+    } else if (res.ok) {
+      say('Merci ! Vous serez informé dès le lancement en 2027 sur PC.', 'ok');
+      this.reset();
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    say('Une erreur est survenue. Veuillez réessayer.', 'err');
+  } finally {
+    btn.textContent = "M'informer →";
+    btn.disabled = false;
+  }
 });
 </script>
 </body>
