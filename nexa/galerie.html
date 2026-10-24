@@ -186,6 +186,7 @@
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             grid-auto-rows: 60px;
+            grid-auto-flow: dense;
             gap: 10px;
         }
         .gallery-card {
@@ -196,12 +197,15 @@
             transition: opacity 0.55s ease, transform 0.55s ease;
         }
         .gallery-card.visible { opacity: 1; transform: translateY(0); }
-        .gallery-card:nth-child(1) { grid-column: span 7; grid-row: span 6; transition-delay: 0.05s; }
-        .gallery-card:nth-child(2) { grid-column: span 5; grid-row: span 4; transition-delay: 0.12s; }
-        .gallery-card:nth-child(3) { grid-column: span 5; grid-row: span 5; transition-delay: 0.18s; }
-        .gallery-card:nth-child(4) { grid-column: span 7; grid-row: span 5; transition-delay: 0.24s; }
-        .gallery-card:nth-child(5) { grid-column: span 7; grid-row: span 6; transition-delay: 0.30s; }
-        .gallery-card:nth-child(6) { grid-column: span 5; grid-row: span 8; transition-delay: 0.36s; }
+
+        /* Tailles variées : grande image large, puis petites à côté, etc. */
+        .gallery-card:nth-child(1) { grid-column: span 8; grid-row: span 7; transition-delay: 0.05s; }
+        .gallery-card:nth-child(2) { grid-column: span 4; grid-row: span 4; transition-delay: 0.12s; }
+        .gallery-card:nth-child(3) { grid-column: span 4; grid-row: span 3; transition-delay: 0.18s; }
+        .gallery-card:nth-child(4) { grid-column: span 5; grid-row: span 4; transition-delay: 0.24s; }
+        .gallery-card:nth-child(5) { grid-column: span 7; grid-row: span 7; transition-delay: 0.30s; }
+        .gallery-card:nth-child(6) { grid-column: span 5; grid-row: span 3; transition-delay: 0.36s; }
+
         .gallery-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94); }
         .gallery-card:hover img { transform: scale(1.07); }
         .card-overlay {
@@ -267,18 +271,15 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 900px) {
-            .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 220px; }
-            .gallery-card:nth-child(1),
-            .gallery-card:nth-child(2),
-            .gallery-card:nth-child(3),
-            .gallery-card:nth-child(4),
-            .gallery-card:nth-child(5),
-            .gallery-card:nth-child(6) { grid-column: span 1; grid-row: span 1; }
-            .gallery-card:nth-child(1) { grid-column: span 2; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 200px; }
+            .gallery-card:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+            .gallery-card:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+            .gallery-card:nth-child(5) { grid-column: span 2; grid-row: span 2; }
+            .gallery-card:nth-child(4) { grid-row: span 2; }
         }
         @media (max-width: 540px) {
             .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 240px; }
-            .gallery-card:nth-child(1) { grid-column: span 1; }
+            .gallery-card:nth-child(n) { grid-column: span 1; grid-row: span 1; }
         }
 
         /* ===== FOOTER ===== */
@@ -369,17 +370,17 @@
                     <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
                 </div>
 
-                <div class="gallery-card" data-src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" data-tag="Atmosphère" data-title="Vue couloir 13">
+                <div class="gallery-card" data-src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" data-tag="Environnement" data-title="Vue couloir 13">
                     <img src="../images/The_Void_Protocol_In_Game/image_website_2.jpg" alt="Vue couloir 13 — The void protocol" loading="lazy">
                     <div class="card-overlay">
-                            <div class="card-tag">Environnement</div>
+                        <div class="card-tag">Environnement</div>
                         <div class="card-title">Vue couloir 13</div>
                     </div>
                     <div class="card-zoom"><i class="fas fa-expand-alt"></i></div>
                 </div>
 
-                <div class="gallery-card" data-src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" data-tag="Level Design" data-title="Malika">
-                    <img src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" alt="Trappe lumineuse — The void protocol" loading="lazy">
+                <div class="gallery-card" data-src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" data-tag="Environnement" data-title="Vue couloir 16">
+                    <img src="../images/The_Void_Protocol_In_Game/image_website_3.jpg" alt="Vue couloir 16 — The void protocol" loading="lazy">
                     <div class="card-overlay">
                         <div class="card-tag">Environnement</div>
                         <div class="card-title">Vue couloir 16</div>
