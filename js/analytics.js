@@ -1,22 +1,26 @@
-// =============== GOOGLE ANALYTICS 4 — UNWARE STUDIO — v7 ===============
-// Objectif v7 : une même personne = UN SEUL utilisateur GA4 (plus de "2 personnes en même temps"),
-// et les clics importants sont envoyés comme événements clés.
+// =============== GOOGLE ANALYTICS 4 — UNWARE STUDIO — v8 ===============
+// Objectif v8 : corriger le bug « un visiteur de retour qui a déjà accepté les cookies n'apparaît plus dans GA4 ».
 //
-// Changements par rapport à v6 :
-//  1. ID visiteur : plus jamais deux cookies du même nom (un limité à l'hôte + un partagé sur le domaine).
-//     Avant, un vieux cookie "host-only" de la v5 pouvait écraser le cookie partagé et donner un ID
-//     différent sur unware.studio et www.unware.studio → 2 utilisateurs. Le cookie limité à l'hôte
-//     est maintenant supprimé avant d'écrire le cookie partagé.
-//  2. Repli API (/api/ga-event) : il reprend le session_id réel de gtag (via gtag('get')) au lieu d'un
-//     session_id inventé. Plus de session "fantôme" à côté de celle de gtag.
-//  3. Protection contre un double chargement de gtag.js / un double gtag('config') pour le même ID
-//     (cause fréquente de doubles page_view et de doubles utilisateurs).
-//  4. ÉVÉNEMENTS CLÉS : clic_video_pack_france et clic_callout_lspdfr (voir KEY_EVENTS plus bas),
-//     envoyés immédiatement au clic (et au clic molette). À marquer comme "événement clé" dans GA4.
-//  5. debugGA.scan() : diagnostic des doublons (scripts gtag, cookies _ga, ID envoyé).
-//  (tout le reste : identique à la v6)
+// Changements par rapport à v7 :
+//  1. BUG PRINCIPAL — l'écouteur « cookieConsentChanged » ne se fie plus au contenu de l'événement.
+//     Avant : si l'événement arrivait avec analytics !== 'true' (booléen, champ absent, événement relancé
+//     au chargement par cookie-banner.js…), resetAnalyticsState() coupait GA4 (ga-disable = true) et effaçait
+//     l'ID visiteur → plus rien dans GA4 pour les visiteurs de retour.
+//     Maintenant : on relit les cookies de consentement (avec quelques tentatives si le cookie n'est pas encore écrit)
+//     et on ne coupe GA4 que si le refus est EXPLICITE (cookieConsent=rejected, ou custom sans analytics).
+//  2. Lecture du consentement plus tolérante : valeurs décodées, 'true'/'1'/'granted', repli localStorage.
+//  3. Chargement de gtag.js sécurisé : un seul chargement, même si GA est relancé pendant le chargement
+//     (avant, un second appel pendant le chargement basculait à tort sur le repli API).
+//  4. Si le consentement est retiré : suppression aussi des cookies _ga et _ga_XXXX, et reconfiguration propre
+//     si l'utilisateur ré-accepte ensuite (nouvel ID pris en compte par gtag).
+//  5. Repli API : l'événement « session_start » (nom réservé GA4, refusé par le Measurement Protocol) est supprimé.
+//  6. Titres de pages : correspondance insensible à la casse / sans « .html » / sans slash final.
+//  7. Liens sortants : unware.studio ↔ www.unware.studio n'est plus compté comme lien externe.
+//  8. ID visiteur : un cookie invalide (« undefined », « null », vide…) est remplacé au lieu d'être envoyé tel quel.
+//  (tout le reste : identique à la v7)
 
 const GA_MEASUREMENT_ID = 'G-NJLCB6G0G8';
+const GA_COOKIE_SUFFIX  = GA_MEASUREMENT_ID.replace(/^G-/, ''); // cookie _ga_NJLCB6G0G8
 const SESSION_DURATION  = 30 * 60 * 1000;
 const VISITOR_KEY       = 'ga_client_id';   // même nom qu'avant : les visiteurs actuels gardent leur ID
 const SESSION_KEY       = 'ga_session';
@@ -48,7 +52,6 @@ const KEY_EVENTS = [
 
 let isGALoaded = false;
 let gaInitStarted = false;
-let gaScriptInjected = false;
 let gtagLoaded = false;
 let eventTrackingStarted = false;
 let deviceType = 'desktop';
@@ -87,27 +90,36 @@ function detectDeviceType() {
 }
 
 // =============== MAPPING DES PAGES ===============
+// Les chemins sont normalisés (minuscules, sans « .html », sans slash final) : /Support/FAQ.html = /support/faq
+function normalizePath(p) {
+    p = String(p || '/').toLowerCase().replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+    if (p.length > 1) p = p.replace(/\/+$/, '');
+    return p || '/';
+}
+
+const PAGE_TITLES_RAW = {
+    '/': 'UNWARE STUDIO',
+    '/index.html': 'UNWARE STUDIO',
+    '/nexa/fonctionnalites.html': 'Fonctionnalités NEXA',
+    '/nexa/galerie.html': 'Galerie NEXA',
+    '/nexa/the_void_protocol.html': 'The Void Protocol',
+    '/Support/FAQ.html': 'FAQ Support',
+    '/Support/centre-aide.html': 'Centre aide',
+    '/Support/contact.html': 'Contact',
+    '/Support/statut.html': 'Statut services',
+    '/legals/mentions-legales.html': 'Mentions légales',
+    '/legals/conditions-utilisation.html': 'Conditions utilisation',
+    '/legals/politique-confidentialite.html': 'Politique confidentialité',
+    '/Support/Articles/article.configuration.html': 'Article de configuration',
+    '/Support/Articles/feuille.route.nexa.html': 'Feuille de Routes',
+    '/legals/politique-cookies.html': 'Politique cookies',
+    '/tiktok/tiktok.html': 'Pack France 2026 & Callouts LSPDFR'
+};
+const PAGE_TITLES = {};
+Object.keys(PAGE_TITLES_RAW).forEach(k => { PAGE_TITLES[normalizePath(k)] = PAGE_TITLES_RAW[k]; });
+
 function getPageTitle() {
-    const path = window.location.pathname;
-    const pageMap = {
-        '/': 'UNWARE STUDIO',
-        '/index.html': 'UNWARE STUDIO',
-        '/nexa/fonctionnalites.html': 'Fonctionnalités NEXA',
-        '/nexa/galerie.html': 'Galerie NEXA',
-        '/nexa/the_void_protocol.html': 'The Void Protocol',
-        '/Support/FAQ.html': 'FAQ Support',
-        '/Support/centre-aide.html': 'Centre aide',
-        '/Support/contact.html': 'Contact',
-        '/Support/statut.html': 'Statut services',
-        '/legals/mentions-legales.html': 'Mentions légales',
-        '/legals/conditions-utilisation.html': 'Conditions utilisation',
-        '/legals/politique-confidentialite.html': 'Politique confidentialité',
-        '/Support/Articles/article.configuration.html': 'Article de configuration',
-        '/Support/Articles/feuille.route.nexa.html': 'Feuille de Routes',
-        '/legals/politique-cookies.html': 'Politique cookies',
-        '/tiktok/tiktok.html': 'Pack France 2026 & Callouts LSPDFR'
-    };
-    return pageMap[path] || document.title || 'UNWARE STUDIO';
+    return PAGE_TITLES[normalizePath(window.location.pathname)] || document.title || 'UNWARE STUDIO';
 }
 
 function getPagePath() {
@@ -120,7 +132,10 @@ function getCookie(name) {
     const ca = document.cookie.split(';');
     for (let i = 0; i < ca.length; i++) {
         const c = ca[i].trim();
-        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
+        if (c.indexOf(nameEQ) === 0) {
+            const raw = c.substring(nameEQ.length);
+            try { return decodeURIComponent(raw); } catch (e) { return raw; }
+        }
     }
     return null;
 }
@@ -140,7 +155,7 @@ function setCookie(name, value, days, shared) {
     const attrs = ';expires=' + exp + ';path=/;SameSite=Lax;Secure';
     const root = shared ? getRootDomain() : '';
     if (root) {
-        // v7 : on supprime d'abord un éventuel cookie limité à l'hôte (ancienne version).
+        // On supprime d'abord un éventuel cookie limité à l'hôte (ancienne version).
         // Sinon deux cookies du même nom coexistent et chaque page peut lire un ID différent.
         document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
         document.cookie = name + '=' + value + attrs + ';domain=' + root;
@@ -159,13 +174,34 @@ function deleteCookieEverywhere(name) {
     }
 }
 
+// =============== CONSENTEMENT ===============
+// Lit une valeur de consentement : cookie d'abord, sinon localStorage (au cas où la bannière l'y écrirait).
+function readConsentValue(name) {
+    let v = getCookie(name);
+    if (v === null || v === '') {
+        try { v = window.localStorage.getItem(name); } catch (e) { v = null; }
+    }
+    if (v === null || v === undefined) return null;
+    return String(v).replace(/^["']|["']$/g, '').trim();
+}
+
+function isTruthy(v) {
+    return v === true || /^(true|1|yes|on|granted|accepted)$/i.test(String(v === null || v === undefined ? '' : v).trim());
+}
+
+// 'granted' = accord analytics | 'denied' = refus explicite | 'unknown' = pas encore de choix
+function getConsentState() {
+    const consent = readConsentValue('cookieConsent');
+    if (!consent) return 'unknown';
+    const c = consent.toLowerCase();
+    if (c === 'all' || c === 'accepted' || c === 'granted') return 'granted';
+    if (c === 'custom') return isTruthy(readConsentValue('analyticsCookies')) ? 'granted' : 'denied';
+    return 'denied'; // 'rejected' ou toute autre valeur
+}
+
 // true uniquement si l'utilisateur a donné son accord pour l'analytique
 function shouldLoadGA() {
-    const consent = getCookie('cookieConsent');
-    if (consent === 'rejected') { cookiesRejected = true; return false; }
-    if (!consent) return false;
-    if (consent === 'all') return true;
-    return consent === 'custom' && getCookie('analyticsCookies') === 'true';
+    return getConsentState() === 'granted';
 }
 
 // true tant qu'il n'y a pas d'accord (refus OU consentement pas encore donné)
@@ -192,13 +228,19 @@ function generateVisitorId() {
     return rnd + '.' + Math.floor(Date.now() / 1000);
 }
 
+function isValidVisitorId(id) {
+    return typeof id === 'string' && id.length >= 3 && id.length <= 100 &&
+        !/^(undefined|null|nan)$/i.test(id) && /^[\w.\-]+$/.test(id);
+}
+
 function getVisitorId() {
     if (clientId) return clientId;
 
-    // 1) on relit l'ID existant : cookie d'abord, sinon localStorage
-    let id = getCookie(VISITOR_KEY) || sGet('local', VISITOR_KEY);
+    // 1) on relit l'ID existant : cookie d'abord, sinon localStorage (en ignorant les valeurs invalides)
+    let id = getCookie(VISITOR_KEY);
+    if (!isValidVisitorId(id)) id = sGet('local', VISITOR_KEY);
     // 2) sinon on en crée un nouveau
-    if (!id) id = generateVisitorId();
+    if (!isValidVisitorId(id)) id = generateVisitorId();
     clientId = id;
 
     // 3) on l'écrit (cookie partagé + localStorage) UNIQUEMENT si l'utilisateur a accepté l'analytique.
@@ -217,6 +259,8 @@ function clearVisitorId() {
     clientId = null;
     gtagSessionId = null;
     deleteCookieEverywhere(VISITOR_KEY);
+    deleteCookieEverywhere('_ga');
+    deleteCookieEverywhere('_ga_' + GA_COOKIE_SUFFIX);
     sDel('local', VISITOR_KEY);
     sDel('local', SESSION_KEY);
     sDel('local', 'ga_has_visited');
@@ -227,6 +271,7 @@ function resetAnalyticsState() {
     isGALoaded = false;
     gaInitStarted = false;
     cookiesRejected = true;
+    window.__unwareGAConfigured = false; // si l'utilisateur ré-accepte, gtag sera reconfiguré avec le nouvel ID
     setGADisabled(true);
     clearVisitorId();
     console.log('🔴 Analytics désactivé — consentement refusé');
@@ -386,7 +431,7 @@ async function sendToSecureAPI(eventName, params = {}) {
                     page_path:            getPagePath(),
                     page_referrer:        document.referrer || '',
                     device_type:          deviceType,
-                    // v7 : on réutilise la session de gtag quand elle est connue
+                    // on réutilise la session de gtag quand elle est connue
                     session_id:           gtagSessionId || getSessionId(),
                     engagement_time_msec: 1,
                     ...params
@@ -422,15 +467,52 @@ function track(eventName, params = {}) {
 
 // =============== DEBUG CONSOLE : ÉTAT DU CONSENTEMENT ===============
 function logConsentStatus() {
-    const consent = getCookie('cookieConsent');
-    const analytics = getCookie('analyticsCookies');
+    const consent = readConsentValue('cookieConsent');
+    const analytics = readConsentValue('analyticsCookies');
+    const state = getConsentState();
     console.groupCollapsed('🍪 Analytics — État du consentement');
-    if (!consent) console.log('%c⏳ En attente de consentement cookies', 'color: orange; font-weight: bold;');
-    else if (consent === 'rejected') console.log('%c🔴 Cookies refusés', 'color: red; font-weight: bold;');
-    else if (consent === 'all') console.log('%c✅ Tous les cookies acceptés', 'color: green; font-weight: bold;');
-    else console.log('%c🟡 Personnalisé — analytics : ' + (analytics === 'true' ? 'activé' : 'désactivé'), 'color: gold; font-weight: bold;');
+    if (state === 'unknown') console.log('%c⏳ En attente de consentement cookies', 'color: orange; font-weight: bold;');
+    else if (state === 'denied' && consent !== 'custom') console.log('%c🔴 Cookies refusés', 'color: red; font-weight: bold;');
+    else if (consent === 'custom') console.log('%c🟡 Personnalisé — analytics : ' + (state === 'granted' ? 'activé' : 'désactivé'), 'color: gold; font-weight: bold;');
+    else console.log('%c✅ Tous les cookies acceptés', 'color: green; font-weight: bold;');
+    console.log('   cookieConsent =', consent, '| analyticsCookies =', analytics);
     console.log('   Page:', getPageTitle(), '|', getPagePath());
     console.groupEnd();
+}
+
+// =============== CHARGEMENT DE gtag.js (une seule fois) ===============
+let gtagScriptState = 'idle'; // idle | loading | loaded | failed
+const gtagWaiters = [];
+
+function loadGtagScript(cb) {
+    if (gtagScriptState === 'loaded') { cb(true); return; }
+    if (gtagScriptState === 'failed') { cb(false); return; }
+    gtagWaiters.push(cb);
+    if (gtagScriptState === 'loading') return;
+    gtagScriptState = 'loading';
+
+    const finish = (ok) => {
+        gtagScriptState = ok ? 'loaded' : 'failed';
+        while (gtagWaiters.length) {
+            const fn = gtagWaiters.shift();
+            try { fn(ok); } catch (e) { console.warn('⚠️ gtag waiter:', e); }
+        }
+    };
+
+    // si gtag.js est déjà présent dans la page (autre script), on ne le recharge pas
+    const already = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
+    if (already) {
+        console.warn('⚠️ gtag.js déjà présent dans la page — pas de second chargement');
+        finish(true);
+        return;
+    }
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
+    script.onload  = () => finish(true);
+    script.onerror = () => finish(false);
+    document.head.appendChild(script);
 }
 
 // =============== INITIALISATION GA4 ===============
@@ -441,7 +523,7 @@ function initializeGoogleAnalytics() {
     cookiesRejected = false;
     setGADisabled(false);
 
-    console.log('🚀 Init GA4 v7...');
+    console.log('🚀 Init GA4 v8...');
 
     const visitorId = getVisitorId();
     getSessionId();
@@ -454,7 +536,7 @@ function initializeGoogleAnalytics() {
         window.gtag = function () { window.dataLayer.push(arguments); };
     }
 
-    // v7 : un seul gtag('config') pour cet ID, même si le script est relancé ou chargé en double
+    // un seul gtag('config') pour cet ID, même si le script est relancé ou chargé en double
     if (!window.__unwareGAConfigured) {
         window.__unwareGAConfigured = true;
 
@@ -486,6 +568,8 @@ function initializeGoogleAnalytics() {
     }
 
     function ready(ok) {
+        // le consentement a pu être retiré pendant le chargement du script
+        if (!shouldLoadGA()) return;
         isGALoaded = true;
         gtagLoaded = ok;
         if (ok) {
@@ -493,9 +577,9 @@ function initializeGoogleAnalytics() {
             setTimeout(fetchGtagSessionId, 1500); // la session peut être créée un peu après le chargement
         } else {
             // gtag.js bloqué : on passe par l'API pour ne rien perdre
+            // (« session_start » est un nom réservé GA4 : on ne l'envoie pas, la session naît du premier événement)
             console.warn('⚠️ gtag.js bloqué — repli sur /api/ga-event');
-            if (isNewSession) track('session_start', { engagement_time_msec: 1 });
-            track('page_view', { engagement_time_msec: 100 });
+            track('page_view', { engagement_time_msec: 100, is_new_session: isNewSession });
         }
         whenLoaded(() => {
             if (!shouldLoadGA()) return;
@@ -507,23 +591,7 @@ function initializeGoogleAnalytics() {
         initEventTracking();
     }
 
-    if (gaScriptInjected) { ready(gtagLoaded); return; }
-    gaScriptInjected = true;
-
-    // v7 : si gtag.js est déjà présent dans la page (autre script), on ne le recharge pas
-    const already = document.querySelector('script[src*="googletagmanager.com/gtag/js"]');
-    if (already) {
-        console.warn('⚠️ gtag.js déjà présent dans la page — pas de second chargement');
-        ready(true);
-        return;
-    }
-
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
-    script.onload  = () => ready(true);
-    script.onerror = () => ready(false);
-    document.head.appendChild(script);
+    loadGtagScript(ready);
 }
 
 // =============== SORTIE DE PAGE (une seule fois) ===============
@@ -574,7 +642,7 @@ function trackKeyEvent(link, clickType) {
 function initEventTracking() {
     if (eventTrackingStarted) return;
     eventTrackingStarted = true;
-    console.log('🎯 Tracking v7 activé...');
+    console.log('🎯 Tracking v8 activé...');
 
     document.addEventListener('click', (e) => {
         if (!shouldLoadGA()) return;
@@ -703,13 +771,16 @@ function trackCopyPaste() {
 }
 
 function trackExternalLinks() {
+    const stripWww = h => String(h || '').replace(/^www\./, '');
     document.addEventListener('click', (e) => {
         if (!shouldLoadGA()) return;
         const link = e.target.closest && e.target.closest('a[href]');
         if (!link || !link.href) return;
         let host;
         try { host = new URL(link.href, window.location.href).hostname; } catch (err) { return; }
-        if (!/^https?:/.test(link.href) || host === window.location.hostname) return;
+        if (!/^https?:/.test(link.href)) return;
+        // unware.studio et www.unware.studio sont le même site
+        if (stripWww(host) === stripWww(window.location.hostname)) return;
 
         const map = [
             ['drive.google.com', 'google_drive'], ['discord.gg', 'discord'], ['discord.com', 'discord'],
@@ -1010,7 +1081,7 @@ function onSPANavigation() {
 // =============== COOKIES UI (ancienne bannière écrite dans la page) ===============
 function showCookieBanner() {
     const banner = document.getElementById('custom-cookie-banner');
-    if (getCookie('cookieConsent')) return;
+    if (getConsentState() !== 'unknown') return;
     if (banner) {
         banner.classList.remove('hiding');
         banner.style.display = 'block';
@@ -1036,8 +1107,8 @@ function showCookieSettings() {
         modal.classList.add('show');
         const aEl = document.getElementById('analyticsCookies');
         const pEl = document.getElementById('performanceCookies');
-        if (aEl) aEl.checked = getCookie('analyticsCookies') === 'true';
-        if (pEl) pEl.checked = getCookie('performanceCookies') === 'true';
+        if (aEl) aEl.checked = isTruthy(readConsentValue('analyticsCookies'));
+        if (pEl) pEl.checked = isTruthy(readConsentValue('performanceCookies'));
         hideCookieBanner();
     }
 }
@@ -1045,7 +1116,7 @@ function showCookieSettings() {
 function hideCookieSettings() {
     const modal = document.getElementById('cookieModal');
     if (modal) modal.classList.remove('show');
-    if (!getCookie('cookieConsent')) setTimeout(showCookieBanner, 500);
+    if (getConsentState() === 'unknown') setTimeout(showCookieBanner, 500);
 }
 
 function dispatchConsentEvent(consent, analytics) {
@@ -1084,14 +1155,32 @@ function saveCookiePreferences() {
 }
 
 // =============== ÉCOUTE DU CONSENTEMENT (cookie-banner.js ET ancienne bannière) ===============
-document.addEventListener('cookieConsentChanged', function (e) {
-    const d = (e && e.detail) || {};
-    if (d.consent === 'rejected' || d.analytics !== 'true') {
-        resetAnalyticsState();
+// v8 : la décision vient des COOKIES, pas du contenu de l'événement.
+//  - accord lu dans les cookies  → on (ré)active et on initialise GA4
+//  - l'événement annonce un accord mais le cookie n'est pas encore écrit → on réessaie (jusqu'à ~1 s)
+//  - refus EXPLICITE dans les cookies → on coupe GA4 et on efface l'ID
+//  - rien de clair (pas de choix enregistré) → on ne touche à rien
+function handleConsentChange(detail, attempt) {
+    const state = getConsentState();
+
+    if (state === 'granted') {
+        cookiesRejected = false;
+        setGADisabled(false);
+        setTimeout(initializeGoogleAnalytics, 100);
         return;
     }
-    cookiesRejected = false;
-    setTimeout(initializeGoogleAnalytics, 100);
+
+    const claimsGranted = !!(detail && detail.consent && String(detail.consent).toLowerCase() !== 'rejected' && isTruthy(detail.analytics));
+    if (claimsGranted && attempt < 5) {
+        setTimeout(function () { handleConsentChange(detail, attempt + 1); }, 200);
+        return;
+    }
+
+    if (state === 'denied') resetAnalyticsState();
+}
+
+document.addEventListener('cookieConsentChanged', function (e) {
+    handleConsentChange((e && e.detail) || {}, 0);
 });
 
 // =============== INIT PRINCIPALE ===============
@@ -1099,16 +1188,18 @@ function initAnalytics() {
     deviceType = detectDeviceType();
     logConsentStatus();
 
-    const consent = getCookie('cookieConsent');
-    if (!consent) {
+    const state = getConsentState();
+    if (state === 'unknown') {
         setTimeout(showCookieBanner, 1500); // sans effet si cookie-banner.js gère la bannière
         return;
     }
-    if (!shouldLoadGA()) {
+    if (state === 'denied') {
         setGADisabled(true);
         isGALoaded = false;
         return;
     }
+    // accord déjà donné (visiteur de retour) : on lance GA4
+    setGADisabled(false);
     setTimeout(initializeGoogleAnalytics, 300);
 }
 
@@ -1118,11 +1209,13 @@ else initAnalytics();
 // =============== DEBUG CONSOLE ===============
 window.debugGA = {
     check: function () {
-        console.log('🔍 GA v7:');
+        console.log('🔍 GA v8:');
+        console.log('- État du consentement   :', getConsentState());
         console.log('- Consentement analytics :', shouldLoadGA());
-        console.log('- GA Loaded / gtag OK    :', isGALoaded, '/', gtagLoaded);
-        console.log('- cookieConsent          :', getCookie('cookieConsent'));
-        console.log('- analyticsCookies       :', getCookie('analyticsCookies'));
+        console.log('- ga-disable (doit être false/undefined) :', window['ga-disable-' + GA_MEASUREMENT_ID]);
+        console.log('- GA Loaded / gtag OK    :', isGALoaded, '/', gtagLoaded, '(script :', gtagScriptState + ')');
+        console.log('- cookieConsent          :', readConsentValue('cookieConsent'));
+        console.log('- analyticsCookies       :', readConsentValue('analyticsCookies'));
         console.log('- ID visiteur (cookie)   :', getCookie(VISITOR_KEY));
         console.log('- ID visiteur (storage)  :', sGet('local', VISITOR_KEY));
         console.log('- ID envoyé à GA4        :', getVisitorId(), '(client_id = user_id)');
@@ -1139,8 +1232,10 @@ window.debugGA = {
         console.log('Scripts gtag/GTM chargés (' + scripts.length + ') :', scripts);
         if (scripts.length > 1) console.warn('⚠️ Plusieurs scripts Google : un autre fichier charge aussi GA4 (cookie-banner.js ? analytics-clarify.js ?)');
         console.log('Cookies ' + VISITOR_KEY + ' visibles (' + ids.length + ') :', ids);
-        if (ids.length > 1) console.warn('⚠️ Deux cookies ' + VISITOR_KEY + ' : relance la page, la v7 nettoie le doublon');
+        if (ids.length > 1) console.warn('⚠️ Deux cookies ' + VISITOR_KEY + ' : relance la page, la v8 nettoie le doublon');
         console.log('Cookie _ga :', getCookie('_ga'));
+        console.log('Cookie _ga_' + GA_COOKIE_SUFFIX + ' :', getCookie('_ga_' + GA_COOKIE_SUFFIX));
+        console.log('ga-disable :', window['ga-disable-' + GA_MEASUREMENT_ID]);
         console.log('ID envoyé (client_id = user_id) :', getVisitorId());
         console.log('Session gtag :', gtagSessionId);
         console.log('gtag("config") déjà fait :', !!window.__unwareGAConfigured);
@@ -1152,7 +1247,7 @@ window.debugGA = {
         track('debug_test', { test: 'ok' });
         console.log('✅ debug_test envoyé via', gtagLoaded ? 'gtag' : 'API');
     },
-    force:   () => { if (shouldLoadGA()) initializeGoogleAnalytics(); },
+    force:   () => { if (shouldLoadGA()) { setGADisabled(false); initializeGoogleAnalytics(); } },
     apiTest: () => shouldLoadGA() ? sendToSecureAPI('api_test', { test: 'direct' }) : Promise.resolve(false),
     status:  () => logConsentStatus(),
     navHistory: function () {
