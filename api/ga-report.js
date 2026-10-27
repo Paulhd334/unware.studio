@@ -23,6 +23,11 @@ const { BetaAnalyticsDataClient } = require('@google-analytics/data');
 
 const PROPERTY = `properties/${process.env.GA4_PROPERTY_ID}`;
 
+// Fenêtre du « en direct » : GA4 garde par défaut les 30 dernières minutes, d'où les visiteurs « fantômes ».
+// On la réduit à 5 minutes (change RT_MINUTES si tu veux plus court ou plus long ; GA4 accepte jusqu'à 30).
+const RT_MINUTES = 5;
+const RT_RANGE = [{ startMinutesAgo: RT_MINUTES - 1, endMinutesAgo: 0 }];
+
 const warned = {};
 let client = null;
 function getClient() {
@@ -91,9 +96,11 @@ module.exports = async (req, res) => {
   if (req.query && req.query.live) {
     try {
       const [totalRes, pagesRes] = await Promise.all([
-        analytics.runRealtimeReport({ property: PROPERTY, metrics: [{ name: 'activeUsers' }] }).catch(() => [{ rows: [] }]),
+        analytics.runRealtimeReport({ property: PROPERTY,
+        minuteRanges: RT_RANGE, metrics: [{ name: 'activeUsers' }] }).catch(() => [{ rows: [] }]),
         analytics.runRealtimeReport({
           property: PROPERTY,
+        minuteRanges: RT_RANGE,
           metrics: [{ name: 'activeUsers' }],
           dimensions: [{ name: 'unifiedScreenName' }],
           limit: 10,
@@ -227,12 +234,14 @@ module.exports = async (req, res) => {
       // 8a. Temps réel — total RÉEL de visiteurs uniques (sans dimension : une seule ligne)
       analytics.runRealtimeReport({
         property: PROPERTY,
+        minuteRanges: RT_RANGE,
         metrics: [{ name: 'activeUsers' }],
       }).catch(() => [{ rows: [] }]),
 
       // 8b. Temps réel — répartition par page (ne JAMAIS sommer ces valeurs)
       analytics.runRealtimeReport({
         property: PROPERTY,
+        minuteRanges: RT_RANGE,
         metrics: [{ name: 'activeUsers' }],
         dimensions: [{ name: 'unifiedScreenName' }],
         limit: 10,
