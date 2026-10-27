@@ -23,6 +23,7 @@ const { BetaAnalyticsDataClient } = require('@google-analytics/data');
 
 const PROPERTY = `properties/${process.env.GA4_PROPERTY_ID}`;
 
+const warned = {};
 let client = null;
 function getClient() {
   if (!client) {
@@ -86,9 +87,38 @@ module.exports = async (req, res) => {
 
   const analytics = getClient();
 
+  // Mode léger (?live=1) : uniquement le « en direct », appelé toutes les 20 s par le dashboard
+  if (req.query && req.query.live) {
+    try {
+      const [totalRes, pagesRes] = await Promise.all([
+        analytics.runRealtimeReport({ property: PROPERTY, metrics: [{ name: 'activeUsers' }] }).catch(() => [{ rows: [] }]),
+        analytics.runRealtimeReport({
+          property: PROPERTY,
+          metrics: [{ name: 'activeUsers' }],
+          dimensions: [{ name: 'unifiedScreenName' }],
+          limit: 10,
+        }).catch(() => [{ rows: [] }]),
+      ]);
+      const t = (totalRes[0] && totalRes[0].rows) || [];
+      return res.status(200).json({
+        generated_at: new Date().toISOString(),
+        realtime: t.length ? num(t[0].metricValues[0].value) : 0,
+        realtime_pages: ((pagesRes[0] && pagesRes[0].rows) || []).map((r) => ({
+          name: r.dimensionValues[0].value,
+          users: num(r.metricValues[0].value),
+        })),
+      });
+    } catch (err) {
+      return res.status(500).json({ error: 'ga_api', message: err.message || 'Temps réel indisponible.' });
+    }
+  }
+
   // Requêtes optionnelles (dimensions / métriques personnalisées) : en cas d'échec → null
-  const optional = (promise) => promise.catch((e) => {
-    console.warn('[ga-report] requête optionnelle ignorée :', e.message);
+  const optional = (promise, label) => promise.catch((e) => {
+    if (!warned[label]) {
+      warned[label] = true; // un seul message par instance Vercel, pas un par appel
+      console.warn('[ga-report] ' + label + ' ignoré (définition personnalisée GA4 manquante ?) :', e.message);
+    }
     return null;
   });
 
@@ -214,7 +244,7 @@ module.exports = async (req, res) => {
         dateRanges: range,
         dimensions: [{ name: 'newVsReturning' }],
         metrics: [{ name: 'activeUsers' }],
-      })),
+      }), 'returning'),
 
       // 10. Liens sortants par destination (dimension personnalisée « destination »)
       optional(analytics.runReport({
@@ -225,7 +255,7 @@ module.exports = async (req, res) => {
         dimensionFilter: eventIs('outbound_link'),
         orderBys: [{ metric: { metricName: 'eventCount' }, desc: true }],
         limit: 10,
-      })),
+      }), 'outbound'),
 
       // 11. Parcours page → page (dimensions personnalisées « from_title » et « to_title »)
       optional(analytics.runReport({
@@ -236,7 +266,7 @@ module.exports = async (req, res) => {
         dimensionFilter: eventIs('page_navigation'),
         orderBys: [{ metric: { metricName: 'eventCount' }, desc: true }],
         limit: 10,
-      })),
+      }), 'navigation'),
 
       // 12. Core Web Vitals (métriques personnalisées « value_ms » et « value », somme par événement)
       optional(analytics.runReport({
@@ -250,7 +280,7 @@ module.exports = async (req, res) => {
             inListFilter: { values: ['vital_lcp', 'vital_fcp', 'vital_ttfb', 'vital_inp', 'vital_cls'] },
           },
         },
-      })),
+      }), 'vitals'),
     ]);
 
     // ── Totaux ──
