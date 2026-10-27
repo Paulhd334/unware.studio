@@ -1,4 +1,4 @@
-// =============== /api/ga-report.js ===============
+// =============== /api/ga-report.js — v2 (analytics.js v8) ===============
 // Lit les données GA4 côté serveur (clé privée jamais exposée au navigateur)
 // et renvoie un JSON unique consommé par dashboard.html
 //
@@ -9,6 +9,15 @@
 //   DASHBOARD_TOKEN   → mot de passe qui protège l'accès au dashboard
 //
 // Dépendance : npm i @google-analytics/data
+//
+// Nouveautés v2 :
+//  - événements : 100 lignes au lieu de 40, et les « hover_* » sont exclus (ils noyaient les petits événements clés)
+//  - returning  : nouveaux / de retour (dimension GA4 native, rien à configurer)
+//  - outbound   : liens sortants par destination   → nécessite la dimension personnalisée « destination »
+//  - navigation : parcours page → page             → nécessite les dimensions « from_title » et « to_title »
+//  - vitals     : moyennes LCP / FCP / TTFB / INP / CLS → nécessite les métriques personnalisées « value_ms » et « value »
+//  Si une dimension/métrique personnalisée n'est pas encore déclarée dans GA4, le champ est simplement omis
+//  (le dashboard masque la section) : le reste continue de fonctionner.
 
 const { BetaAnalyticsDataClient } = require('@google-analytics/data');
 
@@ -44,6 +53,10 @@ function rowsToObjects(res, dimNames, metNames) {
   });
 }
 
+const eventIs = (name) => ({
+  filter: { fieldName: 'eventName', stringFilter: { matchType: 'EXACT', value: name } },
+});
+
 // ── Handler ──────────────────────────────────────────────
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
@@ -69,8 +82,15 @@ module.exports = async (req, res) => {
   const start = `${days}daysAgo`;
   const prevStart = `${days * 2}daysAgo`;
   const prevEnd = `${days + 1}daysAgo`;
+  const range = [{ startDate: start, endDate: 'today' }];
 
   const analytics = getClient();
+
+  // Requêtes optionnelles (dimensions / métriques personnalisées) : en cas d'échec → null
+  const optional = (promise) => promise.catch((e) => {
+    console.warn('[ga-report] requête optionnelle ignorée :', e.message);
+    return null;
+  });
 
   try {
     const [
@@ -83,6 +103,10 @@ module.exports = async (req, res) => {
       countriesRes,
       realtimeTotalRes,
       realtimePagesRes,
+      returningRes,
+      outboundRes,
+      navigationRes,
+      vitalsRes,
     ] = await Promise.all([
       // 1. Totaux période courante + période précédente
       analytics.runReport({
@@ -105,7 +129,7 @@ module.exports = async (req, res) => {
       // 2. Courbe jour par jour
       analytics.runReport({
         property: PROPERTY,
-        dateRanges: [{ startDate: start, endDate: 'today' }],
+        dateRanges: range,
         dimensions: [{ name: 'date' }],
         metrics: [{ name: 'activeUsers' }, { name: 'sessions' }, { name: 'screenPageViews' }],
         orderBys: [{ dimension: { dimensionName: 'date' } }],
@@ -115,7 +139,7 @@ module.exports = async (req, res) => {
       // 3. Pages les plus vues
       analytics.runReport({
         property: PROPERTY,
-        dateRanges: [{ startDate: start, endDate: 'today' }],
+        dateRanges: range,
         dimensions: [{ name: 'pagePath' }, { name: 'pageTitle' }],
         metrics: [
           { name: 'screenPageViews' },
@@ -126,20 +150,25 @@ module.exports = async (req, res) => {
         limit: 15,
       }),
 
-      // 4. Événements (scroll_50, rage_click, cta_click, vital_lcp…)
+      // 4. Événements (scroll_*, time_*, clic_*, rage_click, vital_*…) — sans les hover_*
       analytics.runReport({
         property: PROPERTY,
-        dateRanges: [{ startDate: start, endDate: 'today' }],
+        dateRanges: range,
         dimensions: [{ name: 'eventName' }],
         metrics: [{ name: 'eventCount' }, { name: 'activeUsers' }],
+        dimensionFilter: {
+          notExpression: {
+            filter: { fieldName: 'eventName', stringFilter: { matchType: 'BEGINS_WITH', value: 'hover_' } },
+          },
+        },
         orderBys: [{ metric: { metricName: 'eventCount' }, desc: true }],
-        limit: 40,
+        limit: 100,
       }),
 
       // 5. Appareils
       analytics.runReport({
         property: PROPERTY,
-        dateRanges: [{ startDate: start, endDate: 'today' }],
+        dateRanges: range,
         dimensions: [{ name: 'deviceCategory' }],
         metrics: [{ name: 'activeUsers' }],
         orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }],
@@ -148,7 +177,7 @@ module.exports = async (req, res) => {
       // 6. Sources de trafic
       analytics.runReport({
         property: PROPERTY,
-        dateRanges: [{ startDate: start, endDate: 'today' }],
+        dateRanges: range,
         dimensions: [{ name: 'sessionSourceMedium' }],
         metrics: [{ name: 'sessions' }],
         orderBys: [{ metric: { metricName: 'sessions' }, desc: true }],
@@ -158,7 +187,7 @@ module.exports = async (req, res) => {
       // 7. Pays
       analytics.runReport({
         property: PROPERTY,
-        dateRanges: [{ startDate: start, endDate: 'today' }],
+        dateRanges: range,
         dimensions: [{ name: 'country' }],
         metrics: [{ name: 'activeUsers' }],
         orderBys: [{ metric: { metricName: 'activeUsers' }, desc: true }],
@@ -171,15 +200,57 @@ module.exports = async (req, res) => {
         metrics: [{ name: 'activeUsers' }],
       }).catch(() => [{ rows: [] }]),
 
-      // 8b. Temps réel — répartition par page (uniquement pour la liste affichée,
-      // ne JAMAIS sommer ces valeurs : un même visiteur peut apparaître sur
-      // plusieurs pages s'il a navigué dans la fenêtre temps réel de GA4)
+      // 8b. Temps réel — répartition par page (ne JAMAIS sommer ces valeurs)
       analytics.runRealtimeReport({
         property: PROPERTY,
         metrics: [{ name: 'activeUsers' }],
         dimensions: [{ name: 'unifiedScreenName' }],
         limit: 10,
       }).catch(() => [{ rows: [] }]),
+
+      // 9. Nouveaux / de retour (dimension native GA4)
+      optional(analytics.runReport({
+        property: PROPERTY,
+        dateRanges: range,
+        dimensions: [{ name: 'newVsReturning' }],
+        metrics: [{ name: 'activeUsers' }],
+      })),
+
+      // 10. Liens sortants par destination (dimension personnalisée « destination »)
+      optional(analytics.runReport({
+        property: PROPERTY,
+        dateRanges: range,
+        dimensions: [{ name: 'customEvent:destination' }],
+        metrics: [{ name: 'eventCount' }],
+        dimensionFilter: eventIs('outbound_link'),
+        orderBys: [{ metric: { metricName: 'eventCount' }, desc: true }],
+        limit: 10,
+      })),
+
+      // 11. Parcours page → page (dimensions personnalisées « from_title » et « to_title »)
+      optional(analytics.runReport({
+        property: PROPERTY,
+        dateRanges: range,
+        dimensions: [{ name: 'customEvent:from_title' }, { name: 'customEvent:to_title' }],
+        metrics: [{ name: 'eventCount' }],
+        dimensionFilter: eventIs('page_navigation'),
+        orderBys: [{ metric: { metricName: 'eventCount' }, desc: true }],
+        limit: 10,
+      })),
+
+      // 12. Core Web Vitals (métriques personnalisées « value_ms » et « value », somme par événement)
+      optional(analytics.runReport({
+        property: PROPERTY,
+        dateRanges: range,
+        dimensions: [{ name: 'eventName' }],
+        metrics: [{ name: 'eventCount' }, { name: 'customEvent:value_ms' }, { name: 'customEvent:value' }],
+        dimensionFilter: {
+          filter: {
+            fieldName: 'eventName',
+            inListFilter: { values: ['vital_lcp', 'vital_fcp', 'vital_ttfb', 'vital_inp', 'vital_cls'] },
+          },
+        },
+      })),
     ]);
 
     // ── Totaux ──
@@ -217,14 +288,57 @@ module.exports = async (req, res) => {
     // ── Événements ──
     const events = rowsToObjects(eventsRes[0], ['name'], ['count', 'users']);
 
-    // ✅ FIX : le total vient de la requête SANS dimension (un visiteur = 1, même
-    // s'il a changé de page plusieurs fois). On ne somme plus les lignes par page.
+    // ── Temps réel : total vient de la requête SANS dimension ──
     const realtimeTotalRows = (realtimeTotalRes[0] && realtimeTotalRes[0].rows) || [];
     const realtime = realtimeTotalRows.length
       ? num(realtimeTotalRows[0].metricValues[0].value)
       : 0;
-
     const realtimeRows = (realtimePagesRes[0] && realtimePagesRes[0].rows) || [];
+
+    // ── Nouveaux / de retour ──
+    let returning;
+    if (returningRes && returningRes[0]) {
+      const r = rowsToObjects(returningRes[0], ['type'], ['users']);
+      const fr = { new: 'Nouveaux', returning: 'De retour' };
+      returning = r
+        .filter((x) => fr[x.type])
+        .map((x) => ({ name: fr[x.type], users: x.users }))
+        .sort((a, b) => b.users - a.users);
+      if (!returning.length) returning = undefined;
+    }
+
+    // ── Liens sortants ──
+    let outbound;
+    if (outboundRes && outboundRes[0]) {
+      outbound = rowsToObjects(outboundRes[0], ['name'], ['count'])
+        .filter((x) => x.name && x.name !== '(not set)');
+      if (!outbound.length) outbound = undefined;
+    }
+
+    // ── Parcours ──
+    let navigation;
+    if (navigationRes && navigationRes[0]) {
+      navigation = rowsToObjects(navigationRes[0], ['from', 'to'], ['count'])
+        .filter((x) => x.from && x.to && x.from !== '(not set)' && x.to !== '(not set)')
+        .map((x) => ({ name: `${x.from} → ${x.to}`, count: x.count }));
+      if (!navigation.length) navigation = undefined;
+    }
+
+    // ── Core Web Vitals (moyenne = somme du paramètre / nombre d'événements) ──
+    let vitals;
+    if (vitalsRes && vitalsRes[0]) {
+      const v = {};
+      rowsToObjects(vitalsRes[0], ['name'], ['count', 'sumMs', 'sumValue']).forEach((x) => {
+        if (!x.count) return;
+        const key = x.name.replace('vital_', '');
+        if (key === 'cls') {
+          v.cls = Math.round((x.sumValue / x.count) * 1000) / 1000;
+        } else if (x.sumMs) {
+          v[key] = Math.round(x.sumMs / x.count);
+        }
+      });
+      if (Object.keys(v).length) vitals = v;
+    }
 
     return res.status(200).json({
       generated_at: new Date().toISOString(),
@@ -242,6 +356,10 @@ module.exports = async (req, res) => {
       devices: rowsToObjects(devicesRes[0], ['name'], ['users']),
       sources: rowsToObjects(sourcesRes[0], ['name'], ['sessions']),
       countries: rowsToObjects(countriesRes[0], ['name'], ['users']),
+      returning,
+      outbound,
+      navigation,
+      vitals,
     });
   } catch (err) {
     console.error('[ga-report]', err);
