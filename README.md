@@ -38,7 +38,5 @@ Site web moderne et responsive présentant l'univers de **UNWARE STUDIO**. Desig
 
 * ![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)
   **Vercel** – Hébergement et déploiement continu
-* ![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white)
-  **Git** – Versioning
 * ![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?logo=cloudinary&logoColor=white)
   **Cloudinary** – Optimisation et hébergement des images
