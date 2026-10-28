@@ -47,12 +47,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
 
-    <!-- ======COOKIES + BANNER ====== -->
+    <!-- ====== COOKIES + BANNER + ANALYTICS ====== -->
     <script src="/js/cookie-banner.js"></script>
     <script src="/js/analytics.js"></script>
     <script src="/js/analytics-clarify.js"></script>
-
-
+    <script src="/js/live-tracker.js" defer></script>
 
     <style>
     html {
@@ -853,13 +852,13 @@
                     <tbody>
                         <tr>
                             <td><strong>Cookies Essentiels</strong></td>
-                            <td>Fonctionnement du site, sécurité</td>
+                            <td>Fonctionnement du site, sécurité, mémorisation de votre choix de cookies</td>
                             <td>Site internet</td>
                         </tr>
                         <tr>
                             <td><strong>Cookies Analytics</strong></td>
-                            <td>Analyse d'audience, statistiques</td>
-                            <td>Google Analytics, Microsoft Clarity</td>
+                            <td>Analyse d'audience, statistiques, suivi de la navigation en direct</td>
+                            <td>Google Analytics, Microsoft Clarity, site internet</td>
                         </tr>
                     </tbody>
                 </table>
@@ -879,6 +878,16 @@
                         <p>Analyse du trafic et comportements</p>
                         <small>Durée : selon les paramètres du service</small>
                     </div>
+                    <div class="info-item">
+                        <h4><i class="fas fa-fingerprint"></i> Identifiant visiteur (ga_client_id)</h4>
+                        <p>Identifiant pseudonymisé qui permet de reconnaître votre navigateur d'une visite à l'autre</p>
+                        <small>Durée : 365 jours</small>
+                    </div>
+                    <div class="info-item">
+                        <h4><i class="fas fa-broadcast-tower"></i> Suivi en direct</h4>
+                        <p>Signaux de navigation affichés en temps réel à l'éditeur du site</p>
+                        <small>Durée : 90 secondes</small>
+                    </div>
                 </div>
             </div>
 
@@ -891,6 +900,7 @@
                     <li><i class="fas fa-globe"></i> Pages visitées et durée de session</li>
                     <li><i class="fas fa-map-marker-alt"></i> Données géographiques approximatives</li>
                     <li><i class="fas fa-mouse-pointer"></i> Interactions avec le site</li>
+                    <li><i class="fas fa-arrows-alt-v"></i> Défilement, temps passé et éléments cliqués sur chaque page</li>
                 </ul>
 
                 <div class="warning-note">
@@ -911,6 +921,7 @@
                             <strong>Services tiers :</strong>
                             <span class="li-detail">Google Analytics : pour l'analyse du trafic et des comportements sur le site.</span>
                             <span class="li-detail">Microsoft Clarity : pour l'analyse d'audience.</span>
+                            <span class="li-detail">Upstash et Vercel : pour le suivi de navigation en direct, visible uniquement par l'éditeur du site (données conservées 90 secondes, stockées à Francfort, en Allemagne).</span>
                         </span>
                     </li>
                     <li><i class="fas fa-lock"></i> <span><strong>Mesures de sécurité :</strong> Des mesures techniques et organisationnelles sont mises en œuvre afin de protéger les données traitées.</span></li>
@@ -964,6 +975,18 @@
                     </li>
                     <li>
                         <span>
+                            <strong>Identifiant visiteur (ga_client_id)</strong>
+                            <span class="li-detail">Durée du cookie : 365 jours, uniquement si vous acceptez les cookies d'analyse.</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span>
+                            <strong>Suivi en direct</strong>
+                            <span class="li-detail">Données effacées 90 secondes après votre dernière activité (environ 15 secondes après la fermeture de la page), sans historique conservé.</span>
+                        </span>
+                    </li>
+                    <li>
+                        <span>
                             <strong>Consentement</strong>
                             <span class="li-detail">Le choix concernant les cookies est conservé afin de mémoriser vos préférences.</span>
                         </span>
@@ -986,7 +1009,7 @@
                 </div>
 
                 <p class="cookie-note">
-                    <i class="fas fa-info-circle"></i> Cette action supprime les cookies Google Analytics et Microsoft Clarity de votre navigateur. Elle est locale à votre appareil.
+                    <i class="fas fa-info-circle"></i> Cette action supprime les cookies d'analyse de votre navigateur et efface immédiatement vos données de suivi en direct.
                 </p>
 
                 <details class="cookie-details">
@@ -994,8 +1017,9 @@
                     <ul>
                         <li>Les cookies Google Analytics (_ga, _ga_*, _gid, etc.)</li>
                         <li>Les cookies Microsoft Clarity (_clck, _clsk, etc.)</li>
+                        <li>Votre identifiant visiteur (ga_client_id) et vos données de suivi en direct</li>
                         <li>Les données de stockage local liées à l'analyse</li>
-                        <li>Votre consentement enregistré localement : la bannière s'affichera de nouveau à votre prochaine visite</li>
+                        <li>Votre consentement enregistré : la bannière s'affichera de nouveau à votre prochaine visite</li>
                     </ul>
                 </details>
             </div>
@@ -1008,7 +1032,7 @@
             </div>
 
             <div class="last-update">
-                <p><strong>Dernière mise à jour :</strong> 29 septembre 2026</p>
+                <p><strong>Dernière mise à jour :</strong> 28 octobre 2026</p>
             </div>
 
         </div>
@@ -1129,17 +1153,31 @@
     /* ==================== SUPPRESSION DES COOKIES D'ANALYSE ==================== */
     (function () {
         var GA_ID = 'G-NJLCB6G0G8';
+        var LIVE_ENDPOINT = '/api/live';
+        var VISITOR_KEY = 'ga_client_id';
 
-        /* Noms (ou préfixes) des cookies à supprimer : Google Analytics + Microsoft Clarity */
+        /* Cookies dont le nom commence par : Google Analytics + Microsoft Clarity */
         var COOKIE_PREFIXES = ['_ga', '_gid', '_gat', '_gac_', '_gcl_', '_clck', '_clsk', 'CLID', 'ANONID', 'MUID', 'SM'];
+
+        /* Cookies du site : identifiant visiteur et choix de consentement */
+        var EXACT_COOKIES = [VISITOR_KEY, 'cookieConsent', 'analyticsCookies', 'performanceCookies'];
 
         /* Clés de stockage local liées à l'analyse et au consentement */
         var STORAGE_PATTERN = /(^_?ga|gtm|gtag|analytics|consent|clarity|^_cl)/i;
 
         function isTargetCookie(name) {
+            if (EXACT_COOKIES.indexOf(name) !== -1) return true;
             return COOKIE_PREFIXES.some(function (prefix) {
-                return name === prefix || name.indexOf(prefix) === 0;
+                return name.indexOf(prefix) === 0;
             });
+        }
+
+        function readCookie(name) {
+            var match = document.cookie.split(';').map(function (c) { return c.trim(); })
+                .filter(function (c) { return c.indexOf(name + '=') === 0; })[0];
+            if (!match) return null;
+            var raw = match.slice(name.length + 1);
+            try { return decodeURIComponent(raw); } catch (e) { return raw; }
         }
 
         function expireCookie(name) {
@@ -1173,6 +1211,24 @@
             } catch (e) { /* stockage indisponible */ }
         }
 
+        /* Efface immédiatement les données de suivi en direct (doit être appelé AVANT la suppression de l'identifiant) */
+        function wipeLiveTracking() {
+            var visitorId = readCookie(VISITOR_KEY);
+            if (!visitorId) {
+                try { visitorId = window.localStorage.getItem(VISITOR_KEY); } catch (e) { visitorId = null; }
+            }
+            if (!visitorId || !/^[\w.\-]{3,100}$/.test(visitorId)) return;
+
+            var payload = JSON.stringify({ vid: visitorId, wipe: true });
+            try {
+                if (navigator.sendBeacon) {
+                    navigator.sendBeacon(LIVE_ENDPOINT, new Blob([payload], { type: 'text/plain' }));
+                } else {
+                    fetch(LIVE_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: payload, keepalive: true, credentials: 'omit' });
+                }
+            } catch (e) { /* réseau indisponible : les données expirent d'elles-mêmes sous 90 secondes */ }
+        }
+
         function disableAnalytics() {
             window['ga-disable-' + GA_ID] = true;
             window.dataLayer = window.dataLayer || [];
@@ -1190,7 +1246,7 @@
             var box = document.getElementById('cookieStatus');
             var text = document.getElementById('cookieStatusText');
             if (!box || !text) return;
-            text.innerHTML = '<i class="fas fa-check-circle"></i> Suppression réussie : vos cookies d\'analyse et votre consentement enregistré ont été effacés.';
+            text.innerHTML = '<i class="fas fa-check-circle"></i> Suppression réussie : vos cookies d\'analyse, votre identifiant visiteur, vos données de suivi en direct et votre consentement enregistré ont été effacés.';
             box.classList.add('visible');
         }
 
@@ -1198,12 +1254,14 @@
             var ok = window.confirm(
                 'Supprimer vos cookies d\'analyse ?\n\n' +
                 '• Cookies Google Analytics et Microsoft Clarity\n' +
+                '• Votre identifiant visiteur et vos données de suivi en direct\n' +
                 '• Données de session liées à l\'analyse\n' +
                 '• Votre consentement enregistré\n\n' +
-                'Cette action est locale à votre navigateur.'
+                'Les cookies sont supprimés de votre navigateur.'
             );
             if (!ok) return;
 
+            wipeLiveTracking();
             deleteAnalyticsCookies();
             deleteStorageData(window.localStorage);
             deleteStorageData(window.sessionStorage);
