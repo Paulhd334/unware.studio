@@ -139,6 +139,7 @@ function getClarityPageTitle() {
 
 function getPageSection() {
     const path = window.location.pathname;
+    if (clarityBakePage(window.location.href) === 'bake') return 'Bake and Cook Simulator';
     if (path.includes('/nexa/'))    return 'NEXA';
     if (path.includes('/tiktok/'))  return 'TikTok';
     if (path.includes('/Support/')) return 'Support';
@@ -243,6 +244,7 @@ function initializeClarity() {
                 if (typeof window.clarity !== 'undefined') {
                     setClarityTags();
                     window.clarity("event", "page_view");
+                    if (shouldLoadClarity()) clarityBakeArrival();
                     attachClarityEvents();
                     trackClarityWebVitals();
                     console.log('📊 Clarity MAX DATA prêt — ID:', CLARITY_PROJECT_ID);
@@ -278,8 +280,36 @@ function clarityEvent(name, data = {}) {
 
 // =============== ÉVÉNEMENTS CLÉS ===============
 // Envoyés immédiatement au clic (pas de délai), comme dans analytics.js
+// Suivi spécifique Accueil ↔ Bake and Cook Simulator
+function clarityBakePage(value) {
+    try {
+        const url = new URL(value, window.location.href);
+        if (!['unware.studio', 'www.unware.studio', window.location.hostname].includes(url.hostname)) return '';
+        const path = url.pathname.toLowerCase().replace(/\/+$/, '') || '/';
+        if (path === '/' || path === '/index.html') return 'home';
+        if (path === '/bake-and-cook-simulator.html' || path === '/bake-and-cook-simulator') return 'bake';
+    } catch (e) {}
+    return '';
+}
+function clarityBakeClick(link, clickType) {
+    const from = clarityBakePage(window.location.href);
+    const to = clarityBakePage(link.href);
+    if (!from || !to || from === to) return;
+    const event = from === 'home' ? 'clic_bake_and_cook' : 'clic_retour_accueil_bake';
+    const data = { from_page: window.location.pathname, to_page: new URL(link.href).pathname, click_type: clickType || 'normal' };
+    clarityEvent(event, data);
+}
+function clarityBakeArrival() {
+    if (clarityBakePage(window.location.href) !== 'bake') return;
+    clarityEvent('vue_bake_and_cook', { source_page: document.referrer && clarityBakePage(document.referrer) === 'home' ? 'home' : 'other' });
+    if (document.referrer && clarityBakePage(document.referrer) === 'home') {
+        clarityEvent('arrivee_bake_depuis_accueil', { from_page: '/', to_page: '/bake-and-cook-simulator.html' });
+    }
+}
+
 function clarityKeyEvent(link, clickType) {
     if (areClarityRejected() || !getClarityLoaded() || !link || !link.href) return;
+    if (shouldLoadClarity()) clarityBakeClick(link, clickType);
     const name = link.getAttribute('data-track-name') || '';
     const href = link.href || '';
 
