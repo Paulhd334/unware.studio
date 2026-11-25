@@ -28,6 +28,11 @@
   ],
   "redirects": [
     {
+      "source": "/nexa/fonctionnalites.html",
+      "destination": "/nexa/the_void_protocol.html",
+      "permanent": true
+    },
+    {
       "source": "/(.*)",
       "has": [
         {

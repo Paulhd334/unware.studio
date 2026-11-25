@@ -101,7 +101,6 @@ const PAGE_TITLES_RAW = {
     '/': 'UNWARE STUDIO',
     '/index.html': 'UNWARE STUDIO',
     '/bake-and-cook-simulator.html': 'Bake and Cook Simulator',
-    '/nexa/fonctionnalites.html': 'Fonctionnalités NEXA',
     '/nexa/galerie.html': 'Galerie NEXA',
     '/nexa/the_void_protocol.html': 'The Void Protocol',
     '/Support/FAQ.html': 'FAQ Support',
