@@ -250,20 +250,6 @@
   object-fit: cover;
 }
 
-.bake-page #panel-build .detail-image img {
-  transform: scale(1.65);
-  transform-origin: 21% 43%;
-}
-
-.bake-page #panel-cook .detail-image img {
-  transform: scale(1.65);
-  transform-origin: 98% 6%;
-}
-
-.bake-page #panel-grow .detail-image img {
-  object-position: center 76%;
-}
-
 .bake-page .panel-copy {
   padding: 18px 23px 21px;
 }
