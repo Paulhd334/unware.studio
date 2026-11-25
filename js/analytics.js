@@ -100,6 +100,7 @@ function normalizePath(p) {
 const PAGE_TITLES_RAW = {
     '/': 'UNWARE STUDIO',
     '/index.html': 'UNWARE STUDIO',
+    '/bake-and-cook-simulator.html': 'Bake and Cook Simulator',
     '/nexa/fonctionnalites.html': 'Fonctionnalités NEXA',
     '/nexa/galerie.html': 'Galerie NEXA',
     '/nexa/the_void_protocol.html': 'The Void Protocol',
@@ -588,6 +589,7 @@ function initializeGoogleAnalytics() {
             track('device_context', pick(enriched, DEVICE_KEYS));
             track('page_context', pick(enriched, PAGE_KEYS));
         });
+        gaBakeArrival();
         initEventTracking();
     }
 
@@ -610,8 +612,36 @@ window.addEventListener('pageshow', e => { if (e.persisted) exitFlushed = false;
 
 // =============== ÉVÉNEMENTS CLÉS ===============
 // Envoyé immédiatement au clic (pas de délai) pour ne rien perdre, même si la page change.
+// Suivi spécifique Accueil ↔ Bake and Cook Simulator
+function gaBakePage(value) {
+    try {
+        const url = new URL(value, window.location.href);
+        if (!['unware.studio', 'www.unware.studio', window.location.hostname].includes(url.hostname)) return '';
+        const path = url.pathname.toLowerCase().replace(/\/+$/, '') || '/';
+        if (path === '/' || path === '/index.html') return 'home';
+        if (path === '/bake-and-cook-simulator.html' || path === '/bake-and-cook-simulator') return 'bake';
+    } catch (e) {}
+    return '';
+}
+function gaBakeClick(link, clickType) {
+    const from = gaBakePage(window.location.href);
+    const to = gaBakePage(link.href);
+    if (!from || !to || from === to) return;
+    const event = from === 'home' ? 'clic_bake_and_cook' : 'clic_retour_accueil_bake';
+    const data = { from_page: window.location.pathname, to_page: new URL(link.href).pathname, click_type: clickType || 'normal' };
+    track(event, data);
+}
+function gaBakeArrival() {
+    if (gaBakePage(window.location.href) !== 'bake') return;
+    track('vue_bake_and_cook', { source_page: document.referrer && gaBakePage(document.referrer) === 'home' ? 'home' : 'other' });
+    if (document.referrer && gaBakePage(document.referrer) === 'home') {
+        track('arrivee_bake_depuis_accueil', { from_page: '/', to_page: '/bake-and-cook-simulator.html' });
+    }
+}
+
 function trackKeyEvent(link, clickType) {
     if (!shouldLoadGA() || !link || !link.href) return;
+    gaBakeClick(link, clickType);
     const name = link.getAttribute('data-track-name') || '';
     const href = link.href || '';
 
