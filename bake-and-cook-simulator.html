@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0a0a">
+<title>Bake and Cook Simulator | UNWARE STUDIO</title>
+<meta name="description" content="Construisez, personnalisez et gérez votre restaurant dans Bake and Cook Simulator, un jeu indépendant en développement par UNWARE STUDIO.">
+<meta name="author" content="UNWARE STUDIO">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://unware.studio/bake-and-cook-simulator.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bake and Cook Simulator | UNWARE STUDIO">
+<meta property="og:description" content="Partez d’un terrain vide et développez votre propre restaurant.">
+<meta property="og:url" content="https://unware.studio/bake-and-cook-simulator.html">
+<meta property="og:site_name" content="UNWARE STUDIO">
+<meta property="og:image" content="https://unware.studio/images/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script src="/js/cookie-banner.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/analytics-clarify.js"></script>
+<script src="/live-tracker.js" defer></script>
+<style>
+:root{--bg:#0a0a0a;--panel:#111;--paper:#f4eee3;--muted:#a49c90;--line:rgba(244,238,227,.12);--warm:#e5a45e;--warm2:#f1c98e;--green:#a8b69b;--mono:'Space Mono',monospace;--display:'Bebas Neue',sans-serif;--body:'Inter',sans-serif}
+*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth;scroll-padding-top:90px}body{background:var(--bg);color:var(--paper);font-family:var(--body);line-height:1.65;-webkit-font-smoothing:antialiased}a{color:inherit}.container{width:min(1160px,90%);margin:auto}.skip{position:absolute;left:-9999px}.skip:focus{left:1rem;top:1rem;background:var(--paper);color:var(--bg);padding:.6rem;z-index:99}
+.hero{min-height:790px;min-height:min(900px,100svh);padding:150px 0 80px;display:flex;align-items:center;position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:radial-gradient(ellipse at 72% 44%,rgba(196,125,62,.13),transparent 40%),linear-gradient(135deg,#0a0a0a 48%,#17130e)}.hero:before{content:"";position:absolute;width:600px;height:600px;right:-160px;top:70px;border:1px solid rgba(229,164,94,.15);border-radius:50%;box-shadow:0 0 0 35px rgba(229,164,94,.025),0 0 0 90px rgba(229,164,94,.02)}.hero-grid{display:grid;grid-template-columns:1.03fr .97fr;gap:60px;align-items:center;position:relative}.eyebrow,.section-label{font:700 .7rem var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--warm2)}.eyebrow{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(229,164,94,.3);background:rgba(229,164,94,.07);border-radius:30px;padding:8px 13px}.eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--warm);box-shadow:0 0 12px var(--warm)}h1,h2,h3{font-weight:500}h1{font:clamp(4rem,8vw,7.7rem)/.83 var(--display);letter-spacing:.015em;margin:27px 0 25px;max-width:650px}h1 span{display:block;color:var(--warm2)}.hero-lead{font-size:clamp(1.05rem,1.7vw,1.27rem);color:#d5cec3;max-width:470px}.hero-copy{margin-top:17px;color:var(--muted);max-width:470px;font-size:.96rem}.hero-actions{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}.button{display:inline-flex;align-items:center;gap:10px;text-decoration:none;border:1px solid var(--line);padding:13px 18px;border-radius:4px;font-size:.83rem;font-weight:600;transition:.2s}.button.primary{background:var(--warm);color:#17110a;border-color:var(--warm)}.button:hover{transform:translateY(-2px);border-color:var(--warm2)}.hero-note{margin-top:38px;color:#847d73;font: .65rem var(--mono);letter-spacing:.09em;text-transform:uppercase}
+.visual{min-height:475px;position:relative;display:grid;place-items:center}.orbit{position:absolute;width:min(100%,470px);aspect-ratio:1;border:1px solid rgba(229,164,94,.22);border-radius:50%;box-shadow:0 0 70px rgba(229,164,94,.07),inset 0 0 70px rgba(229,164,94,.035)}.orbit:before,.orbit:after{content:"";position:absolute;border:1px solid rgba(229,164,94,.13);border-radius:50%;inset:8%}.orbit:after{inset:17%}
+.strip{border-bottom:1px solid var(--line);background:#0e0e0d}.strip-in{display:grid;grid-template-columns:repeat(3,1fr)}.strip-item{padding:27px 28px;display:flex;align-items:center;gap:16px;border-right:1px solid var(--line)}.strip-item:last-child{border:0}.strip-icon{color:var(--warm);font-size:1.25rem}.strip-item strong{display:block;font:1.55rem var(--display);letter-spacing:.04em}.strip-item span{font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+section.content-section{padding:112px 0}.section-head{max-width:700px;margin-bottom:52px}.section-label{display:block;margin-bottom:15px}.section-head h2,.split-copy h2{font:clamp(3rem,6vw,5.4rem)/.94 var(--display);letter-spacing:.02em}.section-head p,.split-copy>p{color:var(--muted);margin-top:18px;max-width:620px}.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.feature{min-height:250px;background:linear-gradient(145deg,#171613,#10100f);border:1px solid var(--line);padding:27px;position:relative;overflow:hidden}.feature:after{content:attr(data-num);position:absolute;right:15px;bottom:-38px;font:9rem var(--display);color:rgba(229,164,94,.055)}.feature-icon{width:42px;height:42px;display:grid;place-items:center;border:1px solid rgba(229,164,94,.3);color:var(--warm);border-radius:50%;margin-bottom:30px}.feature h3{font:2rem var(--display);letter-spacing:.03em}.feature p{color:var(--muted);font-size:.9rem;margin-top:10px;max-width:300px}.experience{background:linear-gradient(180deg,#10100f,#0a0a0a);border-block:1px solid var(--line)}.split{display:grid;grid-template-columns:.82fr 1.18fr;gap:90px;align-items:start}.split-copy{position:sticky;top:130px}.split-copy h2{max-width:480px}.steps{border-top:1px solid var(--line)}.step{display:grid;grid-template-columns:70px 1fr;gap:20px;padding:28px 0;border-bottom:1px solid var(--line)}.step-no{color:var(--warm);font:1rem var(--mono);padding-top:5px}.step h3{font:2.1rem var(--display)}.step p{color:var(--muted);font-size:.9rem;max-width:590px;margin-top:8px}.step-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.step-tags span{font:.58rem var(--mono);color:#aaa093;border:1px solid var(--line);padding:5px 8px;text-transform:uppercase;letter-spacing:.04em}.statement{padding:100px 0;text-align:center;background:radial-gradient(ellipse at center,rgba(229,164,94,.09),transparent 60%)}.statement p{font:clamp(2.3rem,5vw,4.4rem)/1.05 var(--display);max-width:850px;margin:auto}.statement p span{color:var(--warm2)}.statement small{display:block;color:#79736a;margin:20px auto 0;max-width:700px;font-size:.76rem}.about{border-top:1px solid var(--line)}.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}.about-copy h2{font:clamp(3rem,5vw,4.6rem)/.9 var(--display)}.about-copy p{color:var(--muted);margin-top:18px;max-width:570px}.tech-panel{border:1px solid var(--line);padding:28px;background:linear-gradient(145deg,#171613,#10100f)}.tech-panel small{font:.62rem var(--mono);letter-spacing:.15em;color:var(--warm2)}.tech-list{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px}.tech-list span{padding:10px 13px;border:1px solid rgba(244,238,227,.12);background:rgba(255,255,255,.025);font-size:.77rem}.status{margin-top:14px;color:#aaa093;font-size:.8rem}.release{border-top:1px solid var(--line);padding:70px 0}.release-in{display:flex;align-items:center;justify-content:space-between;gap:30px}.release h2{font:3.1rem var(--display)}.release p{color:var(--muted);font-size:.9rem}.release-label{font:.62rem var(--mono);color:var(--warm2);letter-spacing:.14em;text-transform:uppercase}
+@media(max-width:850px){.hero-grid{grid-template-columns:1fr;gap:15px}.hero{padding-top:140px}.hero-copy,.hero-lead{max-width:650px}.visual{min-height:430px}.orbit{width:390px}.split{grid-template-columns:1fr;gap:40px}.split-copy{position:static}.about-grid{gap:35px}}
+@media(max-width:640px){.hero{min-height:auto;padding:125px 0 50px}.hero-grid{gap:4px}h1{font-size:4.5rem}.visual{min-height:360px;margin:0 -3%}.orbit{width:320px}.strip-in{grid-template-columns:1fr}.strip-item{padding:18px 4px;border-right:0;border-bottom:1px solid var(--line)}.strip-item:last-child{border-bottom:0}.content-section{padding:78px 0!important}.section-head{margin-bottom:32px}.feature-grid{grid-template-columns:1fr}.feature{min-height:210px}.feature-icon{margin-bottom:20px}.step{grid-template-columns:42px 1fr;gap:10px}.step h3{font-size:1.8rem}.statement{padding:70px 0}.about-grid{grid-template-columns:1fr}.release-in{align-items:flex-start;flex-direction:column}}
+
+/* Studio header and mobile navigation, sourced from the homepage. */
+header, .mobile-nav {
+    --primary: #0a0a0a;
+    --text: #e0e0e0;
+    --accent: #fff;
+    --border: rgba(255,255,255,.08);
+    --transition: all .3s ease;
+    line-height: 1.6;
+}
+header .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+header { position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition); }
+
+.nav-container { display: flex;
+            justify-content: space-between;
+            align-items: center; }
+
+.logo { display: flex;
+            align-items: center;
+            gap: 12px; }
+
+.logo-icon { color: var(--accent);
+            font-size: 24px; }
+
+.logo-text { font-family: 'Bebas Neue', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            letter-spacing: 1.5px;
+            color: var(--accent); }
+
+.nav-links { display: flex;
+            padding: 0;
+            list-style: none;
+            gap: 40px; }
+
+.nav-links a { color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            transition: var(--transition); }
+
+.nav-links a:hover { color: var(--accent); }
+
+.nav-actions { display: flex;
+            gap: 15px;
+            align-items: center; }
+
+.mobile-menu { display: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--accent); }
+
+@media (max-width: 768px) {
+.nav-links, .nav-actions .btn-login { display: none; }
+
+.mobile-menu { display: block; }
+}
+
+.logo-text { display: flex;
+    align-items: center;
+    justify-content: center; }
+
+.studio-logo { width: 100px; 
+    height: auto; 
+    object-fit: contain;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.0003)); 
+    transition: transform 0.3s ease, filter 0.3s ease; }
+
+.logo-text { display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 200px; }
+
+.studio-logo { width: 100px; 
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.0003));
+    transition: transform 0.3s ease, filter 0.3s ease; }
+
+.logo { display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0; }
+
+.logo-text { display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;  
+    height: 100px;  
+    overflow: hidden; }
+
+.studio-logo { width: 100%;  
+    max-width: 100px;  
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.0003));
+    transition: transform 0.3s ease, filter 0.3s ease; }
+
+.studio-logo { max-width: 150px; }
+
+.mobile-menu { display: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--accent);
+        z-index: 1001;
+        transition: var(--transition);
+        padding: 8px;
+        border-radius: 4px;
+        background: rgba(255,255,255,0.05);
+        height: 42px;
+        width: 42px;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        outline: none; }
+
+.mobile-menu:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+
+body.no-scroll { overflow: hidden; }
+
+.mobile-nav { position: fixed; top: 0; right: -100%; width: 320px; height: 100vh;
+        background: var(--primary); z-index: 1000;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border-left: 1px solid var(--border);
+        display: flex; flex-direction: column;
+        padding: 80px 25px 25px;
+        overflow-y: auto;
+        box-shadow: -5px 0 30px rgba(0,0,0,0.3);
+        box-sizing: border-box; }
+
+.mobile-nav.active { right: 0; transform: translateZ(0); }
+
+.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.7); z-index: 999;
+        opacity: 0; visibility: hidden;
+        transition: all 0.4s ease;
+        backdrop-filter: blur(5px);
+        pointer-events: none; }
+
+.overlay.active { opacity: 1; visibility: visible; pointer-events: all; }
+
+.mobile-close { position: absolute; top: 25px; right: 25px;
+        font-size: 22px; cursor: pointer; color: var(--text);
+        transition: var(--transition);
+        padding: 8px; border-radius: 4px;
+        background: rgba(255,255,255,0.05); z-index: 1001;
+        width: 40px; height: 40px;
+        display: flex; align-items: center; justify-content: center;
+        border: none; outline: none; }
+
+.mobile-close:hover { color: var(--accent); background: rgba(255,255,255,0.1); transform: rotate(90deg); }
+
+.mobile-nav-links { padding: 0; list-style: none; order: 1; margin-bottom: 20px; flex: 1; overflow-y: auto; }
+
+.mobile-nav-links li { margin-bottom: 8px; }
+
+.mobile-nav-links a { color: var(--text); text-decoration: none; font-size: 18px; font-weight: 500;
+        display: block; padding: 14px 16px; border-radius: 8px;
+        transition: all 0.3s ease; position: relative; overflow: hidden; }
+
+.mobile-nav-links a:before { content: ''; position: absolute; left: 0; top: 0; height: 100%; width: 4px;
+        background: var(--accent); transform: scaleY(0); transition: transform 0.3s ease; }
+
+.mobile-nav-links a:hover { color: var(--accent); background: rgba(255,255,255,0.05); padding-left: 20px; }
+
+.mobile-nav-links a:hover:before { transform: scaleY(1); }
+
+.mobile-nav-actions { display: flex; flex-direction: column; gap: 12px; order: 2;
+        margin-bottom: 150px; padding-top: 20px;
+        border-top: 1px solid var(--border);
+        position: relative; top: 0; }
+
+.mobile-nav-actions .btn { text-align: center; width: 100%; padding: 14px 20px; border-radius: 8px; font-weight: 600; height: auto; }
+
+@media (max-width: 768px) {
+.nav-links, .nav-actions .btn-login, .nav-actions .btn-primary { display: none; }
+
+.mobile-menu { display: flex; }
+
+.studio-logo { display: none !important; visibility: hidden !important; position: absolute !important; width: 0 !important; height: 0 !important; opacity: 0 !important; pointer-events: none !important; }
+}
+
+@media (max-height: 600px) {
+.mobile-nav { padding: 70px 20px 20px; }
+
+.mobile-close { top: 20px; right: 20px; }
+
+.mobile-nav-actions { gap: 10px; margin-bottom: 20px; }
+
+.mobile-nav-actions .btn { padding: 12px 15px; }
+
+.mobile-nav-links li { margin-bottom: 6px; }
+
+.mobile-nav-links a { padding: 12px 16px; font-size: 16px; }
+}
+        footer {
+            background: var(--secondary);
+            padding: 80px 0 40px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .footer-logo-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--accent);
+            letter-spacing: 1.5px;
+        }
+
+        .footer-desc {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--card-bg);
+            border-radius: 4px;
+            color: var(--text);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+             text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 400;
+        }
+footer {
+  --secondary: #111;
+  --accent: #fff;
+  --text: #e0e0e0;
+  --text-secondary: #888;
+  --border: rgba(255,255,255,.08);
+  --transition: all .3s ease;
+  line-height: 1.6;
+}
+footer .container { width: 90%; max-width: 1200px; }
+footer .footer-column h3 { font-weight: 700; }
+@media (max-width: 900px) {
+  footer .footer-content { grid-template-columns: 1fr 1fr; gap: 30px; }
+}
+@media (max-width: 768px) {
+  footer .footer-content { grid-template-columns: 1fr; gap: 30px; }
+}
+
+
+.game-logo {
+    position: relative;
+    display: block;
+    width: min(92%, 420px);
+    height: auto;
+    border-radius: 18px;
+    box-shadow: 0 24px 65px rgba(0, 0, 0, .42);
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<!-- Header -->
+<header lang="fr">
+    <div class="container nav-container">
+        <div class="logo">
+            <div class="logo-icon"><i class="fas fa-temple"></i></div>
+            <div class="logo-text">
+                <img src="./images/unware-studio-logo.png" alt="Logo UNWARE STUDIO" class="studio-logo">
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/#accueil" data-track-name="nav_accueil">Accueil</a></li>
+            <li><a href="/nexa/fonctionnalites.html" data-track-name="nav_fonctionnalites">Fonctionnalités</a></li>
+            <li><a href="/nexa/galerie.html" data-track-name="nav_galeries">Galeries</a></li>
+            <li><a href="/nexa/the_void_protocol.html" data-track-name="nav_void_protocol">The void protocol</a></li>
+            <li><a href="/bake-and-cook-simulator.html" aria-current="page" data-track-name="nav_bake_and_cook">Bake and Cook Simulator</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="mobile-menu" id="mobileMenu" aria-label="Ouvrir le menu" role="button" tabindex="0">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Menu Mobile -->
+<div class="overlay" id="overlay"></div>
+<nav class="mobile-nav" id="mobileNav" lang="fr" aria-label="Menu mobile">
+    <div class="mobile-close" id="mobileClose" aria-label="Fermer le menu" role="button" tabindex="0">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+    </div>
+    <ul class="mobile-nav-links">
+        <li><a href="/#accueil" class="mobile-nav-link" data-track-name="mobile_nav_accueil">Accueil</a></li>
+        <li><a href="/nexa/fonctionnalites.html" class="mobile-nav-link" data-track-name="mobile_nav_fonctionnalites">Fonctionnalités</a></li>
+        <li><a href="/nexa/galerie.html" class="mobile-nav-link" data-track-name="mobile_nav_galeries">Galeries</a></li>
+        <li><a href="/nexa/the_void_protocol.html" class="mobile-nav-link" data-track-name="mobile_nav_void_protocol">The void protocol</a></li>
+        <li><a href="/bake-and-cook-simulator.html" aria-current="page" class="mobile-nav-link" data-track-name="mobile_nav_bake_and_cook">Bake and Cook Simulator</a></li>
+    </ul>
+    <div class="mobile-nav-actions"></div>
+</nav>
+<main id="main">
+<section class="hero"><div class="container hero-grid"><div><span class="eyebrow">En cours de développement</span><h1>Bake and <span>Cook</span> Simulator</h1><p class="hero-lead">Construisez votre restaurant. Lancez votre activité.</p><p class="hero-copy">Partez d’un terrain vide. Aménagez vos espaces, équipez vos cuisines et développez votre établissement à votre façon.</p><div class="hero-actions"><a class="button primary" href="#gameplay">Découvrir le jeu <i class="fa-solid fa-arrow-down"></i></a><a class="button" href="https://discord.gg/PE7MS4Sazk" target="_blank" rel="noopener">Suivre le développement <i class="fa-brands fa-discord"></i></a></div><p class="hero-note">Construction et gestion de restaurant · Unity · UNWARE STUDIO</p></div>
+<div class="visual">
+    <div class="orbit" aria-hidden="true"></div>
+    <img class="game-logo" src="/images/Bake_And_Cook_Simulator/Bake_And_Cook_Simulator.png" alt="Logo de Bake and Cook Simulator" decoding="async" fetchpriority="high">
+</div></div></section>
+<div class="strip"><div class="container strip-in"><div class="strip-item"><i class="strip-icon fa-solid fa-ruler-combined"></i><div><strong>Construire</strong><span>Créer votre espace</span></div></div><div class="strip-item"><i class="strip-icon fa-solid fa-kitchen-set"></i><div><strong>Gérer</strong><span>Gérer votre activité</span></div></div><div class="strip-item"><i class="strip-icon fa-solid fa-arrow-trend-up"></i><div><strong>Agrandir</strong><span>Développer votre restaurant</span></div></div></div></div>
+<section class="content-section" id="gameplay"><div class="container"><div class="section-head"><span class="section-label">Le gameplay</span><h2>Tout commence sur un terrain vide.</h2><p>Donnez vie à votre idée en construisant votre restaurant, en aménageant vos cuisines et en gérant votre activité.</p></div><div class="feature-grid"><article class="feature" data-num="01"><div class="feature-icon"><i class="fa-solid fa-hammer"></i></div><h3>Construire et aménager</h3><p>Montez les murs, choisissez les sols, délimitez les pièces et créez un restaurant à votre image.</p></article><article class="feature" data-num="02"><div class="feature-icon"><i class="fa-solid fa-boxes-stacked"></i></div><h3>Gérer et produire</h3><p>Aménagez vos cuisines, équipez vos postes de travail et organisez vos stocks pour faciliter la production.</p></article><article class="feature" data-num="03"><div class="feature-icon"><i class="fa-solid fa-chart-line"></i></div><h3>Développer et agrandir</h3><p>Maîtrisez vos dépenses, améliorez votre matériel et agrandissez votre établissement.</p></article></div></div></section>
+<section class="content-section experience"><div class="container split"><div class="split-copy"><span class="section-label">Votre établissement</span><h2>Votre restaurant, vos règles.</h2><p>Concevez vos espaces et gérez votre activité. Du petit restaurant à la boulangerie, choisissez comment organiser et développer votre établissement.</p></div><div class="steps"><article class="step"><span class="step-no">01</span><div><h3>À vous de dessiner les plans.</h3><p>Dessinez vos cuisines, vos salles, vos réserves et vos espaces de préparation. Choisissez le mobilier et personnalisez chaque pièce.</p><div class="step-tags"><span>Construction</span><span>Aménagement des pièces</span><span>Personnalisation</span></div></div></article><article class="step"><span class="step-no">02</span><div><h3>Dans les coulisses de la cuisine.</h3><p>Installez vos fours, réfrigérateurs et batteurs. Réceptionnez les livraisons, gérez vos ingrédients et organisez la production en cuisine, en boulangerie et en pâtisserie.</p><div class="step-tags"><span>Gestion de cuisine</span><span>Logistique</span><span>Production culinaire</span></div></div></article><article class="step"><span class="step-no">03</span><div><h3>Partir de peu et voir plus grand.</h3><p>Optimisez votre organisation, équilibrez vos dépenses et repensez vos espaces à mesure que votre activité se développe.</p><div class="step-tags"><span>Gestion d’entreprise</span><span>Progression</span><span>Liberté de création</span></div></div></article></div></div></section>
+<section class="statement"><div class="container"><p>Votre restaurant.<br><span>Vos décisions. Votre histoire.</span></p><small>Les fonctionnalités présentées sont prévues et peuvent évoluer au cours du développement.</small></div></section>
+<section class="content-section about"><div class="container about-grid"><div class="about-copy"><span class="section-label">Derrière le projet</span><h2>Un jeu indépendant.</h2><p>UNWARE STUDIO développe Bake and Cook Simulator sous Unity. Le projet mêle construction, gestion et univers culinaire, avec la liberté d’expérimenter différents aménagements et façons de travailler.</p></div><div class="tech-panel"><small>TECHNOLOGIES DE DÉVELOPPEMENT</small><div class="tech-list"><span>Unity</span><span>C#</span><span>3D</span><span>Simulation</span></div><p class="status"><i class="fa-solid fa-circle" style="font-size:.48rem;color:#a8b69b;margin-right:8px"></i>Le jeu est en cours de développement. Le gameplay, les environnements et les fonctionnalités peuvent évoluer avant la sortie.</p></div></div></section>
+<section class="release"><div class="container release-in"><div><span class="release-label">Date de sortie</span><h2>À annoncer.</h2><p>Suivez le projet pour découvrir les prochaines annonces et les avancées du développement.</p></div><a class="button primary" href="https://discord.gg/PE7MS4Sazk" target="_blank" rel="noopener">Suivre le projet <i class="fa-solid fa-arrow-right"></i></a></div></section>
+</main>
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <!-- Brand / Studio -->
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="footer-logo-text">UNWARE STUDIO</span>
+        </div>
+        <p class="footer-desc">Studio indépendant de jeux vidéo.</p>
+        <div class="social-links">
+          <!-- Twitch (remplace Twitter) -->
+          <a href="https://www.twitch.tv/unware_studio" class="social-link" aria-label="Twitch" target="_blank" rel="noopener noreferrer" data-track-name="social_twitch">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M11.571 4.714h1.715v5.143H11.57V4.714zm4.715 0H18v5.143h-1.714V4.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0H6zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714v9.429z"/>
+            </svg>
+          </a>
+
+          <!-- Discord -->
+          <a href="https://discord.gg/PE7MS4Sazk" class="social-link" aria-label="Discord" target="_blank" rel="noopener noreferrer" data-track-name="social_discord">
+            <svg width="21" height="21" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.18.33.25c.04.03.04.09-.01.11c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.32.61.68 1.19 1.07 1.74c.03.01.06.02.09.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
+            </svg>
+          </a>
+
+          <!-- YouTube -->
+          <a href="https://www.youtube.com/@unware.studio" class="social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer" data-track-name="social_youtube">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </a>
+
+          <!-- Instagram -->
+          <a href="https://www.instagram.com/unware.studio?igsh=bXcyaWVlMG96cXhl" class="social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer" data-track-name="social_instagram">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="footer-column">
+        <h3>Navigation</h3>
+        <ul class="footer-links">
+          <li><a href="/#accueil" rel="noopener noreferrer" data-track-name="footer_nav_accueil">Accueil</a></li>
+          <li><a href="/nexa/fonctionnalites.html" rel="noopener noreferrer" data-track-name="footer_nav_fonctionnalites">Fonctionnalités</a></li>
+          <li><a href="/nexa/galerie.html"  rel="noopener noreferrer" data-track-name="footer_nav_galeries">Galeries</a></li>
+          <li><a href="/nexa/the_void_protocol.html" rel="noopener noreferrer" data-track-name="footer_nav_void_protocol">The Void Protocol</a></li>
+          <li><a href="/bake-and-cook-simulator.html" data-track-name="footer_nav_bake_and_cook">Bake and Cook Simulator</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div class="footer-column">
+        <h3>Support</h3>
+        <ul class="footer-links">
+          <li><a href="/Support/centre-aide.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_support_aide">Centre d'aide</a></li>
+          <li><a href="/Support/FAQ.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_support_faq">FAQ</a></li>
+          <li><a href="/Support/contact.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_support_contact">Contact</a></li>
+          <li><a href="/Support/statut.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_support_statut">Statut des services</a></li>
+        </ul>
+      </div>
+
+      <!-- Légal -->
+      <div class="footer-column">
+        <h3>Légal</h3>
+        <ul class="footer-links">
+          <li><a href="/legals/conditions-utilisation.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_legal_conditions">Conditions d'utilisation</a></li>
+          <li><a href="/legals/politique-confidentialite.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_legal_confidentialite">Politique de confidentialité</a></li>
+          <li><a href="/legals/mentions-legales.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_legal_mentions">Mentions légales</a></li>
+          <li><a href="/legals/politique-cookies.html" target="_blank" rel="noopener noreferrer" data-track-name="footer_legal_cookies">Politique de cookies</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="copyright">
+      <p>&copy; 2026 <span class="studio-credit">UNWARE STUDIO</span>. Tous droits réservés.</p>
+    </div>
+  </div>
+</footer>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initMobileMenu();
+    });
+
+    function initMobileMenu() {
+        const mobileMenu  = document.getElementById('mobileMenu');
+        const mobileNav   = document.getElementById('mobileNav');
+        const overlay     = document.getElementById('overlay');
+        const mobileClose = document.getElementById('mobileClose');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        const body = document.body;
+
+        if (!mobileMenu || !mobileNav || !overlay || !mobileClose) return;
+
+        function openMenu()  {
+            mobileNav.classList.add('active');
+            overlay.classList.add('active');
+            mobileMenu.classList.add('active');
+            body.classList.add('no-scroll');
+            mobileMenu.setAttribute('aria-expanded', 'true');
+        }
+        function closeMenu() {
+            mobileNav.classList.remove('active');
+            overlay.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            body.classList.remove('no-scroll');
+            mobileMenu.setAttribute('aria-expanded', 'false');
+        }
+        function toggleMenu() { mobileNav.classList.contains('active') ? closeMenu() : openMenu(); }
+
+        mobileMenu.addEventListener('click', toggleMenu);
+        mobileMenu.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleMenu(); } });
+        overlay.addEventListener('click', closeMenu);
+        mobileClose.addEventListener('click', closeMenu);
+        mobileClose.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); closeMenu(); } });
+        mobileNavLinks.forEach(link => link.addEventListener('click', closeMenu));
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && mobileNav.classList.contains('active')) closeMenu(); });
+    }
+
+</script>
+</body>
+</html>
